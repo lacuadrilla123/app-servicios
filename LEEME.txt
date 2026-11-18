@@ -1,0 +1,40 @@
+APAÑO — app web de servicios entre personas verificadas (maqueta)
+=================================================================
+
+CÓMO ABRIRLA
+  Haz doble clic en index.html. Se abre en el navegador y funciona sin internet
+  (las tipografías vienen de Google Fonts; sin conexión usa las del sistema).
+
+  Primera visita: confirma que eres mayor de 18.
+  Para probar perfiles: toca el avatar de arriba a la derecha → «Demostración · entrar como».
+  Tarjeta de prueba: 4242 4242 4242 4242 · código de verificación: 123456.
+  Si pulsas «Soy menor de 18», el navegador queda bloqueado 24 h; en esa pantalla
+  hay un botón «Restablecer (solo en esta demostración)».
+
+QUÉ HAY EN LA CARPETA
+  *.html .......... las 21 páginas ya montadas (lo que se abre)
+  base.css ........ sistema de diseño (colores, tipografía, componentes)
+  app.js .......... lógica común: puerta de edad, sesión y permisos, fichas, avisos
+  datos.js ........ anuncios, usuarios, chats, pagos… (todo inventado)
+  cuerpos/ ........ el contenido de cada página, que es lo que se edita
+  partes/ ......... cabecera, barra inferior y pie compartidos
+  montar.mjs ...... junta cuerpos + partes y genera las páginas
+  CONTRATO.md ..... reglas de construcción y lista de componentes
+
+CÓMO CAMBIAR ALGO
+  1. Edita cuerpos/<página>.html, partes/, base.css, app.js o datos.js.
+  2. En esta carpeta: node montar.mjs
+  3. Ojo: montar.mjs genera index.html en el formato del visor de Claude (sin
+     <!doctype>) y una copia para abrir en local llamada vista-index.html.
+     Si vas a usarla fuera de Claude, abre vista-index.html o renómbrala a index.html.
+
+PARA PUBLICARLA EN INTERNET
+  Arrastra la carpeta a Netlify Drop o súbela a Vercel/GitHub Pages: es una web
+  estática, no necesita servidor.
+
+AVISO
+  Es una maqueta: no hay servidor, los pagos son simulados y los datos se guardan
+  solo en el navegador. Antes de usarla con gente real hace falta un servidor,
+  cuentas de verdad, una pasarela de pago real, un proveedor de verificación de
+  identidad (KYC) y que un profesional revise los textos legales, sobre todo el
+  tratamiento del DNI y del selfie.

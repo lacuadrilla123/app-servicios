@@ -1,0 +1,210 @@
+<!-- titulo: Apaño | desc: Servicios entre personas verificadas: todas mayores de edad y con el DNI comprobado. -->
+<style>
+  .pg-ini-banners{ display:grid; grid-auto-flow:column; grid-auto-columns:minmax(286px,1fr); gap:14px; overflow-x:auto; scroll-snap-type:x mandatory;
+    scrollbar-width:none; padding:4px 0 6px; position:relative }
+  .pg-ini-banners::-webkit-scrollbar{ display:none }
+  @media (min-width:1000px){ .pg-ini-banners{ grid-auto-flow:row; grid-template-columns:1.35fr 1fr 1fr; overflow:visible } }
+  .pg-ini-banner{ scroll-snap-align:start; position:relative; overflow:hidden; min-height:198px; border-radius:var(--r-xl); padding:22px;
+    display:flex; flex-direction:column; justify-content:space-between; gap:14px; color:var(--blanco); isolation:isolate;
+    transition:transform .3s var(--ease), box-shadow .3s }
+  .pg-ini-banner:hover{ transform:translateY(-3px); box-shadow:var(--sombra-2) }
+  .pg-ini-banner h2{ font-size:clamp(1.35rem,2.4vw,1.75rem); line-height:1.05; max-width:15ch }
+  .pg-ini-banner p{ font-size:var(--t-sm); opacity:.9; max-width:30ch }
+  .pg-ini-b1{ background:linear-gradient(135deg,var(--marca) 0%,var(--marca-2) 100%) }
+  .pg-ini-b2{ background:var(--tinta); color:var(--fondo) }
+  .pg-ini-b3{ background:var(--sol); color:var(--sobre-sol) }
+  .pg-ini-banner .deco{ position:absolute; right:-28px; bottom:-34px; z-index:-1; opacity:.18; width:190px; height:190px }
+  .pg-ini-18{ position:absolute; right:22px; top:22px; width:64px; height:64px; border-radius:20px; display:grid; place-items:center;
+    background:var(--blanco); color:var(--marca); font:800 1.6rem/1 var(--display); letter-spacing:-.05em; box-shadow:0 10px 24px -12px rgba(0,0,0,.4);
+    transform:rotate(6deg); transition:transform .4s var(--ease) }
+  .pg-ini-banner:hover .pg-ini-18{ transform:rotate(-4deg) scale(1.06) }
+  .pg-ini-18::after{ content:"+"; position:absolute; right:-8px; top:-8px; width:26px; height:26px; border-radius:50%; background:var(--sol); color:var(--sobre-sol);
+    display:grid; place-items:center; font-size:1rem; border:3px solid var(--marca) }
+  .pg-ini-mini{ display:inline-flex; align-items:center; gap:8px; align-self:flex-start; height:38px; padding:0 16px; border-radius:999px;
+    background:rgba(255,255,255,.18); font-weight:650; font-size:var(--t-sm); backdrop-filter:blur(6px); transition:background .2s }
+  .pg-ini-b1 .pg-ini-mini:hover{ background:rgba(255,255,255,.3) }
+  .pg-ini-b2 .pg-ini-mini{ background:var(--marca); color:var(--blanco) }
+  .pg-ini-b3 .pg-ini-mini{ background:var(--sobre-sol); color:var(--sol) }
+
+  .pg-ini-busquedas{ display:flex; flex-wrap:wrap; gap:8px }
+  .pg-ini-busquedas a{ display:inline-flex; align-items:center; gap:8px; height:40px; padding:0 16px 0 6px; border-radius:999px; background:var(--sup);
+    font-size:var(--t-sm); font-weight:600; color:var(--tinta-2); transition:background .18s, color .18s, transform .15s var(--ease) }
+  .pg-ini-busquedas a:hover{ background:var(--marca-sup); color:var(--marca-tinta) }
+  .pg-ini-busquedas a:active{ transform:scale(.97) }
+  .pg-ini-busquedas .bola{ width:28px; height:28px; border-radius:50%; display:grid; place-items:center; color:var(--blanco); background:linear-gradient(140deg,var(--c1),var(--c2)) }
+
+  .pg-ini-pro{ scroll-snap-align:start; display:flex; flex-direction:column; align-items:center; text-align:center; gap:8px; padding:20px 14px;
+    border-radius:var(--r-l); background:var(--sup); transition:background .2s, transform .25s var(--ease) }
+  .pg-ini-pro:hover{ background:var(--sup-2); transform:translateY(-2px) }
+  .pg-ini-pro .oficio{ font-size:var(--t-xs); color:var(--tinta-3); font-weight:600 }
+
+  .pg-ini-cierre{ position:relative; overflow:hidden; border-radius:var(--r-xl); background:var(--tinta); color:var(--fondo); padding:clamp(24px,5vw,48px);
+    display:grid; gap:24px; grid-template-columns:1.2fr 1fr; align-items:center; isolation:isolate }
+  @media (max-width:760px){ .pg-ini-cierre{ grid-template-columns:1fr } }
+  .pg-ini-cierre .sec{ color:color-mix(in srgb,var(--fondo) 70%,transparent) }
+  .pg-ini-fichas{ position:relative; height:220px }
+  .pg-ini-fichas .tarjeta{ position:absolute; width:150px; padding:10px; border-radius:var(--r-l); background:var(--fondo); color:var(--tinta); box-shadow:var(--sombra-3);
+    transition:transform .5s var(--ease) }
+  .pg-ini-fichas .tarjeta:nth-child(1){ left:4%; top:22px; transform:rotate(-8deg) }
+  .pg-ini-fichas .tarjeta:nth-child(2){ left:34%; top:0; transform:rotate(3deg); z-index:2 }
+  .pg-ini-fichas .tarjeta:nth-child(3){ left:62%; top:30px; transform:rotate(10deg) }
+  .pg-ini-cierre:hover .pg-ini-fichas .tarjeta:nth-child(1){ transform:rotate(-12deg) translateX(-8px) }
+  .pg-ini-cierre:hover .pg-ini-fichas .tarjeta:nth-child(3){ transform:rotate(14deg) translateX(8px) }
+  .pg-ini-fichas .tarjeta-fav{ display:none }
+  @media (max-width:760px){ .pg-ini-fichas{ height:200px } .pg-ini-fichas .tarjeta{ width:130px } }
+</style>
+
+<main id="contenido">
+  <div class="contenedor">
+    <nav class="cats" id="pg-ini-cats" aria-label="Categorías"></nav>
+  </div>
+
+  <section class="contenedor" style="padding-top:14px" aria-label="Novedades de Apaño">
+    <div class="pg-ini-banners">
+      <a class="pg-ini-banner pg-ini-b1" href="como-funciona.html#verificacion">
+        <span class="pg-ini-18" aria-hidden="true">18</span>
+        <div class="col g8">
+          <span class="insignia" style="background:rgba(255,255,255,.18);color:var(--blanco);align-self:flex-start">Solo personas verificadas</span>
+          <h2>Aquí todo el mundo es mayor de edad y es quien dice ser</h2>
+          <p>Para publicar o contratar hay que presentar el DNI, NIE o pasaporte y hacerse un selfie.</p>
+        </div>
+        <span class="pg-ini-mini">Cómo lo comprobamos ${'→'}</span>
+      </a>
+      <a class="pg-ini-banner pg-ini-b2" href="como-funciona.html#pago">
+        <svg class="deco" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M12 3 4.5 6v5.6c0 4.4 3.1 8.2 7.5 9.4 4.4-1.2 7.5-5 7.5-9.4V6z"/></svg>
+        <div class="col g8">
+          <span class="etiqueta" style="color:inherit;opacity:.6">Pago protegido</span>
+          <h2>Pagas al reservar. Cobran cuando confirmas.</h2>
+          <p>Si el servicio no se hace, te devolvemos el dinero.</p>
+        </div>
+        <span class="pg-ini-mini">Así funciona</span>
+      </a>
+      <a class="pg-ini-banner pg-ini-b3" href="subir.html" data-exige="publicar">
+        <svg class="deco" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        <div class="col g8">
+          <span class="etiqueta" style="color:inherit;opacity:.7">¿Sabes hacer algo?</span>
+          <h2>Publica tu servicio gratis</h2>
+          <p>Paseos, clases, arreglos, mudanzas… Cobras el precio entero.</p>
+        </div>
+        <span class="pg-ini-mini">Subir anuncio</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="contenedor seccion" style="padding-bottom:12px">
+    <div class="cabecera-seccion">
+      <div class="col g4">
+        <h2 class="h2">Cerca de ti</h2>
+        <span class="sm ter" id="pg-ini-ubic"></span>
+      </div>
+      <a class="enlace sm" href="buscar.html">Ver todo</a>
+    </div>
+    <div class="anuncios anchos" id="pg-ini-cerca"></div>
+  </section>
+
+  <section class="contenedor seccion" style="padding-bottom:12px">
+    <div class="cabecera-seccion">
+      <div class="col g4">
+        <h2 class="h2">Disponibles hoy</h2>
+        <span class="sm ter">Pueden ir hoy mismo o te atienden en el día</span>
+      </div>
+      <a class="enlace sm" href="buscar.html">Ver todo</a>
+    </div>
+    <div class="carril" id="pg-ini-hoy"></div>
+  </section>
+
+  <section class="contenedor seccion" style="padding-bottom:12px">
+    <div class="cabecera-seccion"><h2 class="h2">Lo más buscado en Palma</h2></div>
+    <div class="pg-ini-busquedas" id="pg-ini-busquedas"></div>
+  </section>
+
+  <section class="contenedor seccion" style="padding-bottom:12px">
+    <div class="cabecera-seccion">
+      <div class="col g4">
+        <h2 class="h2">Los mejor valorados</h2>
+        <span class="sm ter">Más de 50 servicios hechos y nota de 4,8 o más</span>
+      </div>
+    </div>
+    <div class="carril" id="pg-ini-pros"></div>
+  </section>
+
+  <section class="contenedor seccion" style="padding-bottom:12px">
+    <div class="cabecera-seccion">
+      <div class="col g4">
+        <h2 class="h2">Destacados</h2>
+        <span class="sm ter">Anuncios que sus autores han destacado esta semana</span>
+      </div>
+      <a class="enlace sm" href="buscar.html">Ver todo</a>
+    </div>
+    <div class="carril" id="pg-ini-dest"></div>
+  </section>
+
+  <section class="contenedor seccion">
+    <div class="cabecera-seccion"><h2 class="h2">Recién publicados</h2></div>
+    <div class="anuncios anchos" id="pg-ini-nuevos"></div>
+  </section>
+
+  <section class="contenedor seccion">
+    <div class="pg-ini-cierre rev">
+      <div class="col g16">
+        <span class="insignia insignia-sol" style="align-self:flex-start">Gana dinero con lo que sabes hacer</span>
+        <h2 class="h1">Tu primer anuncio, en dos minutos</h2>
+        <p class="sec" style="max-width:42ch">Sube unas fotos, pon tu precio y elige cuándo puedes. Cobras el precio entero: la protección la paga quien contrata.</p>
+        <div class="fila g10">
+          <a class="btn btn-sol btn-g" href="subir.html" data-exige="publicar">Subir anuncio</a>
+          <a class="btn btn-g" style="background:transparent;box-shadow:inset 0 0 0 1.5px currentColor;color:inherit" href="como-funciona.html">Cómo funciona</a>
+        </div>
+      </div>
+      <div class="pg-ini-fichas" id="pg-ini-fichas" aria-hidden="true"></div>
+    </div>
+  </section>
+</main>
+
+<script>
+A.pagina = function(){
+  const $ = A.$;
+  const activos = A.activos();
+  const s = A.sesion();
+
+  /* categorías */
+  $('#pg-ini-cats').innerHTML = A.CATEGORIAS.map(c =>
+    `<a class="cat" href="buscar.html?cat=${c.id}"><span class="cat-ico" style="--c1:${c.c1};--c2:${c.c2}">${A.icCat(c.id,26)}</span>${c.n}</a>`).join('');
+
+  /* el texto del primer banner lleva una flecha escrita como plantilla: la limpio */
+  document.querySelectorAll('.pg-ini-mini').forEach(el => { el.textContent = el.textContent.replace("${'→'}", '→') });
+
+  /* cerca de ti */
+  $('#pg-ini-ubic').textContent = 'Desde ' + (s && s.barrio && s.rol === 'usuario' ? s.barrio + ', ' + s.ciudad : 'Palma centro');
+  const cerca = activos.slice().sort((a,b) => A.usuario(a.u).km - A.usuario(b.u).km).slice(0, 10);
+  $('#pg-ini-cerca').innerHTML = cerca.map(a => A.tarjeta(a)).join('');
+
+  /* hoy */
+  $('#pg-ini-hoy').innerHTML = activos.filter(a => a.urg).concat(activos.filter(a => !a.urg && a.dispo && /hoy|24|día/i.test(a.dispo))).slice(0,5).map(a => A.tarjeta(a)).join('');
+
+  /* búsquedas populares */
+  const pop = [['Paseo de perros','mascotas'],['Electricista','hogar'],['Limpieza a fondo','limpieza'],['Pantalla de móvil','tecnologia'],
+    ['Clases de inglés','clases'],['Mudanza','mudanzas'],['Montar muebles','hogar'],['Peluquería a domicilio','belleza'],['Entrenador personal','deporte'],['Acompañar al médico','cuidados']];
+  $('#pg-ini-busquedas').innerHTML = pop.map(([t, c]) => { const k = A.categoria(c);
+    return `<a href="buscar.html?q=${encodeURIComponent(t.toLowerCase())}"><span class="bola" style="--c1:${k.c1};--c2:${k.c2}">${A.icCat(c,15)}</span>${t}</a>` }).join('');
+
+  /* mejor valorados */
+  const pros = A.USUARIOS.filter(u => u.rol === 'usuario' && A.verificado(u) && u.hechos >= 50 && u.val >= 4.8).sort((a,b) => b.resenas - a.resenas).slice(0,5);
+  $('#pg-ini-pros').innerHTML = pros.map(u => {
+    const of = A.anunciosDe(u.id)[0];
+    return `<a class="pg-ini-pro" href="perfil.html?id=${u.id}">
+      ${A.avatar(u,'avatar-g')}
+      <strong style="font-family:var(--display);font-size:1.0625rem;letter-spacing:-.02em">${u.corto}</strong>
+      <span class="oficio">${of ? of.sub : ''} · ${u.barrio}</span>
+      <span class="fila g6 sm">${A.estrellas(u.val)} <b class="num">${u.val.toLocaleString('es-ES',{minimumFractionDigits:1})}</b> <span class="ter">(${u.resenas})</span></span>
+      <span class="xs ter">${u.hechos} servicios hechos</span>
+    </a>`; }).join('');
+
+  /* destacados y nuevos */
+  $('#pg-ini-dest').innerHTML = activos.filter(a => a.dest).slice(0,5).map(a => A.tarjeta(a)).join('');
+  $('#pg-ini-nuevos').innerHTML = activos.slice().sort((a,b) => b.fecha.localeCompare(a.fecha)).slice(0,10).map(a => A.tarjeta(a)).join('');
+
+  /* fichas decorativas del cierre */
+  $('#pg-ini-fichas').innerHTML = ['s5','s14','s7'].map(id => A.tarjeta(A.anuncio(id))).join('');
+  document.querySelectorAll('#pg-ini-fichas a, #pg-ini-fichas button').forEach(el => el.setAttribute('tabindex','-1'));
+};
+</script>

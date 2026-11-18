@@ -1,0 +1,1420 @@
+<!-- titulo: Subir anuncio | desc: Publica tu servicio en Apaño en unos minutos: fotos, precio, zona y horario, con la vista previa de tu ficha en vivo. -->
+<style>
+/* ---------- estructura ---------- */
+.pg-subir{ padding-bottom:28px }
+.pg-subir-cab{ display:flex; align-items:flex-end; justify-content:space-between; gap:14px 24px; flex-wrap:wrap; padding:22px 0 18px }
+.pg-subir-yo{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:6px; font-size:var(--t-sm); color:var(--tinta-2) }
+.pg-subir-yo b{ color:var(--tinta) }
+.pg-subir-guardado{ display:inline-flex; align-items:center; gap:7px; height:32px; padding:0 13px 0 11px; border-radius:999px; background:var(--sup); color:var(--tinta-3);
+  font-size:var(--t-xs); font-weight:650; white-space:nowrap; transition:background .3s, color .3s }
+.pg-subir-guardado .pg-subir-punto{ width:7px; height:7px; border-radius:50%; background:currentColor; opacity:.7 }
+.pg-subir-guardado svg{ display:none }
+.pg-subir-guardado[data-estado="guardado"]{ background:var(--ok-sup); color:var(--ok) }
+.pg-subir-guardado[data-estado="guardado"] svg{ display:block }
+.pg-subir-guardado[data-estado="guardado"] .pg-subir-punto{ display:none }
+.pg-subir-avisos:empty{ display:none }
+.pg-subir-avisos{ margin-bottom:16px }
+.pg-subir-avisos .aviso{ flex-wrap:wrap; animation:sube .35s var(--ease) both }
+.pg-subir-avisos .aviso .btn{ margin-left:auto }
+.pg-subir-rejilla{ align-items:start }
+.pg-subir-form{ display:flex; flex-direction:column; gap:14px; min-width:0; container-type:inline-size }
+
+/* ---------- bloques ---------- */
+.pg-subir-bloque{ position:relative; display:flex; flex-direction:column; gap:20px; padding:22px 18px 24px; transition:border-color .25s, box-shadow .25s }
+@media (min-width:600px){ .pg-subir-bloque{ padding:26px 26px 28px } }
+@media (max-width:860px){ .pg-subir-bloque{ scroll-margin-top:44px } }
+.pg-subir-bloque:focus-within{ border-color:var(--marca-borde); box-shadow:var(--sombra-1) }
+.pg-subir-bcab{ display:flex; align-items:flex-start; gap:12px }
+.pg-subir-bcab .h3{ line-height:1.2 }
+.pg-subir-n{ position:relative; flex:0 0 auto; width:30px; height:30px; margin-top:-2px; border-radius:50%; display:grid; place-items:center;
+  background:var(--sup-2); color:var(--tinta-2); font:700 var(--t-sm)/1 var(--display); transition:background .3s, color .3s }
+.pg-subir-n>*{ grid-area:1/1; transition:transform .35s var(--ease), opacity .2s }
+.pg-subir-n svg{ opacity:0; transform:scale(.4) }
+.pg-subir-bloque.hecho .pg-subir-n{ background:var(--ok); color:var(--fondo) }
+.pg-subir-bloque.hecho .pg-subir-n b{ opacity:0; transform:scale(.4) }
+.pg-subir-bloque.hecho .pg-subir-n svg{ opacity:1; transform:none }
+.pg-subir-et{ display:flex; align-items:baseline; justify-content:space-between; gap:10px }
+.pg-subir-et>label,.pg-subir-et>.campo-et{ font-size:var(--t-sm); font-weight:600; color:var(--tinta) }
+.pg-subir-cont{ font-size:var(--t-xs); color:var(--tinta-3); font-variant-numeric:tabular-nums; transition:color .2s }
+.pg-subir-cont.cerca{ color:var(--avisa) } .pg-subir-cont.tope{ color:var(--mal) }
+.pg-subir-opc{ font-weight:500; color:var(--tinta-3); font-size:var(--t-xs) }
+.pg-subir-form .error{ display:flex; align-items:center; gap:6px; animation:sube .25s var(--ease) both }
+.pg-subir-form .error::before{ content:"!"; flex:0 0 auto; width:16px; height:16px; border-radius:50%; display:grid; place-items:center; background:var(--mal); color:var(--fondo); font-size:11px; font-weight:800 }
+
+/* ---------- 1 · fotos ---------- */
+.pg-subir-zona{ min-height:184px; gap:6px; padding:26px 18px }
+.pg-subir-zona-ico{ position:relative; width:58px; height:58px; margin-bottom:6px; border-radius:18px; display:grid; place-items:center; background:var(--fondo); color:var(--marca);
+  box-shadow:var(--sombra-1); transition:transform .3s var(--ease) }
+.pg-subir-zona-ico::after{ content:"+"; position:absolute; right:-6px; top:-6px; width:22px; height:22px; border-radius:50%; display:grid; place-items:center;
+  background:var(--marca); color:var(--fondo); font:800 15px/1 var(--texto); border:2px solid var(--fondo) }
+.pg-subir-zona:hover .pg-subir-zona-ico,.pg-subir-zona.encima .pg-subir-zona-ico{ transform:translateY(-3px) rotate(-5deg) }
+.pg-subir-zona:active{ transform:scale(.99) }
+.pg-subir-zona .ayuda{ text-wrap:balance }
+.pg-subir-bloque:has(input[type="file"]:focus-visible) .subida{ outline:2.5px solid var(--marca); outline-offset:2px }
+.pg-subir-bloque.pg-subir-encima .pg-subir-fotos{ outline:2px dashed var(--marca); outline-offset:6px; border-radius:var(--r) }
+.pg-subir-fotos{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px }
+@container (min-width:480px){ .pg-subir-fotos{ grid-template-columns:repeat(4,minmax(0,1fr)) } }
+.pg-subir-foto{ position:relative; aspect-ratio:1; border-radius:var(--r); overflow:hidden; background:var(--sup-2); cursor:grab;
+  animation:sube .3s var(--ease) both; transition:transform .2s var(--ease), box-shadow .2s, opacity .2s }
+.pg-subir-foto>img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; pointer-events:none }
+.pg-subir-foto:first-child:not(.esqueleto){ box-shadow:0 0 0 2.5px var(--sol) }
+.pg-subir-foto.arrastrando{ opacity:.35; transform:scale(.94) }
+.pg-subir-foto.destino{ box-shadow:0 0 0 3px var(--marca); transform:scale(1.03) }
+.pg-subir-fbtn{ position:absolute; z-index:2; width:30px; height:30px; padding:0; border-radius:50%; border:0; display:grid; place-items:center;
+  background:color-mix(in srgb,var(--fondo) 90%,transparent); color:var(--tinta); box-shadow:var(--sombra-1); transition:transform .15s var(--ease), background .15s, opacity .2s }
+.pg-subir-fbtn:hover{ background:var(--fondo) }
+.pg-subir-fbtn:active{ transform:scale(.88) }
+.pg-subir-fbtn[disabled]{ opacity:0; pointer-events:none }
+.pg-subir-quitar{ top:6px; right:6px }
+.pg-subir-estrella{ top:6px; left:6px; color:var(--tinta-2) }
+.pg-subir-estrella:hover{ color:var(--sol-tinta); background:var(--sol) }
+.pg-subir-izq{ left:6px; bottom:6px } .pg-subir-der{ right:6px; bottom:6px }
+@media (hover:hover){
+  .pg-subir-izq,.pg-subir-der{ opacity:0 }
+  .pg-subir-foto:hover .pg-subir-fbtn:not([disabled]),.pg-subir-foto:focus-within .pg-subir-fbtn:not([disabled]){ opacity:1 }
+}
+.pg-subir-portada{ position:absolute; z-index:2; top:7px; left:7px; height:22px; padding:0 8px; font-size:.6875rem }
+.pg-subir-mas{ aspect-ratio:1; padding:8px; gap:4px; font-size:var(--t-xs); font-weight:650; border-radius:var(--r) }
+.pg-subir-mas:active{ transform:scale(.97) }
+.pg-subir-sinfoto{ display:flex; align-items:center; gap:14px; padding:12px 14px; border-radius:var(--r); background:var(--sup) }
+.pg-subir-minis{ display:flex; flex:0 0 auto }
+.pg-subir-mini{ position:relative; width:52px; aspect-ratio:1; border-radius:14px; overflow:hidden; background:var(--sup-3); box-shadow:0 0 0 2.5px var(--sup) }
+.pg-subir-mini+.pg-subir-mini{ margin-left:-18px }
+.pg-subir-mini:nth-child(2){ rotate:6deg } .pg-subir-mini:nth-child(3){ rotate:-4deg }
+.pg-subir-mini>.portada{ position:absolute; inset:0; width:100%; height:100% }
+
+/* ---------- 2 · qué ofreces ---------- */
+.pg-subir-sug{ display:flex; align-items:center; gap:10px; padding:9px 8px 9px 10px; border-radius:var(--r); background:var(--marca-sup); color:var(--marca-tinta);
+  font-size:var(--t-sm); line-height:1.35; animation:sube .3s var(--ease) both }
+.pg-subir-sug b{ color:var(--marca-tinta) }
+.pg-subir-sug-t{ display:flex; flex-direction:column; gap:1px }
+.pg-subir-sug-t small{ font-size:var(--t-xs); opacity:.8 }
+.pg-subir-sug .cat-ico{ flex:0 0 auto; width:34px; height:34px; border-radius:11px; box-shadow:none }
+.pg-subir-sug .ico-btn{ width:34px; height:34px; color:var(--marca-tinta) }
+.pg-subir-sug .ico-btn:hover{ background:var(--marca-borde) }
+.pg-subir-cats{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; border-radius:var(--r) }
+@container (min-width:520px){ .pg-subir-cats{ grid-template-columns:repeat(4,minmax(0,1fr)) } }
+@container (min-width:700px){ .pg-subir-cats{ grid-template-columns:repeat(5,minmax(0,1fr)) } }
+.pg-subir-cats[aria-invalid="true"] .pg-subir-cat{ border-color:color-mix(in srgb,var(--mal) 45%,var(--linea)) }
+.pg-subir-cat{ position:relative; display:flex; flex-direction:column; align-items:center; gap:8px; padding:13px 6px 11px; border-radius:var(--r);
+  border:1.5px solid var(--linea); background:var(--fondo); text-align:center; cursor:pointer;
+  transition:border-color .18s, background .18s, box-shadow .18s, transform .15s var(--ease) }
+.pg-subir-cat:hover{ border-color:var(--linea-2) }
+.pg-subir-cat:hover .cat-ico{ transform:translateY(-2px) rotate(-5deg) }
+.pg-subir-cat:active{ transform:scale(.96) }
+.pg-subir-cat .cat-ico{ width:44px; height:44px; border-radius:14px }
+.pg-subir-cat-n{ min-height:2.5em; display:flex; align-items:center; font-size:var(--t-xs); font-weight:600; color:var(--tinta-2); line-height:1.25; text-wrap:balance }
+.pg-subir-cat-ok{ position:absolute; top:6px; right:6px; width:19px; height:19px; border-radius:50%; display:grid; place-items:center;
+  background:var(--marca); color:var(--fondo); transform:scale(0); transition:transform .25s var(--ease) }
+.pg-subir-cat:has(input:checked){ border-color:var(--marca); background:var(--marca-sup); box-shadow:0 0 0 1px var(--marca) }
+.pg-subir-cat:has(input:checked) .pg-subir-cat-n{ color:var(--marca-tinta) }
+.pg-subir-cat:has(input:checked) .pg-subir-cat-ok{ transform:scale(1) }
+.pg-subir-cat:has(input:focus-visible){ outline:2.5px solid var(--marca); outline-offset:2px }
+.pg-subir-subs{ flex-wrap:wrap; overflow:visible }
+.pg-subir-subs[aria-invalid="true"] .chip:not([aria-pressed="true"]),.pg-subir-dias[aria-invalid="true"] .chip,.pg-subir-franjas[aria-invalid="true"] .chip{ border-color:color-mix(in srgb,var(--mal) 55%,var(--linea-2)) }
+.pg-subir-form .chip:active{ transform:scale(.95) }
+
+/* ---------- 3 · descripción ---------- */
+.pg-subir-form textarea.ent{ min-height:150px }
+.pg-subir-inc{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px }
+.pg-subir-inc li{ display:flex; align-items:center; gap:10px; min-height:44px; padding:4px 4px 4px 12px; border-radius:var(--r); background:var(--sup); font-size:var(--t-sm);
+  animation:sube .25s var(--ease) both }
+.pg-subir-inc li>svg{ color:var(--ok); flex:0 0 auto }
+.pg-subir-inc .ico-btn{ width:36px; height:36px }
+.pg-subir-inc .ico-btn:hover{ background:var(--mal-sup); color:var(--mal) }
+.pg-subir-inc-add{ display:flex; gap:8px }
+.pg-subir-inc-add .ent{ flex:1; min-width:0 }
+.pg-subir-inc-add .btn{ height:50px; flex:0 0 auto }
+.pg-subir-ideas{ display:flex; flex-wrap:wrap; align-items:center; gap:6px }
+.pg-subir-idea{ height:32px; padding:0 12px 0 9px; font-size:var(--t-xs); border-style:dashed }
+
+/* ---------- 4 · precio ---------- */
+.pg-subir-seg{ display:flex; width:100% }
+.pg-subir-seg button{ flex:1 1 auto; min-width:0; padding:0 7px; height:40px; white-space:nowrap }
+.pg-subir-seg button:active{ transform:scale(.96) }
+@container (min-width:560px){ .pg-subir-seg{ display:inline-flex; width:auto } .pg-subir-seg button{ flex:0 0 auto; padding:0 18px } }
+.pg-subir-precio{ display:grid; gap:16px; align-items:start }
+@container (min-width:640px){ .pg-subir-precio{ grid-template-columns:250px minmax(0,1fr) } }
+.pg-subir-importe{ position:relative }
+.pg-subir-importe .ent{ height:66px; padding:0 74px 0 18px; font:700 1.875rem/1 var(--display); letter-spacing:-.03em; font-variant-numeric:tabular-nums }
+.pg-subir-importe .ent::placeholder{ color:var(--linea-2) }
+.pg-subir-eur{ position:absolute; right:16px; top:50%; translate:0 -50%; display:flex; align-items:baseline; gap:2px; pointer-events:none;
+  font:700 var(--t-lg)/1 var(--display); color:var(--tinta-3) }
+.pg-subir-eur small{ font:500 var(--t-xs) var(--texto) }
+.pg-subir-calc{ display:flex; flex-direction:column; gap:9px; padding:16px 18px; border-radius:var(--r-l); background:var(--sup) }
+.pg-subir-calc-t{ font-weight:650; color:var(--tinta) }
+.pg-subir-linea{ display:flex; align-items:baseline; justify-content:space-between; gap:12px; font-size:var(--t-sm); color:var(--tinta-2) }
+.pg-subir-linea .num{ color:var(--tinta); font-weight:600; white-space:nowrap }
+.pg-subir-recibes{ display:flex; align-items:flex-end; justify-content:space-between; gap:12px; margin-top:3px; padding-top:12px; border-top:1.5px dashed var(--linea-2) }
+.pg-subir-recibes .cifra{ font-size:var(--t-xl); line-height:1; color:var(--ok); white-space:nowrap }
+.pg-subir-recibes .cifra small{ font:600 var(--t-xs) var(--texto); color:var(--tinta-3); letter-spacing:0 }
+.pg-subir-recibes.pg-subir-sin .cifra{ color:var(--tinta-3) }
+
+/* ---------- 5 · dónde y cuándo ---------- */
+.pg-subir-modos{ display:grid; gap:10px; grid-template-columns:minmax(0,1fr) }
+@container (min-width:540px){ .pg-subir-modos{ grid-template-columns:repeat(3,minmax(0,1fr)) } }
+.pg-subir-modos[aria-invalid="true"] .opcion{ border-color:color-mix(in srgb,var(--mal) 55%,var(--linea-2)) }
+.pg-subir-op{ display:flex; align-items:flex-start; gap:10px; flex:1; min-width:0 }
+.pg-subir-op>span:first-child{ display:flex; flex-direction:column; gap:2px; flex:1; min-width:0 }
+.pg-subir-op b{ font-weight:650; color:var(--tinta) }
+.pg-subir-op-ico{ flex:0 0 auto; color:var(--tinta-3); transition:color .2s, transform .25s var(--ease) }
+.opcion:has(input:checked) .pg-subir-op-ico{ color:var(--marca); transform:scale(1.08) }
+.opcion:active{ transform:scale(.985) }
+.pg-subir-zonag{ display:grid; gap:18px }
+@container (min-width:560px){ .pg-subir-zonag{ grid-template-columns:minmax(0,1fr) minmax(0,1.2fr); align-items:start } }
+.pg-subir-km{ font-size:var(--t-lg); color:var(--marca) }
+.pg-subir-rango{ -webkit-appearance:none; appearance:none; width:100%; height:30px; margin:0; background:transparent; cursor:pointer; --p:18% }
+.pg-subir-rango::-webkit-slider-runnable-track{ height:6px; border-radius:99px; background:linear-gradient(90deg,var(--marca) var(--p),var(--sup-3) var(--p)) }
+.pg-subir-rango::-moz-range-track{ height:6px; border-radius:99px; background:linear-gradient(90deg,var(--marca) var(--p),var(--sup-3) var(--p)) }
+.pg-subir-rango::-webkit-slider-thumb{ -webkit-appearance:none; width:26px; height:26px; margin-top:-10px; border-radius:50%; background:var(--fondo);
+  border:2.5px solid var(--marca); box-shadow:var(--sombra-1); transition:transform .15s var(--ease), box-shadow .15s }
+.pg-subir-rango::-moz-range-thumb{ width:22px; height:22px; border-radius:50%; background:var(--fondo); border:2.5px solid var(--marca); box-shadow:var(--sombra-1) }
+.pg-subir-rango:active::-webkit-slider-thumb{ transform:scale(1.12) }
+.pg-subir-rango:focus-visible{ outline:none }
+.pg-subir-rango:focus-visible::-webkit-slider-thumb{ box-shadow:0 0 0 5px var(--marca-sup) }
+.pg-subir-rango:focus-visible::-moz-range-thumb{ box-shadow:0 0 0 5px var(--marca-sup) }
+.pg-subir-dias{ display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:6px; max-width:440px }
+.pg-subir-dias .chip{ justify-content:center; padding:0; height:46px; font:650 var(--t-base)/1 var(--display) }
+.pg-subir-atajos{ display:flex; flex-wrap:wrap; gap:4px 16px }
+.pg-subir-atajo{ padding:4px 0; border:0; background:none; color:var(--marca); font-size:var(--t-xs); font-weight:650 }
+.pg-subir-atajo:hover{ text-decoration:underline; text-underline-offset:3px }
+.pg-subir-franjas{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; max-width:440px }
+.pg-subir-franjas .chip{ flex-direction:column; justify-content:center; gap:1px; height:auto; padding:10px 6px; border-radius:var(--r); white-space:normal; text-align:center }
+.pg-subir-franjas .chip small{ font-size:var(--t-xs); font-weight:500; opacity:.75 }
+
+/* ---------- 6 · revisión ---------- */
+.pg-subir-resumen{ margin:0; display:flex; flex-direction:column; border:1px solid var(--linea); border-radius:var(--r-l); overflow:hidden }
+.pg-subir-resumen>div{ display:grid; grid-template-columns:92px minmax(0,1fr); gap:12px; align-items:baseline; padding:12px 14px; border-top:1px solid var(--linea); font-size:var(--t-sm) }
+.pg-subir-resumen>div:first-child{ border-top:0 }
+.pg-subir-resumen dt{ color:var(--tinta-3); font-size:var(--t-xs); font-weight:600 }
+.pg-subir-resumen dd{ margin:0; display:flex; align-items:baseline; justify-content:space-between; gap:10px; min-width:0; color:var(--tinta) }
+.pg-subir-resumen dd>span:first-child{ min-width:0; overflow-wrap:anywhere }
+.pg-subir-resumen dd a{ flex:0 0 auto }
+.pg-subir-prohibido{ margin:2px 0 4px; padding-left:18px; display:flex; flex-direction:column; gap:4px }
+.pg-subir-normas .casilla{ padding:14px 16px; border-radius:var(--r); background:var(--sup); color:var(--tinta); font-weight:550; transition:background .2s, box-shadow .2s }
+.pg-subir-normas .casilla:has(input:checked){ background:var(--ok-sup); box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ok) 40%,transparent) }
+.pg-subir-normas .casilla:has(input[aria-invalid="true"]){ box-shadow:inset 0 0 0 1.5px var(--mal) }
+.pg-subir-pub-flujo{ display:flex; flex-direction:column; gap:10px; align-items:stretch }
+.pg-subir-previa-m{ display:block }
+
+/* botón publicar: gris mientras falte algo, pero sigue respondiendo para enseñar qué falta */
+.pg-subir-pub[aria-disabled="true"]{ pointer-events:auto; opacity:1; background:var(--sup-3); color:var(--tinta-3); box-shadow:none }
+.pg-subir-pub[aria-disabled="true"]:hover{ background:var(--sup-3); box-shadow:none }
+.pg-subir-pub.pg-subir-pop{ animation:pg-subir-pop .5s var(--ease) both }
+@keyframes pg-subir-pop{ 40%{ transform:scale(1.06) } }
+
+/* ---------- vista previa ---------- */
+.pg-subir-lado{ align-self:stretch }
+.pg-subir-panel{ display:flex; flex-direction:column; gap:12px; padding:16px 18px 18px; max-height:calc(100vh - var(--cab) - 36px); overflow-y:auto; scrollbar-width:thin }
+.pg-subir-panel>*{ flex-shrink:0 }
+.pg-subir-panel .pg-subir-escena{ padding-block:12px }
+.pg-subir-panel .pg-subir-meta{ gap:5px }
+.pg-subir-panel .pg-subir-lista a{ padding-block:3px }
+.pg-subir-panel .pg-subir-carta{ flex-basis:178px; width:178px }
+.pg-subir-vivo{ width:7px; height:7px; border-radius:50%; background:var(--marca) }
+.pg-subir-escena{ position:relative; display:flex; justify-content:center; align-items:flex-start; gap:14px; padding:16px 0; overflow:hidden; border-radius:var(--r-l);
+  background-color:var(--sup); background-image:radial-gradient(var(--linea-2) 1px,transparent 1.4px); background-size:14px 14px }
+.pg-subir-panel .pg-subir-escena{ margin-inline:-18px; border-radius:0 }
+.pg-subir-carta{ position:relative; z-index:1; flex:0 0 188px; width:188px; padding:8px 8px 12px; border-radius:var(--r-l); background:var(--fondo); box-shadow:var(--sombra-2) }
+.pg-subir-carta .tarjeta-img{ border-radius:var(--r) }
+.pg-subir-carta .tarjeta-titulo{ min-height:2.8em }
+.pg-subir-fantasma{ flex:0 0 168px; margin-top:16px; padding:8px; display:flex; flex-direction:column; gap:8px; border-radius:var(--r-l); background:var(--fondo); opacity:.7;
+  -webkit-mask-image:linear-gradient(90deg,transparent,var(--tinta)); mask-image:linear-gradient(90deg,transparent,var(--tinta)) }
+.pg-subir-fantasma:last-child{ -webkit-mask-image:linear-gradient(270deg,transparent,var(--tinta)); mask-image:linear-gradient(270deg,transparent,var(--tinta)) }
+.pg-subir-fantasma span{ aspect-ratio:1; border-radius:var(--r); background:var(--sup-2) }
+.pg-subir-fantasma i{ height:9px; width:42%; border-radius:9px; background:var(--sup-2) }
+.pg-subir-fantasma i+i{ width:86% }
+.pg-subir-vacio{ color:var(--tinta-3)!important }
+.pg-subir-hueco{ position:absolute; inset:0; display:grid; place-items:center; align-content:center; gap:6px; padding:12px; text-align:center;
+  background:var(--sup-2); color:var(--tinta-3); font-size:var(--t-xs); font-weight:600; line-height:1.3 }
+.pg-subir-nf{ position:absolute; z-index:2; right:8px; bottom:8px; display:inline-flex; align-items:center; height:22px; padding:0 8px; border-radius:99px;
+  background:color-mix(in srgb,var(--tinta) 72%,transparent); color:var(--fondo); font-size:.6875rem; font-weight:700 }
+.pg-subir-meta{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:7px; font-size:var(--t-sm); color:var(--tinta-2) }
+.pg-subir-meta li{ display:flex; align-items:center; gap:9px; min-width:0 }
+.pg-subir-meta svg{ flex:0 0 auto; color:var(--tinta-3) }
+.pg-subir-lista{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:4px 10px }
+.pg-subir-lista a{ display:flex; align-items:center; gap:8px; padding:5px 0; font-size:var(--t-sm); font-weight:600; color:var(--tinta-2); border-radius:6px; transition:color .15s }
+.pg-subir-lista a:hover{ color:var(--marca) }
+.pg-subir-li{ flex:0 0 auto; width:20px; height:20px; border-radius:50%; display:grid; place-items:center; font:700 .6875rem/1 var(--display);
+  background:var(--sup-2); color:var(--tinta-3); transition:background .25s, color .25s }
+.pg-subir-lista [data-e="hecho"] .pg-subir-li{ background:var(--ok); color:var(--fondo) }
+.pg-subir-lista [data-e="hecho"] a{ color:var(--tinta) }
+.pg-subir-lista [data-e="opcional"] a{ color:var(--tinta-3) }
+.pg-subir-listo{ color:var(--ok)!important }
+.pg-subir-lado .pg-subir-pub-ayuda{ text-align:center }
+.pg-subir-dlg .pg-subir-carta{ flex-basis:220px; width:220px }
+
+/* ---------- barra inferior en móvil ---------- */
+.pg-subir-barra{ display:none }
+.pg-subir-lado{ display:none }
+@media (min-width:961px){
+  .pg-subir-lado{ display:block }
+  .pg-subir-previa-m{ display:none }
+}
+@media (max-width:960px){
+  .pg-subir{ padding-bottom:104px }
+  .pg-subir-pub-flujo{ display:none }
+  .pg-subir-barra{ position:fixed; z-index:65; left:0; right:0; bottom:env(safe-area-inset-bottom,0px); display:flex; align-items:center; gap:10px;
+    padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));
+    background:color-mix(in srgb,var(--fondo) 94%,transparent); backdrop-filter:blur(16px) saturate(1.8); -webkit-backdrop-filter:blur(16px) saturate(1.8);
+    border-top:1px solid var(--linea); animation:pg-subir-barra .45s var(--ease) both }
+  .pg-subir-barra[hidden]{ display:none }
+  .pg-subir-barra .progreso>span{ height:4px }
+  .pg-subir-barra .btn{ height:48px; padding:0 24px }
+  .pg-subir-barra .ico-btn{ width:46px; height:46px; flex:0 0 auto; box-shadow:inset 0 0 0 1.5px var(--linea-2); color:var(--tinta) }
+  body:has(.pg-subir-barra:not([hidden])) .pie{ padding-bottom:76px }
+  body:has(.pg-subir-barra:not([hidden])) .avisador{ bottom:calc(92px + env(safe-area-inset-bottom,0px)) }
+}
+@media (max-width:860px){
+  .pg-subir-barra{ bottom:calc(var(--barra) + env(safe-area-inset-bottom,0px)) }
+  body:has(.pg-subir-barra:not([hidden])) .avisador{ bottom:calc(var(--barra) + 84px + env(safe-area-inset-bottom,0px)) }
+}
+@keyframes pg-subir-barra{ from{ transform:translateY(100%); opacity:0 } }
+
+/* ---------- éxito ---------- */
+.pg-subir-exito{ max-width:620px; padding-block:34px 24px; display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center }
+.pg-subir-exito .entradilla{ margin-inline:auto }
+.pg-subir-exito h1:focus{ outline:none }
+.pg-subir-sello-ok{ position:relative; width:92px; height:92px; margin-bottom:6px; display:grid; place-items:center }
+.pg-subir-ok{ width:84px; height:84px; border-radius:50%; display:grid; place-items:center; background:var(--ok); color:var(--fondo);
+  box-shadow:0 0 0 10px var(--ok-sup); animation:pg-subir-sello .65s var(--ease) both }
+.pg-subir-ok path{ stroke-dasharray:24; stroke-dashoffset:24; animation:pg-subir-traza .45s var(--ease) .35s forwards }
+.pg-subir-chispas i{ position:absolute; left:50%; top:50%; width:8px; height:13px; border-radius:2px; background:var(--c); opacity:0;
+  animation:pg-subir-chispa 1s var(--ease) .2s both }
+.pg-subir-chispas i:nth-child(3n){ width:9px; height:9px; border-radius:50% }
+.pg-subir-escena-fin{ width:100%; max-width:440px; padding-block:22px; margin-block:8px 4px; text-align:left }
+.pg-subir-escena-fin .pg-subir-carta{ flex-basis:220px; width:220px; animation:pg-subir-carta .75s var(--ease) .25s both }
+.pg-subir-exito-acc{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px; width:100% }
+@media (max-width:520px){ .pg-subir-exito-acc .btn{ width:100% } }
+.pg-subir-luego{ width:100%; text-align:left; margin-top:12px }
+.pg-subir-luego ol{ list-style:none; margin:12px 0 0; padding:0; display:flex; flex-direction:column; gap:12px; counter-reset:paso }
+.pg-subir-luego li{ display:flex; gap:12px; font-size:var(--t-sm); color:var(--tinta-2); counter-increment:paso }
+.pg-subir-luego li::before{ content:counter(paso); flex:0 0 auto; width:26px; height:26px; border-radius:50%; display:grid; place-items:center;
+  background:var(--marca-sup); color:var(--marca-tinta); font:700 var(--t-xs)/1 var(--display) }
+.pg-subir-luego b{ color:var(--tinta) }
+.pg-subir-mas-visitas{ display:flex; align-items:center; gap:12px; width:100%; text-align:left; transition:border-color .2s, transform .15s var(--ease) }
+.pg-subir-mas-visitas:hover{ border-color:var(--sol) }
+.pg-subir-mas-visitas:active{ transform:scale(.99) }
+.pg-subir-mas-visitas .pg-subir-estr{ flex:0 0 auto; width:40px; height:40px; border-radius:13px; display:grid; place-items:center; background:var(--sol); color:var(--sol-tinta) }
+@keyframes pg-subir-sello{ 0%{ transform:scale(.3); opacity:0 } 60%{ transform:scale(1.08); opacity:1 } }
+@keyframes pg-subir-traza{ to{ stroke-dashoffset:0 } }
+@keyframes pg-subir-chispa{
+  0%{ opacity:1; transform:translate(-50%,-50%) rotate(0) scale(.3) }
+  70%{ opacity:1 }
+  100%{ opacity:0; transform:translate(calc(-50% + var(--x)),calc(-50% + var(--y))) rotate(var(--r)) scale(1) } }
+@keyframes pg-subir-carta{ from{ opacity:0; transform:translateY(26px) rotate(-4deg) scale(.92) } }
+
+/* ---------- puerta: cuenta sin verificar ---------- */
+.pg-subir-puerta{ padding-block:24px 36px }
+.pg-subir-puerta-g{ display:grid; gap:26px; align-items:center }
+@media (min-width:900px){ .pg-subir-puerta{ padding-block:56px 64px } .pg-subir-puerta-g{ grid-template-columns:minmax(0,1fr) minmax(0,1.05fr); gap:56px } .pg-subir-ilus{ order:2 } }
+.pg-subir-ilus{ position:relative; width:100%; max-width:460px; margin-inline:auto; aspect-ratio:5/4; border-radius:var(--r-xl); overflow:hidden; isolation:isolate;
+  display:grid; place-items:center; background:radial-gradient(80% 70% at 25% 15%,var(--marca-sup),transparent 70%),radial-gradient(60% 60% at 90% 100%,var(--sol-sup),transparent 70%),var(--sup) }
+@media (max-width:600px){ .pg-subir-ilus{ aspect-ratio:4/3 } }
+.pg-subir-ilus-tras{ position:absolute; width:60%; aspect-ratio:1.586; border-radius:16px; background:var(--marca-sup); border:1.5px solid var(--marca-borde); rotate:9deg; translate:14% -12% }
+.pg-subir-carnet{ position:relative; z-index:1; width:68%; aspect-ratio:1.586; display:grid; grid-template-columns:32% minmax(0,1fr); grid-template-rows:auto minmax(0,1fr);
+  gap:10px 12px; padding:0 16px 16px; border-radius:16px; overflow:hidden; background:var(--fondo); box-shadow:var(--sombra-3); rotate:-5deg;
+  animation:pg-subir-carta .7s var(--ease) both }
+.pg-subir-carnet-banda{ grid-column:1/-1; margin:0 -16px; height:28px; padding:0 16px; display:flex; align-items:center; gap:6px; background:linear-gradient(120deg,var(--marca),var(--marca-2)) }
+.pg-subir-carnet-banda i{ width:30px; height:6px; border-radius:9px; background:color-mix(in srgb,var(--fondo) 55%,transparent) }
+.pg-subir-carnet-banda i+i{ width:18px }
+.pg-subir-carnet-foto{ align-self:start; aspect-ratio:3/4; border-radius:10px; display:grid; place-items:center; background:var(--marca-sup); color:var(--marca) }
+.pg-subir-carnet-datos{ display:flex; flex-direction:column; gap:8px; padding-top:4px; min-width:0 }
+.pg-subir-carnet-datos i{ height:8px; border-radius:9px; background:var(--sup-3) }
+.pg-subir-carnet-num{ margin-top:auto; font:650 var(--t-sm)/1 var(--texto); letter-spacing:.14em; color:var(--tinta-3); white-space:nowrap }
+.pg-subir-selfie{ position:absolute; z-index:2; left:11%; bottom:11%; width:62px; height:62px; border-radius:50%; display:grid; place-items:center;
+  background:var(--fondo); color:var(--tinta-2); box-shadow:var(--sombra-2); outline:2px dashed var(--marca-borde); outline-offset:4px; animation:pg-subir-sello .6s var(--ease) .25s both }
+.pg-subir-sello18{ position:absolute; z-index:2; right:10%; top:12%; width:62px; height:62px; border-radius:20px; font-size:1.55rem; rotate:8deg; animation:pg-subir-sello .6s var(--ease) .35s both }
+.pg-subir-sello18::after{ width:26px; height:26px; right:-9px; top:-9px; font-size:1rem; border-width:2.5px }
+.pg-subir-sello-espera{ position:absolute; z-index:2; right:10%; top:12%; width:62px; height:62px; border-radius:50%; display:grid; place-items:center;
+  background:var(--avisa-sup); color:var(--avisa); border:3px solid var(--fondo); box-shadow:var(--sombra-2); animation:pg-subir-sello .6s var(--ease) .35s both }
+.pg-subir-puerta-txt{ display:flex; flex-direction:column; align-items:flex-start; gap:16px }
+.pg-subir-pasos{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; width:100% }
+.pg-subir-pasos li{ position:relative; display:flex; gap:14px; padding:9px 0 }
+.pg-subir-pasos li:not(:last-child)::before{ content:""; position:absolute; left:17px; top:47px; bottom:-7px; width:2px; border-radius:2px; background:var(--linea) }
+.pg-subir-pasos li>span:last-child{ display:flex; flex-direction:column; gap:2px; padding-top:7px; font-size:var(--t-sm); color:var(--tinta-2) }
+.pg-subir-pasos b{ color:var(--tinta); font-size:var(--t-base) }
+.pg-subir-pn{ flex:0 0 auto; width:36px; height:36px; border-radius:50%; display:grid; place-items:center; background:var(--marca-sup); color:var(--marca-tinta); font:700 var(--t-sm)/1 var(--display) }
+.pg-subir-pasos [data-e="hecho"] .pg-subir-pn{ background:var(--ok-sup); color:var(--ok) }
+.pg-subir-pasos [data-e="ahora"] .pg-subir-pn{ background:var(--avisa-sup); color:var(--avisa); box-shadow:0 0 0 3px var(--fondo),0 0 0 5px var(--avisa-sup) }
+.pg-subir-pasos [data-e="bloq"] .pg-subir-pn{ background:var(--sup-2); color:var(--tinta-3) }
+.pg-subir-pasos [data-e="bloq"] b{ color:var(--tinta-3) }
+.pg-subir-puerta-acc{ display:flex; flex-wrap:wrap; gap:10px; width:100%; margin-top:4px }
+@media (max-width:520px){ .pg-subir-puerta-acc .btn{ width:100% } }
+.pg-subir-garantias{ list-style:none; margin:4px 0 0; padding:16px 0 0; border-top:1px solid var(--linea); display:flex; flex-direction:column; gap:10px; width:100% }
+.pg-subir-garantias li{ display:flex; align-items:center; gap:10px; font-size:var(--t-sm); color:var(--tinta-2) }
+.pg-subir-garantias li>span:first-child{ flex:0 0 auto; width:28px; height:28px; border-radius:50%; display:grid; place-items:center; background:var(--ok-sup); color:var(--ok) }
+</style>
+<main id="contenido" class="pg-subir">
+  <div class="contenedor" id="pg-subir-editor" hidden>
+    <header class="pg-subir-cab">
+      <div class="col g4 min0">
+        <span class="etiqueta" id="pg-subir-eti">Nuevo anuncio</span>
+        <h1 class="h1" id="pg-subir-h1">Sube tu anuncio</h1>
+        <p class="sec" id="pg-subir-entra">Publicar es gratis y te llevará unos 3 minutos. Si lo dejas a medias, lo guardamos como borrador.</p>
+        <div class="pg-subir-yo" id="pg-subir-yo"></div>
+      </div>
+      <span class="pg-subir-guardado" id="guardado" data-estado="nada"><span class="pg-subir-punto" aria-hidden="true"></span><span data-ic="check" data-t="14"></span><span id="guardado-txt">Borrador automático</span></span>
+    </header>
+    <div class="col g10 pg-subir-avisos" id="pg-subir-avisos"></div>
+
+    <div class="con-lateral pg-subir-rejilla">
+      <form class="pg-subir-form" id="pg-subir-form" novalidate aria-labelledby="pg-subir-h1">
+
+        <!-- 1 · Fotos -->
+        <section class="bloque pg-subir-bloque" id="b-fotos" data-b="0" aria-labelledby="t-b1">
+          <div class="pg-subir-bcab">
+            <span class="pg-subir-n" aria-hidden="true"><b>1</b><span data-ic="check" data-t="16"></span></span>
+            <div class="col g4 crecer min0">
+              <h2 class="h3" id="t-b1">Fotos</h2>
+              <p class="sm sec">Enseña trabajos reales: los anuncios con fotos reciben más mensajes.</p>
+            </div>
+            <span class="insignia num" id="n-fotos">Opcional</span>
+          </div>
+          <input class="solo-lector" type="file" id="f-fotos" accept="image/*" multiple aria-describedby="a-fotos">
+          <label class="subida pg-subir-zona" for="f-fotos" id="zona">
+            <span class="pg-subir-zona-ico" data-ic="foto" data-t="26"></span>
+            <span class="negrita">Arrastra tus fotos aquí o <span class="enlace">elígelas</span></span>
+            <span class="ayuda">Hasta 8 fotos · JPG, PNG o WEBP de hasta 15 MB</span>
+          </label>
+          <ul class="pg-subir-fotos" id="fotos" aria-label="Fotos del anuncio" hidden></ul>
+          <div class="pg-subir-sinfoto" id="sinfoto">
+            <span class="pg-subir-minis" id="minis" aria-hidden="true"></span>
+            <p class="sm sec" id="sinfoto-txt">Si no subes fotos, usaremos una portada ilustrada de tu categoría.</p>
+          </div>
+          <p class="ayuda" id="a-fotos">La primera foto es la portada. Arrástralas para ordenarlas o usa las flechas; con la estrella eliges otra portada.</p>
+        </section>
+
+        <!-- 2 · Qué ofreces -->
+        <section class="bloque pg-subir-bloque" id="b-que" data-b="1" aria-labelledby="t-b2">
+          <div class="pg-subir-bcab">
+            <span class="pg-subir-n" aria-hidden="true"><b>2</b><span data-ic="check" data-t="16"></span></span>
+            <div class="col g4 crecer min0">
+              <h2 class="h3" id="t-b2">¿Qué ofreces?</h2>
+              <p class="sm sec">Un buen título y la categoría correcta hacen que te encuentren.</p>
+            </div>
+          </div>
+          <div class="campo">
+            <div class="pg-subir-et"><label for="f-titulo">Título del anuncio</label><span class="pg-subir-cont" id="c-titulo" aria-hidden="true">0/70</span></div>
+            <input class="ent" id="f-titulo" type="text" maxlength="70" autocomplete="off" placeholder="Ej.: Paseo de perros en Palma" aria-describedby="a-titulo e-titulo">
+            <p class="ayuda" id="a-titulo">Empieza por lo que haces. Sin teléfonos ni correos: el contacto va por el chat.</p>
+            <p class="error" id="e-titulo" hidden></p>
+          </div>
+          <div id="sug" aria-live="polite"></div>
+          <div class="campo">
+            <span class="campo-et" id="t-cat">Categoría</span>
+            <div class="pg-subir-cats" id="cats" role="radiogroup" aria-labelledby="t-cat" aria-describedby="e-cat"></div>
+            <p class="error" id="e-cat" hidden></p>
+          </div>
+          <div class="campo" id="g-sub" hidden>
+            <span class="campo-et" id="t-sub">Subcategoría <span class="pg-subir-opc" id="t-sub-cat"></span></span>
+            <div class="chips pg-subir-subs" id="subs" role="group" aria-labelledby="t-sub" aria-describedby="e-sub"></div>
+            <p class="error" id="e-sub" hidden></p>
+          </div>
+        </section>
+
+        <!-- 3 · Descripción -->
+        <section class="bloque pg-subir-bloque" id="b-desc" data-b="2" aria-labelledby="t-b3">
+          <div class="pg-subir-bcab">
+            <span class="pg-subir-n" aria-hidden="true"><b>3</b><span data-ic="check" data-t="16"></span></span>
+            <div class="col g4 crecer min0">
+              <h2 class="h3" id="t-b3">Descripción</h2>
+              <p class="sm sec">Cuenta cómo trabajas: es lo que más se lee después del precio.</p>
+            </div>
+          </div>
+          <div class="campo">
+            <div class="pg-subir-et"><label for="f-desc">Descripción</label><span class="pg-subir-cont" id="c-desc" aria-hidden="true">0/1.000</span></div>
+            <textarea class="ent" id="f-desc" maxlength="1000" rows="6" placeholder="Qué haces exactamente, tu experiencia, qué llevas tú y qué necesitas que tenga preparado quien te contrata." aria-describedby="a-desc e-desc"></textarea>
+            <p class="ayuda" id="a-desc">Mínimo 40 caracteres. Si el servicio necesita un título, un carné o un seguro, dilo aquí.</p>
+            <p class="error" id="e-desc" hidden></p>
+            <div class="aviso aviso-avisa" id="aviso-pagos" hidden><span data-ic="escudo" data-t="18"></span><span><b>Recuerda:</b> en Apaño se paga siempre con Pago protegido. No pidas Bizum, efectivo ni transferencias, ni lleves la conversación a otra app.</span></div>
+          </div>
+          <div class="campo">
+            <div class="pg-subir-et"><span class="campo-et" id="t-inc">Qué incluye</span><span class="pg-subir-opc">Opcional · hasta 8</span></div>
+            <ul class="pg-subir-inc" id="inc" aria-labelledby="t-inc" hidden></ul>
+            <div class="pg-subir-inc-add">
+              <label class="solo-lector" for="f-inc">Añade algo que incluye tu servicio</label>
+              <input class="ent" id="f-inc" type="text" maxlength="60" autocomplete="off" placeholder="Ej.: Desplazamiento en Palma">
+              <button class="btn btn-suave" type="button" id="b-inc">Añadir</button>
+            </div>
+            <div class="pg-subir-ideas" id="ideas"></div>
+          </div>
+        </section>
+
+        <!-- 4 · Precio -->
+        <section class="bloque pg-subir-bloque" id="b-precio" data-b="3" aria-labelledby="t-b4">
+          <div class="pg-subir-bcab">
+            <span class="pg-subir-n" aria-hidden="true"><b>4</b><span data-ic="check" data-t="16"></span></span>
+            <div class="col g4 crecer min0">
+              <h2 class="h3" id="t-b4">Precio</h2>
+              <p class="sm sec">Tú recibes el precio íntegro: la protección del pago la abona el cliente.</p>
+            </div>
+          </div>
+          <div class="campo">
+            <span class="campo-et" id="t-tipo">Cómo cobras</span>
+            <div class="seg pg-subir-seg" id="tipo" role="group" aria-labelledby="t-tipo">
+              <button type="button" data-tipo="hora" aria-pressed="true">Por hora</button>
+              <button type="button" data-tipo="servicio" aria-pressed="false">Por servicio</button>
+              <button type="button" data-tipo="desde" aria-pressed="false">Desde</button>
+              <button type="button" data-tipo="consultar" aria-pressed="false">A consultar</button>
+            </div>
+          </div>
+          <div class="pg-subir-precio">
+            <div class="campo" id="campo-importe">
+              <label for="f-importe" id="l-importe">Precio por hora</label>
+              <div class="pg-subir-importe">
+                <input class="ent" id="f-importe" type="text" inputmode="decimal" autocomplete="off" maxlength="9" placeholder="0" aria-describedby="e-importe">
+                <span class="pg-subir-eur" aria-hidden="true">€<small id="suf-importe">/hora</small></span>
+              </div>
+              <p class="error" id="e-importe" hidden></p>
+            </div>
+            <div class="pg-subir-calc" id="calc"></div>
+          </div>
+          <p class="ayuda">La protección del pago (5 % + 0,99 €) cubre el Pago protegido: guardamos el dinero hasta que el cliente confirma que el servicio está hecho. En esta demostración los pagos son simulados.</p>
+        </section>
+
+        <!-- 5 · Dónde y cuándo -->
+        <section class="bloque pg-subir-bloque" id="b-donde" data-b="4" aria-labelledby="t-b5">
+          <div class="pg-subir-bcab">
+            <span class="pg-subir-n" aria-hidden="true"><b>5</b><span data-ic="check" data-t="16"></span></span>
+            <div class="col g4 crecer min0">
+              <h2 class="h3" id="t-b5">Dónde y cuándo</h2>
+              <p class="sm sec">Así te enseñamos a quien busca cerca de ti y en tu horario.</p>
+            </div>
+          </div>
+          <div class="campo">
+            <div class="pg-subir-et"><span class="campo-et" id="t-modo">Dónde lo haces</span><span class="pg-subir-opc">Puedes marcar varias</span></div>
+            <div class="pg-subir-modos" id="modos" role="group" aria-labelledby="t-modo" aria-describedby="e-modos">
+              <label class="opcion"><input type="checkbox" name="modo" value="domicilio"><span class="pg-subir-op"><span><b>A domicilio</b><span class="xs sec">Vas a casa del cliente</span></span><span class="pg-subir-op-ico" data-ic="casa" data-t="22"></span></span></label>
+              <label class="opcion"><input type="checkbox" name="modo" value="local"><span class="pg-subir-op"><span><b>En mi local</b><span class="xs sec">El cliente viene a ti</span></span><span class="pg-subir-op-ico" data-ic="tienda" data-t="22"></span></span></label>
+              <label class="opcion"><input type="checkbox" name="modo" value="online"><span class="pg-subir-op"><span><b>Online</b><span class="xs sec">Por videollamada o a distancia</span></span><span class="pg-subir-op-ico" data-ic="video" data-t="22"></span></span></label>
+            </div>
+            <p class="error" id="e-modos" hidden></p>
+          </div>
+          <div class="pg-subir-zonag" id="zona-g">
+            <div class="campo">
+              <label for="f-pob" id="l-pob">Población</label>
+              <input class="ent" id="f-pob" type="text" list="pg-subir-pueblos" maxlength="40" autocomplete="address-level2" placeholder="Ej.: Palma" aria-describedby="e-pob">
+              <datalist id="pg-subir-pueblos"><option value="Palma"><option value="Marratxí"><option value="Calvià"><option value="Llucmajor"><option value="Inca"><option value="Manacor"><option value="Alcúdia"><option value="Pollença"><option value="Sóller"><option value="Felanitx"><option value="Santanyí"><option value="Andratx"><option value="Campos"><option value="Bunyola"><option value="Sa Pobla"></datalist>
+              <p class="error" id="e-pob" hidden></p>
+            </div>
+            <div class="campo" id="campo-radio">
+              <div class="pg-subir-et"><label for="f-radio">Hasta dónde te desplazas</label><output class="cifra pg-subir-km" id="o-radio" for="f-radio">10 km</output></div>
+              <input class="pg-subir-rango" type="range" id="f-radio" min="1" max="50" step="1" value="10" aria-describedby="a-radio">
+              <p class="ayuda" id="a-radio">Tu ciudad y alrededores</p>
+            </div>
+          </div>
+          <div class="aviso aviso-marca" id="solo-online" hidden><span data-ic="video" data-t="18"></span><span>Lo ofreces solo online: tu anuncio podrá verlo gente de toda España.</span></div>
+          <div class="campo">
+            <span class="campo-et" id="t-dias">Qué días</span>
+            <div class="pg-subir-dias" id="dias" role="group" aria-labelledby="t-dias" aria-describedby="e-dias"></div>
+            <div class="pg-subir-atajos">
+              <button type="button" class="pg-subir-atajo" data-atajo="0,1,2,3,4">Entre semana</button>
+              <button type="button" class="pg-subir-atajo" data-atajo="5,6">Fines de semana</button>
+              <button type="button" class="pg-subir-atajo" data-atajo="0,1,2,3,4,5,6">Todos los días</button>
+            </div>
+            <p class="error" id="e-dias" hidden></p>
+          </div>
+          <div class="campo">
+            <span class="campo-et" id="t-franjas">En qué franjas</span>
+            <div class="pg-subir-franjas" id="franjas" role="group" aria-labelledby="t-franjas" aria-describedby="e-franjas"></div>
+            <p class="error" id="e-franjas" hidden></p>
+          </div>
+        </section>
+
+        <!-- 6 · Revisión y publicar -->
+        <section class="bloque pg-subir-bloque" id="b-publicar" data-b="5" aria-labelledby="t-b6">
+          <div class="pg-subir-bcab">
+            <span class="pg-subir-n" aria-hidden="true"><b>6</b><span data-ic="check" data-t="16"></span></span>
+            <div class="col g4 crecer min0">
+              <h2 class="h3" id="t-b6">Revisión y publicar</h2>
+              <p class="sm sec">Repasa cómo queda y confirma las normas de Apaño.</p>
+            </div>
+          </div>
+          <div class="pg-subir-previa-m">
+            <div class="pg-subir-escena">
+              <div class="pg-subir-fantasma" aria-hidden="true"><span></span><i></i><i></i></div>
+              <div class="pg-subir-carta" id="carta-m"></div>
+              <div class="pg-subir-fantasma" aria-hidden="true"><span></span><i></i><i></i></div>
+            </div>
+          </div>
+          <dl class="pg-subir-resumen" id="resumen"></dl>
+          <div class="aviso" role="note">
+            <span data-ic="escudo" data-t="18"></span>
+            <div class="col g4">
+              <b>Qué no se puede publicar en Apaño</b>
+              <ul class="pg-subir-prohibido">
+                <li>Servicios que exigen una habilitación, título o carné que no tienes (instalaciones eléctricas o de gas, fisioterapia, transporte de personas…).</li>
+                <li>Contenido o servicios de carácter sexual.</li>
+                <li>Cualquier servicio dirigido a menores sin la supervisión de una persona adulta responsable.</li>
+                <li>Pedir o aceptar pagos fuera de Apaño: Bizum, efectivo, transferencias u otras apps.</li>
+              </ul>
+              <span>Si un anuncio lo incumple, lo retiramos y podemos cerrar la cuenta.</span>
+            </div>
+          </div>
+          <div class="col g10 pg-subir-normas">
+            <label class="casilla"><input type="checkbox" id="f-yo" aria-describedby="e-yo"><span>Ofrezco este servicio yo mismo/a y cumplo la normativa que le aplique</span></label>
+            <p class="error" id="e-yo" hidden></p>
+            <label class="casilla"><input type="checkbox" id="f-pagos" aria-describedby="e-pagos"><span>No pediré pagos fuera de Apaño</span></label>
+            <p class="error" id="e-pagos" hidden></p>
+          </div>
+          <div class="pg-subir-pub-flujo">
+            <button class="btn btn-g btn-bloque pg-subir-pub" type="button" data-publicar aria-disabled="true">Publicar</button>
+            <p class="ayuda" style="text-align:center">Antes de publicarlo lo revisamos. Suele tardar unos minutos.</p>
+          </div>
+        </section>
+      </form>
+
+      <aside class="pg-subir-lado" aria-label="Vista previa y estado del anuncio">
+        <div class="pegajoso bloque pg-subir-panel">
+          <div class="fila entre"><span class="etiqueta">Vista previa</span><span class="insignia insignia-marca"><span class="pg-subir-vivo" aria-hidden="true"></span>En vivo</span></div>
+          <div class="pg-subir-escena">
+            <div class="pg-subir-fantasma" aria-hidden="true"><span></span><i></i><i></i></div>
+            <div class="pg-subir-carta" id="carta"></div>
+            <div class="pg-subir-fantasma" aria-hidden="true"><span></span><i></i><i></i></div>
+          </div>
+          <ul class="pg-subir-meta" id="meta"></ul>
+          <hr class="separador">
+          <div class="col g10">
+            <div class="fila entre"><span class="negrita sm" id="estado-t">Tu anuncio</span><span class="xs sec num" id="estado-n">0 de 6</span></div>
+            <div class="progreso" data-progreso aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+            <ol class="pg-subir-lista" id="lista" aria-label="Bloques del anuncio"></ol>
+          </div>
+          <button class="btn btn-g btn-bloque pg-subir-pub" type="button" data-publicar aria-disabled="true">Publicar</button>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <div class="pg-subir-barra" id="pg-subir-barra" hidden>
+    <div class="col g6 crecer min0">
+      <div class="progreso" data-progreso aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <span class="xs negrita sec" id="barra-txt">Te faltan 5 pasos</span>
+    </div>
+    <button class="ico-btn" type="button" id="ver-previa" aria-label="Ver la vista previa del anuncio" data-ic="ojo" data-t="21"></button>
+    <button class="btn pg-subir-pub" type="button" data-publicar aria-disabled="true">Publicar</button>
+  </div>
+  <p class="solo-lector" id="pg-subir-voz" aria-live="polite"></p>
+</main>
+<script>
+A.pagina = function(){
+  const $ = A.$, $$ = A.$$;
+  const s = A.sesion();
+  const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const esc = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const norm = t => String(t||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  const r2 = n => Math.round(n*100)/100;
+
+  /* trazos propios (viewBox 24) */
+  const P = {
+    izq:'M14.5 6l-6 6 6 6', der:'M9.5 6l6 6-6 6', check:'M5 12.5l4.2 4.2L19 7',
+    ojo:'M2.5 12s3.5-6.5 9.5-6.5 9.5 6.5 9.5 6.5-3.5 6.5-9.5 6.5S2.5 12 2.5 12zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z',
+    cal:'M4.5 6h15v14h-15zM4.5 10.5h15M8.5 3.5v4M15.5 3.5v4',
+    tienda:'M4 9.5 5.5 4.5h13L20 9.5M4.5 10.5V20h15v-9.5M4 9.5c0 1.4 1.2 2.5 2.7 2.5s2.6-1.1 2.6-2.5c0 1.4 1.2 2.5 2.7 2.5s2.7-1.1 2.7-2.5c0 1.4 1.1 2.5 2.6 2.5S20 10.9 20 9.5M10 20v-4.5h4V20',
+    video:'M3.5 7h11v10h-11zM14.5 10.5l6-3.5v10l-6-3.5',
+    candado:'M6.5 11h11v9h-11zM8.5 11V8a3.5 3.5 0 0 1 7 0v3',
+    reloj:'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 7.5V12l3 2',
+    compartir:'M12 15V3.5M7.5 8 12 3.5 16.5 8M5 12.5V20h14v-7.5',
+    foto: A.ICONOS.eventos
+  };
+  const ic = (n, t, g) => P[n]
+    ? `<svg width="${t||18}" height="${t||18}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${g||1.9}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${P[n]}"/></svg>`
+    : A.icono(n, t||18);
+  /* [data-ic] sin clase se sustituye por el svg (así no encoge dentro de .aviso); con clase, lo lleva dentro */
+  const iconos = raiz => $$('[data-ic]', raiz).forEach(el => {
+    const svg = ic(el.dataset.ic, +el.dataset.t || 18);
+    if(el.tagName === 'SPAN' && !el.className) el.outerHTML = svg; else { el.innerHTML = svg; el.removeAttribute('data-ic') }
+  });
+
+  /* ================= sin permiso para publicar: pantalla propia ================= */
+  if(!A.puede('publicar')){
+    $('#contenido').innerHTML = puerta();
+    return;
+  }
+  function puerta(){
+    const pend = !!s;
+    const pasos = pend ? [
+      ['hecho', ic('check',18,2.4), 'Cuenta creada', 'Ya tienes tu cuenta en Apaño.'],
+      ['ahora', ic('reloj',18), 'Revisando tu documento', 'Suele tardar menos de 2 horas. Te avisaremos en el buzón.'],
+      ['bloq', ic('candado',17), 'Publicar tu primer anuncio', 'Se desbloquea en cuanto verifiquemos tu identidad.']
+    ] : [
+      ['', '1', 'Crea tu cuenta', 'Con tu correo y tu móvil. Son 2 minutos.'],
+      ['', '2', 'Verifica tu identidad', 'Foto de tu DNI, NIE o pasaporte y un selfie.'],
+      ['', '3', 'Publica gratis', 'Sube tu servicio y empieza a recibir mensajes.']
+    ];
+    const nombre = s ? esc(s.n.split(' ')[0]) : '';
+    return `<section class="contenedor medio pg-subir-puerta" aria-labelledby="puerta-t">
+      <div class="pg-subir-puerta-g">
+        <div class="pg-subir-ilus" aria-hidden="true">
+          <span class="pg-subir-ilus-tras"></span>
+          <span class="pg-subir-carnet">
+            <span class="pg-subir-carnet-banda"><i></i><i></i></span>
+            <span class="pg-subir-carnet-foto">${A.icono('persona',34)}</span>
+            <span class="pg-subir-carnet-datos"><i style="width:80%"></i><i style="width:55%"></i><i style="width:68%"></i><span class="pg-subir-carnet-num">•• ••• ••• •</span></span>
+          </span>
+          <span class="pg-subir-selfie">${A.icono('persona',26)}</span>
+          ${pend ? `<span class="pg-subir-sello-espera">${ic('reloj',28)}</span>` : '<span class="puerta-18 pg-subir-sello18">18</span>'}
+        </div>
+        <div class="pg-subir-puerta-txt">
+          ${pend ? '<span class="insignia insignia-avisa">Identidad en revisión</span>' : '<span class="insignia insignia-marca">Solo mayores de 18 verificados</span>'}
+          <h1 class="h1" id="puerta-t">${pend ? `Casi lo tienes, ${nombre}: estamos verificando tu identidad` : 'Para publicar, primero verifica tu identidad'}</h1>
+          <p class="entradilla">${pend
+            ? 'Para publicar en Apaño hace falta la identidad verificada: solo mayores de 18 con el documento comprobado. Ya hemos recibido el tuyo; en cuanto lo revisemos podrás subir tu anuncio.'
+            : 'En Apaño solo publican personas mayores de 18 años que han presentado su DNI, NIE o pasaporte y un selfie. Así quien te contrata sabe que eres quien dices ser, y tú sabes lo mismo de tus clientes.'}</p>
+          <ol class="pg-subir-pasos">${pasos.map(p => `<li data-e="${p[0]}"><span class="pg-subir-pn">${p[1]}</span><span><b>${p[2]}</b>${p[3]}</span></li>`).join('')}</ol>
+          <div class="pg-subir-puerta-acc">${pend
+            ? '<a class="btn btn-g" href="cuenta.html#verificacion">Ver el estado de mi verificación</a><a class="btn btn-sec btn-g" href="buscar.html">Mientras, mira anuncios</a>'
+            : '<a class="btn btn-g" href="registro.html">Crear cuenta</a><a class="btn btn-sec btn-g" href="entrar.html">Ya tengo cuenta</a>'}</div>
+          <ul class="pg-subir-garantias">
+            <li><span>${A.icono('escudo',15)}</span>Nunca publicamos el número de tu documento.</li>
+            <li><span>${A.icono('persona',15)}</span>Tu documento solo lo ve el equipo de verificación.</li>
+            <li><span>${A.icono('check',15)}</span>Mirar anuncios y guardar favoritos no necesita cuenta.</li>
+          </ul>
+          <a class="enlace sm" href="como-funciona.html#verificacion">Por qué pedimos el documento</a>
+        </div>
+      </div>
+    </section>`;
+  }
+
+  /* ================= editor ================= */
+  $('#pg-subir-editor').hidden = false;
+  $('#pg-subir-barra').hidden = false;
+  iconos($('#contenido'));
+
+  const DIAS = [['L','Lunes'],['M','Martes'],['X','Miércoles'],['J','Jueves'],['V','Viernes'],['S','Sábado'],['D','Domingo']];
+  const DN = ['lunes','martes','miércoles','jueves','viernes','sábado','domingo'];
+  const FRANJAS = [['manana','Mañana','8–14 h','mañanas'],['tarde','Tarde','14–20 h','tardes'],['noche','Noche','20–23 h','noches']];
+  const MODOS = {domicilio:'A domicilio', local:'En mi local', online:'Online'};
+  const UNIDAD = {hora:'hora', servicio:'servicio', desde:'desde'};
+  const IDEAS = {
+    hogar:['Desplazamiento incluido','Presupuesto sin compromiso','Material pequeño','Factura con IVA'],
+    limpieza:['Productos de limpieza','Aspiradora y fregona','Cristales interiores','Mismo día de la semana'],
+    mudanzas:['Mantas y film','Montaje de muebles','Dos operarios','Seguro de la carga'],
+    clases:['Material de la clase','Primera clase de prueba','Dudas por chat','Informe de progreso'],
+    mascotas:['Fotos de cada paseo','Recogida en casa','Agua y premios','Paseo con correa siempre'],
+    belleza:['Productos profesionales','Desplazamiento incluido','Prueba previa','Consulta de color'],
+    eventos:['Edición de las fotos','Entrega en 48 h','Galería online','Desplazamiento en la isla'],
+    tecnologia:['Diagnóstico gratis','Garantía de 6 meses','Piezas de calidad','Copia de seguridad'],
+    motor:['Diagnóstico','Productos incluidos','Recogida del vehículo','Informe del estado'],
+    jardin:['Retirada de restos','Herramientas propias','Desplazamiento incluido','Consejo de riego'],
+    cuidados:['Acompañamiento a consultas','Informe a la familia','Paseo y compañía','Recordatorio de medicación'],
+    diseno:['Dos rondas de cambios','Archivos editables','Entrega en 5 días','Versión para redes'],
+    recados:['Ticket de cada compra','Recogida y entrega','Aviso por chat','Fotos de la entrega'],
+    deporte:['Plan personalizado','Material incluido','Seguimiento semanal','Primera sesión de valoración'],
+    reparaciones:['Diagnóstico','Piezas incluidas','Garantía de 3 meses','Recogida a domicilio']
+  };
+  /* pistas para sugerir categoría a partir del título (texto sin acentos) */
+  const PISTAS = [
+    ['hogar', /\b(pint(ar|or|ura|o)|fontaner|grifo|tuberi|cisterna|desatasc|gotera|electric|enchuf|boletin|diferencial|lampara|mueble|ikea|albanil|reforma|azulej|alicat|pladur|tabique|manitas|chapuza)/g,
+      [[/pint/,'Pintura'],[/fontaner|grifo|tuberi|cisterna|desatasc|gotera/,'Fontanería'],[/electric|enchuf|boletin|diferencial|lampara/,'Electricidad'],[/mueble|ikea/,'Montaje de muebles'],[/albanil|reforma|azulej|alicat|pladur|tabique/,'Albañilería']]],
+    ['limpieza', /\b(limpi|plancha|cristal|tapiceri|sofa|fin de obra|desinfec)/g,
+      [[/cristal/,'Cristales'],[/fin de obra/,'Fin de obra'],[/tapiceri|sofa/,'Tapicerías'],[/oficina/,'Oficinas'],[/casa|piso|hogar|apartamento|vivienda|limpi/,'Casas']]],
+    ['mudanzas', /\b(mudanz|porte|furgoneta|traslad|guardamueble|desmont)/g,
+      [[/mudanz|traslad/,'Mudanzas'],[/porte|furgoneta/,'Portes'],[/guardamueble/,'Guardamuebles'],[/desmont|montaje/,'Montaje y desmontaje']]],
+    ['clases', /\b(clase|profe|ensen|aprend|ingles|frances|aleman|italiano|idioma|matematic|refuerzo|deberes|selectividad|examen|guitarra|piano|musica|canto|violin|tutor)/g,
+      [[/ingles|frances|aleman|italiano|idioma|catalan/,'Idiomas'],[/refuerzo|deberes|matematic|selectividad|examen|primaria|bachiller/,'Refuerzo escolar'],[/guitarra|piano|musica|canto|violin/,'Música'],[/informatic|excel|ofimatic/,'Informática'],[/cocin|reposter/,'Cocina']]],
+    ['mascotas', /\b(perr|gat[oa]s?\b|mascot|canin|cachorr|adiestr|paseador)/g,
+      [[/pase/,'Paseos'],[/pelu|bano|corte/,'Peluquería canina'],[/adiestr|educa/,'Adiestramiento'],[/cuid|guarder|vacacion|casa/,'Cuidado en casa']]],
+    ['belleza', /\b(pelu(?!queri[ao] canin)|corte de pelo|tinte|mechas|manicur|pedicur|unas|maquill|depil|barber|barba|peinad|cejas|pestan|estetic)/g,
+      [[/pelu|corte|tinte|mechas|peinad/,'Peluquería'],[/manicur|pedicur|unas/,'Manicura'],[/maquill/,'Maquillaje'],[/depil|cejas/,'Depilación'],[/barber|barba/,'Barbería']]],
+    ['eventos', /\b(foto|video|boda|dj\b|catering|animaci|cumpleanos|evento|fiesta|comunion|bautizo)/g,
+      [[/foto/,'Fotografía'],[/video/,'Vídeo'],[/dj\b/,'DJ'],[/catering/,'Catering'],[/animaci|cumpleanos/,'Animación']]],
+    ['tecnologia', /\b(movil|iphone|ordenador|portatil|wifi|router|pantalla|informatic|tablet|domotic|pc\b|impresora|virus)/g,
+      [[/movil|iphone|pantalla|tablet/,'Reparar móviles'],[/ordenador|portatil|pc\b|virus|impresora/,'Ordenadores'],[/wifi|router/,'Redes y wifi'],[/domotic/,'Domótica']]],
+    ['motor', /\b(coche|moto\b|motos\b|mecanic|neumatic|rueda|itv\b|vehicul|aceite)/g,
+      [[/mecanic|aceite/,'Mecánica'],[/lavado|limpi/,'Lavado a domicilio'],[/itv\b/,'ITV'],[/neumatic|rueda/,'Neumáticos']]],
+    ['jardin', /\b(jardin|poda|podar|cesped|piscina|riego|seto|arbol|desbroce)/g,
+      [[/poda|seto|arbol/,'Poda'],[/cesped|desbroce/,'Césped'],[/piscina/,'Piscinas'],[/riego/,'Riego']]],
+    ['cuidados', /\b(mayor|abuel|ancian|dependien|acompan|cuidador|geriatr)/g,
+      [[/medic|consulta|hospital/,'Acompañamiento médico'],[/noche/,'Noches'],[/higiene|aseo|ducha/,'Higiene'],[/compan/,'Compañía']]],
+    ['diseno', /\b(logo|disen|ilustra|redes sociales|instagram|edicion|branding|cartel|pagina web)/g,
+      [[/logo|branding/,'Logos'],[/ilustra|cartel/,'Ilustración'],[/video|edicion/,'Edición de vídeo'],[/redes|instagram/,'Redes sociales']]],
+    ['recados', /\b(recado|compra|gestion|tramite|colas?\b|paquete|encargo)/g,
+      [[/compra/,'Compra a domicilio'],[/gestion/,'Gestiones'],[/cola|tramite/,'Colas y trámites'],[/tecnico|esperar/,'Esperar a técnicos']]],
+    ['deporte', /\b(entrena|yoga|pilates|fisio|nutrici|gimnas|deporte|running|crossfit|dieta)/g,
+      [[/entrena|gimnas|crossfit|running/,'Entrenador personal'],[/yoga|pilates/,'Yoga'],[/fisio/,'Fisioterapia'],[/nutrici|dieta/,'Nutrición']]],
+    ['reparaciones', /\b(lavadora|nevera|frigorif|horno|electrodom|bici|costur|arreglo de ropa|persiana|secadora|lavavajillas)/g,
+      [[/lavadora|nevera|frigorif|horno|electrodom|secadora|lavavajillas/,'Electrodomésticos'],[/bici/,'Bicicletas'],[/costur|ropa/,'Arreglos de ropa'],[/persiana/,'Persianas']]]
+  ];
+  const BLOQUES = [
+    {id:'b-fotos', n:'Fotos', campos:[]},
+    {id:'b-que', n:'Qué ofreces', campos:['titulo','cat','sub']},
+    {id:'b-desc', n:'Descripción', campos:['desc']},
+    {id:'b-precio', n:'Precio', campos:['importe']},
+    {id:'b-donde', n:'Dónde y cuándo', campos:['modos','poblacion','dias','franjas']},
+    {id:'b-publicar', n:'Revisión', campos:['yo','pagos']}
+  ];
+  const ORDEN = ['titulo','cat','sub','desc','importe','modos','poblacion','dias','franjas','yo','pagos'];
+  const CTL = {titulo:'f-titulo', cat:'cats', sub:'subs', desc:'f-desc', importe:'f-importe', modos:'modos', poblacion:'f-pob', dias:'dias', franjas:'franjas', yo:'f-yo', pagos:'f-pagos'};
+  const ERR = {titulo:'e-titulo', cat:'e-cat', sub:'e-sub', desc:'e-desc', importe:'e-importe', modos:'e-modos', poblacion:'e-pob', dias:'e-dias', franjas:'e-franjas', yo:'e-yo', pagos:'e-pagos'};
+  const id = x => document.getElementById(x);
+
+  /* ---------- estado ---------- */
+  const inicial = () => ({titulo:'', cat:'', sub:'', desc:'', incluye:[], tipo:'hora', importe:'', modos:[], poblacion:(s.ciudad||''), radio:10, dias:[], franjas:[], yo:false, pagos:false});
+  let st = inicial();
+  const fotos = [];
+  let cargando = 0, nFoto = 0, intento = false, activo = null, eraListo = false, ignorada = '', enviando = false, tg = null;
+  const tocado = new Set();
+
+  /* ¿editando un anuncio propio? (subir.html?id=sX) */
+  const idEd = new URLSearchParams(location.search).get('id');
+  const editado = idEd ? A.anuncio(idEd) : null;
+  const edita = !!(editado && editado.u === s.id);
+  const CLAVE = edita ? 'borrador-anuncio-' + editado.id : 'borrador-anuncio';
+
+  /* ---------- texto derivado ---------- */
+  function importe(){
+    let v = String(st.importe||'').trim().replace(/[\s€]/g, '');
+    if(!v) return NaN;
+    if(v.includes(',')) v = v.replace(/\./g, '').replace(',', '.');
+    else if(/\.\d{3}$/.test(v)) v = v.replace(/\./g, '');
+    if(!/^\d+(\.\d{1,2})?$/.test(v)) return NaN;
+    return r2(parseFloat(v));
+  }
+  const precioOk = () => { const n = importe(); return n >= 1 && n <= 10000 };
+  const prot = n => r2(n*0.05 + 0.99);      // misma regla que A.pedido.calcula
+  const tiene = m => st.modos.includes(m);
+  const soloOnline = () => tiene('online') && !tiene('domicilio') && !tiene('local');
+  const contacto = t => /(\+?34)?[6789]\d{8}/.test(String(t).replace(/[\s.\-()]/g, '')) || /[^\s@]+@[^\s@]+\.[a-z]{2,}/i.test(t);
+  const pagoFuera = t => /\b(bizum|efectivo|transferencia|whatsapp|paypal|telegram)\b/.test(norm(t));
+  const lista = l => l.length > 1 ? l.slice(0,-1).join(', ') + ' y ' + l[l.length-1] : (l[0]||'');
+  function modoTxt(){
+    const l = ['domicilio','local','online'].filter(tiene).map((m,i) => i ? MODOS[m][0].toLowerCase() + MODOS[m].slice(1) : MODOS[m]);
+    if(l.length < 2) return l[0] || '';
+    const u = l.pop(); return l.join(', ') + (/^o/i.test(u) ? ' u ' : ' o ') + u;
+  }
+  function zonaTxt(){
+    if(soloOnline()) return 'Online · toda España';
+    const p = st.poblacion.trim(); if(!p) return '';
+    return (tiene('domicilio') || !st.modos.length) ? `${p} · hasta ${st.radio} km` : p;
+  }
+  function diasTxt(){
+    const d = [...st.dias].sort((a,b)=>a-b);
+    if(!d.length) return '';
+    if(d.length === 7) return 'Todos los días';
+    if(d.join() === '0,1,2,3,4') return 'Lunes a viernes';
+    if(d.join() === '5,6') return 'Fines de semana';
+    const tramos = []; d.forEach(x => { const t = tramos[tramos.length-1]; if(t && x === t[1]+1) t[1] = x; else tramos.push([x,x]) });
+    const partes = []; tramos.forEach(([a,b]) => { if(b-a >= 2) partes.push(`${DN[a]} a ${DN[b]}`); else for(let i=a;i<=b;i++) partes.push(DN[i]) });
+    const t = lista(partes); return t[0].toUpperCase() + t.slice(1);
+  }
+  const franjasTxt = () => lista(FRANJAS.filter(f => st.franjas.includes(f[0])).map(f => f[3]));
+  const dispoTxt = () => [diasTxt(), franjasTxt()].filter(Boolean).join(' · ');
+  function precioCorto(){
+    if(st.tipo === 'consultar') return 'A consultar';
+    return precioOk() ? A.precioTxt({precio:importe(), unidad:UNIDAD[st.tipo]}) : '';
+  }
+
+  /* ---------- validación ---------- */
+  function errores(){
+    const e = {}, t = st.titulo.trim(), d = st.desc.trim();
+    if(t.length < 10) e.titulo = t ? `Un poco más: al menos 10 caracteres (llevas ${t.length}).` : 'Ponle un título a tu anuncio.';
+    else if(contacto(t)) e.titulo = 'Quita el teléfono o el correo: el contacto va siempre por el chat de Apaño.';
+    if(!st.cat) e.cat = 'Elige la categoría que mejor encaje.';
+    else if(!st.sub) e.sub = 'Elige una subcategoría.';
+    if(d.length < 40) e.desc = d ? `Cuéntalo un poco más: te faltan ${40 - d.length} caracteres.` : 'Describe tu servicio.';
+    else if(contacto(d)) e.desc = 'Quita el teléfono o el correo: el contacto va siempre por el chat de Apaño.';
+    if(st.tipo !== 'consultar' && !precioOk()) e.importe = !st.importe ? 'Pon el precio.' : isNaN(importe()) ? 'Escribe un importe válido, por ejemplo 35 o 35,50.' : 'El precio tiene que estar entre 1 € y 10.000 €.';
+    if(!st.modos.length) e.modos = 'Elige al menos una forma de hacerlo.';
+    if(!soloOnline() && st.poblacion.trim().length < 2) e.poblacion = 'Escribe la población donde trabajas.';
+    if(!st.dias.length) e.dias = 'Marca al menos un día.';
+    if(!st.franjas.length) e.franjas = 'Marca al menos una franja.';
+    if(!st.yo) e.yo = 'Tienes que confirmarlo para publicar.';
+    if(!st.pagos) e.pagos = 'Tienes que confirmarlo para publicar.';
+    return e;
+  }
+
+  /* ---------- sugerencia de categoría ---------- */
+  function sugiere(){
+    const t = norm(st.titulo); if(t.trim().length < 3) return null;
+    let mejor = null;
+    PISTAS.forEach(([cat, re, subs]) => {
+      re.lastIndex = 0; const m = [...t.matchAll(re)];
+      if(!m.length) return;
+      const c = {cat, n:m.length, pos:m[0].index, subs};
+      if(!mejor || c.n > mejor.n || (c.n === mejor.n && c.pos < mejor.pos)) mejor = c;
+    });
+    if(!mejor) return null;
+    const sub = (mejor.subs.find(([re]) => re.test(t)) || [])[1] || '';
+    return {cat:mejor.cat, sub};
+  }
+  function pintaSug(){
+    const caja = id('sug'), sg = sugiere();
+    const k = sg ? sg.cat + '|' + sg.sub : '';
+    const ver = sg && k !== ignorada && (sg.cat !== st.cat || (sg.sub && sg.sub !== st.sub && !st.sub));
+    if(!ver){ if(caja.innerHTML) caja.innerHTML = ''; caja.dataset.k = ''; return }
+    if(caja.dataset.k === k) return;
+    caja.dataset.k = k;
+    const c = A.categoria(sg.cat);
+    caja.innerHTML = `<div class="pg-subir-sug">
+      <span class="cat-ico" style="--c1:${c.c1};--c2:${c.c2}">${A.icCat(c.id,18)}</span>
+      <span class="crecer min0 pg-subir-sug-t"><small>Parece de</small><b>${c.n}${sg.sub ? ' · ' + sg.sub : ''}</b></span>
+      <button type="button" class="btn btn-p" data-sug="usar" aria-label="Usar ${c.n}${sg.sub ? ', ' + sg.sub : ''} como categoría">Usar</button>
+      <button type="button" class="ico-btn" data-sug="no" aria-label="Descartar la sugerencia">${A.icono('cerrar',16)}</button>
+    </div>`;
+  }
+
+  /* ---------- vista previa con A.tarjeta ---------- */
+  function ficha(){
+    const c = st.cat ? A.categoria(st.cat) : null;
+    return {id:'nuevo', t: esc(st.titulo.trim()) || 'El título de tu anuncio', u:s.id, cat: st.cat || 'hogar', sub: st.sub || (c ? c.n : ''),
+      precio: precioOk() ? importe() : 0, unidad: UNIDAD[st.tipo] || 'servicio', dest:false, urg:false, foto: fotos[0] ? fotos[0].url : undefined};
+  }
+  function pintaCarta(caja){
+    if(!caja) return;
+    const viejo = caja.querySelector('.tarjeta-img > img');
+    caja.innerHTML = A.tarjeta(ficha());
+    const t = caja.querySelector('.tarjeta');
+    const img = t.querySelector('.tarjeta-img > img');
+    if(viejo && img && viejo.getAttribute('src') === img.getAttribute('src')) img.replaceWith(viejo);   // sin parpadeo al teclear
+    const zona = t.querySelector('.tarjeta-img');
+    if(!st.cat && !fotos.length){ const p = zona.querySelector('.portada'); if(p) p.outerHTML = `<span class="pg-subir-hueco">${ic('foto',26,1.6)}Elige categoría o sube una foto</span>` }
+    if(fotos.length > 1) zona.insertAdjacentHTML('beforeend', `<span class="pg-subir-nf">1/${fotos.length}</span>`);
+    const fav = t.querySelector('.tarjeta-fav'); if(fav) fav.remove();
+    const pr = t.querySelector('.tarjeta-precio');
+    if(st.tipo === 'consultar') pr.textContent = 'A consultar';
+    else if(!precioOk()) pr.innerHTML = '<span class="pg-subir-vacio">Tu precio</span>';
+    const ti = t.querySelector('.tarjeta-titulo'); ti.removeAttribute('href'); if(!st.titulo.trim()) ti.classList.add('pg-subir-vacio');
+    t.setAttribute('inert', '');
+  }
+  function metaHTML(){
+    const f = (icono, txt, vacio) => `<li class="${txt ? '' : 'pg-subir-vacio'}">${icono}<span class="recorte recorte-1">${txt ? esc(txt) : vacio}</span></li>`;
+    return f(A.icono('casa',16), modoTxt(), 'Dónde lo haces') + f(A.icono('ubicacion',16), zonaTxt(), 'Tu zona') + f(ic('cal',16), dispoTxt(), 'Cuándo estás disponible');
+  }
+  const pon = (el, html) => { if(el && el._h !== html){ el.innerHTML = html; el._h = html } };
+
+  /* ---------- pintar todo lo que depende del estado ---------- */
+  function pinta(){
+    const e = errores();
+    /* contadores */
+    const lt = st.titulo.length, ld = st.desc.length;
+    const ct = id('c-titulo'); ct.textContent = lt + '/70'; ct.className = 'pg-subir-cont' + (lt >= 70 ? ' tope' : lt >= 60 ? ' cerca' : '');
+    const cd = id('c-desc'); cd.textContent = (ld >= 1000 ? '1.000' : ld) + '/1.000'; cd.className = 'pg-subir-cont' + (ld >= 1000 ? ' tope' : ld >= 900 ? ' cerca' : '');
+    /* errores visibles: al salir del campo o al intentar publicar */
+    ORDEN.forEach(f => {
+      const m = (intento || tocado.has(f)) ? (e[f] || '') : '';
+      const pe = id(ERR[f]); if(pe.textContent !== m) pe.textContent = m; pe.hidden = !m;
+      const c = id(CTL[f]); if(m) c.setAttribute('aria-invalid','true'); else c.removeAttribute('aria-invalid');
+    });
+    /* bloques y progreso */
+    const hecho = BLOQUES.map((b,i) => i === 0 ? fotos.length > 0 : b.campos.every(c => !e[c]));
+    BLOQUES.forEach((b,i) => id(b.id).classList.toggle('hecho', hecho[i]));
+    const listo = hecho.slice(1).every(Boolean);
+    const act = (activo != null && !hecho[activo]) ? activo : hecho.findIndex((h,i) => i > 0 && !h);
+    $$('[data-progreso]').forEach(p => Array.from(p.children).forEach((sp,i) => { sp.className = hecho[i] ? 'hecho' : (i === act ? 'activo' : '') }));
+    const nh = hecho.filter(Boolean).length, faltan = hecho.slice(1).filter(h => !h).length;
+    id('estado-n').textContent = `${nh} de 6`;
+    id('estado-t').textContent = listo ? 'Listo para publicar' : 'Tu anuncio';
+    id('estado-t').classList.toggle('pg-subir-listo', listo);
+    pon(id('lista'), BLOQUES.map((b,i) => `<li data-e="${hecho[i] ? 'hecho' : (i === 0 ? 'opcional' : 'falta')}"><a href="#${b.id}"><span class="pg-subir-li">${hecho[i] ? A.icono('check',12) : i+1}</span>${b.n}${i === 0 && !hecho[0] ? ' <span class="xs ter">· opcional</span>' : ''}</a></li>`).join(''));
+    const bt = id('barra-txt');
+    bt.textContent = listo ? 'Todo listo para publicar' : `Te ${faltan === 1 ? 'falta 1 paso' : 'faltan ' + faltan + ' pasos'} · ${nh} de 6`;
+    bt.classList.toggle('pg-subir-listo', listo);
+    $$('[data-publicar]').forEach(b => {
+      if(enviando) return;
+      b.setAttribute('aria-disabled', String(!listo));
+      if(listo && !eraListo && !quieto){ b.classList.remove('pg-subir-pop'); void b.offsetWidth; b.classList.add('pg-subir-pop') }
+    });
+    eraListo = listo;
+    /* precio */
+    pon(id('calc'), calcHTML());
+    /* dónde */
+    const so = soloOnline();
+    id('zona-g').hidden = so;
+    id('campo-radio').hidden = st.modos.length > 0 && !tiene('domicilio');
+    id('solo-online').hidden = !so;
+    id('l-pob').textContent = (tiene('local') && !tiene('domicilio')) ? 'Dónde está tu local' : 'Población';
+    /* ayudas */
+    pintaSug();
+    pintaIdeas();
+    id('aviso-pagos').hidden = !pagoFuera(st.titulo + ' ' + st.desc);
+    pintaMinis();
+    /* vista previa y resumen */
+    pintaCarta(id('carta')); pintaCarta(id('carta-m'));
+    pon(id('meta'), metaHTML());
+    pon(id('resumen'), resumenHTML());
+  }
+  function calcHTML(){
+    if(st.tipo === 'consultar'){
+      const ej = 50, p = prot(ej);
+      return `<span class="pg-subir-calc-t">Acordaréis el precio por el chat</span>
+        <p class="sm sec">Cuando el cliente pague, abonará además la protección del pago y tú recibirás el importe acordado íntegro.</p>
+        <div class="pg-subir-linea"><span>Ejemplo: servicio de ${A.eur(ej)}</span><span class="num">el cliente paga ${A.eur(r2(ej + p))}</span></div>
+        <div class="pg-subir-recibes"><span class="negrita">Tú recibirías</span><span class="cifra">${A.eur(ej)}</span></div>`;
+    }
+    const ok = precioOk(), n = importe(), p = ok ? prot(n) : 0;
+    const u = st.tipo === 'hora' ? ' por hora' : '';
+    const d = st.tipo === 'desde' ? '<small>desde </small>' : '';
+    return `<div class="pg-subir-linea"><span>Tu precio${u}</span><span class="num">${ok ? A.eur(n) : '—'}</span></div>
+      <div class="pg-subir-linea"><span>Protección del pago <span class="ter">· la paga el cliente</span></span><span class="num">${ok ? '+ ' + A.eur(p) : '5 % + 0,99 €'}</span></div>
+      <div class="pg-subir-linea"><span>El cliente paga${u}</span><span class="num">${ok ? A.eur(r2(n + p)) : '—'}</span></div>
+      <div class="pg-subir-recibes${ok ? '' : ' pg-subir-sin'}"><span class="col"><span class="negrita">Tú recibes${u}</span><span class="xs sec">${st.tipo === 'desde' ? 'Íntegro, y lo mismo si acordáis más' : 'Íntegro, sin comisiones'}</span></span><span class="cifra">${ok ? d + A.eur(n) : '— €'}</span></div>`;
+  }
+  function resumenHTML(){
+    const c = st.cat ? A.categoria(st.cat) : null;
+    const falta = '<span class="insignia insignia-avisa">Falta</span>';
+    const fila = (k, v, ancla) => `<div><dt>${k}</dt><dd><span>${v || falta}</span><a class="enlace xs" href="#${ancla}" aria-label="Editar ${k.toLowerCase()}">Editar</a></dd></div>`;
+    const pc = precioCorto();
+    return fila('Título', esc(st.titulo.trim()), 'b-que')
+      + fila('Categoría', c ? c.n + (st.sub ? ' · ' + st.sub : '') : '', 'b-que')
+      + fila('Precio', pc ? esc(pc) + (precioOk() && st.tipo !== 'consultar' ? ` <span class="sec">· recibes ${A.eur(importe())}</span>` : '') : '', 'b-precio')
+      + fila('Dónde', [modoTxt(), zonaTxt()].filter(Boolean).map(esc).join(' · '), 'b-donde')
+      + fila('Cuándo', esc(dispoTxt()), 'b-donde')
+      + fila('Fotos', fotos.length ? fotos.length + (fotos.length === 1 ? ' foto' : ' fotos') : '<span class="sec">Portada ilustrada</span>', 'b-fotos');
+  }
+  function pintaMinis(){
+    const k = st.cat || '';
+    const caja = id('minis'); if(caja.dataset.k === k && caja.innerHTML) return;
+    caja.dataset.k = k;
+    const cats = k ? [k] : ['hogar','mascotas','clases'];
+    caja.innerHTML = cats.map((c,i) => `<span class="pg-subir-mini">${A.portada({id:'m'+i+c, cat:c, sub:''})}</span>`).join('');
+    id('sinfoto-txt').textContent = k
+      ? `Si no subes fotos, usaremos una portada ilustrada de ${A.categoria(k).n}, como esta.`
+      : 'Si no subes fotos, usaremos una portada ilustrada de tu categoría, como estas.';
+  }
+  function pintaIdeas(){
+    const base = IDEAS[st.cat] || ['Desplazamiento incluido','Presupuesto sin compromiso','Material básico'];
+    const l = base.filter(x => !st.incluye.some(y => norm(y) === norm(x))).slice(0, 4);
+    pon(id('ideas'), st.incluye.length >= 8 || !l.length ? '' : '<span class="xs ter">Ideas:</span>' + l.map(x => `<button type="button" class="chip pg-subir-idea" data-idea="${esc(x)}">${A.icono('mas',14)}${esc(x)}</button>`).join(''));
+  }
+  function pintaInc(){
+    const ul = id('inc');
+    ul.innerHTML = st.incluye.map((x,i) => `<li>${A.icono('check',16)}<span class="crecer min0">${esc(x)}</span><button type="button" class="ico-btn" data-quita="${i}" aria-label="Quitar «${esc(x)}»">${A.icono('cerrar',16)}</button></li>`).join('');
+    ul.hidden = !st.incluye.length;
+  }
+  function pintaSubs(){
+    const c = st.cat ? A.categoria(st.cat) : null;
+    id('g-sub').hidden = !c; if(!c) return;
+    id('t-sub-cat').textContent = '· ' + c.n;
+    id('subs').innerHTML = c.sub.map(x => `<button type="button" class="chip" data-sub="${x}" aria-pressed="${x === st.sub}">${x}</button>`).join('');
+  }
+  function tipoUI(){
+    $$('[data-tipo]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.tipo === st.tipo)));
+    id('campo-importe').hidden = st.tipo === 'consultar';
+    id('l-importe').textContent = {hora:'Precio por hora', servicio:'Precio del servicio', desde:'Precio mínimo'}[st.tipo] || 'Precio';
+    id('suf-importe').textContent = st.tipo === 'hora' ? '/hora' : '';
+  }
+  function radioUI(){
+    const v = +st.radio, r = id('f-radio');
+    r.style.setProperty('--p', ((v - 1) / 49 * 100) + '%');
+    r.setAttribute('aria-valuetext', v + (v === 1 ? ' kilómetro' : ' kilómetros'));
+    id('o-radio').textContent = v + ' km';
+    id('a-radio').textContent = v <= 3 ? 'Tu barrio y alrededores' : v <= 10 ? 'Tu ciudad y alrededores' : v <= 25 ? 'Los pueblos de alrededor' : 'Largas distancias: tenlo en cuenta en el precio';
+  }
+
+  /* ---------- fotos ---------- */
+  function pintaFotos(foco){
+    const n = fotos.length, ul = id('fotos');
+    id('zona').hidden = n > 0 || cargando > 0;
+    ul.hidden = !(n || cargando);
+    ul.innerHTML = fotos.map((f,i) => `<li class="pg-subir-foto" draggable="true" data-i="${i}">
+        <img src="${f.url}" alt="Foto ${i+1} de ${n}${i === 0 ? ', portada' : ''}" draggable="false">
+        ${i === 0 ? '<span class="insignia insignia-sol pg-subir-portada">Portada</span>' : `<button type="button" class="pg-subir-fbtn pg-subir-estrella" data-acc="portada" aria-label="Usar la foto ${i+1} como portada">${A.icono('estrella',15)}</button>`}
+        <button type="button" class="pg-subir-fbtn pg-subir-quitar" data-acc="borrar" aria-label="Borrar la foto ${i+1}">${A.icono('cerrar',14)}</button>
+        <button type="button" class="pg-subir-fbtn pg-subir-izq" data-acc="izq" aria-label="Mover la foto ${i+1} a la izquierda"${i === 0 ? ' disabled' : ''}>${ic('izq',16,2.2)}</button>
+        <button type="button" class="pg-subir-fbtn pg-subir-der" data-acc="der" aria-label="Mover la foto ${i+1} a la derecha"${i === n-1 ? ' disabled' : ''}>${ic('der',16,2.2)}</button>
+      </li>`).join('')
+      + '<li class="pg-subir-foto esqueleto" aria-hidden="true"></li>'.repeat(cargando)
+      + (n + cargando < 8 ? `<li><label class="subida pg-subir-mas" for="f-fotos">${A.icono('mas',22)}<span>Añadir</span><span class="ayuda num">${n + cargando}/8</span></label></li>` : '');
+    id('n-fotos').textContent = n ? n + '/8' : 'Opcional';
+    id('sinfoto').hidden = n > 0;
+    if(foco){
+      const li = ul.querySelector(`[data-i="${foco.i}"]`);
+      const b = li && (li.querySelector(`[data-acc="${foco.acc}"]:not([disabled])`) || li.querySelector('button:not([disabled])'));
+      (b || id('f-fotos')).focus();
+    }
+    pinta();
+  }
+  function leeFoto(file){
+    return new Promise((ok, mal) => {
+      const fr = new FileReader();
+      fr.onerror = () => mal();
+      fr.onload = () => {
+        const img = new Image();
+        img.onerror = () => mal();
+        img.onload = () => {
+          try{
+            const k = Math.min(1, 1200 / Math.max(img.naturalWidth, img.naturalHeight));
+            if(k === 1 && file.size < 700*1024) return ok(fr.result);
+            const c = document.createElement('canvas');
+            c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+            c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+            ok(file.type === 'image/png' ? c.toDataURL('image/png') : c.toDataURL('image/jpeg', .86));
+          }catch(err){ ok(fr.result) }
+        };
+        img.src = fr.result;
+      };
+      fr.readAsDataURL(file);
+    });
+  }
+  async function anade(lista){
+    const todos = Array.from(lista || []);
+    const imgs = todos.filter(f => /^image\//.test(f.type));
+    if(todos.length && !imgs.length){ A.avisa('Solo se pueden subir imágenes', 'mal'); return }
+    const hueco = 8 - fotos.length - cargando;
+    if(hueco <= 0){ A.avisa('Ya tienes 8 fotos, el máximo', 'mal'); return }
+    let cola = imgs.slice(0, hueco);
+    if(imgs.length > hueco) A.avisa(`Máximo 8 fotos: hemos añadido ${hueco === 1 ? 'solo una' : 'las ' + hueco + ' primeras'}`, 'mal');
+    const grande = cola.find(f => f.size > 15*1024*1024);
+    if(grande){ A.avisa(`«${esc(grande.name)}» pesa más de 15 MB`, 'mal'); cola = cola.filter(f => f.size <= 15*1024*1024) }
+    if(!cola.length) return;
+    cargando += cola.length; pintaFotos();
+    let bien = 0;
+    for(const f of cola){
+      try{ const url = await leeFoto(f); fotos.push({id: ++nFoto, url}); bien++ }
+      catch(err){ A.avisa(`No hemos podido abrir «${esc(f.name)}». Prueba con JPG o PNG.`, 'mal') }
+      cargando--; pintaFotos();
+    }
+    if(bien) voz(`${bien === 1 ? 'Foto añadida' : bien + ' fotos añadidas'}. Tienes ${fotos.length} de 8.`);
+  }
+  function mueve(i, j){ const [f] = fotos.splice(i, 1); fotos.splice(j, 0, f) }
+
+  /* ---------- borrador (sin fotos) ---------- */
+  const CAMPOS_B = ['titulo','cat','sub','desc','incluye','tipo','importe','modos','poblacion','radio','dias','franjas'];
+  const vacio = () => !st.titulo.trim() && !st.desc.trim() && !st.cat && !st.importe && !st.incluye.length && !st.modos.length && !st.dias.length && !st.franjas.length;
+  function marcaGuardado(estado, texto){ id('guardado').dataset.estado = estado; id('guardado-txt').textContent = texto }
+  function programaGuardado(){
+    if(enviando) return;
+    marcaGuardado('guardando', 'Guardando…');
+    clearTimeout(tg);
+    tg = setTimeout(() => {
+      if(vacio() && !edita){ A.borra(CLAVE); marcaGuardado('nada', 'Borrador automático'); return }
+      const b = {f: new Date().toISOString()}; CAMPOS_B.forEach(k => b[k] = st[k]);
+      A.guarda(CLAVE, b);
+      marcaGuardado('guardado', 'Borrador guardado');
+    }, 650);
+  }
+  function cambia(guardar){ pinta(); if(guardar !== false) programaGuardado() }
+  function limpia(b){
+    const o = inicial(); if(!b || typeof b !== 'object') return o;
+    const txt = (v, max) => typeof v === 'string' ? v.slice(0, max) : '';
+    o.titulo = txt(b.titulo, 70); o.desc = txt(b.desc, 1000); o.importe = txt(b.importe, 9);
+    if(typeof b.poblacion === 'string') o.poblacion = b.poblacion.slice(0, 40);
+    if(A.categoria(b.cat)){ o.cat = b.cat; if(A.categoria(b.cat).sub.includes(b.sub)) o.sub = b.sub }
+    if(['hora','servicio','desde','consultar'].includes(b.tipo)) o.tipo = b.tipo;
+    if(Array.isArray(b.incluye)) o.incluye = b.incluye.filter(x => typeof x === 'string' && x.trim()).map(x => x.slice(0, 60)).slice(0, 8);
+    if(Array.isArray(b.modos)) o.modos = b.modos.filter(m => MODOS[m]);
+    if(Array.isArray(b.dias)) o.dias = [...new Set(b.dias.filter(d => Number.isInteger(d) && d >= 0 && d <= 6))];
+    if(Array.isArray(b.franjas)) o.franjas = b.franjas.filter(f => FRANJAS.some(x => x[0] === f));
+    const r = +b.radio; if(r >= 1 && r <= 50) o.radio = Math.round(r);
+    return o;
+  }
+  /* datos de un anuncio existente → estado del formulario */
+  function desdeAnuncio(a){
+    const m = norm(a.modo), d = norm(a.dispo), o = inicial();
+    o.titulo = a.t.slice(0, 70); o.cat = a.cat; o.sub = a.sub; o.desc = a.desc; o.incluye = (a.incluye || []).slice(0, 8);
+    o.tipo = a.unidad === 'hora' ? 'hora' : a.unidad === 'desde' ? 'desde' : 'servicio';
+    o.importe = String(a.precio).replace('.', ',');
+    if(/domicilio|presencial|aire libre/.test(m)) o.modos.push('domicilio');
+    if(/local|estudio|en mi casa/.test(m)) o.modos.push('local');
+    if(/online/.test(m)) o.modos.push('online');
+    const nd = ['lunes','martes','miercoles','jueves','viernes','sabado','domingo'];
+    const r = d.match(new RegExp(`(${nd.join('|')})s? a (${nd.join('|')})`));
+    if(/todos los dias|cualquier dia/.test(d)) o.dias = [0,1,2,3,4,5,6];
+    else if(r){ for(let i = nd.indexOf(r[1]); i <= nd.indexOf(r[2]); i++) o.dias.push(i) }
+    else nd.forEach((x,i) => { if(new RegExp(x).test(d)) o.dias.push(i) });
+    if(/fines? de semana/.test(d)) o.dias = [...new Set([...o.dias, 5, 6])];
+    if(/entre semana/.test(d)) o.dias = [...new Set([...o.dias, 0, 1, 2, 3, 4])];
+    if(/manana/.test(d)) o.franjas.push('manana');
+    if(/tarde/.test(d)) o.franjas.push('tarde');
+    if(/noche|2[0-3]:/.test(d)) o.franjas.push('noche');
+    return o;
+  }
+  function sincroniza(){
+    id('f-titulo').value = st.titulo;
+    $$('input[name="pg-cat"]').forEach(r => r.checked = r.value === st.cat);
+    pintaSubs();
+    id('f-desc').value = st.desc;
+    pintaInc();
+    tipoUI();
+    id('f-importe').value = st.importe;
+    $$('input[name="modo"]').forEach(c => c.checked = tiene(c.value));
+    id('f-pob').value = st.poblacion;
+    id('f-radio').value = st.radio; radioUI();
+    $$('[data-dia]').forEach(b => b.setAttribute('aria-pressed', String(st.dias.includes(+b.dataset.dia))));
+    $$('[data-franja]').forEach(b => b.setAttribute('aria-pressed', String(st.franjas.includes(b.dataset.franja))));
+    id('f-yo').checked = st.yo; id('f-pagos').checked = st.pagos;
+    pintaFotos();
+  }
+  const voz = t => { const v = id('pg-subir-voz'); v.textContent = ''; setTimeout(() => { v.textContent = t }, 40) };
+
+  /* ---------- montaje ---------- */
+  id('pg-subir-yo').innerHTML = `${A.avatar(s,'avatar-p')}<span>Publicas como <b>${esc(s.corto)}</b></span><span class="insignia insignia-ok">${A.icono('check',12)}Identidad verificada</span>`;
+  id('cats').innerHTML = A.CATEGORIAS.map(c => `<label class="pg-subir-cat"><input class="solo-lector" type="radio" name="pg-cat" value="${c.id}"><span class="cat-ico" style="--c1:${c.c1};--c2:${c.c2}">${A.icCat(c.id,22)}</span><span class="pg-subir-cat-n">${c.n}</span><span class="pg-subir-cat-ok" aria-hidden="true">${A.icono('check',12)}</span></label>`).join('');
+  id('dias').innerHTML = DIAS.map((d,i) => `<button type="button" class="chip" data-dia="${i}" aria-pressed="false" aria-label="${d[1]}" title="${d[1]}">${d[0]}</button>`).join('');
+  id('franjas').innerHTML = FRANJAS.map(f => `<button type="button" class="chip" data-franja="${f[0]}" aria-pressed="false"><span>${f[1]}</span><small>${f[2]}</small></button>`).join('');
+
+  const avisos = id('pg-subir-avisos');
+  if(s.rol === 'moderador' || s.rol === 'admin'){
+    avisos.insertAdjacentHTML('beforeend', `<div class="aviso aviso-avisa">${A.icono('escudo',18)}<span class="crecer min0"><b>Estás en una cuenta interna (${s.rol === 'admin' ? 'administración' : 'moderación'}).</b> Puedes publicar para pruebas y revisiones, pero los servicios reales se ofrecen desde una cuenta personal. El anuncio pasa la misma revisión que el de cualquiera.</span></div>`);
+  }
+  if(idEd && !edita){
+    avisos.insertAdjacentHTML('beforeend', `<div class="aviso">${A.icono('persona',18)}<span class="crecer min0">Solo puedes editar tus propios anuncios, así que empezamos uno nuevo.</span></div>`);
+  }
+  if(edita){
+    id('pg-subir-eti').textContent = 'Editar anuncio';
+    id('pg-subir-h1').textContent = 'Edita tu anuncio';
+    id('pg-subir-entra').textContent = 'Cambia lo que necesites. Al guardar, el anuncio vuelve a revisión unos minutos y sigue visible con la versión anterior.';
+    $$('[data-publicar]').forEach(b => b.textContent = 'Guardar cambios');
+  }
+
+  const borrador = A.lee(CLAVE, null);
+  if(borrador && typeof borrador === 'object' && borrador.f){
+    st = limpia(borrador);
+    const cuando = A.fechaCorta(borrador.f) + ', ' + A.hora(borrador.f);
+    avisos.insertAdjacentHTML('beforeend', `<div class="aviso aviso-marca" id="recup">${ic('reloj',18)}<span class="crecer min0">Hemos recuperado tu borrador del ${cuando}. <b>Las fotos no se guardan</b>: vuelve a añadirlas antes de publicar.</span><button class="btn btn-sec btn-p" type="button" id="de-cero">Empezar de cero</button></div>`);
+    marcaGuardado('guardado', 'Borrador guardado');
+  } else if(edita){
+    st = desdeAnuncio(editado);
+  }
+  sincroniza();
+
+  /* ---------- eventos ---------- */
+  const form = id('pg-subir-form');
+  form.addEventListener('submit', e => e.preventDefault());
+  form.addEventListener('focusin', e => {
+    const b = e.target.closest('.pg-subir-bloque'); if(!b) return;
+    const i = +b.dataset.b; if(i !== activo){ activo = i; pinta() }
+  });
+  const tocar = f => { if(!tocado.has(f)){ tocado.add(f); pinta() } };
+
+  id('f-titulo').addEventListener('input', e => { st.titulo = e.target.value; cambia() });
+  id('f-titulo').addEventListener('blur', () => { st.titulo = st.titulo.replace(/\s+/g, ' ').trim(); id('f-titulo').value = st.titulo; tocar('titulo'); pinta() });
+  id('sug').addEventListener('click', e => {
+    const b = e.target.closest('[data-sug]'); if(!b) return;
+    const sg = sugiere(); if(!sg) return;
+    if(b.dataset.sug === 'no'){ ignorada = sg.cat + '|' + sg.sub; pinta(); id('f-titulo').focus(); return }
+    const misma = st.cat === sg.cat;
+    st.cat = sg.cat; st.sub = sg.sub || (misma ? st.sub : '');
+    $$('input[name="pg-cat"]').forEach(r => r.checked = r.value === st.cat);
+    pintaSubs(); tocar('cat'); cambia();
+    const c = A.categoria(st.cat);
+    voz(`Categoría elegida: ${c.n}${st.sub ? ', ' + st.sub : ''}.`);
+    const destino = st.sub ? $('input[name="pg-cat"]:checked') : $('#subs .chip');
+    if(destino) destino.focus({preventScroll:true});
+  });
+  id('cats').addEventListener('change', e => {
+    if(e.target.name !== 'pg-cat') return;
+    const sg = sugiere(); if(sg && sg.cat !== e.target.value) ignorada = sg.cat + '|' + sg.sub;
+    st.cat = e.target.value; st.sub = '';
+    pintaSubs(); tocado.add('cat'); cambia();
+  });
+  id('subs').addEventListener('click', e => {
+    const b = e.target.closest('[data-sub]'); if(!b) return;
+    st.sub = b.dataset.sub;
+    $$('[data-sub]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+    tocado.add('sub'); cambia();
+  });
+
+  id('f-desc').addEventListener('input', e => { st.desc = e.target.value; cambia() });
+  id('f-desc').addEventListener('blur', () => tocar('desc'));
+  function anadeInc(txt){
+    txt = String(txt || '').replace(/\s+/g, ' ').trim();
+    if(txt.length < 2){ id('f-inc').focus(); return false }
+    if(st.incluye.length >= 8){ A.avisa('Como mucho 8 cosas en «Qué incluye»', 'mal'); return false }
+    if(st.incluye.some(y => norm(y) === norm(txt))){ A.avisa('Eso ya está en la lista', 'mal'); return false }
+    st.incluye.push(txt[0].toUpperCase() + txt.slice(1));
+    pintaInc(); cambia(); voz(`Añadido: ${txt}`);
+    return true;
+  }
+  id('b-inc').addEventListener('click', () => { if(anadeInc(id('f-inc').value)) id('f-inc').value = '' });
+  id('f-inc').addEventListener('keydown', e => { if(e.key === 'Enter'){ e.preventDefault(); if(anadeInc(e.target.value)) e.target.value = '' } });
+  id('ideas').addEventListener('click', e => { const b = e.target.closest('[data-idea]'); if(b){ anadeInc(b.dataset.idea); id('f-inc').focus({preventScroll:true}) } });
+  id('inc').addEventListener('click', e => {
+    const b = e.target.closest('[data-quita]'); if(!b) return;
+    const i = +b.dataset.quita, x = st.incluye[i];
+    st.incluye.splice(i, 1); pintaInc(); cambia(); voz(`Quitado: ${x}`);
+    const sig = $$('#inc [data-quita]')[Math.min(i, st.incluye.length - 1)];
+    (sig || id('f-inc')).focus();
+  });
+
+  id('tipo').addEventListener('click', e => {
+    const b = e.target.closest('[data-tipo]'); if(!b) return;
+    st.tipo = b.dataset.tipo; tipoUI(); cambia();
+  });
+  id('f-importe').addEventListener('input', e => {
+    const v = e.target.value.replace(/[^\d.,]/g, '');
+    if(v !== e.target.value) e.target.value = v;
+    st.importe = v; cambia();
+  });
+  id('f-importe').addEventListener('blur', e => {
+    if(precioOk()){ const n = importe(); st.importe = Number.isInteger(n) ? String(n) : n.toFixed(2).replace('.', ','); e.target.value = st.importe }
+    tocar('importe'); cambia();
+  });
+
+  id('modos').addEventListener('change', () => {
+    st.modos = $$('input[name="modo"]:checked').map(c => c.value);
+    tocado.add('modos'); cambia();
+  });
+  id('f-pob').addEventListener('input', e => { st.poblacion = e.target.value; cambia() });
+  id('f-pob').addEventListener('blur', () => tocar('poblacion'));
+  id('f-radio').addEventListener('input', e => { st.radio = +e.target.value; radioUI(); cambia() });
+  id('dias').addEventListener('click', e => {
+    const b = e.target.closest('[data-dia]'); if(!b) return;
+    const d = +b.dataset.dia, on = !st.dias.includes(d);
+    st.dias = on ? [...st.dias, d].sort((a,c) => a-c) : st.dias.filter(x => x !== d);
+    b.setAttribute('aria-pressed', String(on)); tocado.add('dias'); cambia();
+  });
+  $$('[data-atajo]').forEach(b => b.addEventListener('click', () => {
+    st.dias = b.dataset.atajo.split(',').map(Number);
+    $$('[data-dia]').forEach(x => x.setAttribute('aria-pressed', String(st.dias.includes(+x.dataset.dia))));
+    tocado.add('dias'); cambia(); voz(`Días: ${diasTxt()}.`);
+  }));
+  id('franjas').addEventListener('click', e => {
+    const b = e.target.closest('[data-franja]'); if(!b) return;
+    const f = b.dataset.franja, on = !st.franjas.includes(f);
+    st.franjas = FRANJAS.map(x => x[0]).filter(x => x === f ? on : st.franjas.includes(x));
+    b.setAttribute('aria-pressed', String(on)); tocado.add('franjas'); cambia();
+  });
+  id('f-yo').addEventListener('change', e => { st.yo = e.target.checked; tocado.add('yo'); cambia(false) });
+  id('f-pagos').addEventListener('change', e => { st.pagos = e.target.checked; tocado.add('pagos'); cambia(false) });
+
+  /* fotos: elegir, soltar, ordenar */
+  id('f-fotos').addEventListener('change', e => { anade(e.target.files); e.target.value = '' });
+  const conArchivos = e => !!(e.dataTransfer && Array.from(e.dataTransfer.types || []).includes('Files'));
+  addEventListener('dragover', e => { if(conArchivos(e)) e.preventDefault() });   // que soltar fuera no saque de la página
+  addEventListener('drop', e => { if(conArchivos(e)) e.preventDefault() });
+  const bf = id('b-fotos');
+  const sinEncima = () => { bf.classList.remove('pg-subir-encima'); id('zona').classList.remove('encima') };
+  bf.addEventListener('dragover', e => { if(!conArchivos(e)) return; e.preventDefault(); e.dataTransfer.dropEffect = 'copy'; bf.classList.add('pg-subir-encima'); id('zona').classList.add('encima') });
+  bf.addEventListener('dragleave', e => { if(!bf.contains(e.relatedTarget)) sinEncima() });
+  bf.addEventListener('drop', e => { if(!conArchivos(e)) return; e.preventDefault(); sinEncima(); anade(e.dataTransfer.files) });
+  const ulF = id('fotos');
+  let arrastre = null;
+  const quitaMarcas = () => $$('.pg-subir-foto', ulF).forEach(li => li.classList.remove('destino', 'arrastrando'));
+  ulF.addEventListener('dragstart', e => {
+    const li = e.target.closest('.pg-subir-foto[data-i]'); if(!li) return;
+    arrastre = +li.dataset.i; e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', 'foto ' + arrastre);
+    li.classList.add('arrastrando');
+  });
+  ulF.addEventListener('dragover', e => {
+    if(arrastre == null) return;
+    const li = e.target.closest('.pg-subir-foto[data-i]'); if(!li) return;
+    e.preventDefault(); e.dataTransfer.dropEffect = 'move';
+    $$('.pg-subir-foto.destino', ulF).forEach(x => { if(x !== li) x.classList.remove('destino') });
+    if(+li.dataset.i !== arrastre) li.classList.add('destino');
+  });
+  ulF.addEventListener('drop', e => {
+    if(arrastre == null) return;
+    e.preventDefault(); e.stopPropagation();
+    const li = e.target.closest('.pg-subir-foto[data-i]');
+    if(li && +li.dataset.i !== arrastre){ const j = +li.dataset.i; mueve(arrastre, j); voz(`Foto movida a la posición ${j+1}.`); arrastre = null; pintaFotos(); return }
+    arrastre = null; quitaMarcas();
+  });
+  ulF.addEventListener('dragend', () => { arrastre = null; quitaMarcas() });
+  ulF.addEventListener('click', e => {
+    const b = e.target.closest('[data-acc]'); if(!b) return;
+    const i = +b.closest('[data-i]').dataset.i, acc = b.dataset.acc;
+    if(acc === 'izq' && i > 0){ mueve(i, i-1); voz(`Foto movida a la posición ${i}.`); pintaFotos({i:i-1, acc}) }
+    else if(acc === 'der' && i < fotos.length-1){ mueve(i, i+1); voz(`Foto movida a la posición ${i+2}.`); pintaFotos({i:i+1, acc}) }
+    else if(acc === 'portada'){ mueve(i, 0); voz('Nueva portada elegida.'); pintaFotos({i:0, acc:'der'}) }
+    else if(acc === 'borrar'){
+      fotos.splice(i, 1);
+      voz(`Foto borrada. ${fotos.length ? 'Quedan ' + fotos.length + '.' : 'Usaremos la portada ilustrada.'}`);
+      pintaFotos(fotos.length ? {i:Math.min(i, fotos.length-1), acc:'borrar'} : {i:-1});
+    }
+  });
+
+  /* vista previa en móvil */
+  id('ver-previa').addEventListener('click', () => {
+    A.dialogo(`<div class="dialogo-cuerpo col g16 pg-subir-dlg">
+      <div class="col g4" style="padding-right:44px"><span class="etiqueta">Vista previa</span><h2 class="h2">Así te verán en Apaño</h2></div>
+      <div class="pg-subir-escena">
+        <div class="pg-subir-fantasma" aria-hidden="true"><span></span><i></i><i></i></div>
+        <div class="pg-subir-carta" data-carta-dlg></div>
+        <div class="pg-subir-fantasma" aria-hidden="true"><span></span><i></i><i></i></div>
+      </div>
+      <ul class="pg-subir-meta">${metaHTML()}</ul>
+      <button class="btn btn-bloque" type="button" data-cerrar>Seguir editando</button>
+    </div>`, {ancho:440, alAbrir: capa => pintaCarta(capa.querySelector('[data-carta-dlg]'))});
+  });
+
+  /* empezar de cero */
+  avisos.addEventListener('click', e => {
+    if(!e.target.closest('#de-cero')) return;
+    A.dialogo(`<div class="dialogo-cuerpo col g16" style="padding-top:26px">
+      <h2 class="h2">¿Empezar de cero?</h2>
+      <p class="sec">Borraremos el borrador guardado y el formulario quedará vacío. No se puede deshacer.</p>
+      <div class="fila g10"><button class="btn btn-peligro" type="button" data-borra-borrador>Sí, borrar borrador</button><button class="btn btn-sec" type="button" data-cerrar>Mejor no</button></div>
+    </div>`, {alAbrir: (capa, cerrar) => capa.querySelector('[data-borra-borrador]').addEventListener('click', () => {
+      cerrar(); clearTimeout(tg); A.borra(CLAVE);
+      st = edita ? desdeAnuncio(editado) : inicial();
+      fotos.length = 0; tocado.clear(); intento = false; ignorada = '';
+      const r = id('recup'); if(r) r.remove();
+      sincroniza(); marcaGuardado('nada', 'Borrador automático');
+      A.avisa('Borrador descartado'); id('f-titulo').focus();
+    })});
+  });
+
+  /* publicar */
+  function publicar(){
+    if(enviando) return;
+    intento = true;
+    const e = errores();
+    pinta();
+    const f = ORDEN.find(k => e[k]);
+    if(f){
+      const n = ORDEN.filter(k => e[k]).length;
+      const c = id(CTL[f]);
+      const obj = c.matches('input,textarea,button') ? c : (c.querySelector('input:checked, input, [aria-pressed="false"], button') || c);
+      (obj.closest('.campo') || obj).scrollIntoView({behavior: quieto ? 'auto' : 'smooth', block:'center'});
+      setTimeout(() => obj.focus({preventScroll:true}), quieto ? 0 : 380);
+      A.avisa(n === 1 ? 'Te falta 1 cosa por completar' : `Te faltan ${n} cosas por completar`, 'mal');
+      return;
+    }
+    if(!A.exige('publicar')) return;
+    enviando = true; clearTimeout(tg);
+    $$('[data-publicar]').forEach(b => { b.textContent = edita ? 'Guardando…' : 'Publicando…'; b.setAttribute('aria-busy', 'true'); b.setAttribute('aria-disabled', 'true') });
+    setTimeout(exito, quieto ? 150 : 900);
+  }
+  $$('[data-publicar]').forEach(b => b.addEventListener('click', publicar));
+
+  function exito(){
+    A.borra(CLAVE);
+    const titulo = st.titulo.trim();
+    const slug = norm(titulo).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 48) + '-' + Date.now().toString(36).slice(-4);
+    const url = 'https://apano.example/a/' + slug;
+    const COL = ['var(--marca)','var(--sol)','var(--ok)','var(--mal)','var(--marca-borde)','var(--sol)'];
+    const chispas = Array.from({length:18}, (_,i) => {
+      const a = i / 18 * Math.PI * 2 + (i % 2 ? .18 : -.12), d = 64 + (i * 29 % 46);
+      return `<i style="--x:${Math.round(Math.cos(a)*d)}px;--y:${Math.round(Math.sin(a)*d)}px;--r:${(i*67)%360}deg;--c:${COL[i%6]}"></i>`;
+    }).join('');
+    const recibe = st.tipo === 'consultar' ? 'el importe que acordéis, íntegro' : `${st.tipo === 'desde' ? 'desde ' : ''}${A.eur(importe())}${st.tipo === 'hora' ? ' por hora' : ''}, íntegros`;
+    const minimo = (A.DESTACADOS || []).reduce((m, d) => Math.min(m, d.precio), Infinity);
+    $('#contenido').innerHTML = `<section class="contenedor pg-subir-exito" aria-labelledby="exito-t">
+      <span class="pg-subir-sello-ok"><span class="pg-subir-chispas" aria-hidden="true">${chispas}</span><span class="pg-subir-ok">${ic('check',40,2.6).replace('<path', '<path pathLength="24"')}</span></span>
+      <span class="insignia insignia-avisa">${ic('reloj',13,2.2)}En revisión</span>
+      <h1 class="h1" id="exito-t" tabindex="-1">${edita ? '¡Cambios enviados!' : '¡Anuncio enviado!'}</h1>
+      <p class="entradilla">Tu anuncio está en revisión: lo verás publicado en unos minutos.</p>
+      <div class="pg-subir-escena pg-subir-escena-fin">
+        <div class="pg-subir-fantasma" aria-hidden="true"><span></span><i></i><i></i></div>
+        <div class="pg-subir-carta" id="carta-fin"></div>
+        <div class="pg-subir-fantasma" aria-hidden="true"><span></span><i></i><i></i></div>
+      </div>
+      <div class="pg-subir-exito-acc">
+        <a class="btn btn-g" href="servicios.html">Ver mis servicios</a>
+        <button class="btn btn-sec btn-g" type="button" id="compartir">${ic('compartir',18)}Compartir</button>
+      </div>
+      <a class="enlace sm" href="subir.html">Subir otro anuncio</a>
+      <div class="bloque bloque-sup pg-subir-luego">
+        <h2 class="h3">Qué pasa ahora</h2>
+        <ol>
+          <li><span><b>Lo revisamos.</b> Comprobamos que cumple las normas de Apaño; suele tardar unos minutos.</span></li>
+          <li><span><b>Te avisamos en el buzón</b> cuando esté publicado y cada vez que alguien te escriba.</span></li>
+          <li><span><b>Cobras con Pago protegido.</b> El cliente paga al contratar y tú recibes ${recibe} cuando confirma que el servicio está hecho.</span></li>
+        </ol>
+      </div>
+      ${isFinite(minimo) ? `<a class="bloque pg-subir-mas-visitas" href="destacar.html"><span class="pg-subir-estr">${A.icono('estrella',20)}</span><span class="col g4 crecer min0"><b>¿Quieres más visitas?</b><span class="xs sec">Cuando esté publicado podrás destacarlo desde ${A.eur(minimo)}.</span></span>${ic('der',18)}</a>` : ''}
+    </section>`;
+    pintaCarta(id('carta-fin'));
+    scrollTo({top:0, behavior:'auto'});
+    id('exito-t').focus({preventScroll:true});
+    id('compartir').addEventListener('click', async () => {
+      const datos = {title: titulo, text: `${titulo} · ${precioCorto()} en Apaño`, url};
+      if(navigator.share){ try{ await navigator.share(datos) }catch(err){} return }
+      try{ await navigator.clipboard.writeText(url); A.avisa('Enlace copiado: funcionará en cuanto esté publicado') }
+      catch(err){ A.avisa('No hemos podido copiar el enlace', 'mal') }
+    });
+  }
+};
+</script>

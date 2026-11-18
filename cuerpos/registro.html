@@ -1,0 +1,1201 @@
+<!-- titulo: Crear cuenta | desc: Date de alta en Apaño en seis pasos con tu móvil, tu DNI, NIE o pasaporte y un selfie. Solo para mayores de 18 años. -->
+<style>
+.pg-reg{ position:relative; isolation:isolate; overflow-x:clip }
+.pg-reg::before{ content:""; position:absolute; z-index:-1; inset:0 0 auto; height:440px; pointer-events:none;
+  background:radial-gradient(60% 100% at 50% 0%, color-mix(in srgb,var(--marca) 10%,transparent), transparent 72%) }
+.pg-reg-env{ padding-block:14px 32px }
+.pg-reg-rej{ display:grid; grid-template-columns:minmax(0,1fr); gap:32px; max-width:480px; margin-inline:auto }
+.pg-reg-col{ min-width:0 }
+@media (min-width:920px){
+  .pg-reg-env{ padding-block:36px 24px }
+  .pg-reg-rej{ max-width:none; grid-template-columns:480px 320px; justify-content:center; gap:40px; align-items:start }
+  .pg-reg-col{ background:var(--fondo); border:1px solid var(--linea); border-radius:var(--r-xl); box-shadow:var(--sombra-2); padding:24px 32px 30px }
+  .pg-reg-lado{ position:sticky; top:calc(var(--cab) + 24px) }
+}
+/* cabecera de pasos */
+.pg-reg-cab{ display:flex; flex-direction:column; gap:14px; margin-bottom:22px }
+.pg-reg-cab-fila{ display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:36px }
+.pg-reg-atras{ padding:0 14px 0 8px; gap:3px }
+.pg-reg-cuenta{ font-size:var(--t-sm); color:var(--tinta-3); font-weight:600; text-align:right }
+.pg-reg-cuenta b{ color:var(--tinta) }
+/* escena y transición entre pasos */
+.pg-reg-escena{ position:relative }
+.pg-reg-paso{ display:flex; flex-direction:column; gap:20px }
+.pg-reg-paso.entra-adelante{ animation:pg-reg-de-der .42s var(--ease) both }
+.pg-reg-paso.entra-atras{ animation:pg-reg-de-izq .42s var(--ease) both }
+.pg-reg-sale{ position:absolute; top:0; left:0; right:0; pointer-events:none }
+.pg-reg-sale.adelante{ animation:pg-reg-a-izq .28s ease-in both }
+.pg-reg-sale.atras{ animation:pg-reg-a-der .28s ease-in both }
+@keyframes pg-reg-de-der{ from{ opacity:0; transform:translateX(40px) } }
+@keyframes pg-reg-de-izq{ from{ opacity:0; transform:translateX(-40px) } }
+@keyframes pg-reg-a-izq{ to{ opacity:0; transform:translateX(-40px) } }
+@keyframes pg-reg-a-der{ to{ opacity:0; transform:translateX(40px) } }
+.pg-reg-tit{ display:flex; flex-direction:column; gap:8px }
+.pg-reg-tit h1{ font-size:clamp(1.7rem,6.4vw,2.1rem); outline:none }
+.pg-reg-tit p{ color:var(--tinta-2) }
+.pg-reg fieldset{ border:0; margin:0; padding:0; min-width:0 }
+.pg-reg legend{ padding:0; margin-bottom:7px; font-size:var(--t-sm); font-weight:600; color:var(--tinta) }
+.pg-reg-ok{ display:flex; align-items:center; gap:5px; font-size:var(--t-xs); font-weight:600; color:var(--ok) }
+.pg-reg-ok[hidden]{ display:none }
+/* acción principal: al alcance del pulgar */
+.pg-reg-acc{ position:sticky; bottom:0; z-index:5; margin-top:2px; padding:12px 0 14px;
+  background:linear-gradient(to top, var(--fondo) 72%, color-mix(in srgb,var(--fondo) 0%,transparent)) }
+@media (max-width:860px){ .pg-reg-acc{ bottom:calc(var(--barra) + env(safe-area-inset-bottom,0px)) } }
+@media (min-width:920px){ .pg-reg-acc{ position:static; background:none; padding:4px 0 0 } }
+.pg-reg-acc .btn svg{ transition:transform .2s var(--ease) }
+.pg-reg-acc .btn:hover svg{ transform:translateX(3px) }
+/* paso 1 */
+.pg-reg-necesitas{ display:flex; flex-wrap:wrap; gap:6px }
+.pg-reg-necesitas span{ display:inline-flex; align-items:center; gap:6px; height:30px; padding:0 11px 0 9px; border-radius:99px; background:var(--sup); font-size:var(--t-xs); font-weight:600; color:var(--tinta-2) }
+.pg-reg-necesitas svg{ color:var(--marca) }
+.pg-reg-pref{ position:relative }
+.pg-reg-pref>span{ position:absolute; left:15px; top:50%; translate:0 -50%; padding-right:11px; border-right:1.5px solid var(--linea-2); font-weight:600; color:var(--tinta-2); pointer-events:none; line-height:1.2 }
+.pg-reg-pref .ent{ padding-left:64px; font-variant-numeric:tabular-nums }
+.pg-reg-clave{ position:relative }
+.pg-reg-clave .ent{ padding-right:54px }
+.pg-reg-clave .ico-btn{ position:absolute; right:4px; top:4px }
+.pg-reg-fuerza{ display:grid; grid-template-columns:repeat(4,1fr); gap:5px; margin-top:2px }
+.pg-reg-fuerza i{ height:5px; border-radius:9px; background:var(--sup-3); transition:background .3s var(--ease) }
+.pg-reg-fuerza[data-n="1"] i:nth-child(1){ background:var(--mal) }
+.pg-reg-fuerza[data-n="2"] i:nth-child(-n+2){ background:var(--avisa) }
+.pg-reg-fuerza[data-n="3"] i:nth-child(-n+3),.pg-reg-fuerza[data-n="4"] i{ background:var(--ok) }
+.pg-reg-fuerza-txt{ display:flex; justify-content:space-between; gap:12px; font-size:var(--t-xs); color:var(--tinta-3); line-height:1.45 }
+.pg-reg-fuerza-txt b{ flex:0 0 auto; font-weight:700 }
+.pg-reg-fuerza-txt b[data-n="1"]{ color:var(--mal) } .pg-reg-fuerza-txt b[data-n="2"]{ color:var(--avisa) } .pg-reg-fuerza-txt b[data-n="3"],.pg-reg-fuerza-txt b[data-n="4"]{ color:var(--ok) }
+.pg-reg-casillas{ display:flex; flex-direction:column; gap:12px }
+.pg-reg-casillas .casilla input[aria-invalid="true"]{ outline:2px solid var(--mal); outline-offset:2px; border-radius:4px }
+/* paso 2: código */
+.pg-reg-codigo{ display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:8px; max-width:372px }
+.pg-reg-cifra{ width:100%; min-width:0; height:60px; padding:0; text-align:center; border-radius:14px; border:1.5px solid var(--linea-2); background:var(--fondo);
+  font:700 1.6rem/1 var(--display); color:var(--tinta); caret-color:var(--marca); transition:border-color .16s, box-shadow .16s, background .25s, color .25s }
+.pg-reg-cifra:hover{ border-color:var(--tinta-3) }
+.pg-reg-cifra:focus{ outline:none; border-color:var(--marca); box-shadow:0 0 0 4px var(--marca-sup) }
+.pg-reg-cifra[aria-invalid="true"]{ border-color:var(--mal) }
+.pg-reg-codigo.ok .pg-reg-cifra{ border-color:var(--ok); background:var(--ok-sup); color:var(--ok) }
+.pg-reg-codigo.mal{ animation:pg-reg-tiembla .42s ease both }
+@keyframes pg-reg-tiembla{ 20%{ transform:translateX(-7px) } 40%{ transform:translateX(6px) } 60%{ transform:translateX(-4px) } 80%{ transform:translateX(2px) } }
+.pg-reg-reenvio{ display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; font-size:var(--t-sm); color:var(--tinta-2) }
+.pg-reg-reenvio .num{ font-weight:700; color:var(--tinta) }
+.pg-reg-enlace-btn{ border:0; background:none; padding:0; color:var(--marca); font-weight:600; font-size:inherit }
+.pg-reg-enlace-btn:hover{ text-decoration:underline; text-underline-offset:3px }
+/* paso 3 */
+.pg-reg-fecha{ display:grid; grid-template-columns:minmax(0,.85fr) minmax(0,1.45fr) minmax(0,1fr); gap:8px }
+.pg-reg-edad{ display:inline-flex; align-items:center; gap:6px; align-self:flex-start; height:30px; padding:0 12px 0 9px; border-radius:99px;
+  background:var(--ok-sup); color:var(--ok); font-weight:700; font-size:var(--t-sm); animation:sube .3s var(--ease) both }
+.pg-reg-edad.mal{ background:var(--mal-sup); color:var(--mal) }
+/* paso 4: documento */
+.pg-reg-tipos{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px }
+.pg-reg-tipos .opcion{ flex-direction:column; gap:8px; padding:12px 12px 13px }
+.pg-reg-tipos .opcion b{ display:block; font-size:var(--t-base); line-height:1.2 }
+.pg-reg-tipos .opcion small{ display:block; margin-top:2px; font-size:var(--t-xs); color:var(--tinta-3); line-height:1.3 }
+.pg-reg-doc-datos{ display:grid; gap:16px; grid-template-columns:minmax(0,1fr) }
+@media (min-width:480px){ .pg-reg-doc-datos{ grid-template-columns:minmax(0,1.15fr) minmax(0,1fr) } }
+.pg-reg-mayus{ text-transform:uppercase; letter-spacing:.04em; font-variant-numeric:tabular-nums }
+.pg-reg-mayus::placeholder{ text-transform:none; letter-spacing:0 }
+.pg-reg-fotos{ display:grid; gap:14px; grid-template-columns:minmax(0,1fr) }
+@media (min-width:520px){ .pg-reg-fotos{ grid-template-columns:repeat(2,minmax(0,1fr)) } .pg-reg-fotos:not(.una) .pg-reg-foto-pie .ter{ display:none } }
+.pg-reg-fotos.una{ grid-template-columns:minmax(0,1fr) }
+.pg-reg-foto{ position:relative; display:flex; flex-direction:column; gap:8px; min-width:0 }
+.pg-reg-marco{ position:relative; aspect-ratio:85.6/54; border-radius:var(--r-l); overflow:hidden }
+.pg-reg-fotos.una .pg-reg-marco{ aspect-ratio:125/88 }
+label.pg-reg-marco.subida{ padding:14px; gap:3px; align-content:center; font-size:var(--t-sm) }
+label.pg-reg-marco.subida b{ color:var(--tinta); font-size:var(--t-base) }
+.pg-reg-marco .pg-reg-cam{ width:44px; height:44px; border-radius:14px; display:grid; place-items:center; margin-bottom:6px; background:var(--fondo); color:var(--marca); box-shadow:var(--sombra-1); transition:transform .25s var(--ease) }
+label.pg-reg-marco:hover .pg-reg-cam{ transform:translateY(-2px) scale(1.04) }
+label.pg-reg-marco:active{ transform:scale(.985) }
+.pg-reg-guia{ position:absolute; inset:9px; border:2.5px solid color-mix(in srgb,var(--marca) 55%,transparent); border-radius:11px; pointer-events:none;
+  -webkit-mask:linear-gradient(var(--tinta) 0 0) 0 0/24px 24px no-repeat, linear-gradient(var(--tinta) 0 0) 100% 0/24px 24px no-repeat, linear-gradient(var(--tinta) 0 0) 0 100%/24px 24px no-repeat, linear-gradient(var(--tinta) 0 0) 100% 100%/24px 24px no-repeat;
+  mask:linear-gradient(var(--tinta) 0 0) 0 0/24px 24px no-repeat, linear-gradient(var(--tinta) 0 0) 100% 0/24px 24px no-repeat, linear-gradient(var(--tinta) 0 0) 0 100%/24px 24px no-repeat, linear-gradient(var(--tinta) 0 0) 100% 100%/24px 24px no-repeat }
+.pg-reg-foto input:focus-visible + label{ outline:2.5px solid var(--marca); outline-offset:2px }
+.pg-reg-foto [aria-invalid="true"] + label.subida{ border-color:var(--mal) }
+.pg-reg-lleno{ background:var(--sup-2); box-shadow:inset 0 0 0 1px var(--linea); animation:pg-reg-revela .45s var(--ease) both }
+.pg-reg-lleno>img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover }
+@keyframes pg-reg-revela{ from{ opacity:0; transform:scale(.96) } }
+.pg-reg-tick{ position:absolute; z-index:3; right:10px; top:10px; width:28px; height:28px; border-radius:50%; display:grid; place-items:center;
+  background:var(--ok); color:var(--fondo); box-shadow:0 0 0 3px color-mix(in srgb,var(--fondo) 70%,transparent); animation:pg-reg-pop .45s .15s var(--ease) both }
+@keyframes pg-reg-pop{ from{ transform:scale(.3); opacity:0 } 60%{ transform:scale(1.12) } }
+.pg-reg-foto-pie{ display:flex; align-items:center; justify-content:space-between; gap:8px; min-height:36px; font-size:var(--t-sm) }
+.pg-reg-foto-pie b{ font-weight:650 }
+.pg-reg-consejos{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px }
+.pg-reg-consejos li{ display:flex; flex-direction:column; gap:6px; padding:11px 11px 12px; border-radius:var(--r); background:var(--sup); font-size:var(--t-xs); line-height:1.35; color:var(--tinta-2); font-weight:500 }
+.pg-reg-consejos svg{ color:var(--marca) }
+.pg-reg-porque{ display:flex; gap:12px; padding:14px 16px; border-radius:var(--r-l); border:1px solid var(--linea); font-size:var(--t-sm); color:var(--tinta-2); line-height:1.5 }
+.pg-reg-porque svg{ flex:0 0 auto; color:var(--ok); margin-top:2px }
+.pg-reg-porque b{ color:var(--tinta) }
+/* tarjeta de MUESTRA (genérica, sin símbolos oficiales) */
+.pg-reg-muestra{ position:absolute; inset:0; container-type:inline-size; overflow:hidden; color:var(--tinta-2);
+  background:repeating-radial-gradient(circle at 82% 26%, transparent 0 7px, color-mix(in srgb,var(--marca) 9%,transparent) 7px 8px),
+    linear-gradient(135deg, color-mix(in srgb,var(--marca) 15%,var(--fondo)), color-mix(in srgb,var(--ok) 11%,var(--fondo))) }
+.pg-reg-muestra>*{ position:absolute }
+.pg-reg-muestra .m-banda{ left:0; right:0; top:0; height:11.5cqw; padding:0 4.5cqw; display:flex; align-items:center; justify-content:space-between;
+  background:var(--marca); color:var(--fondo); font:700 3cqw/1 var(--texto); letter-spacing:.12em; text-transform:uppercase }
+.pg-reg-muestra .m-foto{ left:5cqw; top:16.5cqw; width:21cqw; height:27cqw; border-radius:1.8cqw; box-shadow:inset 0 0 0 .3cqw color-mix(in srgb,var(--tinta) 12%,transparent);
+  background:radial-gradient(circle at 50% 37%, var(--tinta-3) 0 17%, transparent 18%), radial-gradient(ellipse 48% 30% at 50% 100%, var(--tinta-3) 0 97%, transparent 100%), var(--sup-2) }
+.pg-reg-muestra .m-lineas{ left:31cqw; right:6cqw; top:17.5cqw; display:flex; flex-direction:column; gap:1.3cqw }
+.pg-reg-muestra .m-lineas i{ display:block; height:1.5cqw; border-radius:1cqw; background:color-mix(in srgb,var(--tinta) 16%,transparent) }
+.pg-reg-muestra .m-lineas i.v{ height:2.6cqw; margin-bottom:1.3cqw; background:color-mix(in srgb,var(--tinta) 38%,transparent) }
+.pg-reg-muestra .m-firma{ left:31cqw; bottom:5cqw; width:22cqw; height:7cqw; color:color-mix(in srgb,var(--tinta) 55%,transparent) }
+.pg-reg-muestra .m-sello{ right:5cqw; bottom:5.5cqw; transform:rotate(-11deg); padding:.8cqw 2.6cqw; border:.7cqw solid var(--mal); border-radius:1.6cqw; color:var(--mal);
+  font:800 5.6cqw/1 var(--display); letter-spacing:.14em; text-transform:uppercase; background:color-mix(in srgb,var(--fondo) 60%,transparent) }
+.pg-reg-muestra .m-barras{ left:5cqw; top:16cqw; width:44cqw; height:11cqw;
+  background:repeating-linear-gradient(90deg, var(--tinta-2) 0 .5cqw, transparent .5cqw 1.1cqw, var(--tinta-2) 1.1cqw 1.4cqw, transparent 1.4cqw 2.3cqw, var(--tinta-2) 2.3cqw 3.2cqw, transparent 3.2cqw 3.8cqw) }
+.pg-reg-muestra.m-rev .m-lineas{ left:54cqw; top:16.5cqw }
+.pg-reg-muestra .m-mrz{ left:5cqw; right:5cqw; bottom:4.5cqw; display:flex; flex-direction:column; gap:.6cqw; font:600 3.1cqw/1.1 ui-monospace,Menlo,Consolas,monospace;
+  letter-spacing:.18em; color:color-mix(in srgb,var(--tinta) 60%,transparent); white-space:nowrap; overflow:hidden }
+.pg-reg-muestra.m-rev .m-sello{ bottom:auto; top:32cqw; right:8cqw }
+.pg-reg-muestra.m-pas .m-banda{ height:9cqw; font-size:2.4cqw }
+.pg-reg-muestra.m-pas .m-foto{ top:13cqw; width:20cqw; height:26cqw }
+.pg-reg-muestra.m-pas .m-lineas{ top:14cqw; left:29cqw }
+.pg-reg-muestra.m-pas .m-mrz{ font-size:2.4cqw }
+.pg-reg-muestra.m-pas .m-sello{ bottom:auto; top:40cqw; font-size:4.8cqw }
+/* paso 5: selfie */
+.pg-reg-selfie{ display:grid; justify-items:center; gap:16px; padding:6px 0 2px }
+.pg-reg-circulo{ position:relative; width:min(232px,62vw); aspect-ratio:1 }
+.pg-reg-anillo{ position:absolute; inset:0; width:100%; height:100%; transform:rotate(-90deg) }
+.pg-reg-anillo circle{ fill:none; stroke-width:3.2 }
+.pg-reg-anillo .pista{ stroke:var(--sup-3) }
+.pg-reg-anillo .avance{ stroke:var(--ok); stroke-linecap:round; stroke-dasharray:100; stroke-dashoffset:calc(100 - var(--p,0)); transition:stroke-dashoffset .8s var(--ease) }
+.pg-reg-cara{ position:absolute; inset:10px; border-radius:50%; overflow:hidden; display:grid; place-items:center; background:var(--sup); color:var(--tinta-3) }
+.pg-reg-cara>img,.pg-reg-silueta{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover }
+.pg-reg-silueta{ background:radial-gradient(circle at 50% 41%, var(--tinta-3) 0 19%, transparent 19.6%), radial-gradient(ellipse 40% 27% at 50% 100%, var(--tinta-3) 0 98%, transparent 100%),
+  linear-gradient(160deg, var(--marca-sup), color-mix(in srgb,var(--ok) 14%,var(--sup))) }
+.pg-reg-silueta-et{ position:absolute; z-index:2; left:50%; top:7%; translate:-50% 0; padding:3px 8px; border-radius:99px; background:var(--mal); color:var(--fondo); font:800 .625rem/1.2 var(--texto); letter-spacing:.12em; text-transform:uppercase }
+.pg-reg-ovalo{ position:absolute; left:50%; top:48%; width:56%; height:70%; translate:-50% -50%; border-radius:50%; border:2px dashed var(--linea-2); pointer-events:none; transition:border-color .3s, box-shadow .3s }
+.pg-reg-circulo.lleno .pg-reg-ovalo{ border-color:color-mix(in srgb,var(--fondo) 85%,transparent); box-shadow:0 0 0 400px color-mix(in srgb,var(--velo) 50%,transparent) }
+.pg-reg-circulo[data-gesto="gira"] .pg-reg-cara>*{ animation:pg-reg-gira 1s var(--ease) both }
+.pg-reg-circulo[data-gesto="sonrie"] .pg-reg-cara>*{ animation:pg-reg-sonrie .9s var(--ease) both }
+@keyframes pg-reg-gira{ 35%{ transform:perspective(500px) rotateY(16deg) } 75%{ transform:perspective(500px) rotateY(-8deg) } }
+@keyframes pg-reg-sonrie{ 50%{ transform:scale(1.04) } }
+.pg-reg-vacio-selfie{ position:relative; z-index:1; display:grid; justify-items:center; gap:6px; padding:0 30px; font-size:var(--t-xs); font-weight:600; text-align:center }
+.pg-reg-vida{ list-style:none; margin:0; padding:0; display:grid; gap:6px; width:100% }
+.pg-reg-vida li,.pg-reg-checks li{ display:flex; align-items:center; gap:12px; padding:11px 14px; border-radius:var(--r); background:var(--sup); font-weight:600; font-size:var(--t-sm); color:var(--tinta-3); transition:background .3s, color .3s }
+.pg-reg-vida li[data-e="activo"],.pg-reg-checks li[data-e="activo"]{ background:var(--marca-sup); color:var(--marca-tinta) }
+.pg-reg-vida li[data-e="hecho"],.pg-reg-checks li[data-e="hecho"]{ color:var(--tinta) }
+.pg-reg-ck{ position:relative; flex:0 0 auto; width:26px; height:26px; border-radius:50%; display:grid; place-items:center; color:var(--fondo);
+  box-shadow:inset 0 0 0 2px var(--linea-2); transition:background .25s, box-shadow .25s }
+.pg-reg-ck .aro{ position:absolute; inset:0; width:100%; height:100%; transform:rotate(-90deg); opacity:0 }
+.pg-reg-ck .aro circle{ fill:none; stroke:var(--marca); stroke-width:2.6; stroke-linecap:round; stroke-dasharray:100; stroke-dashoffset:100 }
+[data-e="activo"] .pg-reg-ck{ box-shadow:inset 0 0 0 2px var(--marca-borde) }
+[data-e="activo"] .pg-reg-ck .aro{ opacity:1 }
+[data-e="activo"] .pg-reg-ck .aro circle{ animation:pg-reg-llena var(--dur,900ms) linear forwards }
+@keyframes pg-reg-llena{ to{ stroke-dashoffset:0 } }
+.pg-reg-ck .vis{ opacity:0; transform:scale(.3) }
+[data-e="hecho"] .pg-reg-ck{ background:var(--ok); box-shadow:none }
+[data-e="hecho"] .pg-reg-ck .vis{ opacity:1; transform:none; transition:transform .35s var(--ease), opacity .2s }
+.pg-reg-botones{ display:flex; flex-wrap:wrap; justify-content:center; gap:8px }
+/* paso 6: revisión */
+.pg-reg-res{ display:flex; flex-direction:column; gap:10px; padding:14px 16px 15px; border:1px solid var(--linea); border-radius:var(--r-l) }
+.pg-reg-res-cab{ display:flex; align-items:center; justify-content:space-between; gap:12px }
+.pg-reg-res-cab h2{ font-size:var(--t-md); letter-spacing:-.015em }
+.pg-reg-res dl{ margin:0; display:grid; grid-template-columns:auto minmax(0,1fr); gap:7px 16px; font-size:var(--t-sm) }
+.pg-reg-res dt{ color:var(--tinta-3) }
+.pg-reg-res dd{ margin:0; font-weight:600; text-align:right; overflow-wrap:anywhere }
+.pg-reg-res dd .insignia{ margin-left:4px; vertical-align:1px }
+.pg-reg-minis{ display:flex; gap:8px; flex-wrap:wrap }
+.pg-reg-mini{ position:relative; width:96px; aspect-ratio:85.6/54; border-radius:9px; overflow:hidden; background:var(--sup-2); box-shadow:inset 0 0 0 1px var(--linea) }
+.pg-reg-mini.pas{ aspect-ratio:125/88 }
+.pg-reg-mini.redonda{ width:58px; aspect-ratio:1; border-radius:50% }
+.pg-reg-mini>img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover }
+/* verificación y resultado */
+.pg-reg-verif-cab{ display:flex; flex-direction:column; align-items:center; text-align:center; gap:12px; padding-top:6px }
+.pg-reg-escudo{ position:relative; width:92px; height:92px; display:grid; place-items:center; color:var(--marca) }
+.pg-reg-escudo .pg-reg-anillo .avance{ stroke:var(--marca) }
+.pg-reg-checks{ list-style:none; margin:0; padding:0; display:grid; gap:6px }
+.pg-reg-checks li{ align-items:flex-start }
+.pg-reg-checks li>div{ display:flex; flex-direction:column; gap:1px; min-width:0; padding-top:3px }
+.pg-reg-checks .det{ font-size:var(--t-xs); font-weight:500; color:var(--tinta-3) }
+.pg-reg-exito{ display:flex; flex-direction:column; align-items:center; text-align:center; gap:12px; padding-top:6px }
+.pg-reg-exito-ico{ width:84px; height:84px; border-radius:28px; display:grid; place-items:center; background:var(--ok); color:var(--fondo);
+  box-shadow:0 18px 36px -16px var(--ok); animation:pg-reg-pop .6s var(--ease) both }
+.pg-reg-exito h1{ outline:none }
+.pg-reg-sig{ display:grid; gap:8px }
+.pg-reg-sig a{ display:flex; align-items:center; gap:14px; padding:13px 14px; border-radius:var(--r-l); border:1px solid var(--linea); background:var(--fondo);
+  transition:border-color .18s, background .18s, transform .15s var(--ease) }
+.pg-reg-sig a:hover{ border-color:var(--marca-borde); background:var(--marca-sup) }
+.pg-reg-sig a:active{ transform:scale(.985) }
+.pg-reg-sig .n{ flex:0 0 auto; width:38px; height:38px; border-radius:12px; display:grid; place-items:center; background:var(--marca-sup); color:var(--marca); font:800 1rem/1 var(--display) }
+.pg-reg-sig a:first-child .n{ background:var(--marca); color:var(--fondo) }
+.pg-reg-sig b{ display:block; font-size:var(--t-base) }
+.pg-reg-sig small{ display:block; font-size:var(--t-xs); color:var(--tinta-3) }
+.pg-reg-sig .flecha{ margin-left:auto; flex:0 0 auto; color:var(--tinta-3) }
+/* bloqueo de menores */
+.pg-reg-menor{ display:flex; flex-direction:column; align-items:center; text-align:center; gap:16px; padding:10px 0 6px }
+.pg-reg-menor h1{ outline:none; max-width:18ch }
+.pg-reg-menor ul{ list-style:none; margin:0; padding:0; display:grid; gap:8px; text-align:left; width:100% }
+.pg-reg-menor li{ display:flex; gap:10px; padding:12px 14px; border-radius:var(--r); background:var(--sup); font-size:var(--t-sm); color:var(--tinta-2) }
+.pg-reg-menor li svg{ flex:0 0 auto; color:var(--tinta-3); margin-top:1px }
+/* lateral de confianza */
+.pg-reg-lado-caja{ display:flex; flex-direction:column; gap:18px; padding:22px; border-radius:var(--r-xl); background:var(--sup) }
+.pg-reg-lado-caja h2{ font-size:var(--t-lg) }
+.pg-reg-lado-caja h3{ font:650 var(--t-sm)/1.3 var(--texto); letter-spacing:0; color:var(--tinta) }
+.pg-reg-razones{ list-style:none; margin:0; padding:0; display:grid; gap:14px }
+.pg-reg-razones li{ display:flex; gap:12px; align-items:flex-start }
+.pg-reg-razones .ic{ flex:0 0 auto; width:38px; height:38px; border-radius:12px; display:grid; place-items:center; background:var(--fondo); color:var(--marca); box-shadow:var(--sombra-1); font:800 .95rem/1 var(--display); letter-spacing:-.04em }
+.pg-reg-razones b{ display:block; font-size:var(--t-sm) }
+.pg-reg-razones p{ font-size:var(--t-sm); color:var(--tinta-2); line-height:1.45 }
+.pg-reg-plazos{ margin:0; display:grid; gap:10px; font-size:var(--t-sm) }
+.pg-reg-plazos div{ display:grid; gap:1px }
+.pg-reg-plazos dt{ font-weight:600 }
+.pg-reg-plazos dd{ margin:0; color:var(--tinta-2); line-height:1.45 }
+.pg-reg-asi{ display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:var(--r-l); background:var(--fondo); box-shadow:var(--sombra-1) }
+</style>
+<main id="contenido" class="pg-reg">
+  <div class="contenedor pg-reg-env">
+    <div class="pg-reg-rej">
+      <section class="pg-reg-col" aria-label="Alta en Apaño">
+        <div class="pg-reg-cab" id="r-cab">
+          <div class="pg-reg-cab-fila">
+            <button class="btn btn-sec btn-p pg-reg-atras" type="button" id="r-atras">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Atrás
+            </button>
+            <span class="pg-reg-cuenta" id="r-cuenta" aria-live="polite">Paso <b>1</b> de 6 · Tu cuenta</span>
+          </div>
+          <div class="progreso" id="r-progreso" role="progressbar" aria-label="Progreso del alta" aria-valuemin="1" aria-valuemax="6" aria-valuenow="1"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        </div>
+
+        <div class="pg-reg-escena" id="r-escena">
+          <!-- PASO 1 · TU CUENTA -->
+          <form class="pg-reg-paso" id="r-p1" novalidate hidden>
+            <div class="pg-reg-tit">
+              <h1 tabindex="-1">Crea tu cuenta</h1>
+              <p>Te llevará unos 5 minutos. Apaño es solo para mayores de 18: al final comprobaremos tu identidad con tu documento.</p>
+              <div class="pg-reg-necesitas" aria-label="Qué vas a necesitar">
+                <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 3h9v18h-9zM11 18h2"/></svg>Tu móvil</span>
+                <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18v12H3zM7 10h5M7 14h8"/></svg>DNI, NIE o pasaporte</span>
+              </div>
+            </div>
+            <div class="campo">
+              <label for="r-email">Correo electrónico</label>
+              <input class="ent" id="r-email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="nombre@correo.example" aria-describedby="r-email-err">
+              <p class="error" id="r-email-err" hidden></p>
+            </div>
+            <div class="campo">
+              <label for="r-movil">Móvil</label>
+              <div class="pg-reg-pref"><span aria-hidden="true">+34</span><input class="ent" id="r-movil" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="612 345 678" aria-describedby="r-movil-ayuda r-movil-err"></div>
+              <p class="ayuda" id="r-movil-ayuda">Te enviaremos un código por SMS. Tu número no se enseña a nadie: en Apaño se habla por el chat.</p>
+              <p class="error" id="r-movil-err" hidden></p>
+            </div>
+            <div class="campo">
+              <label for="r-clave">Contraseña</label>
+              <div class="pg-reg-clave">
+                <input class="ent" id="r-clave" type="password" autocomplete="new-password" autocapitalize="off" spellcheck="false" aria-describedby="r-fuerza-txt r-clave-err">
+                <button class="ico-btn" type="button" id="r-ver" aria-label="Mostrar contraseña" aria-pressed="false"></button>
+              </div>
+              <div class="pg-reg-fuerza" id="r-fuerza" data-n="0" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+              <p class="pg-reg-fuerza-txt" id="r-fuerza-txt" aria-live="polite"><span id="r-fuerza-consejo">Mínimo 8 caracteres. Mejor si mezclas letras, números y algún símbolo.</span><b id="r-fuerza-nivel"></b></p>
+              <p class="error" id="r-clave-err" hidden></p>
+            </div>
+            <div class="aviso aviso-avisa">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 8v5M12 16.5v.01"/></svg>
+              <span><b>Esto es una maqueta.</b> No escribas una contraseña que uses de verdad: invéntate una solo para probar.</span>
+            </div>
+            <div class="pg-reg-casillas" id="r-legal">
+              <label class="casilla" for="r-cond"><input type="checkbox" id="r-cond" aria-describedby="r-legal-err"><span>Acepto las <a class="enlace" href="legal.html#condiciones">condiciones de uso</a> de Apaño.</span></label>
+              <label class="casilla" for="r-priv"><input type="checkbox" id="r-priv" aria-describedby="r-legal-err"><span>He leído la <a class="enlace" href="legal.html#privacidad">política de privacidad</a>.</span></label>
+              <label class="casilla" for="r-com"><input type="checkbox" id="r-com"><span>Quiero recibir novedades y ofertas de Apaño por correo. <span class="ter">Opcional; puedes darte de baja cuando quieras.</span></span></label>
+              <p class="error" id="r-legal-err" hidden></p>
+            </div>
+            <div class="pg-reg-acc"><button class="btn btn-g btn-bloque" type="submit">Continuar <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+            <p class="sm sec" style="text-align:center">¿Ya tienes cuenta? <a class="enlace" href="entrar.html">Entra</a></p>
+          </form>
+
+          <!-- PASO 2 · VERIFICA TU MÓVIL -->
+          <form class="pg-reg-paso" id="r-p2" novalidate hidden>
+            <div class="pg-reg-tit">
+              <h1 tabindex="-1">Verifica tu móvil</h1>
+              <p>Te hemos enviado un SMS con un código de 6 cifras al <b class="num" id="r-movil-ver"></b>. <button class="pg-reg-enlace-btn" type="button" data-editar="1">Cambiar número</button></p>
+            </div>
+            <fieldset id="r-cod" aria-describedby="r-cod-err">
+              <legend>Código de verificación</legend>
+              <div class="pg-reg-codigo" id="r-codigo">
+                <label class="solo-lector" for="r-c1">Cifra 1 de 6</label><input class="pg-reg-cifra" id="r-c1" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code">
+                <label class="solo-lector" for="r-c2">Cifra 2 de 6</label><input class="pg-reg-cifra" id="r-c2" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off">
+                <label class="solo-lector" for="r-c3">Cifra 3 de 6</label><input class="pg-reg-cifra" id="r-c3" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off">
+                <label class="solo-lector" for="r-c4">Cifra 4 de 6</label><input class="pg-reg-cifra" id="r-c4" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off">
+                <label class="solo-lector" for="r-c5">Cifra 5 de 6</label><input class="pg-reg-cifra" id="r-c5" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off">
+                <label class="solo-lector" for="r-c6">Cifra 6 de 6</label><input class="pg-reg-cifra" id="r-c6" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off">
+              </div>
+            </fieldset>
+            <p class="error" id="r-cod-err" hidden role="alert"></p>
+            <p class="pg-reg-ok" id="r-cod-ok" hidden><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Móvil verificado</p>
+            <div class="aviso aviso-marca">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 3h9v18h-9zM11 18h2"/></svg>
+              <span>En esta maqueta no se envían SMS. El código de prueba es <b class="num">123456</b>.</span>
+            </div>
+            <div class="pg-reg-reenvio" id="r-reenvio" aria-live="polite"></div>
+            <div class="pg-reg-acc"><button class="btn btn-g btn-bloque" type="submit" id="r-p2-btn">Verificar</button></div>
+          </form>
+
+          <!-- PASO 3 · TUS DATOS -->
+          <form class="pg-reg-paso" id="r-p3" novalidate hidden>
+            <div class="pg-reg-tit">
+              <h1 tabindex="-1">Tus datos</h1>
+              <p>Escríbelos tal y como aparecen en tu documento. En tu perfil solo se verá tu nombre y la inicial del apellido.</p>
+            </div>
+            <div class="rejilla r2">
+              <div class="campo">
+                <label for="r-nombre">Nombre</label>
+                <input class="ent" id="r-nombre" type="text" autocomplete="given-name" autocapitalize="words" aria-describedby="r-nombre-err">
+                <p class="error" id="r-nombre-err" hidden></p>
+              </div>
+              <div class="campo">
+                <label for="r-apellidos">Apellidos</label>
+                <input class="ent" id="r-apellidos" type="text" autocomplete="family-name" autocapitalize="words" aria-describedby="r-apellidos-err">
+                <p class="error" id="r-apellidos-err" hidden></p>
+              </div>
+            </div>
+            <fieldset class="campo" id="r-fecha" aria-describedby="r-fecha-ayuda r-fecha-err">
+              <legend>Fecha de nacimiento</legend>
+              <div class="pg-reg-fecha">
+                <div><label class="solo-lector" for="r-dia">Día</label><select class="ent" id="r-dia" autocomplete="bday-day"></select></div>
+                <div><label class="solo-lector" for="r-mes">Mes</label><select class="ent" id="r-mes" autocomplete="bday-month"></select></div>
+                <div><label class="solo-lector" for="r-anio">Año</label><select class="ent" id="r-anio" autocomplete="bday-year"></select></div>
+              </div>
+              <div id="r-edad" aria-live="polite"></div>
+              <p class="ayuda" id="r-fecha-ayuda">La comprobaremos con tu documento. Si tienes menos de 18 años no podrás continuar.</p>
+              <p class="error" id="r-fecha-err" hidden></p>
+            </fieldset>
+            <div class="campo">
+              <label for="r-poblacion">Población</label>
+              <input class="ent" id="r-poblacion" type="text" list="r-poblaciones" autocomplete="address-level2" placeholder="Por ejemplo, Palma" aria-describedby="r-poblacion-ayuda r-poblacion-err">
+              <datalist id="r-poblaciones"><option value="Palma"><option value="Marratxí"><option value="Calvià"><option value="Llucmajor"><option value="Inca"><option value="Manacor"><option value="Alcúdia"><option value="Sóller"><option value="Madrid"><option value="Barcelona"><option value="Valencia"><option value="Sevilla"></datalist>
+              <p class="ayuda" id="r-poblacion-ayuda">Solo para calcular a qué distancia están los servicios. Nunca enseñamos tu dirección.</p>
+              <p class="error" id="r-poblacion-err" hidden></p>
+            </div>
+            <div class="pg-reg-acc"><button class="btn btn-g btn-bloque" type="submit">Continuar <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+          </form>
+
+          <!-- PASO 4 · TU DOCUMENTO -->
+          <form class="pg-reg-paso" id="r-p4" novalidate hidden>
+            <div class="pg-reg-tit">
+              <h1 tabindex="-1">Tu documento</h1>
+              <p>Lo usamos para comprobar que eres mayor de edad y que eres quien dices ser. Tenlo a mano: vas a hacerle una foto.</p>
+            </div>
+            <div class="aviso aviso-avisa" id="r-fotos-aviso" hidden>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 11h12v9.5H6zM8.5 11V8a3.5 3.5 0 0 1 7 0v3"/></svg>
+              <span><b>Hemos recuperado lo que escribiste, pero no las fotos.</b> Por seguridad, las imágenes de tu documento y tu selfie no se guardan en este dispositivo: vuelve a hacerlas.</span>
+            </div>
+            <fieldset>
+              <legend>Tipo de documento</legend>
+              <div class="pg-reg-tipos">
+                <label class="opcion" for="r-t-dni"><input type="radio" name="r-tipo" id="r-t-dni" value="DNI"><span><b>DNI</b><small>Documento español</small></span></label>
+                <label class="opcion" for="r-t-nie"><input type="radio" name="r-tipo" id="r-t-nie" value="NIE"><span><b>NIE</b><small>Residentes extranjeros</small></span></label>
+                <label class="opcion" for="r-t-pas"><input type="radio" name="r-tipo" id="r-t-pas" value="Pasaporte"><span><b>Pasaporte</b><small>De cualquier país</small></span></label>
+              </div>
+            </fieldset>
+            <div class="pg-reg-doc-datos">
+              <div class="campo">
+                <label for="r-num" id="r-num-lab">Número de DNI</label>
+                <input class="ent pg-reg-mayus" id="r-num" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-describedby="r-num-ok r-num-err">
+                <p class="pg-reg-ok" id="r-num-ok" hidden></p>
+                <p class="error" id="r-num-err" hidden></p>
+              </div>
+              <div class="campo">
+                <label for="r-caduca">Fecha de caducidad</label>
+                <input class="ent" id="r-caduca" type="date" aria-describedby="r-caduca-ayuda r-caduca-err">
+                <p class="ayuda" id="r-caduca-ayuda" hidden></p>
+                <p class="error" id="r-caduca-err" hidden></p>
+              </div>
+            </div>
+            <label class="casilla" for="r-perm" id="r-perm-env"><input type="checkbox" id="r-perm"><span>Mi DNI es permanente: pone «Permanente» en lugar de una fecha.</span></label>
+            <fieldset>
+              <legend id="r-fotos-leyenda">Fotos del documento</legend>
+              <div class="pg-reg-fotos" id="r-fotos">
+                <div class="pg-reg-foto" id="r-foto-anverso" data-lado="anverso">
+                  <input class="solo-lector" type="file" id="r-f-anverso" accept="image/*" capture="environment" aria-describedby="r-fotos-err">
+                  <label class="subida pg-reg-marco pg-reg-vacio" for="r-f-anverso">
+                    <span class="pg-reg-guia" aria-hidden="true"></span>
+                    <span class="pg-reg-cam" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.6-2.5h6.8L17 8h3v11H4zM12 16.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/></svg></span>
+                    <b data-nombre>Anverso</b><span data-sub>Haz una foto o arrástrala aquí</span>
+                  </label>
+                  <div class="pg-reg-marco pg-reg-lleno" hidden></div>
+                  <div class="pg-reg-foto-pie"><span><b data-nombre>Anverso</b> <span class="ter" data-cara>· la cara con tu foto</span></span><button class="btn btn-sec btn-p" type="button" data-repetir="anverso" hidden>Repetir</button></div>
+                </div>
+                <div class="pg-reg-foto" id="r-foto-reverso" data-lado="reverso">
+                  <input class="solo-lector" type="file" id="r-f-reverso" accept="image/*" capture="environment" aria-describedby="r-fotos-err">
+                  <label class="subida pg-reg-marco pg-reg-vacio" for="r-f-reverso">
+                    <span class="pg-reg-guia" aria-hidden="true"></span>
+                    <span class="pg-reg-cam" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.6-2.5h6.8L17 8h3v11H4zM12 16.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/></svg></span>
+                    <b>Reverso</b><span>Haz una foto o arrástrala aquí</span>
+                  </label>
+                  <div class="pg-reg-marco pg-reg-lleno" hidden></div>
+                  <div class="pg-reg-foto-pie"><span><b>Reverso</b> <span class="ter">· la parte de atrás</span></span><button class="btn btn-sec btn-p" type="button" data-repetir="reverso" hidden>Repetir</button></div>
+                </div>
+              </div>
+            </fieldset>
+            <p class="error" id="r-fotos-err" hidden role="alert"></p>
+            <ul class="pg-reg-consejos" aria-label="Consejos para la foto">
+              <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 6h17v12h-17zM9 9.5l-2.5 2.5M13.5 9.5l-5 5"/></svg>Sin reflejos ni brillos</li>
+              <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V5h4M16 5h4v4M20 15v4h-4M8 19H4v-4"/></svg>Las cuatro esquinas a la vista</li>
+              <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12s3.5-6.5 9.5-6.5 9.5 6.5 9.5 6.5-3.5 6.5-9.5 6.5S2.5 12 2.5 12zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>Sin tapar datos con los dedos</li>
+            </ul>
+            <button class="btn btn-suave btn-bloque" type="button" id="r-muestra-doc">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18v12H3zM7 10h5M7 14h8"/></svg>Usar imágenes de ejemplo
+            </button>
+            <div class="pg-reg-porque">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4.5 6v5.6c0 4.4 3.1 8.2 7.5 9.4 4.4-1.2 7.5-5 7.5-9.4V6zM8.8 12.2l2.2 2.2 4.4-4.6"/></svg>
+              <span><b>¿Quién ve tu documento?</b> Solo el equipo de verificación de Apaño. Nunca se publica el número ni las fotos, y no se comparte con quien te contrata. <a class="enlace" href="legal.html#identidad">Cómo lo tratamos</a></span>
+            </div>
+            <div class="pg-reg-acc"><button class="btn btn-g btn-bloque" type="submit">Continuar <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+          </form>
+
+          <!-- PASO 5 · SELFIE -->
+          <form class="pg-reg-paso" id="r-p5" novalidate hidden>
+            <div class="pg-reg-tit">
+              <h1 tabindex="-1">Hazte un selfie</h1>
+              <p>Lo comparamos con la foto de tu documento para saber que eres tú. No se publica: en tu perfil podrás poner la foto que quieras.</p>
+            </div>
+            <div class="pg-reg-selfie">
+              <div class="pg-reg-circulo" id="r-circulo">
+                <svg class="pg-reg-anillo" viewBox="0 0 120 120" aria-hidden="true"><circle class="pista" cx="60" cy="60" r="57"/><circle class="avance" cx="60" cy="60" r="57" pathLength="100"/></svg>
+                <div class="pg-reg-cara" id="r-cara"></div>
+              </div>
+              <label class="solo-lector" for="r-f-selfie">Selfie</label><input class="solo-lector" type="file" id="r-f-selfie" accept="image/*" capture="user" tabindex="-1" aria-hidden="true">
+              <div class="pg-reg-botones">
+                <button class="btn" type="button" id="r-selfie-btn" aria-describedby="r-selfie-err">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l1.6-2.5h6.8L17 8h3v11H4zM12 16.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/></svg><span>Hacer selfie</span>
+                </button>
+                <button class="btn btn-suave" type="button" id="r-muestra-selfie">Usar imagen de ejemplo</button>
+              </div>
+            </div>
+            <p class="error" id="r-selfie-err" hidden role="alert"></p>
+            <div class="col g8">
+              <h2 class="etiqueta" id="r-vida-t">Prueba de vida</h2>
+              <ol class="pg-reg-vida" id="r-vida" aria-labelledby="r-vida-t" aria-live="polite">
+                <li data-e="espera"><span class="pg-reg-ck" aria-hidden="true"><svg class="aro" viewBox="0 0 26 26"><circle cx="13" cy="13" r="11.7" pathLength="100"/></svg><svg class="vis" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"/></svg></span>Mira al frente</li>
+                <li data-e="espera"><span class="pg-reg-ck" aria-hidden="true"><svg class="aro" viewBox="0 0 26 26"><circle cx="13" cy="13" r="11.7" pathLength="100"/></svg><svg class="vis" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"/></svg></span>Gira un poco la cabeza</li>
+                <li data-e="espera"><span class="pg-reg-ck" aria-hidden="true"><svg class="aro" viewBox="0 0 26 26"><circle cx="13" cy="13" r="11.7" pathLength="100"/></svg><svg class="vis" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"/></svg></span>Sonríe</li>
+              </ol>
+              <p class="ayuda">En la app real se hace con la cámara en directo para comprobar que hay una persona delante y no una foto. Aquí lo simulamos.</p>
+            </div>
+            <ul class="pg-reg-consejos" aria-label="Consejos para el selfie">
+              <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/></svg>Buena luz, de frente</li>
+              <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 13a3 3 0 1 0 6 0 3 3 0 0 0-6 0M15 13a3 3 0 1 0 6 0 3 3 0 0 0-6 0M9 13c1.2-1 4.8-1 6 0M4 4l16 16"/></svg>Sin gafas de sol ni gorra</li>
+              <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4.5 20.5c.8-3.6 3.8-5.5 7.5-5.5s6.7 1.9 7.5 5.5"/></svg>Solo tú, cara en el óvalo</li>
+            </ul>
+            <div class="pg-reg-acc"><button class="btn btn-g btn-bloque" type="submit">Continuar <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+          </form>
+
+          <!-- PASO 6 · REVISIÓN Y ENVÍO -->
+          <form class="pg-reg-paso" id="r-p6" novalidate hidden>
+            <div class="pg-reg-tit">
+              <h1 tabindex="-1">Revisa y envía</h1>
+              <p>Comprueba que todo está bien. Al enviar verificaremos tu identidad en unos segundos.</p>
+            </div>
+            <div class="col g10" id="r-resumen"></div>
+            <div class="pg-reg-casillas">
+              <label class="casilla" for="r-decl"><input type="checkbox" id="r-decl" aria-describedby="r-decl-err"><span>Declaro que soy mayor de 18 años y que los datos son verdaderos.</span></label>
+              <p class="error" id="r-decl-err" hidden></p>
+              <label class="casilla" for="r-aut"><input type="checkbox" id="r-aut" aria-describedby="r-aut-err"><span>Autorizo el tratamiento de mi documento y mi imagen para verificar mi identidad y mi edad. <a class="enlace" href="legal.html#identidad">Más información</a></span></label>
+              <p class="error" id="r-aut-err" hidden></p>
+            </div>
+            <div class="pg-reg-acc"><button class="btn btn-g btn-bloque" type="submit">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4.5 6v5.6c0 4.4 3.1 8.2 7.5 9.4 4.4-1.2 7.5-5 7.5-9.4V6zM8.8 12.2l2.2 2.2 4.4-4.6"/></svg>Enviar y verificar mi identidad</button></div>
+          </form>
+
+          <!-- VERIFICACIÓN AUTOMÁTICA -->
+          <section class="pg-reg-paso" id="r-verif" hidden aria-labelledby="r-verif-t">
+            <div class="pg-reg-verif-cab">
+              <div class="pg-reg-escudo" id="r-escudo">
+                <svg class="pg-reg-anillo" viewBox="0 0 120 120" aria-hidden="true"><circle class="pista" cx="60" cy="60" r="57"/><circle class="avance" cx="60" cy="60" r="57" pathLength="100"/></svg>
+                <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4.5 6v5.6c0 4.4 3.1 8.2 7.5 9.4 4.4-1.2 7.5-5 7.5-9.4V6z"/></svg>
+              </div>
+              <h1 class="h2" id="r-verif-t" tabindex="-1" style="outline:none">Verificando tu identidad</h1>
+              <p class="sec sm">Suele tardar unos segundos. No cierres esta pantalla.</p>
+            </div>
+            <ol class="pg-reg-checks" id="r-checks" aria-live="polite"></ol>
+          </section>
+
+          <!-- RESULTADO -->
+          <section class="pg-reg-paso" id="r-exito" hidden aria-labelledby="r-exito-t"></section>
+
+          <!-- BLOQUEO DE MENORES -->
+          <section class="pg-reg-paso" id="r-menor" hidden role="alert"></section>
+        </div>
+      </section>
+
+      <aside class="pg-reg-lado" aria-labelledby="r-lado-t">
+        <div class="pg-reg-lado-caja">
+          <div class="col g6">
+            <span class="insignia insignia-ok" style="align-self:flex-start">Solo +18 verificados</span>
+            <h2 id="r-lado-t">Por qué Apaño te pide el documento</h2>
+          </div>
+          <ul class="pg-reg-razones">
+            <li><span class="ic" aria-hidden="true">18</span><div><b>Todos mayores de edad</b><p>Comprobamos la edad de cada persona con su documento. Sin excepciones.</p></div></li>
+            <li><span class="ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4.5 20.5c.8-3.6 3.8-5.5 7.5-5.5s6.7 1.9 7.5 5.5"/></svg></span><div><b>Gente real</b><p>Cada perfil es una persona cuyo nombre y cara coinciden con su documento.</p></div></li>
+            <li><span class="ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4.5 6v5.6c0 4.4 3.1 8.2 7.5 9.4 4.4-1.2 7.5-5 7.5-9.4V6z"/></svg></span><div><b>Menos estafas</b><p>Quien viene a engañar no quiere enseñar su DNI. Y si alguien la lía, sabemos quién es.</p></div></li>
+          </ul>
+          <hr class="separador">
+          <div class="col g10">
+            <h3>Qué guardamos y cuánto tiempo</h3>
+            <dl class="pg-reg-plazos">
+              <div><dt>Fotos del documento y selfie</dt><dd>Se borran al terminar la verificación y, como máximo, a los 30 días.</dd></div>
+              <div><dt>El «mapa» de tu cara</dt><dd>Se borra en cuanto termina la comparación. No se guarda.</dd></div>
+              <div><dt>Número del documento</dt><dd>Cifrado, mientras tengas la cuenta, solo para evitar cuentas duplicadas.</dd></div>
+              <div><dt>Resultado de la verificación</dt><dd>Verificado sí o no, fecha y tipo de documento, mientras tengas la cuenta.</dd></div>
+            </dl>
+          </div>
+          <div class="col g8">
+            <h3>Así te verán los demás</h3>
+            <div class="pg-reg-asi">
+              <span id="r-asi-av"></span>
+              <div class="col g4 min0 crecer"><b class="sm recorte recorte-1" id="r-asi-n">Tu nombre</b><span class="xs ter">Identidad verificada</span></div>
+              <span class="insignia" style="margin-left:auto;padding:0 7px" title="Número de documento oculto"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 11h12v9.5H6zM8.5 11V8a3.5 3.5 0 0 1 7 0v3"/></svg><span class="solo-lector">Número de documento oculto</span></span>
+            </div>
+            <p class="ayuda">Tu número de documento nunca aparece en tu perfil. Solo lo ve el equipo de verificación.</p>
+          </div>
+          <a class="enlace sm" href="legal.html#identidad">Cómo tratamos tu documento</a>
+        </div>
+      </aside>
+    </div>
+  </div>
+</main>
+<script>
+A.pagina = function(){
+  const $ = A.$, $$ = A.$$;
+  const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const NOMBRES = ['Tu cuenta','Verifica tu móvil','Tus datos','Tu documento','Selfie','Revisión y envío'];
+  const pad = n => String(n).padStart(2, '0');
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const ico = (d, t, w) => `<svg width="${t||18}" height="${t||18}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w||2}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
+  const D = {
+    ojo:'M2.5 12s3.5-6.5 9.5-6.5 9.5 6.5 9.5 6.5-3.5 6.5-9.5 6.5S2.5 12 2.5 12zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z',
+    ojoNo:'M3 3l18 18M10.6 6.1A10 10 0 0 1 12 6c6 0 9.5 6 9.5 6a17 17 0 0 1-3 3.7M6.6 6.6C4 8.3 2.5 12 2.5 12s3.5 6 9.5 6c1.6 0 3-.4 4.3-1M9.9 9.9a3 3 0 0 0 4.2 4.2',
+    check:'M5 12.5l4.2 4.2L19 7', flecha:'M5 12h14M13 6l6 6-6 6', cal:'M4 6h16v14H4zM4 10h16M8 3.5v4M16 3.5v4',
+    candado:'M6 11h12v9.5H6zM8.5 11V8a3.5 3.5 0 0 1 7 0v3', info:'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 11v5M12 7.6v.01',
+    borrar:'M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13', persona:'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4.5 20.5c.8-3.6 3.8-5.5 7.5-5.5s6.7 1.9 7.5 5.5',
+    cam:'M4 8h3l1.6-2.5h6.8L17 8h3v11H4zM12 16.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z'
+  };
+  const CK = `<span class="pg-reg-ck" aria-hidden="true"><svg class="aro" viewBox="0 0 26 26"><circle cx="13" cy="13" r="11.7" pathLength="100"/></svg><svg class="vis" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="${D.check}"/></svg></span>`;
+  const [hy, hm, hd] = A.HOY.split('-').map(Number);
+  const HOYL = new Date(hy, hm - 1, hd);
+
+  /* ---------- estado (persistente salvo contraseña e imágenes) ---------- */
+  const BASE = {paso:1, email:'', movil:'', com:false, cond:false, priv:false, pw:null, movilOk:'', envio:0, envioA:'',
+    nombre:'', apellidos:'', dia:'', mes:'', anio:'', poblacion:'', tipo:'DNI', num:'', caduca:'', perm:false};
+  const leido = A.lee('reg', null);
+  const E = Object.assign({}, BASE, (leido && typeof leido === 'object') ? leido : {});
+  let cerrado = false;
+  const guarda = () => { if(!cerrado) A.guarda('reg', E) };
+  const img = {anverso:null, reverso:null, selfie:null};
+  let clave = '', vida = false, volver = 0, actual = 0, intentos = 5, inicio = true;
+  const tocado = {};
+
+  /* ---------- utilidades ---------- */
+  const soloCifras = v => { v = String(v || '').replace(/\D/g, ''); if(v.length === 13 && v.startsWith('0034')) v = v.slice(4); if(v.length === 11 && v.startsWith('34')) v = v.slice(2); return v };
+  const fmtMovil = v => { v = soloCifras(v).slice(0, 9); return [v.slice(0,3), v.slice(3,6), v.slice(6,9)].filter(Boolean).join(' ') };
+  const limpiaNum = v => String(v || '').toUpperCase().replace(/[^0-9A-Z]/g, '');
+  const enmascara = v => v.length <= 4 ? v : v.slice(0, 2) + '•'.repeat(v.length - 4) + v.slice(-2);
+  const nacISO = () => (E.dia && E.mes && E.anio) ? `${E.anio}-${pad(E.mes)}-${pad(E.dia)}` : '';
+  const fechaLarga = (d, m, y) => `${d} de ${MESES[m - 1]} de ${y}`;
+  const tipoLargo = t => ({DNI:'DNI', NIE:'NIE', Pasaporte:'Pasaporte'})[t] || t;
+
+  function error(id, msg){
+    const el = document.getElementById(id), er = document.getElementById(id + '-err');
+    if(el && el.matches('input,select,textarea')) el.setAttribute('aria-invalid', msg ? 'true' : 'false');
+    if(er){ er.textContent = msg || ''; er.hidden = !msg }
+    return !msg;
+  }
+  function revisa(lista, focar){
+    let primero = null;
+    lista.forEach(([id, msg, foco]) => { error(id, msg); if(msg && !primero) primero = foco || id });
+    if(primero && focar){
+      const el = document.getElementById(primero);
+      if(el){ el.focus({preventScroll:true}); el.scrollIntoView({block:'center', behavior: quieto ? 'auto' : 'smooth'}) }
+    }
+    return !primero;
+  }
+  function revisaUno(n, id){ const e = lista(n).find(x => x[0] === id); if(e) error(e[0], e[1]) }
+  function vivo(el, n){
+    el.addEventListener('blur', () => { if(el.value.trim() || tocado[n]) revisaUno(n, el.id) });
+    el.addEventListener('input', () => { if(el.getAttribute('aria-invalid') === 'true') revisaUno(n, el.id) });
+  }
+
+  /* ---------- transiciones entre pantallas ---------- */
+  let visible = null, salidaT = 0;
+  function muestra(el, adelante){
+    clearTimeout(salidaT);
+    $$('.pg-reg-sale').forEach(f => { f.hidden = true; f.inert = false; f.classList.remove('pg-reg-sale', 'adelante', 'atras') });
+    const viejo = visible;
+    if(viejo && viejo !== el){
+      if(quieto) viejo.hidden = true;
+      else { viejo.inert = true; viejo.classList.add('pg-reg-sale', adelante ? 'adelante' : 'atras');
+        salidaT = setTimeout(() => { viejo.hidden = true; viejo.inert = false; viejo.classList.remove('pg-reg-sale', 'adelante', 'atras') }, 280) }
+    }
+    el.hidden = false; el.classList.remove('entra-adelante', 'entra-atras'); void el.offsetWidth;
+    if(viejo && viejo !== el && !quieto) el.classList.add(adelante ? 'entra-adelante' : 'entra-atras');
+    visible = el;
+    if(!inicio){
+      const col = $('.pg-reg-col'), top = col.getBoundingClientRect().top + scrollY - (innerWidth > 860 ? 90 : 120);
+      if(scrollY > top) scrollTo({top: Math.max(0, top), behavior: quieto ? 'auto' : 'smooth'});
+      const h = el.querySelector('h1'); if(h) setTimeout(() => h.focus({preventScroll:true}), quieto ? 0 : 60);
+    }
+  }
+  function pintaProgreso(n){
+    $$('#r-progreso span').forEach((s, i) => { s.className = (i + 1 < n || n > 6) ? 'hecho' : (i + 1 === n ? 'activo' : '') });
+    $('#r-progreso').setAttribute('aria-valuenow', Math.min(n, 6));
+    $('#r-cuenta').innerHTML = n > 6 ? '<b>Verificando</b>' : `Paso <b>${n}</b> de 6 · ${NOMBRES[n - 1]}`;
+  }
+  const alEntrar = {};
+  function ir(n){
+    const adelante = n > actual; actual = n; E.paso = n; guarda();
+    pintaProgreso(n); $('#r-atras').hidden = false;
+    if(alEntrar[n]) alEntrar[n]();
+    muestra($('#r-p' + n), adelante);
+  }
+  $('#r-atras').addEventListener('click', () => {
+    if(actual === 1 && volver){ ir(volver); return }
+    if(actual <= 1){
+      let mismo = false; try{ mismo = document.referrer && new URL(document.referrer).origin === location.origin }catch(e){}
+      if(mismo && history.length > 1) history.back(); else location.href = 'index.html';
+      return;
+    }
+    ir(actual - 1);
+  });
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-editar]'); if(!b) return;
+    e.preventDefault(); if(actual === 6) volver = 6; ir(+b.dataset.editar);
+    if(b.dataset.editar === '1') setTimeout(() => $('#r-movil').focus(), quieto ? 0 : 450);
+  });
+
+  /* ---------- paso 1: cuenta ---------- */
+  const email = $('#r-email'), movil = $('#r-movil'), claveIn = $('#r-clave'), ver = $('#r-ver');
+  email.value = E.email; movil.value = fmtMovil(E.movil);
+  $('#r-cond').checked = !!E.cond; $('#r-priv').checked = !!E.priv; $('#r-com').checked = !!E.com;
+  ver.innerHTML = ico(D.ojo, 20, 1.9);
+  ver.addEventListener('click', () => {
+    const mostrar = claveIn.type === 'password';
+    claveIn.type = mostrar ? 'text' : 'password';
+    ver.setAttribute('aria-pressed', mostrar); ver.setAttribute('aria-label', mostrar ? 'Ocultar contraseña' : 'Mostrar contraseña');
+    ver.innerHTML = ico(mostrar ? D.ojoNo : D.ojo, 20, 1.9); claveIn.focus();
+  });
+  function fuerza(p){
+    if(!p) return {n:0, txt:'', consejo:''};
+    const bajo = p.toLowerCase(), consejos = [];
+    let pool = 0;
+    const min = /[a-zñç]/.test(p), may = /[A-ZÑÇ]/.test(p), dig = /\d/.test(p), sim = /[^a-zA-Z0-9ñÑçÇ]/.test(p);
+    if(min) pool += 27; if(may) pool += 27; if(dig) pool += 10; if(sim) pool += 33;
+    let bits = p.length * Math.log2(Math.max(pool, 2));
+    if(p.length < 8) consejos.push('Necesita al menos 8 caracteres.');
+    if(!(min && may)) consejos.push('Mezcla mayúsculas y minúsculas.');
+    if(!dig || !sim) consejos.push('Añade algún número y algún símbolo.');
+    if(p.length >= 8 && p.length < 12) consejos.push('Con 12 caracteres o más será mucho más segura.');
+    if(/(.)\1\1/.test(p)){ bits -= 12; consejos.unshift('Evita repetir el mismo carácter.') }
+    let sec = false;
+    for(const f of ['0123456789', 'abcdefghijklmnopqrstuvwxyz', 'qwertyuiop', 'asdfghjklñ', 'zxcvbnm'])
+      for(let i = 0; i + 4 <= f.length; i++){ const t = f.slice(i, i + 4); if(bajo.includes(t) || bajo.includes([...t].reverse().join(''))) sec = true }
+    if(sec){ bits -= 18; consejos.unshift('Evita secuencias como 1234, abcd o qwerty.') }
+    const comunes = ['contraseña','contrasena','password','passw','123456','qwerty','apaño','apano','admin','hola','bienvenid','iloveyou','teamo','futbol','madrid','barcelona','barca','mallorca','palma','españa','espana','verano','dragon','secreto','usuario'];
+    if(comunes.some(c => bajo.includes(c))){ bits -= 26; consejos.unshift('Evita palabras muy usadas o el nombre de la app.') }
+    if(/(19|20)\d\d/.test(p)) bits -= 6;
+    const propios = [(email.value.split('@')[0] || ''), soloCifras(movil.value), E.nombre, E.apellidos].map(x => String(x || '').toLowerCase()).filter(x => x.length >= 4);
+    if(propios.some(x => bajo.includes(x))){ bits -= 30; consejos.unshift('No uses tu nombre, tu correo ni tu móvil.') }
+    let n = bits < 30 ? 1 : bits < 50 ? 2 : bits < 70 ? 3 : 4;
+    if(p.length < 8) n = 1;
+    return {n, txt:['', 'Muy débil', 'Mejorable', 'Fuerte', 'Muy fuerte'][n], consejo: n === 4 ? 'Muy difícil de adivinar. Bien hecho.' : (consejos[0] || 'Alárgala un poco más.')};
+  }
+  function pintaFuerza(){
+    const f = fuerza(clave), barra = $('#r-fuerza'), nivel = $('#r-fuerza-nivel'), txt = $('#r-fuerza-consejo');
+    if(!clave && E.pw){ barra.dataset.n = E.pw.n; nivel.dataset.n = E.pw.n; nivel.textContent = ''; txt.textContent = 'Ya has creado tu contraseña. Escribe otra solo si quieres cambiarla.'; return }
+    barra.dataset.n = f.n; nivel.dataset.n = f.n; nivel.textContent = f.txt;
+    txt.textContent = clave ? f.consejo : 'Mínimo 8 caracteres. Mejor si mezclas letras, números y algún símbolo.';
+  }
+  claveIn.addEventListener('input', () => { clave = claveIn.value; pintaFuerza(); if(claveIn.getAttribute('aria-invalid') === 'true') revisaUno(1, 'r-clave') });
+  email.addEventListener('input', () => { E.email = email.value.trim(); guarda() });
+  movil.addEventListener('input', () => { E.movil = soloCifras(movil.value); guarda() });
+  movil.addEventListener('blur', () => { if(A.movilValido(soloCifras(movil.value))) movil.value = fmtMovil(movil.value) });
+  vivo(email, 1); vivo(movil, 1);
+  ['cond', 'priv', 'com'].forEach(k => $('#r-' + k).addEventListener('change', e => { E[k] = e.target.checked; guarda(); if(tocado[1] && k !== 'com') revisaUno(1, 'r-legal') }));
+  alEntrar[1] = () => { pintaFuerza() };
+
+  /* ---------- paso 2: código ---------- */
+  const cajas = $$('.pg-reg-cifra'), codigo = $('#r-codigo');
+  const leeCodigo = () => cajas.map(c => c.value).join('');
+  function reparte(d, desde){
+    d = d.slice(0, 6 - desde);
+    [...d].forEach((x, k) => { cajas[desde + k].value = x });
+    const sig = Math.min(desde + d.length, 5); cajas[sig].focus();
+    lleno();
+  }
+  function lleno(){
+    cajas.forEach(c => c.removeAttribute('aria-invalid'));
+    const c = leeCodigo(); if(c.length === 6 && cajas.every(x => x.value)) compruebaCodigo(c);
+  }
+  cajas.forEach((c, i) => {
+    c.addEventListener('input', () => {
+      const d = c.value.replace(/\D/g, '');
+      if(d.length > 1){ c.value = ''; reparte(d, d.length >= 6 ? 0 : i); return }
+      c.value = d; error('r-cod', '');
+      if(d && i < 5) cajas[i + 1].focus();
+      lleno();
+    });
+    c.addEventListener('keydown', e => {
+      if(e.key === 'Backspace' && !c.value && i > 0){ e.preventDefault(); cajas[i - 1].value = ''; cajas[i - 1].focus() }
+      else if(e.key === 'ArrowLeft' && i > 0){ e.preventDefault(); cajas[i - 1].focus() }
+      else if(e.key === 'ArrowRight' && i < 5){ e.preventDefault(); cajas[i + 1].focus() }
+    });
+    c.addEventListener('paste', e => {
+      const t = ((e.clipboardData || window.clipboardData).getData('text') || '').replace(/\D/g, '');
+      e.preventDefault(); if(t) reparte(t, t.length >= 6 ? 0 : i);
+    });
+    c.addEventListener('focus', () => setTimeout(() => c.select(), 0));
+  });
+  function compruebaCodigo(c){
+    if(intentos <= 0 || codigo.classList.contains('ok')) return;
+    if(c === '123456'){
+      E.movilOk = E.movil; guarda(); codigo.classList.remove('mal'); estadoCodigo();
+      setTimeout(() => { if(actual === 2) ir(volver || 3) }, quieto ? 200 : 900);
+      return;
+    }
+    intentos--;
+    codigo.classList.remove('mal'); void codigo.offsetWidth; codigo.classList.add('mal');
+    error('r-cod', intentos > 0 ? `Ese código no es correcto. Te ${intentos === 1 ? 'queda 1 intento' : 'quedan ' + intentos + ' intentos'}.` : 'Has agotado los intentos. Pide un código nuevo.');
+    cajas.forEach(x => { x.value = ''; x.setAttribute('aria-invalid', 'true'); x.disabled = intentos <= 0 });
+    if(intentos > 0) cajas[0].focus();
+    pintaReenvio();
+  }
+  function estadoCodigo(){
+    const ok = !!E.movilOk && E.movilOk === E.movil;
+    codigo.classList.toggle('ok', ok);
+    cajas.forEach((x, i) => { x.disabled = ok || intentos <= 0; if(ok) x.value = '123456'[i] });
+    $('#r-cod-ok').hidden = !ok; if(ok) error('r-cod', '');
+    $('#r-p2-btn').innerHTML = ok ? 'Continuar ' + ico(D.flecha, 18, 2.2) : 'Verificar';
+    $('#r-reenvio').hidden = ok;
+  }
+  function pintaReenvio(){
+    const r = Math.max(0, 60 - Math.floor((Date.now() - E.envio) / 1000)), caja = $('#r-reenvio');
+    const quiere = r > 0 ? `<span>¿No te llega? Podrás pedir otro en <span class="num">${Math.floor(r / 60)}:${pad(r % 60)}</span></span>` : '<span>¿No te ha llegado?</span><button class="btn btn-suave btn-p" type="button" id="r-reenviar">Reenviar código</button>';
+    if(caja.dataset.r !== String(r > 0 ? r : 0)){ caja.dataset.r = r > 0 ? r : 0; caja.innerHTML = quiere }
+  }
+  $('#r-reenvio').addEventListener('click', e => {
+    if(!e.target.closest('#r-reenviar')) return;
+    E.envio = Date.now(); E.envioA = E.movil; intentos = 5; guarda();
+    cajas.forEach(x => { x.value = ''; x.disabled = false; x.removeAttribute('aria-invalid') });
+    error('r-cod', ''); pintaReenvio(); cajas[0].focus();
+    A.avisa('Te hemos enviado un código nuevo');
+  });
+  setInterval(() => { if(actual === 2 && !codigo.classList.contains('ok')) pintaReenvio() }, 1000);
+  alEntrar[2] = () => {
+    $('#r-movil-ver').textContent = '+34 ' + fmtMovil(E.movil);
+    const ok = !!E.movilOk && E.movilOk === E.movil;
+    if(!ok){
+      cajas.forEach(x => { x.value = ''; x.removeAttribute('aria-invalid') });
+      if(E.envioA !== E.movil || !E.envio){ E.envio = Date.now(); E.envioA = E.movil; intentos = 5; guarda(); if(!inicio) A.avisa('Te hemos enviado un SMS con el código') }
+    }
+    estadoCodigo(); pintaReenvio();
+    if(!ok && !inicio) setTimeout(() => cajas[intentos > 0 ? 0 : 0].focus({preventScroll:true}), quieto ? 0 : 420);
+  };
+  $('#r-p2').addEventListener('submit', e => {
+    e.preventDefault();
+    if(E.movilOk && E.movilOk === E.movil){ ir(volver || 3); return }
+    const vacia = cajas.find(c => !c.value);
+    if(vacia){ error('r-cod', 'Escribe las 6 cifras del código.'); vacia.focus(); return }
+    compruebaCodigo(leeCodigo());
+  });
+
+  /* ---------- paso 3: datos y edad ---------- */
+  const nombre = $('#r-nombre'), apellidos = $('#r-apellidos'), dia = $('#r-dia'), mes = $('#r-mes'), anio = $('#r-anio'), poblacion = $('#r-poblacion');
+  dia.innerHTML = '<option value="">Día</option>' + Array.from({length:31}, (_, i) => `<option value="${i + 1}">${i + 1}</option>`).join('');
+  mes.innerHTML = '<option value="">Mes</option>' + MESES.map((m, i) => `<option value="${i + 1}">${m[0].toUpperCase() + m.slice(1)}</option>`).join('');
+  let anos = ''; for(let y = 2026; y >= 1926; y--) anos += `<option value="${y}">${y}</option>`;
+  anio.innerHTML = '<option value="">Año</option>' + anos;
+  nombre.value = E.nombre; apellidos.value = E.apellidos; poblacion.value = E.poblacion;
+  dia.value = E.dia; mes.value = E.mes; anio.value = E.anio;
+  function ajustaDias(){
+    const m = +mes.value, y = +anio.value || 2000, max = m ? new Date(y, m, 0).getDate() : 31;
+    [...dia.options].forEach(o => { if(o.value) o.disabled = +o.value > max });
+    if(+dia.value > max){ const dd = dia.value; dia.value = ''; E.dia = ''; error('r-fecha', `${MESES[m - 1][0].toUpperCase() + MESES[m - 1].slice(1)}${anio.value ? ' de ' + y : ''} no tiene ${dd} días. Vuelve a elegir el día.`) }
+  }
+  function pintaEdad(){
+    const iso = nacISO(), caja = $('#r-edad');
+    [dia, mes, anio].forEach(s => s.removeAttribute('aria-invalid'));
+    if(!iso){ caja.innerHTML = ''; return null }
+    const e = A.edad(iso);
+    if(iso > A.HOY){ caja.innerHTML = ''; error('r-fecha', 'La fecha no puede ser posterior a hoy.'); return null }
+    error('r-fecha', '');
+    caja.innerHTML = e >= 18
+      ? `<span class="pg-reg-edad">${ico(D.check, 15, 2.6)}Tienes ${e} años</span>`
+      : `<span class="pg-reg-edad mal">${ico(D.info, 15, 2.2)}Tienes ${e} ${e === 1 ? 'año' : 'años'}</span>`;
+    return e;
+  }
+  function evalua(definitivo){
+    if(cerrado) return;
+    const e = pintaEdad();
+    if(e != null && e < 18 && definitivo) bloquea(nacISO(), e);
+  }
+  let teclaEn = 0;
+  [[dia, 'dia'], [mes, 'mes'], [anio, 'anio']].forEach(([s, k]) => {
+    s.addEventListener('keydown', ev => { if(ev.key !== 'Tab') teclaEn = Date.now() });
+    s.addEventListener('change', () => {
+      E[k] = s.value; ajustaDias(); guarda();
+      evalua(Date.now() - teclaEn > 700);
+    });
+    s.addEventListener('blur', () => { if(teclaEn) evalua(true) });
+  });
+  [[nombre, 'nombre'], [apellidos, 'apellidos'], [poblacion, 'poblacion']].forEach(([el, k]) => {
+    el.addEventListener('input', () => { E[k] = el.value.trim(); guarda(); if(k !== 'poblacion') pintaAsi() });
+    vivo(el, 3);
+  });
+
+  function bloquea(iso, e){
+    if(cerrado) return; cerrado = true;
+    A.guarda('menor', Date.now()); A.borra('reg');
+    const [y, m, d] = iso.split('-').map(Number);
+    const cumple = new Date(y + 18, m - 1, d), dias = Math.round((cumple - HOYL) / 864e5), pronto = dias > 0 && dias <= 30;
+    $('#r-menor').innerHTML = `<div class="pg-reg-menor">
+        <span class="puerta-18" aria-hidden="true">18</span>
+        <h1 class="h1" tabindex="-1">Apaño es solo para mayores de 18 años</h1>
+        <p class="sec" style="max-width:40ch">Según la fecha que has indicado, tienes ${e} ${e === 1 ? 'año' : 'años'}. No puedes crear una cuenta ni contratar ni ofrecer servicios en Apaño.</p>
+        ${pronto ? `<div class="aviso aviso-marca" style="text-align:left;width:100%">${ico(D.cal, 18)}<span><b>Cumples 18 el ${fechaLarga(cumple.getDate(), cumple.getMonth() + 1, cumple.getFullYear())}.</b> Vuelve ese día ${dias === 1 ? '(mañana)' : `(faltan ${dias} días)`} y podrás darte de alta con tu documento.</span></div>` : ''}
+        <ul>
+          <li>${ico(D.candado, 17)}<span>Hemos bloqueado Apaño en este dispositivo durante 24 horas.</span></li>
+          <li>${ico(D.borrar, 17)}<span>Hemos borrado todo lo que habías escrito en este formulario.</span></li>
+          <li>${ico(D.persona, 17)}<span>Si necesitas un servicio, pide a una persona adulta de tu familia que lo contrate por ti.</span></li>
+        </ul>
+        <p class="ayuda" style="max-width:44ch">Si te has equivocado al poner la fecha, podrás volver a intentarlo pasadas 24 horas. Al final del alta comprobamos la edad con el documento, así que no sirve de nada poner otra fecha.</p>
+        <a class="enlace sm" href="legal.html#condiciones">Por qué Apaño es solo para adultos</a>
+        <p class="xs ter">Demostración: recarga la página y pulsa «Restablecer» para volver a probar.</p>
+      </div>`;
+    $('#r-cab').hidden = true; $('.pg-reg-lado').hidden = true;
+    actual = 99; muestra($('#r-menor'), true);
+  }
+
+  /* ---------- paso 4: documento ---------- */
+  const numIn = $('#r-num'), cadIn = $('#r-caduca'), perm = $('#r-perm');
+  numIn.value = E.num; cadIn.value = E.caduca; perm.checked = !!E.perm;
+  function errNum(){
+    const t = E.tipo, v = limpiaNum(numIn.value);
+    if(!v) return 'Escribe el número de tu documento.';
+    if(t === 'DNI'){
+      if(/^[XYZ]\d{7}[A-Z]$/.test(v)) return 'Esto es un NIE: cambia el tipo de documento a NIE.';
+      if(!/^\d{8}[A-Z]$/.test(v)) return 'El DNI tiene 8 cifras y una letra, por ejemplo 12345678Z.';
+      if(!A.docValido(v)) return 'La letra no corresponde a este número. Revisa que no falte ni sobre ninguna cifra.';
+    }
+    if(t === 'NIE'){
+      if(/^\d{8}[A-Z]$/.test(v)) return 'Esto es un DNI: cambia el tipo de documento a DNI.';
+      if(!/^[XYZ]\d{7}[A-Z]$/.test(v)) return 'El NIE empieza por X, Y o Z, sigue con 7 cifras y acaba en letra, por ejemplo X1234567L.';
+      if(!A.docValido(v)) return 'La letra no corresponde a este número. Revisa que no falte ni sobre ninguna cifra.';
+    }
+    if(t === 'Pasaporte' && !A.pasaporteValido(v)) return 'El número de pasaporte tiene entre 6 y 9 letras o cifras, sin espacios.';
+    return '';
+  }
+  function errCad(){
+    if(E.tipo === 'DNI' && E.perm) return '';
+    const v = cadIn.value;
+    if(!v) return 'Indica la fecha de caducidad que aparece en el documento.';
+    if(v < A.HOY) return `Tu documento caducó el ${A.fecha(v)}. Para verificarte necesitamos uno en vigor: renuévalo o usa otro documento, como el pasaporte.`;
+    if(E.tipo === 'DNI' && v > '2036-11-17') return 'Revisa la fecha: un DNI dura como máximo 10 años.';
+    if(v > '2046-12-31') return 'Revisa la fecha: parece demasiado lejana.';
+    return '';
+  }
+  function pintaNumOk(){
+    const ok = numIn.value && !errNum(), p = $('#r-num-ok');
+    p.hidden = !ok;
+    if(ok) p.innerHTML = ico(D.check, 15, 2.6) + (E.tipo === 'Pasaporte' ? 'Formato correcto' : 'La letra de control es correcta');
+  }
+  function pintaCad(){
+    const a = $('#r-caduca-ayuda'), v = cadIn.value;
+    const dias = v && v >= A.HOY ? Math.round((new Date(v + 'T00:00') - new Date(A.HOY + 'T00:00')) / 864e5) : -1;
+    a.hidden = !(dias >= 0 && dias <= 60);
+    if(!a.hidden) a.textContent = dias === 0 ? 'Caduca hoy: te sirve para verificarte, pero renuévalo cuanto antes.' : `Caduca en ${dias} días: te sirve para verificarte, pero renuévalo pronto.`;
+    cadIn.disabled = E.tipo === 'DNI' && E.perm;
+  }
+  numIn.addEventListener('input', () => { E.num = limpiaNum(numIn.value); guarda(); pintaNumOk() });
+  cadIn.addEventListener('input', () => { E.caduca = cadIn.value; guarda(); pintaCad() });
+  cadIn.addEventListener('change', () => { if(cadIn.value) revisaUno(4, 'r-caduca') });
+  perm.addEventListener('change', () => { E.perm = perm.checked; guarda(); pintaCad(); if(E.perm) error('r-caduca', '') });
+  vivo(numIn, 4);
+  function pintaTipo(){
+    const t = E.tipo, una = t === 'Pasaporte';
+    $$('input[name="r-tipo"]').forEach(r => { r.checked = r.value === t });
+    numIn.placeholder = {DNI:'12345678Z', NIE:'X1234567L', Pasaporte:'PAA123456'}[t];
+    $('#r-num-lab').textContent = una ? 'Número de pasaporte' : 'Número de ' + t;
+    $('#r-perm-env').hidden = t !== 'DNI';
+    $('#r-fotos').classList.toggle('una', una);
+    $('#r-foto-reverso').hidden = una;
+    $('#r-fotos-leyenda').textContent = una ? 'Foto del pasaporte' : 'Fotos del documento';
+    $$('#r-foto-anverso [data-nombre]').forEach(b => { b.textContent = una ? 'Página de datos' : 'Anverso' });
+    $('#r-foto-anverso [data-cara]').textContent = una ? '· la de tu foto, entera' : '· la cara con tu foto';
+    pintaNumOk(); pintaCad();
+  }
+  $$('input[name="r-tipo"]').forEach(r => r.addEventListener('change', () => {
+    if(!r.checked) return;
+    const cambia = E.tipo !== r.value; E.tipo = r.value; if(r.value !== 'DNI') E.perm = false; perm.checked = E.perm; guarda();
+    if(cambia && (img.anverso || img.reverso)){ img.anverso = img.reverso = null; pintaFoto('anverso'); pintaFoto('reverso'); A.avisa('Has cambiado de documento: vuelve a hacer las fotos') }
+    pintaTipo();
+    if(numIn.value) revisaUno(4, 'r-num');
+  }));
+
+  function muestraDoc(lado){
+    const l = (et, v) => `<i style="width:${et}%"></i><i class="v" style="width:${v}%"></i>`;
+    const firma = '<svg class="m-firma" viewBox="0 0 100 30" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 22c8-14 14-17 15-10s-5 12-2 12 9-15 13-15-2 13 2 13 8-10 11-10 0 9 4 9 10-8 16-8 7 4 12 3 9-5 14-6"/></svg>';
+    if(E.tipo === 'Pasaporte') return `<div class="pg-reg-muestra m-pas" role="img" aria-label="Imagen de ejemplo de la página de datos de un pasaporte, rotulada como muestra">
+        <div class="m-banda"><span>Pasaporte</span></div><div class="m-foto"></div>
+        <div class="m-lineas">${l(20, 62)}${l(16, 48)}${l(24, 56)}${l(18, 38)}</div>
+        <div class="m-mrz"><span>P&lt;MUESTRA&lt;&lt;APANO&lt;&lt;DEMO&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span><span>MUE000000&lt;0DEMO0000000&lt;0000000&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;0</span></div>
+        <span class="m-sello">Muestra</span></div>`;
+    if(lado === 'reverso') return `<div class="pg-reg-muestra m-rev" role="img" aria-label="Imagen de ejemplo del reverso de un documento, rotulada como muestra">
+        <div class="m-banda" style="height:7cqw"><span>Reverso</span></div><div class="m-barras"></div>
+        <div class="m-lineas">${l(30, 70)}${l(24, 56)}</div>
+        <div class="m-mrz"><span>ID&lt;MUESTRA&lt;&lt;APANO&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span><span>000000&lt;0DEMO&lt;0000000&lt;&lt;&lt;&lt;&lt;&lt;0</span><span>MUESTRA&lt;&lt;DEMO&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span></div>
+        <span class="m-sello">Muestra</span></div>`;
+    return `<div class="pg-reg-muestra" role="img" aria-label="Imagen de ejemplo del anverso de un documento de identidad, rotulada como muestra">
+        <div class="m-banda"><span>Documento de identidad</span></div><div class="m-foto"></div>
+        <div class="m-lineas">${l(22, 64)}${l(18, 50)}${l(26, 40)}</div>${firma}
+        <span class="m-sello">Muestra</span></div>`;
+  }
+  function pintaFoto(lado){
+    const caja = $('#r-foto-' + lado), d = img[lado];
+    const vacio = $('.pg-reg-vacio', caja), lleno = $('.pg-reg-lleno', caja), rep = $('[data-repetir]', caja);
+    vacio.hidden = !!d; lleno.hidden = !d; rep.hidden = !d;
+    if(!d){ lleno.innerHTML = ''; return }
+    if(d.muestra) lleno.innerHTML = muestraDoc(lado);
+    else {
+      const im = new Image(); im.alt = (lado === 'anverso' ? (E.tipo === 'Pasaporte' ? 'Página de datos del pasaporte' : 'Anverso del documento') : 'Reverso del documento');
+      im.onerror = () => { img[lado] = null; pintaFoto(lado); error('r-fotos', 'No podemos mostrar esa imagen. Prueba con una foto en JPG o PNG.') };
+      im.src = d.src; lleno.replaceChildren(im);
+    }
+    lleno.insertAdjacentHTML('beforeend', `<span class="pg-reg-tick" aria-hidden="true">${ico(D.check, 15, 3)}</span>`);
+    $('#r-f-' + lado).removeAttribute('aria-invalid');
+  }
+  function leeArchivo(file, listo, idErr){
+    if(!file) return;
+    if(!/^image\//.test(file.type)){ error(idErr, 'Ese archivo no es una imagen. Sube una foto en JPG, PNG o HEIC.'); return }
+    if(file.size > 15 * 1024 * 1024){ error(idErr, 'La imagen pesa más de 15 MB. Prueba con otra.'); return }
+    const fr = new FileReader();
+    fr.onload = () => { error(idErr, ''); listo(fr.result) };
+    fr.onerror = () => error(idErr, 'No hemos podido leer la imagen. Prueba otra vez.');
+    fr.readAsDataURL(file);
+  }
+  ['anverso', 'reverso'].forEach(lado => {
+    const caja = $('#r-foto-' + lado), inp = $('#r-f-' + lado);
+    const carga = f => leeArchivo(f, src => { img[lado] = {src}; pintaFoto(lado); if(tocado[4]) revisaUno(4, 'r-fotos') }, 'r-fotos');
+    inp.addEventListener('change', () => { carga(inp.files[0]); inp.value = '' });
+    $('[data-repetir]', caja).addEventListener('click', () => inp.click());
+    ['dragenter', 'dragover'].forEach(ev => caja.addEventListener(ev, e => { e.preventDefault(); $('.pg-reg-vacio', caja).classList.add('encima') }));
+    ['dragleave', 'drop'].forEach(ev => caja.addEventListener(ev, e => { e.preventDefault(); $('.pg-reg-vacio', caja).classList.remove('encima') }));
+    caja.addEventListener('drop', e => { const f = e.dataTransfer && e.dataTransfer.files[0]; carga(f) });
+  });
+  ['dragover', 'drop'].forEach(ev => document.addEventListener(ev, e => { if(e.dataTransfer && [...e.dataTransfer.types].includes('Files')) e.preventDefault() }));
+  $('#r-muestra-doc').addEventListener('click', () => {
+    img.anverso = {muestra:true}; pintaFoto('anverso');
+    if(E.tipo !== 'Pasaporte'){ img.reverso = {muestra:true}; pintaFoto('reverso') }
+    error('r-fotos', '');
+  });
+  alEntrar[4] = () => pintaTipo();
+
+  /* ---------- paso 5: selfie y prueba de vida ---------- */
+  const circulo = $('#r-circulo'), cara = $('#r-cara'), fSelfie = $('#r-f-selfie');
+  let vidaT = [];
+  function pintaSelfie(){
+    const d = img.selfie;
+    circulo.classList.toggle('lleno', !!d);
+    if(!d) cara.innerHTML = `<span class="pg-reg-vacio-selfie">${ico(D.cam, 26, 1.8)}Coloca la cara dentro del óvalo</span><span class="pg-reg-ovalo"></span>`;
+    else if(d.muestra) cara.innerHTML = '<div class="pg-reg-silueta" role="img" aria-label="Imagen de ejemplo: silueta de una persona, rotulada como muestra"></div><span class="pg-reg-ovalo"></span><span class="pg-reg-silueta-et">Muestra</span>';
+    else { cara.innerHTML = '<span class="pg-reg-ovalo"></span>'; const im = new Image(); im.alt = 'Tu selfie'; im.src = d.src; cara.prepend(im) }
+    $('#r-selfie-btn span').textContent = d ? 'Repetir selfie' : 'Hacer selfie';
+  }
+  function pruebaVida(){
+    vida = false; vidaT.forEach(clearTimeout); vidaT = [];
+    const items = $$('#r-vida li'), dur = quieto ? 200 : 1100;
+    items.forEach(li => { li.dataset.e = 'espera'; li.style.setProperty('--dur', dur + 'ms') });
+    circulo.style.setProperty('--p', 0); circulo.removeAttribute('data-gesto');
+    if(!img.selfie) return;
+    items.forEach((li, i) => {
+      vidaT.push(setTimeout(() => { li.dataset.e = 'activo'; circulo.dataset.gesto = ['frente', 'gira', 'sonrie'][i] }, i * dur + 200));
+      vidaT.push(setTimeout(() => {
+        li.dataset.e = 'hecho'; circulo.style.setProperty('--p', Math.round((i + 1) / 3 * 100));
+        if(i === 2){ vida = true; circulo.removeAttribute('data-gesto'); error('r-selfie', '') }
+      }, (i + 1) * dur + 200));
+    });
+  }
+  fSelfie.addEventListener('change', () => {
+    leeArchivo(fSelfie.files[0], src => { img.selfie = {src}; pintaSelfie(); pruebaVida() }, 'r-selfie'); fSelfie.value = '';
+  });
+  $('#r-selfie-btn').addEventListener('click', () => fSelfie.click());
+  $('#r-muestra-selfie').addEventListener('click', () => { img.selfie = {muestra:true}; pintaSelfie(); pruebaVida(); error('r-selfie', '') });
+  alEntrar[5] = () => { pintaSelfie(); if(!img.selfie) pruebaVida() };
+
+  /* ---------- paso 6: revisión ---------- */
+  function bloqueRes(t, n, filas, extra){
+    return `<section class="pg-reg-res" aria-label="${t}">
+      <div class="pg-reg-res-cab"><h2>${t}</h2><button class="btn btn-sec btn-p" type="button" data-editar="${n}" aria-label="Editar: ${t.toLowerCase()}">Editar</button></div>
+      <dl>${filas.map(([a, b]) => `<dt>${a}</dt><dd>${b}</dd>`).join('')}</dl>${extra || ''}</section>`;
+  }
+  function mini(lado){
+    const d = img[lado]; if(!d) return '';
+    const pas = E.tipo === 'Pasaporte';
+    if(lado === 'selfie') return `<span class="pg-reg-mini redonda">${d.muestra ? '<div class="pg-reg-silueta"></div>' : `<img src="${d.src}" alt="Tu selfie">`}</span>`;
+    return `<span class="pg-reg-mini ${pas ? 'pas' : ''}">${d.muestra ? muestraDoc(lado) : `<img src="${d.src}" alt="${lado === 'anverso' ? (pas ? 'Página de datos' : 'Anverso') : 'Reverso'}">`}</span>`;
+  }
+  alEntrar[6] = () => {
+    const e = A.edad(nacISO()), num = limpiaNum(E.num), pw = E.pw || {n:3, largo:10};
+    $('#r-resumen').innerHTML =
+      bloqueRes('Tu cuenta', 1, [
+        ['Correo', esc(E.email)],
+        ['Móvil', `<span class="num">+34 ${fmtMovil(E.movil)}</span><span class="insignia insignia-ok">Verificado</span>`],
+        ['Contraseña', `<span aria-label="Oculta">${'•'.repeat(Math.min(Math.max(pw.largo, 8), 14))}</span>`],
+        ['Novedades', E.com ? 'Sí, por correo' : 'No']]) +
+      bloqueRes('Tus datos', 3, [
+        ['Nombre', esc(E.nombre + ' ' + E.apellidos)],
+        ['Nacimiento', `${fechaLarga(E.dia, +E.mes, E.anio)} · ${e} años`],
+        ['Población', esc(E.poblacion)]]) +
+      bloqueRes('Tu documento', 4, [
+        ['Tipo', tipoLargo(E.tipo)],
+        ['Número', `<span class="num" aria-label="Número oculto salvo las dos primeras y las dos últimas cifras">${enmascara(num)}</span>`],
+        ['Caducidad', E.tipo === 'DNI' && E.perm ? 'Permanente' : A.fecha(E.caduca)]],
+        `<div class="pg-reg-minis">${mini('anverso')}${E.tipo === 'Pasaporte' ? '' : mini('reverso')}</div>`) +
+      bloqueRes('Selfie', 5, [['Prueba de vida', '<span class="insignia insignia-ok">Superada</span>']],
+        `<div class="pg-reg-minis">${mini('selfie')}</div>`);
+  };
+  ['decl', 'aut'].forEach(k => $('#r-' + k).addEventListener('change', () => { if(tocado[6]) revisaUno(6, 'r-' + k) }));
+
+  /* ---------- validación por paso ---------- */
+  function lista(n){
+    if(n === 1){
+      const em = email.value.trim(), mv = soloCifras(movil.value), f = fuerza(clave);
+      const legal = $('#r-cond').checked && $('#r-priv').checked;
+      $('#r-cond').setAttribute('aria-invalid', tocado[1] && !$('#r-cond').checked);
+      $('#r-priv').setAttribute('aria-invalid', tocado[1] && !$('#r-priv').checked);
+      return [
+        ['r-email', !em ? 'Escribe tu correo.' : !A.emailValido(em) ? 'Este correo no parece válido. Revisa que tenga @ y un dominio, como nombre@correo.example.' : ''],
+        ['r-movil', !mv ? 'Escribe tu móvil.' : !A.movilValido(mv) ? 'Tiene que ser un móvil español: 9 cifras que empiezan por 6 o 7.' : ''],
+        ['r-clave', (!clave && E.pw) ? '' : !clave ? 'Crea una contraseña.' : clave.length < 8 ? 'Necesita al menos 8 caracteres.' : f.n < 3 ? 'Aún es fácil de adivinar. ' + f.consejo : ''],
+        ['r-legal', legal ? '' : 'Para crear la cuenta tienes que aceptar las condiciones y confirmar que has leído la política de privacidad.', !$('#r-cond').checked ? 'r-cond' : 'r-priv']
+      ];
+    }
+    if(n === 3){
+      const reN = /^[\p{L}][\p{L}\p{M}' .-]*$/u, nom = nombre.value.trim(), ape = apellidos.value.trim(), pob = poblacion.value.trim();
+      const iso = nacISO(), falta = !E.dia ? 'r-dia' : !E.mes ? 'r-mes' : 'r-anio';
+      return [
+        ['r-nombre', !nom ? 'Escribe tu nombre.' : (nom.length < 2 || !reN.test(nom)) ? 'Escríbelo como aparece en tu documento, solo con letras.' : ''],
+        ['r-apellidos', !ape ? 'Escribe tus apellidos.' : (ape.length < 2 || !reN.test(ape)) ? 'Escríbelos como aparecen en tu documento, solo con letras.' : ''],
+        ['r-fecha', !iso ? 'Elige el día, el mes y el año en que naciste.' : iso > A.HOY ? 'La fecha no puede ser posterior a hoy.' : '', iso ? 'r-dia' : falta],
+        ['r-poblacion', !pob ? 'Escribe tu población.' : pob.length < 2 ? 'Escribe el nombre completo de tu población.' : '']
+      ];
+    }
+    if(n === 4){
+      const una = E.tipo === 'Pasaporte';
+      const fotos = una ? (!img.anverso ? 'Falta la foto de la página de datos del pasaporte.' : '')
+        : (!img.anverso && !img.reverso) ? 'Faltan las fotos del anverso y del reverso.' : !img.anverso ? 'Falta la foto del anverso.' : !img.reverso ? 'Falta la foto del reverso.' : '';
+      return [['r-num', errNum()], ['r-caduca', errCad()], ['r-fotos', fotos, !img.anverso ? 'r-f-anverso' : 'r-f-reverso']];
+    }
+    if(n === 5) return [['r-selfie', !img.selfie ? 'Hazte un selfie o usa la imagen de ejemplo.' : !vida ? 'Espera un momento: estamos terminando la prueba de vida.' : '', 'r-selfie-btn']];
+    if(n === 6) return [
+      ['r-decl', $('#r-decl').checked ? '' : 'Necesitamos que lo declares para crear la cuenta.'],
+      ['r-aut', $('#r-aut').checked ? '' : 'Sin esta autorización no podemos verificar tu identidad.']
+    ];
+    return [];
+  }
+
+  $('#r-p1').addEventListener('submit', e => {
+    e.preventDefault(); tocado[1] = true;
+    if(!revisa(lista(1), true)) return;
+    E.email = email.value.trim(); E.movil = soloCifras(movil.value); movil.value = fmtMovil(E.movil);
+    if(E.movilOk !== E.movil) E.movilOk = '';
+    if(clave) E.pw = {n: fuerza(clave).n, largo: clave.length};
+    guarda();
+    ir(E.movilOk ? (volver || 3) : 2);
+  });
+  $('#r-p3').addEventListener('submit', e => {
+    e.preventDefault(); tocado[3] = true;
+    const iso = nacISO();
+    if(iso && iso <= A.HOY && A.edad(iso) < 18){ bloquea(iso, A.edad(iso)); return }
+    const ok = revisa(lista(3), true);
+    if(!nacISO()) [dia, mes, anio].forEach(s => { if(!s.value) s.setAttribute('aria-invalid', 'true') });
+    if(!ok) return;
+    E.nombre = nombre.value.trim(); E.apellidos = apellidos.value.trim(); E.poblacion = poblacion.value.trim(); guarda();
+    ir(volver || 4);
+  });
+  $('#r-p4').addEventListener('submit', e => {
+    e.preventDefault(); tocado[4] = true;
+    const ok = revisa(lista(4), true);
+    $('#r-f-anverso').setAttribute('aria-invalid', !img.anverso);
+    $('#r-f-reverso').setAttribute('aria-invalid', E.tipo !== 'Pasaporte' && !img.reverso);
+    if(!ok) return;
+    E.num = limpiaNum(numIn.value); guarda();
+    ir(volver && img.selfie && vida ? volver : 5);
+  });
+  $('#r-p5').addEventListener('submit', e => { e.preventDefault(); tocado[5] = true; if(revisa(lista(5), true)) ir(6) });
+  $('#r-p6').addEventListener('submit', e => { e.preventDefault(); tocado[6] = true; if(revisa(lista(6), true)) verifica() });
+
+  /* ---------- verificación automática ---------- */
+  function verifica(){
+    const e = A.edad(nacISO()), pas = E.tipo === 'Pasaporte';
+    const pasos = [
+      ['Lectura del documento', `${tipoLargo(E.tipo)} leído: datos y foto legibles`],
+      [pas ? 'Dígitos de control' : 'Letra de control', pas ? 'Los dígitos de control cuadran' : 'La letra corresponde al número'],
+      ['Caducidad', E.tipo === 'DNI' && E.perm ? 'Documento permanente, en vigor' : `En vigor hasta el ${A.fecha(E.caduca)}`],
+      ['Edad según el documento', `${e} años: mayor de 18`],
+      ['Coincidencia de la cara', 'El selfie coincide con la foto del documento'],
+      ['Comprobación de duplicados', 'Ninguna otra cuenta usa este documento']
+    ];
+    $('#r-checks').innerHTML = pasos.map(p => `<li data-e="espera">${CK}<div><span>${p[0]}</span><span class="det">En cola</span></div></li>`).join('');
+    actual = 7; pintaProgreso(7); $('#r-atras').hidden = true;
+    muestra($('#r-verif'), true);
+    const lis = $$('#r-checks li'), dur = quieto ? 250 : 820, escudo = $('#r-escudo');
+    let i = 0;
+    escudo.style.setProperty('--p', 0);
+    (function siguiente(){
+      if(i > 0){ lis[i - 1].dataset.e = 'hecho'; $('.det', lis[i - 1]).textContent = pasos[i - 1][1]; escudo.style.setProperty('--p', Math.round(i / lis.length * 100)) }
+      if(i === lis.length){ setTimeout(fin, quieto ? 100 : 650); return }
+      lis[i].dataset.e = 'activo'; lis[i].style.setProperty('--dur', dur + 'ms'); $('.det', lis[i]).textContent = 'Comprobando…';
+      i++; setTimeout(siguiente, dur);
+    })();
+    function fin(){
+      const nom = esc(E.nombre.split(' ')[0] || '');
+      $('#r-exito').innerHTML = `<div class="pg-reg-exito">
+          <span class="pg-reg-exito-ico">${ico(D.check, 42, 2.6)}</span>
+          <span class="insignia insignia-ok">Mayor de 18 · Identidad verificada</span>
+          <h1 class="h1" id="r-exito-t" tabindex="-1">Identidad verificada</h1>
+          <p class="entradilla" style="max-width:36ch">Te damos la bienvenida a Apaño, ${nom}. Ya puedes escribir, contratar y publicar.</p>
+        </div>
+        <div class="col g8">
+          <h2 class="etiqueta">Tus siguientes pasos</h2>
+          <nav class="pg-reg-sig" aria-label="Siguientes pasos">
+            <a href="cuenta.html#perfil"><span class="n">1</span><span class="min0"><b>Completa tu perfil</b><small>Foto, presentación e idiomas. Inspira confianza.</small></span><span class="flecha">${ico(D.flecha, 18)}</span></a>
+            <a href="buscar.html"><span class="n">2</span><span class="min0"><b>Busca servicios</b><small>Gente verificada cerca de ${esc(E.poblacion || 'ti')}.</small></span><span class="flecha">${ico(D.flecha, 18)}</span></a>
+            <a href="subir.html"><span class="n">3</span><span class="min0"><b>Sube tu primer anuncio</b><small>Ofrece lo que sabes hacer y pon tu precio.</small></span><span class="flecha">${ico(D.flecha, 18)}</span></a>
+          </nav>
+        </div>
+        <details class="acordeon"><summary>Qué hemos comprobado</summary><div class="acordeon-cuerpo">
+          <ol class="pg-reg-checks">${pasos.map(p => `<li data-e="hecho">${CK}<div><span>${p[0]}</span><span class="det">${p[1]}</span></div></li>`).join('')}</ol>
+        </div></details>
+        <div class="aviso">${ico(D.info, 18)}<span><b>Sobre la edad.</b> En la app real la fecha de nacimiento se lee del propio documento, no de lo que escribes en el formulario: si no coincidieran, la cuenta pasaría a revisión manual. En esta maqueta no se puede leer el documento, así que esa comprobación sale siempre superada.</span></div>
+        <p class="xs ter" style="text-align:center">Demostración: a partir de aquí navegas con la cuenta de ejemplo de Laura B., ya verificada. Puedes cambiar de perfil en <a class="enlace" href="entrar.html">Entrar</a>.</p>`;
+      A.guarda('perfil', 'u1');
+      cerrado = true; A.borra('reg');
+      const s = A.sesion(), cajaC = $('#cuenta');
+      if(s && cajaC){
+        cajaC.innerHTML = `<button class="ico-btn" id="abreCuenta" aria-label="Tu cuenta: ${esc(s.n)}" style="width:auto;padding:3px">${A.avatar(s)}</button>`;
+        $('#abreCuenta').addEventListener('click', A.abreCuenta);
+        const tu = $('#tab-tu'); if(tu) tu.setAttribute('href', 'cuenta.html');
+      }
+      $('#r-cab').hidden = true; actual = 8;
+      muestra($('#r-exito'), true);
+    }
+  }
+
+  /* ---------- lateral: así te verán ---------- */
+  function pintaAsi(){
+    const nom = nombre.value.trim(), ap = apellidos.value.trim(), n = nom.split(/\s+/)[0];
+    $('#r-asi-n').textContent = !nom ? 'Tu nombre' : ap ? `${n} ${ap[0].toUpperCase()}.` : n;
+    $('#r-asi-av').innerHTML = A.avatar({n: nom ? (n + ' ' + ap) : 'Tú', av:'var(--marca)', estado:'verificado', ver:{dni:1, selfie:1}});
+  }
+  pintaAsi();
+
+  /* ---------- arranque: recupera el borrador ---------- */
+  pintaTipo(); ajustaDias(); pintaEdad(); pintaFuerza();
+  const ok1 = !!E.pw && A.emailValido(E.email) && A.movilValido(E.movil) && E.cond && E.priv;
+  const ok2 = ok1 && !!E.movilOk && E.movilOk === E.movil;
+  const iso = nacISO(), edad = iso ? A.edad(iso) : -1;
+  const ok3 = ok2 && E.nombre && E.apellidos && E.poblacion && iso && iso <= A.HOY && edad >= 18;
+  let p = Math.min(Math.max(+E.paso || 1, 1), 6);
+  if(p >= 2 && !ok1) p = 1; else if(p >= 3 && !ok2) p = 2; else if(p >= 4 && !ok3) p = 3;
+  else if(p >= 5){ p = 4; $('#r-fotos-aviso').hidden = false }
+  if(iso && iso <= A.HOY && edad < 18) p = Math.min(p, 3);
+  ir(p);
+  inicio = false;
+};
+</script>

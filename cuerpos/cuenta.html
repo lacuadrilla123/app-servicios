@@ -1,0 +1,1252 @@
+<!-- titulo: Mi cuenta | desc: Tu perfil, la verificación de identidad, la seguridad, los avisos, los pagos y tus datos en Apaño. -->
+<style>
+/* ===== MI CUENTA (.pg-cta-) ===== */
+.pg-cta{ overflow-x:clip; padding-block:14px 8px }
+@media (min-width:961px){ .pg-cta{ padding-block:30px 8px } }
+.pg-cta-titulo{ margin:4px 2px 14px }
+.pg-cta-carga{ padding-top:10px }
+
+/* --- cabecera de la cuenta --- */
+.pg-cta-cab{ position:relative; display:flex; flex-direction:column; align-items:center; text-align:center; gap:12px; padding:26px 18px 0;
+  border-radius:var(--r-xl); border:1px solid var(--linea); overflow:hidden;
+  background:radial-gradient(130% 80% at 50% 0%, var(--marca-sup) 0%, var(--fondo) 72%) }
+.pg-cta-cab .avatar-xg{ box-shadow:0 0 0 4px var(--fondo), var(--sombra-2) }
+.pg-cta-cab-txt{ display:flex; flex-direction:column; align-items:center; gap:8px; min-width:0 }
+.pg-cta-nombre{ font:700 var(--t-xl)/1.1 var(--display); letter-spacing:-.03em; text-wrap:balance }
+.pg-cta-meta{ display:flex; flex-direction:column; align-items:center; gap:2px; font-size:var(--t-sm); color:var(--tinta-2) }
+.pg-cta-meta > span{ display:inline-flex; align-items:center; gap:5px }
+.pg-cta-meta svg{ color:var(--tinta-3) }
+.pg-cta-meta .pg-cta-desde{ color:var(--tinta-3); font-size:var(--t-xs) }
+.pg-cta-cab .insignia svg{ width:13px; height:13px }
+.pg-cta-datos{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); width:calc(100% + 36px); margin-top:6px; border-top:1px solid var(--linea); background:color-mix(in srgb,var(--fondo) 70%,transparent) }
+.pg-cta-dato{ display:flex; flex-direction:column; align-items:center; gap:2px; padding:13px 6px 14px }
+.pg-cta-dato + .pg-cta-dato{ border-left:1px solid var(--linea) }
+.pg-cta-dato b{ display:inline-flex; align-items:center; gap:4px; font:700 var(--t-lg)/1.1 var(--display); letter-spacing:-.02em; font-variant-numeric:tabular-nums }
+.pg-cta-dato b svg{ color:var(--sol) }
+.pg-cta-dato span{ font-size:var(--t-xs); color:var(--tinta-3) }
+.pg-cta-nueva{ width:calc(100% + 36px); margin-top:6px; padding:13px 18px; border-top:1px solid var(--linea); font-size:var(--t-sm); color:var(--tinta-2) }
+.pg-cta-publico{ margin-bottom:4px }
+.pg-cta-cab > .pg-cta-publico:last-child,.pg-cta-cab > .pg-cta-cab-txt:last-child{ margin-bottom:22px }
+@media (min-width:961px){
+  .pg-cta-cab{ flex-direction:row; flex-wrap:wrap; text-align:left; align-items:center; gap:22px; padding:26px 28px;
+    background:linear-gradient(105deg, var(--marca-sup) 0%, var(--fondo) 58%) }
+  .pg-cta-cab-txt{ align-items:flex-start; flex:1 }
+  .pg-cta-meta{ flex-direction:row; gap:8px; align-items:center }
+  .pg-cta-meta .pg-cta-desde::before{ content:"·"; margin-right:8px; color:var(--tinta-3) }
+  .pg-cta-meta .pg-cta-desde{ font-size:inherit }
+  .pg-cta-datos{ width:auto; margin:0; border:0; background:none; grid-template-columns:repeat(3,auto) }
+  .pg-cta-dato{ padding:2px 22px }
+  .pg-cta-nueva{ width:auto; margin:0; border:0; padding:0; max-width:24ch }
+  .pg-cta-publico, .pg-cta-cab > .pg-cta-publico:last-child,.pg-cta-cab > .pg-cta-cab-txt:last-child{ margin:0 }
+}
+
+/* --- aviso de cuenta interna --- */
+.pg-cta-interna{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-top:14px; padding:16px 18px; border-radius:var(--r-l);
+  background:var(--tinta); color:var(--fondo) }
+.pg-cta-interna .sm{ opacity:.78 }
+.pg-cta-interna-ico{ width:42px; height:42px; border-radius:13px; display:grid; place-items:center; flex:0 0 auto; background:var(--sol); color:var(--sol-tinta) }
+
+/* --- rejilla lista + panel --- */
+.pg-cta-rejilla{ margin-top:22px }
+@media (min-width:1100px){ .pg-cta-rejilla.con-lateral-izq{ grid-template-columns:300px minmax(0,1fr) } }
+@media (min-width:961px){ .pg-cta-rejilla{ margin-top:28px; gap:32px } }
+
+/* --- lista de secciones (estilo ajustes) --- */
+.pg-cta-menu{ display:flex; flex-direction:column; gap:22px; min-width:0 }
+@media (min-width:961px){ .pg-cta-menu{ position:sticky; top:calc(var(--cab) + env(safe-area-inset-top,0px) + 18px); gap:18px } }
+.pg-cta-grupo-t{ padding:0 4px 8px }
+.pg-cta-lista{ list-style:none; margin:0; padding:0; background:var(--fondo); border:1px solid var(--linea); border-radius:var(--r-l); overflow:hidden }
+.pg-cta-fila{ position:relative; display:flex; align-items:center; gap:13px; min-height:68px; padding:11px 12px 11px 14px; transition:background .16s }
+.pg-cta-lista li + li .pg-cta-fila::before{ content:""; position:absolute; top:0; right:0; left:63px; height:1px; background:var(--linea) }
+.pg-cta-fila:hover{ background:var(--sup) }
+.pg-cta-fila:active{ background:var(--sup-2) }
+.pg-cta-ico.cat-ico{ width:36px; height:36px; border-radius:11px; flex:0 0 auto; box-shadow:0 5px 12px -7px var(--c2) }
+.pg-cta-fila-t{ font-weight:600; line-height:1.25; color:var(--tinta) }
+.pg-cta-fila-s{ font-size:var(--t-xs); line-height:1.4; color:var(--tinta-3); margin-top:2px }
+.pg-cta-fila-s.ok{ color:var(--ok) } .pg-cta-fila-s.avisa{ color:var(--avisa) }
+.pg-cta-flecha{ display:grid; color:var(--tinta-3); transition:transform .2s var(--ease), color .2s }
+.pg-cta-fila:hover .pg-cta-flecha{ transform:translateX(2px) }
+@media (min-width:961px){
+  .pg-cta-fila{ min-height:60px; padding-block:9px }
+  .pg-cta-fila[aria-current="page"]{ background:var(--marca-sup) }
+  .pg-cta-fila[aria-current="page"] .pg-cta-fila-t{ color:var(--marca-tinta) }
+  .pg-cta-fila[aria-current="page"]::after{ content:""; position:absolute; left:0; top:12px; bottom:12px; width:3px; border-radius:0 3px 3px 0; background:var(--marca) }
+  .pg-cta-flecha{ opacity:0 }
+  .pg-cta-fila:hover .pg-cta-flecha,.pg-cta-fila[aria-current="page"] .pg-cta-flecha{ opacity:1 }
+  .pg-cta-fila[aria-current="page"] .pg-cta-flecha{ color:var(--marca) }
+}
+.pg-cta-salir{ display:flex; align-items:center; justify-content:center; gap:9px; width:100%; height:54px; border-radius:var(--r-l); border:1px solid var(--linea);
+  background:var(--fondo); color:var(--mal); font-weight:650; transition:background .16s, transform .15s var(--ease) }
+.pg-cta-salir:hover{ background:var(--mal-sup) }
+.pg-cta-salir:active{ transform:scale(.98) }
+.pg-cta-version{ text-align:center; margin-top:-8px }
+
+/* --- vistas en móvil: lista o panel --- */
+@media (max-width:960px){
+  .pg-cta[data-vista="lista"] .pg-cta-paneles{ display:none }
+  .pg-cta[data-vista="panel"] .pg-cta-arriba,.pg-cta[data-vista="panel"] .pg-cta-menu{ display:none }
+  .pg-cta[data-vista="panel"] .pg-cta-rejilla{ margin-top:0 }
+}
+.pg-cta-der{ animation:pg-cta-der .42s var(--ease) both }
+.pg-cta-izq{ animation:pg-cta-izq .42s var(--ease) both }
+.pg-cta-suave{ animation:pg-cta-suave .32s var(--ease) both }
+@keyframes pg-cta-der{ from{ transform:translateX(100%) } }
+@keyframes pg-cta-izq{ from{ transform:translateX(-22%); opacity:0 } }
+@keyframes pg-cta-suave{ from{ opacity:0; transform:translateY(10px) } }
+
+/* --- paneles --- */
+.pg-cta-paneles{ min-width:0 }
+.pg-cta-panel{ display:flex; flex-direction:column; gap:14px; min-width:0 }
+.pg-cta-panel-cab{ display:flex; flex-direction:column; gap:6px; margin-bottom:6px }
+.pg-cta-panel-cab .h1{ outline-offset:4px }
+.pg-cta-panel-cab .sec{ max-width:62ch }
+.pg-cta-atras{ align-self:flex-start; display:inline-flex; align-items:center; gap:2px; height:38px; padding:0 14px 0 6px; margin:0 0 6px -8px;
+  border:0; border-radius:999px; background:transparent; color:var(--marca); font-weight:650; transition:background .16s, transform .15s var(--ease) }
+.pg-cta-atras:hover{ background:var(--marca-sup) }
+.pg-cta-atras:active{ transform:scale(.95) }
+@media (min-width:961px){ .pg-cta-atras{ display:none } }
+.pg-cta-bcab{ display:flex; flex-direction:column; gap:4px }
+.pg-cta-bcab .sm{ max-width:64ch }
+
+/* filas de ajuste con interruptor */
+.pg-cta-ajustes{ display:flex; flex-direction:column }
+.pg-cta-ajuste{ display:flex; align-items:center; gap:14px; padding:14px 0 }
+.pg-cta-ajustes > .pg-cta-ajuste + .pg-cta-ajuste{ border-top:1px solid var(--linea) }
+.pg-cta-ajuste.sin{ padding:0 }
+.pg-cta-ajuste-ico{ width:40px; height:40px; border-radius:12px; display:grid; place-items:center; flex:0 0 auto; background:var(--sup); color:var(--tinta-2) }
+.pg-cta-ajuste-ico.marca{ background:var(--marca-sup); color:var(--marca) }
+.pg-cta-ajuste-ico.ok{ background:var(--ok-sup); color:var(--ok) }
+.pg-cta-ajuste-t{ font-weight:600; line-height:1.3 }
+.pg-cta-ajuste-d{ font-size:var(--t-sm); color:var(--tinta-2); line-height:1.45 }
+.pg-cta-siempre{ font-size:var(--t-xs); font-weight:650; color:var(--tinta-3); white-space:nowrap }
+
+/* formularios */
+.pg-cta-2col{ display:grid; gap:16px; grid-template-columns:minmax(0,1fr) }
+@media (min-width:600px){ .pg-cta-2col{ grid-template-columns:repeat(2,minmax(0,1fr)) } }
+.pg-cta-horas{ display:grid; gap:12px; grid-template-columns:repeat(2,minmax(0,1fr)); transition:opacity .2s }
+.pg-cta-horas[aria-disabled="true"]{ opacity:.45 }
+.pg-cta-fijo{ position:relative }
+.pg-cta-fijo .ent{ background:var(--sup); border-color:transparent; padding-right:44px; font-weight:600; color:var(--tinta) }
+.pg-cta-fijo svg{ position:absolute; right:15px; top:50%; translate:0 -50%; color:var(--tinta-3) }
+.pg-cta-chips{ flex-wrap:wrap; overflow:visible }
+.pg-cta-seg{ display:flex; width:100%; max-width:380px }
+.pg-cta-seg button{ flex:1 }
+.pg-cta-acciones{ display:flex; gap:10px; flex-wrap:wrap }
+.pg-cta-acciones > .btn{ flex:1 1 140px }
+.pg-cta-fs{ border:0; margin:0; padding:0; min-width:0 }
+.pg-cta-fs legend{ padding:0; margin-bottom:10px; font-size:var(--t-sm); font-weight:600 }
+.pg-cta-btn-mal{ color:var(--mal) }
+.pg-cta-btn-mal:hover{ background:var(--mal-sup); box-shadow:inset 0 0 0 1.5px var(--mal) }
+
+/* foto de perfil */
+.pg-cta-foto-zona{ display:grid; grid-template-columns:auto minmax(0,1fr); gap:14px 18px; align-items:center; transition:border-color .2s, background .2s }
+.pg-cta-foto-zona.encima{ border-color:var(--marca); background:var(--marca-sup) }
+.pg-cta-foto-nota{ grid-column:1/-1; padding-top:12px; border-top:1px solid var(--linea) }
+.pg-cta-foto{ position:relative }
+.pg-cta-avimg{ position:absolute; inset:0; width:100%; height:100%; border-radius:50%; object-fit:cover }
+.pg-cta-foto-ent:focus-visible + label{ outline:2.5px solid var(--marca); outline-offset:2px }
+@media (max-width:420px){ .pg-cta-foto-zona .avatar-xg{ width:80px; height:80px; font-size:1.55rem } }
+/* recorte */
+.pg-cta-recorte{ position:relative; width:min(100%,300px); aspect-ratio:1; margin-inline:auto; border-radius:var(--r-l); overflow:hidden;
+  background:var(--sup-2); touch-action:none; cursor:grab; user-select:none; -webkit-user-select:none }
+.pg-cta-recorte.arrastra{ cursor:grabbing }
+.pg-cta-recorte img{ position:absolute; left:0; top:0; max-width:none; transform-origin:0 0; pointer-events:none }
+.pg-cta-recorte::after{ content:""; position:absolute; inset:0; border-radius:50%; pointer-events:none;
+  box-shadow:0 0 0 999px var(--velo); outline:2px solid var(--marca) }
+.pg-cta-rango{ width:100%; accent-color:var(--marca) }
+/* barra de guardar */
+.pg-cta-guardar{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:7px 7px 7px 18px; border-radius:999px;
+  border:1px solid transparent; transition:box-shadow .25s, background .25s, border-color .25s }
+.pg-cta-guardar.sucio{ position:sticky; bottom:16px; z-index:5; border-color:var(--linea); box-shadow:var(--sombra-2);
+  background:color-mix(in srgb,var(--fondo) 90%,transparent); backdrop-filter:blur(14px) saturate(1.6); -webkit-backdrop-filter:blur(14px) saturate(1.6);
+  animation:sube .32s var(--ease) both }
+@media (max-width:860px){ .pg-cta-guardar.sucio{ bottom:calc(var(--barra) + env(safe-area-inset-bottom,0px) + 10px) } }
+.pg-cta-guardar > span{ flex-wrap:nowrap }
+.pg-cta-led{ width:8px; height:8px; border-radius:50%; background:var(--linea-2); flex:0 0 auto; transition:background .2s, box-shadow .2s }
+.pg-cta-guardar.sucio .pg-cta-led{ background:var(--avisa); box-shadow:0 0 0 4px var(--avisa-sup) }
+
+/* verificación: estado grande */
+.pg-cta-estado{ display:flex; flex-direction:column; gap:18px; padding:22px 18px; border-radius:var(--r-xl) }
+@media (min-width:600px){ .pg-cta-estado{ padding:26px } }
+.pg-cta-estado.ok{ background:var(--ok-sup) }
+.pg-cta-estado.avisa{ background:var(--avisa-sup) }
+.pg-cta-estado-cab{ display:flex; align-items:center; gap:16px }
+.pg-cta-estado-ico{ width:62px; height:62px; border-radius:20px; display:grid; place-items:center; flex:0 0 auto; color:var(--fondo) }
+.ok > .pg-cta-estado-cab .pg-cta-estado-ico{ background:var(--ok); box-shadow:0 12px 24px -12px var(--ok) }
+.avisa > .pg-cta-estado-cab .pg-cta-estado-ico{ background:var(--avisa); box-shadow:0 12px 24px -12px var(--avisa) }
+.pg-cta-estado .h2{ font-size:clamp(1.35rem,3vw,1.75rem) }
+.pg-cta-doc{ margin:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1px; background:var(--linea); border-radius:var(--r-l); overflow:hidden; box-shadow:var(--sombra-1) }
+@media (min-width:700px){ .pg-cta-doc{ grid-template-columns:repeat(3,minmax(0,1fr)) } }
+.pg-cta-doc > div{ display:flex; flex-direction:column; gap:3px; padding:13px 15px; background:var(--fondo); min-width:0 }
+.pg-cta-doc dt{ font-size:var(--t-xs); font-weight:600; color:var(--tinta-3) }
+.pg-cta-doc dd{ margin:0; font-weight:650; color:var(--tinta); overflow-wrap:anywhere }
+.pg-cta-doc .num{ letter-spacing:.04em }
+.pg-cta-si{ display:inline-flex; align-items:center; gap:5px; color:var(--ok)!important }
+.pg-cta-vig{ display:flex; flex-direction:column; gap:8px }
+.pg-cta-vig-barra{ height:6px; border-radius:99px; background:color-mix(in srgb,var(--ok) 18%,var(--fondo)); overflow:hidden }
+.pg-cta-vig-barra span{ display:block; height:100%; border-radius:99px; background:var(--ok); transform-origin:left; animation:pg-cta-llena .9s var(--ease) both }
+@keyframes pg-cta-llena{ from{ transform:scaleX(0) } }
+.pg-cta-claro{ background:var(--fondo) }
+.pg-cta-estimado{ display:flex; align-items:center; gap:14px; padding:14px 16px; border-radius:var(--r-l); background:var(--fondo); box-shadow:var(--sombra-1) }
+.pg-cta-estimado b{ display:block; font:700 var(--t-lg)/1.15 var(--display); letter-spacing:-.02em }
+.pg-cta-estimado > span{ width:40px; height:40px; border-radius:50%; display:grid; place-items:center; flex:0 0 auto; background:var(--avisa-sup); color:var(--avisa) }
+
+/* comprobaciones */
+.pg-cta-checks{ list-style:none; margin:0; padding:0; display:grid; gap:10px; grid-template-columns:minmax(0,1fr) }
+@media (min-width:700px){ .pg-cta-checks{ grid-template-columns:repeat(2,minmax(0,1fr)) } }
+.pg-cta-check{ display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:var(--r); background:var(--sup); min-width:0 }
+.pg-cta-check-ico{ width:38px; height:38px; border-radius:50%; display:grid; place-items:center; flex:0 0 auto; background:var(--fondo); color:var(--tinta-2) }
+.pg-cta-renueva{ display:grid; grid-template-columns:40px minmax(0,1fr) auto; gap:4px 14px; align-items:center }
+@media (max-width:600px){ .pg-cta-renueva{ align-items:start } .pg-cta-renueva > .btn{ grid-column:2; justify-self:start; margin-top:10px } }
+.pg-cta-check-ok{ width:26px; height:26px; border-radius:50%; display:grid; place-items:center; flex:0 0 auto; background:var(--ok); color:var(--fondo) }
+
+/* línea de tiempo */
+.pg-cta-linea{ list-style:none; margin:4px 0 0; padding:0 }
+.pg-cta-paso{ position:relative; display:grid; grid-template-columns:34px minmax(0,1fr); gap:14px; padding-bottom:22px }
+.pg-cta-paso:last-child{ padding-bottom:0 }
+.pg-cta-paso::before{ content:""; position:absolute; left:16px; top:38px; bottom:4px; width:2px; border-radius:2px; background:var(--linea-2) }
+.pg-cta-paso:last-child::before{ display:none }
+.pg-cta-paso.hecho::before{ background:var(--ok) }
+.pg-cta-punto{ width:34px; height:34px; border-radius:50%; display:grid; place-items:center; background:var(--sup-2); color:var(--tinta-3); font:700 var(--t-sm)/1 var(--display) }
+.hecho > .pg-cta-punto{ background:var(--ok); color:var(--fondo) }
+.actual > .pg-cta-punto{ background:var(--fondo); color:var(--avisa); box-shadow:0 0 0 2px var(--avisa), 0 0 0 7px var(--avisa-sup) }
+.pg-cta-paso-t{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-weight:650; line-height:1.3; padding-top:6px }
+.pg-cta-paso p{ font-size:var(--t-sm); color:var(--tinta-2); margin-top:3px }
+.pendiente .pg-cta-paso-t{ color:var(--tinta-3) }
+
+/* motivos de rechazo */
+.pg-cta-motivos{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column }
+.pg-cta-motivos li{ display:flex; gap:14px; align-items:flex-start; padding:13px 0 }
+.pg-cta-motivos li + li{ border-top:1px solid var(--linea) }
+.pg-cta-motivo-ico{ width:38px; height:38px; border-radius:12px; display:grid; place-items:center; flex:0 0 auto; background:var(--sup); color:var(--tinta-2); font:800 var(--t-sm)/1 var(--display) }
+.pg-cta-motivos .grave{ margin-top:4px; padding:14px; border:0; border-radius:var(--r); background:var(--mal-sup) }
+.pg-cta-motivos .grave .pg-cta-motivo-ico{ background:var(--mal); color:var(--fondo) }
+.pg-cta-motivos .grave b{ color:var(--mal) }
+.pg-cta-motivos div > span{ display:block; font-size:var(--t-sm); color:var(--tinta-2); margin-top:2px }
+
+/* tres columnas: qué, quién, cuánto */
+.pg-cta-tres{ display:grid; gap:18px; grid-template-columns:minmax(0,1fr) }
+@media (min-width:760px){ .pg-cta-tres{ grid-template-columns:repeat(3,minmax(0,1fr)); gap:22px } }
+.pg-cta-tres > div{ display:flex; flex-direction:column; gap:6px }
+.pg-cta-tres h4{ font-size:var(--t-md); margin-top:4px }
+.pg-cta-tres p{ font-size:var(--t-sm); color:var(--tinta-2); line-height:1.55 }
+.pg-cta-mini-ico{ width:36px; height:36px; border-radius:11px; display:grid; place-items:center; background:var(--marca-sup); color:var(--marca) }
+
+/* seguridad */
+.pg-cta-pass-form > .campo,.pg-cta-pass-form > .fila{ max-width:600px }
+.pg-cta-pass{ position:relative }
+.pg-cta-pass .ent{ padding-right:54px }
+.pg-cta-pass .ico-btn{ position:absolute; right:4px; top:4px }
+.pg-cta-medidor{ display:flex; gap:5px; margin-top:2px }
+.pg-cta-medidor span{ flex:1; height:5px; border-radius:99px; background:var(--sup-3); transition:background .25s }
+.pg-cta-medidor[data-nivel="1"] span:nth-child(-n+1){ background:var(--mal) }
+.pg-cta-medidor[data-nivel="2"] span:nth-child(-n+2){ background:var(--avisa) }
+.pg-cta-medidor[data-nivel="3"] span:nth-child(-n+3){ background:var(--ok) }
+.pg-cta-medidor[data-nivel="4"] span{ background:var(--ok) }
+.pg-cta-nivel{ font-weight:650 }
+.pg-cta-nivel[data-nivel="1"]{ color:var(--mal) } .pg-cta-nivel[data-nivel="2"]{ color:var(--avisa) } .pg-cta-nivel[data-nivel="3"],.pg-cta-nivel[data-nivel="4"]{ color:var(--ok) }
+.pg-cta-reglas{ list-style:none; margin:0; padding:0; display:grid; gap:6px 14px; grid-template-columns:minmax(0,1fr) }
+@media (min-width:520px){ .pg-cta-reglas{ grid-template-columns:repeat(2,minmax(0,1fr)) } }
+.pg-cta-reglas li{ display:flex; align-items:center; gap:7px; font-size:var(--t-xs); color:var(--tinta-3); transition:color .2s }
+.pg-cta-reglas li span{ width:16px; height:16px; border-radius:50%; display:grid; place-items:center; flex:0 0 auto; background:var(--sup-2); color:transparent; transition:background .2s, color .2s }
+.pg-cta-reglas li.ok{ color:var(--tinta-2) }
+.pg-cta-reglas li.ok span{ background:var(--ok); color:var(--fondo) }
+.pg-cta-qr-fila{ display:flex; gap:16px; align-items:center; flex-wrap:wrap; padding:14px; border-radius:var(--r-l); background:var(--sup) }
+.pg-cta-qr{ padding:10px; border-radius:var(--r); background:var(--fondo); color:var(--tinta); line-height:0; flex:0 0 auto }
+.pg-cta-qr-fila > .col{ flex:1 1 200px }
+.pg-cta-clave{ align-self:flex-start; padding:8px 12px; border-radius:var(--r-s); border:1.5px dashed var(--linea-2); background:var(--fondo); font-weight:650; letter-spacing:.08em; transition:border-color .2s }
+.pg-cta-clave:hover{ border-color:var(--marca) }
+.pg-cta-dos:not(:empty){ padding-top:16px; border-top:1px solid var(--linea) }
+.pg-cta-codigo{ font-size:var(--t-lg); letter-spacing:.35em; max-width:220px }
+.pg-cta-codigos{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin:0; padding:14px; list-style:none; border-radius:var(--r); background:var(--sup); font-weight:650; letter-spacing:.06em }
+.pg-cta-disps{ list-style:none; margin:0; padding:0 }
+.pg-cta-disp{ display:grid; grid-template-columns:44px minmax(0,1fr) auto; gap:4px 14px; align-items:center; padding:14px 0 }
+.pg-cta-disp + .pg-cta-disp{ border-top:1px solid var(--linea) }
+.pg-cta-disp-ico{ width:44px; height:44px; border-radius:14px; display:grid; place-items:center; background:var(--sup); color:var(--tinta-2) }
+.pg-cta-disp.este .pg-cta-disp-ico{ background:var(--marca-sup); color:var(--marca) }
+.pg-cta-disp-meta{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; font-size:var(--t-xs); color:var(--tinta-3) }
+.pg-cta-vivo{ width:7px; height:7px; border-radius:50%; background:var(--ok); box-shadow:0 0 0 3px var(--ok-sup) }
+.pg-cta-sale{ animation:pg-cta-sale .28s ease-in both }
+@keyframes pg-cta-sale{ to{ opacity:0; transform:translateX(24px) } }
+@media (max-width:440px){ .pg-cta-disp > .btn,.pg-cta-disp > .insignia{ grid-column:2; justify-self:start; margin-top:6px } }
+.pg-cta-disp-nada{ padding:12px 0 2px; border-top:1px solid var(--linea); font-size:var(--t-sm); color:var(--tinta-3) }
+
+/* pagos */
+.pg-cta-medios{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px }
+.pg-cta-medio{ display:flex; align-items:center; gap:14px; padding:12px 12px 12px 14px; border-radius:var(--r-l); border:1px solid var(--linea); flex-wrap:wrap }
+.pg-cta-plastico{ position:relative; width:54px; height:36px; border-radius:7px; flex:0 0 auto; overflow:hidden;
+  background:linear-gradient(135deg, var(--tinta) 0%, var(--marca-2) 140%); box-shadow:var(--sombra-1) }
+.pg-cta-plastico::before{ content:""; position:absolute; left:7px; top:9px; width:10px; height:8px; border-radius:2px; background:var(--sol); opacity:.9 }
+.pg-cta-plastico::after{ content:""; position:absolute; left:7px; right:7px; bottom:7px; height:3px; border-radius:2px; background:color-mix(in srgb,var(--fondo) 45%,transparent) }
+.pg-cta-banco{ width:54px; height:36px; border-radius:7px; display:grid; place-items:center; flex:0 0 auto; background:var(--sup-2); color:var(--tinta-2) }
+.pg-cta-vacio{ padding:16px; border-radius:var(--r-l); border:1.5px dashed var(--linea-2); text-align:center; font-size:var(--t-sm); color:var(--tinta-3) }
+.pg-cta-enlace-fila{ display:flex; align-items:center; gap:14px; padding:12px 12px 12px 14px; border-radius:var(--r-l); background:var(--sup); transition:background .16s }
+.pg-cta-enlace-fila:hover{ background:var(--sup-2) }
+.pg-cta-enlace-fila .pg-cta-ajuste-ico,.pg-cta-sincuenta .pg-cta-ajuste-ico{ background:var(--fondo) }
+.pg-cta-enlace-fila .pg-cta-ajuste-ico.marca{ background:var(--marca-sup) }
+.pg-cta-enlace-fila:active{ transform:scale(.99) }
+.pg-cta-pro{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding:16px 18px; border-radius:var(--r-l); background:var(--sol-sup) }
+.pg-cta-pro .insignia{ flex:0 0 auto }
+
+/* privacidad */
+.pg-cta-acor .acordeon:last-child{ border-bottom:0 }
+.pg-cta-acor .acordeon>summary{ padding:15px 0; font-size:var(--t-base) }
+.pg-cta-acor summary .sm{ font-weight:500 }
+.pg-cta-acor .acordeon-cuerpo{ font-size:var(--t-sm); display:flex; flex-direction:column; gap:8px; padding-bottom:16px }
+.pg-cta-plazo{ display:flex; gap:8px; align-items:flex-start; padding:10px 12px; border-radius:var(--r); background:var(--sup); color:var(--tinta-2) }
+.pg-cta-plazo svg{ flex:0 0 auto; margin-top:1px; color:var(--tinta-3) }
+.pg-cta-etapas{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; font-size:var(--t-xs); color:var(--tinta-3); font-weight:600 }
+.pg-cta-etapas .hecho{ color:var(--marca-tinta) } .pg-cta-etapas .activo{ color:var(--tinta) }
+.pg-cta-peligro{ border-color:color-mix(in srgb,var(--mal) 30%,var(--linea)) }
+.pg-cta-peligro .h3{ color:var(--mal) }
+.pg-cta-dlg{ padding-top:26px }
+.pg-cta-dlg > .col:first-child .h2,.pg-cta-dlg > .h2{ padding-right:36px }
+.pg-cta-alerta{ width:52px; height:52px; border-radius:16px; display:grid; place-items:center; background:var(--mal-sup); color:var(--mal) }
+.pg-cta-borra{ display:grid; gap:12px; grid-template-columns:minmax(0,1fr) }
+@media (min-width:560px){ .pg-cta-borra{ grid-template-columns:repeat(2,minmax(0,1fr)) } }
+.pg-cta-borra > div{ padding:14px; border-radius:var(--r); background:var(--sup) }
+.pg-cta-borra h3{ font:650 var(--t-sm)/1.3 var(--texto); letter-spacing:0; margin-bottom:8px }
+.pg-cta-borra ul{ margin:0; padding-left:18px; display:flex; flex-direction:column; gap:6px; font-size:var(--t-sm); color:var(--tinta-2); line-height:1.45 }
+.pg-cta-confirma{ font-family:var(--display); font-weight:700; letter-spacing:.06em }
+.pg-cta-hecho-ico{ width:64px; height:64px; border-radius:50%; display:grid; place-items:center; background:var(--ok); color:var(--fondo) }
+.pg-cta-centro{ text-align:center; align-items:center }
+
+/* sin sesión */
+.pg-cta-anon{ display:flex; flex-direction:column; gap:30px; max-width:920px; margin-inline:auto; padding-top:6px }
+.pg-cta-anon-hero{ position:relative; display:flex; flex-direction:column; align-items:center; gap:16px; text-align:center; padding:34px 20px 28px;
+  border-radius:var(--r-xl); border:1px solid var(--linea); overflow:hidden;
+  background:radial-gradient(130% 90% at 50% 0%, var(--marca-sup) 0%, var(--fondo) 74%) }
+@media (min-width:760px){ .pg-cta-anon-hero{ padding:48px 40px 40px } }
+.pg-cta-anon-hero .entradilla{ max-width:46ch }
+.pg-cta-ilus{ position:relative; width:236px; height:156px; margin-bottom:6px }
+.pg-cta-carnet{ position:absolute; left:50%; top:52%; width:212px; height:132px; translate:-50% -50%; rotate:-5deg; display:grid; grid-template-columns:auto minmax(0,1fr);
+  gap:14px; align-items:center; padding:18px; border-radius:20px; background:var(--fondo); box-shadow:var(--sombra-3); animation:pg-cta-carnet .7s var(--ease) both }
+@keyframes pg-cta-carnet{ from{ opacity:0; rotate:-14deg; translate:-50% -36% } }
+.pg-cta-carnet-foto{ position:relative; width:62px; height:62px; border-radius:50%; display:grid; place-items:center; color:var(--fondo);
+  background:linear-gradient(150deg, var(--marca) 0%, var(--marca-tinta) 100%) }
+.pg-cta-carnet-tick{ position:absolute; right:-3px; bottom:-3px; width:24px; height:24px; border-radius:50%; display:grid; place-items:center; background:var(--ok); color:var(--fondo); border:3px solid var(--fondo) }
+.pg-cta-carnet i{ display:block; height:8px; border-radius:99px; background:var(--sup-3) }
+.pg-cta-carnet i:first-child{ height:10px; background:var(--marca-borde) }
+.pg-cta-carnet .insignia{ justify-self:start; height:20px; font-size:.6875rem }
+.pg-cta-18.puerta-18{ position:absolute; right:-4px; top:-6px; width:58px; height:58px; border-radius:18px; font-size:1.45rem; rotate:8deg; box-shadow:var(--sombra-2) }
+.pg-cta-18.puerta-18::after{ width:24px; height:24px; right:-8px; top:-8px; font-size:.95rem; border-width:2px }
+.pg-cta-anon-btns{ display:flex; flex-direction:column; gap:10px; width:100%; max-width:360px; margin-top:4px }
+@media (min-width:600px){ .pg-cta-anon-btns{ flex-direction:row; max-width:none; width:auto } }
+.pg-cta-razon{ display:flex; flex-direction:column; gap:8px; padding:20px }
+.pg-cta-razon-ico{ width:46px; height:46px; border-radius:15px; display:grid; place-items:center; margin-bottom:6px; background:var(--marca-sup); color:var(--marca); font:800 1.05rem/1 var(--display); letter-spacing:-.04em }
+.pg-cta-razon p{ font-size:var(--t-sm); color:var(--tinta-2) }
+@media (max-width:600px){
+  .pg-cta-razon{ display:grid; grid-template-columns:46px minmax(0,1fr); gap:4px 14px; padding:16px }
+  .pg-cta-razon-ico{ grid-row:span 2; margin:0 }
+  .pg-cta-razon .h3{ font-size:var(--t-md); align-self:end }
+}
+.pg-cta-sincuenta{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding:16px 18px; border-radius:var(--r-l); background:var(--sup) }
+</style>
+<main id="contenido" class="pg-cta" data-vista="lista">
+  <div class="contenedor" id="cta">
+    <div class="pg-cta-carga col g16" aria-hidden="true">
+      <div class="esqueleto" style="height:34px;width:46%"></div>
+      <div class="esqueleto" style="height:210px;border-radius:var(--r-xl)"></div>
+      <div class="esqueleto" style="height:280px;border-radius:var(--r-l)"></div>
+    </div>
+  </div>
+</main>
+<script>
+A.pagina = function(){
+  const $ = A.$, $$ = A.$$;
+  const raiz = $('#cta'), main = $('#contenido');
+  const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const svg = (d, t, extra) => `<svg width="${t||20}" height="${t||20}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" ${extra||''}><path d="${d}"/></svg>`;
+  const P = {
+    persona:'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4.5 20.5c.8-3.6 3.8-5.5 7.5-5.5s6.7 1.9 7.5 5.5',
+    carnet:'M3.5 5.5h17v13h-17zM6.8 15.2c.5-1.6 1.6-2.4 3-2.4s2.5.8 3 2.4M9.8 11.2a1.7 1.7 0 1 0 0-.1M15 10h3M15 13.2h2.5',
+    candado:'M6 10.5h12v9.5H6zM8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5M12 14.3v2.4',
+    campana:'M6.5 16.5V11a5.5 5.5 0 0 1 11 0v5.5l1.5 2h-14zM10 20.5a2.2 2.2 0 0 0 4 0',
+    tarjeta:'M3 6h18v12H3zM3 9.8h18M6.5 14.5h4',
+    ojo:'M2.5 12s3.5-6.5 9.5-6.5 9.5 6.5 9.5 6.5-3.5 6.5-9.5 6.5S2.5 12 2.5 12zM12 14.8a2.8 2.8 0 1 0 0-5.6 2.8 2.8 0 0 0 0 5.6z',
+    ojoNo:'M3.5 3.5l17 17M10.6 6.1A9.8 9.8 0 0 1 12 6c6 0 9.5 6 9.5 6a16 16 0 0 1-3.1 3.8M6.6 7.6C4 9.3 2.5 12 2.5 12s3.5 6.5 9.5 6.5c1.5 0 2.9-.4 4.2-1M9.9 10a2.8 2.8 0 0 0 4 4',
+    flecha:'M9.5 5.5 16 12l-6.5 6.5',
+    atras:'M14.5 5.5 8 12l6.5 6.5',
+    movil:'M7.5 3h9v18h-9zM11 18h2',
+    portatil:'M5 5.5h14v10H5zM2.5 18.5h19',
+    tableta:'M5 3.5h14v17H5zM11 17.5h2',
+    bajar:'M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14',
+    subir:'M12 16V5M7.5 9.5 12 5l4.5 4.5M5 19.5h14',
+    papelera:'M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13M10 11v5M14 11v5',
+    reloj:'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 7.5V12l3 2',
+    correo:'M3.5 6h17v12h-17zM3.8 6.5l8.2 6.3 8.2-6.3',
+    cara:'M4 8V5.5A1.5 1.5 0 0 1 5.5 4H8M16 4h2.5A1.5 1.5 0 0 1 20 5.5V8M20 16v2.5a1.5 1.5 0 0 1-1.5 1.5H16M8 20H5.5A1.5 1.5 0 0 1 4 18.5V16M9 10v.6M15 10v.6M9.5 15c1.4 1.2 3.6 1.2 5 0',
+    banco:'M3 9.5 12 4.5l9 5M5 10v7M9.5 10v7M14.5 10v7M19 10v7M3.5 19.5h17',
+    factura:'M6 3.5h12v17l-2-1.3-2 1.3-2-1.3-2 1.3-2-1.3-2 1.3zM9 8h6M9 11.5h6M9 15h3.5',
+    alerta:'M12 4 2.8 19.5h18.4zM12 10v4.5M12 17.2v.1',
+    salir:'M14 4.5H5.5v15H14M10 12h10.5M17 8.5l3.5 3.5-3.5 3.5',
+    escudoOk:'M12 3 4.5 6v5.6c0 4.4 3.1 8.2 7.5 9.4 4.4-1.2 7.5-5 7.5-9.4V6zM8.7 12.1l2.4 2.4 4.3-4.5',
+    ext:'M5 12h14M13 6l6 6-6 6',
+    archivo:'M6 3.5h8l4 4v13H6zM14 3.5v4h4M9 12.5h6M9 16h4',
+    check:'M5 12.5l4.2 4.2L19 7',
+    cerrar:'M6 6l12 12M18 6 6 18',
+    camara:'M3.5 8h4l1.8-2.6h5.4L16.5 8h4v11h-17zM12 16.6a3.3 3.3 0 1 0 0-.1',
+    calendario:'M4 6h16v14H4zM4 10h16M8.5 3.5v4M15.5 3.5v4',
+    buzon:'M4 5.5h16v11H8.5L4 20z',
+    etiqueta:'M3.5 12.2V4.5h7.7l9.3 9.3-7.7 7.7zM8 8.6a.1.1 0 1 0 .1 0',
+    euro:'M17.5 6.6A6.4 6.4 0 1 0 17.5 17.4M4.5 10.4h9M4.5 13.6h9',
+    estrella:'M12 3.4l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.8l-5.2 2.8 1-5.9L3.5 9.6l5.9-.8z',
+    megafono:'M4 10v4h3l7 4.5v-13L7 10zM17.5 9.5a3.5 3.5 0 0 1 0 5',
+    sms:'M4 5.5h16v11H8.5L4 20zM8.5 11h.1M12 11h.1M15.5 11h.1',
+    luna:'M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z',
+    ubic:'M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11zM12 12.2a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4z',
+    monedero:'M4 7.5h14.5a1.5 1.5 0 0 1 1.5 1.5v9.5a1.5 1.5 0 0 1-1.5 1.5H5.5A1.5 1.5 0 0 1 4 18.5zM4 7.5 15.5 4v3.5M15.5 13.5h1',
+    globo:'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM3.5 12h17M12 3c2.4 2.6 3.6 5.6 3.6 9s-1.2 6.4-3.6 9c-2.4-2.6-3.6-5.6-3.6-9S9.6 5.6 12 3z',
+    mas:'M12 5v14M5 12h14'
+  };
+  const fch = iso => A.fecha(iso.length > 10 ? iso : iso + 'T12:00');
+  const mesAnio = iso => new Date(iso + 'T12:00').toLocaleDateString('es-ES', {month:'long', year:'numeric'});
+
+  /* ================= SIN SESIÓN ================= */
+  const u = A.sesion();
+  if(!u){
+    main.dataset.vista = 'anon';
+    raiz.innerHTML = `<div class="pg-cta-anon">
+      <section class="pg-cta-anon-hero" aria-labelledby="anon-t">
+        <div class="pg-cta-ilus" aria-hidden="true">
+          <div class="pg-cta-carnet">
+            <span class="pg-cta-carnet-foto">${svg(P.persona, 30)}<span class="pg-cta-carnet-tick">${svg(P.check, 12, 'stroke-width="3.2"')}</span></span>
+            <span class="col g8"><i style="width:88%"></i><i style="width:66%"></i><i style="width:44%"></i><span class="insignia insignia-ok">Verificada</span></span>
+          </div>
+          <span class="puerta-18 pg-cta-18">18</span>
+        </div>
+        <h1 class="titular" id="anon-t">Entra o crea tu cuenta</h1>
+        <p class="entradilla">Para mirar anuncios y guardar favoritos no hace falta. Para escribir, publicar o pagar, sí: date de alta y verifica tu identidad en unos minutos.</p>
+        <div class="pg-cta-anon-btns">
+          <a class="btn btn-g" href="registro.html">Crear cuenta</a>
+          <a class="btn btn-sec btn-g" href="entrar.html">Ya tengo cuenta</a>
+        </div>
+        <p class="xs ter">Solo para mayores de 18 años con DNI, NIE o pasaporte en vigor.</p>
+      </section>
+      <section class="col g16" aria-labelledby="anon-pq">
+        <div class="cabecera-seccion" style="margin-bottom:0"><h2 class="h2" id="anon-pq">Por qué te pedimos el documento</h2><a class="enlace sm" href="como-funciona.html#verificacion" style="white-space:nowrap">Cómo verificamos</a></div>
+        <div class="rejilla r3">
+          <article class="bloque pg-cta-razon"><span class="pg-cta-razon-ico" aria-hidden="true">18+</span><h3 class="h3">Solo mayores de edad</h3><p>Leemos la fecha de nacimiento de tu documento. Si tienes menos de 18 años, no puedes usar Apaño.</p></article>
+          <article class="bloque pg-cta-razon"><span class="pg-cta-razon-ico">${svg(P.escudoOk, 24)}</span><h3 class="h3">Sabes con quién tratas</h3><p>Cada persona es quien dice ser. El tick verde junto a su foto lo confirma antes de que le escribas o le pagues.</p></article>
+          <article class="bloque pg-cta-razon"><span class="pg-cta-razon-ico">${svg(P.ojoNo, 24)}</span><h3 class="h3">Tu número no se publica</h3><p>El documento solo lo ve el equipo de verificación. Los demás solo ven el tick, nunca el número ni las fotos.</p></article>
+        </div>
+        <div class="pg-cta-sincuenta">
+          <span class="pg-cta-ajuste-ico">${A.icono('lupa', 20)}</span>
+          <p class="sm sec crecer" style="min-width:200px">Mientras te lo piensas, puedes <a class="enlace" href="buscar.html">buscar servicios</a> y guardarlos en <a class="enlace" href="favoritos.html">favoritos</a>. Cómo tratamos tu documento: <a class="enlace" href="legal.html#identidad">aquí, sin letra pequeña</a>.</p>
+        </div>
+      </section>
+    </div>`;
+    return;
+  }
+
+  /* ================= CON SESIÓN ================= */
+  const interno = u.tipo === 'interno';
+  const verif = A.verificado(u);
+  const V = (A.VERIFICACIONES || []).find(v => v.n === u.n);
+  const nombre = u.n.split(/\s+/);
+  const norm = s => (s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z]/g, '');
+  const correo = norm(nombre[0]) + '.' + norm(nombre[1]) + (interno ? '@apano.example' : '@correo.example');
+  const correoM = correo.slice(0, 2) + '•••••' + correo.slice(correo.indexOf('@'));
+  const movilM = '+34 6•• ••• •' + String(10 + A.hash(u.id) % 90);
+  const enm = n => n.slice(0, 2) + '•'.repeat(Math.max(1, n.length - 4)) + n.slice(-2);
+  const nomDoc = {DNI:'DNI', NIE:'NIE', PAS:'Pasaporte', pasaporte:'Pasaporte'}[u.doc] || u.doc;
+  /* Caducidad del documento: el DNI caduca el día del cumpleaños (5 años si se expide antes de los 30, 10 después) */
+  const CAD = {u1:'2028-03-12', u2:'2031-07-29', m1:'2033-01-30', m2:'2028-08-11'};
+  const cad = CAD[u.id] || (V && V.cad) || ((+A.HOY.slice(0, 4) + 4) + u.nac.slice(4));
+  const meses = (a, b) => { const x = new Date(a + 'T12:00'), y = new Date(b + 'T12:00'); let m = (y.getFullYear() - x.getFullYear()) * 12 + y.getMonth() - x.getMonth(); if(y.getDate() < x.getDate()) m--; return m };
+  const restaDias = (iso, n) => { const d = new Date(iso + 'T12:00'); d.setDate(d.getDate() - n); return d.toISOString().slice(0, 10) };
+  const vigTotal = A.edad(u.nac, restaDias(cad, 365 * 5)) < 30 ? 60 : 120;
+  const quedan = Math.max(0, meses(A.HOY, cad));
+  const quedanTxt = (() => { const a = Math.floor(quedan / 12), m = quedan % 12;
+    return [a ? a + (a === 1 ? ' año' : ' años') : '', m ? m + (m === 1 ? ' mes' : ' meses') : ''].filter(Boolean).join(' y ') || 'menos de un mes' })();
+  const renov = restaDias(cad, 30);
+
+  /* Estado guardado de la cuenta (demostración: localStorage por perfil) */
+  const CLAVE = 'cuenta-' + u.id;
+  const pagosDemo = verif && !interno;
+  const E = Object.assign({
+    foto:'', barrio:u.barrio, bio:u.bio || '', idiomas:(u.idiomas || []).slice(), tipo:u.tipo,
+    nif: u.id === 'u2' ? 'B07583263' : '', comercial: u.id === 'u2' ? 'Electricitat Toni Mas' : '',
+    dos:{on:false, metodo:'app', desde:''},
+    sesiones:['d1', 'd2', 'd3'],
+    canal:{push:true, correo:true, sms:false},
+    aviso:{mensajes:true, ofertas:true, pagos:true, resenas:true, novedades:false},
+    silencio:{on:true, desde:'23:00', hasta:'08:00'},
+    vis:{barrio:true, conexion:true},
+    copia:'',
+    tarjetas: pagosDemo ? [{id:'t1', marca:'Visa', ult:'4242', cad:'08/29'}] : [],
+    iban: pagosDemo ? 'ES21 ···· 7731' : '',
+    fact:{nombre:'', nif:'', dir:'', cp:'', ciudad:''}
+  }, A.lee(CLAVE, {}));
+  const guarda = () => A.guarda(CLAVE, E);
+
+  const avatar = (clase, foto) => {
+    const f = foto === undefined ? E.foto : foto;
+    const h = A.avatar(u, clase);
+    return f ? h.replace('aria-hidden="true">', `aria-hidden="true"><img class="pg-cta-avimg" src="${f}" alt="">`) : h;
+  };
+  const cifValido = v => {
+    v = (v || '').toUpperCase().replace(/[^0-9A-Z]/g, '');
+    const m = v.match(/^([ABCDEFGHJNPQRSUVW])(\d{7})([0-9A-J])$/); if(!m) return false;
+    let s = 0; for(let i = 0; i < 7; i++){ const n = +m[2][i]; if(i % 2) s += n; else { const x = n * 2; s += Math.floor(x / 10) + x % 10 } }
+    const c = (10 - s % 10) % 10, l = 'JABCDEFGHI'[c];
+    if('PQRSNW'.includes(m[1])) return m[3] === l;
+    if('ABEH'.includes(m[1])) return m[3] === String(c);
+    return m[3] === String(c) || m[3] === l;
+  };
+  const nifValido = v => A.docValido(v) || cifValido(v);
+  const error = (id, msg) => { const ent = $('#' + id), p = $('#' + id + '-err');
+    if(ent) ent.setAttribute('aria-invalid', msg ? 'true' : 'false');
+    if(p){ p.textContent = msg || ''; p.hidden = !msg } return !msg };
+  const confirma = (o) => A.dialogo(`<div class="dialogo-cuerpo col g16 pg-cta-dlg">
+      <div class="col g8"><h2 class="h2">${o.t}</h2><p class="sec">${o.d}</p></div>
+      <div class="pg-cta-acciones"><button class="btn btn-sec" type="button" data-cerrar>${o.no || 'Cancelar'}</button><button class="btn ${o.peligro === false ? '' : 'btn-peligro'}" type="button" data-si>${o.si}</button></div>
+    </div>`, {ancho:440, alAbrir:(capa, cerrar) => $('[data-si]', capa).addEventListener('click', () => { cerrar(); o.alSi() })});
+
+  /* ---------- secciones ---------- */
+  const S = {
+    perfil:{t:'Perfil', ic:P.persona, cat:'clases'},
+    verificacion:{t:'Verificación de identidad', ic:P.carnet, cat: verif ? 'jardin' : 'mudanzas'},
+    seguridad:{t:'Seguridad', ic:P.candado, cat:'motor'},
+    pagos:{t:'Pagos y cobros', ic:P.tarjeta, cat:'tecnologia'},
+    notificaciones:{t:'Notificaciones', ic:P.campana, cat:'deporte'},
+    privacidad:{t:'Privacidad y datos', ic:P.ojo, cat:'limpieza'}
+  };
+  const SECC = ['perfil', 'verificacion', 'seguridad', 'pagos', 'notificaciones', 'privacidad'].filter(s => !(interno && s === 'pagos'));
+  const GRUPOS = [{t:'Tú', s:['perfil', 'verificacion']}, {t:'Ajustes', s:SECC.filter(s => !['perfil', 'verificacion'].includes(s))}];
+  const sub = {
+    perfil: () => ({t: u.corto + ' · ' + E.barrio}),
+    verificacion: () => verif ? {t: 'Verificada · ' + nomDoc + ' ' + enm(u.docNum), c:'ok'} : {t:'En revisión · menos de 2 h', c:'avisa'},
+    seguridad: () => ({t: (E.dos.on ? 'Dos pasos activado' : 'Dos pasos desactivado') + ' · ' + (E.sesiones.length + 1) + (E.sesiones.length ? ' sesiones' : ' sesión'), c: E.dos.on ? '' : 'avisa'}),
+    pagos: () => !verif ? {t:'Disponible al verificar tu identidad'} : {t: [E.tarjetas[0] ? E.tarjetas[0].marca + ' ···· ' + E.tarjetas[0].ult : 'Sin tarjeta', E.iban ? 'cobras en ' + E.iban : 'sin cuenta de cobro'].join(' · ')},
+    notificaciones: () => { const c = ['push', 'correo', 'sms'].filter(k => E.canal[k]).map(k => ({push:'Push', correo:'correo', sms:'SMS'}[k]));
+      const t = c.length ? c.join(', ').replace(/^./, x => x.toUpperCase()) : 'Todo apagado';
+      return {t: t + (E.silencio.on ? ' · silencio ' + E.silencio.desde + '–' + E.silencio.hasta : ''), c: c.length ? '' : 'avisa'} },
+    privacidad: () => ({t: E.copia ? 'Preparando la copia de tus datos' : 'Visibilidad, copia de tus datos y baja'})
+  };
+  const fila = id => { const s = S[id], st = sub[id](), c = A.categoria(s.cat);
+    return `<li><a class="pg-cta-fila" href="#${id}" data-sec="${id}">
+      <span class="cat-ico pg-cta-ico" style="--c1:${c.c1};--c2:${c.c2}">${svg(s.ic, 19)}</span>
+      <span class="col crecer min0"><span class="pg-cta-fila-t">${s.t}</span><span class="pg-cta-fila-s recorte recorte-1 ${st.c || ''}" data-sub="${id}">${esc(st.t)}</span></span>
+      <span class="pg-cta-flecha">${svg(P.flecha, 18)}</span></a></li>` };
+  const refrescaMenu = () => $$('[data-sub]', raiz).forEach(el => { const st = sub[el.dataset.sub](); el.textContent = st.t; el.className = 'pg-cta-fila-s recorte recorte-1 ' + (st.c || '') });
+
+  /* ---------- cabecera ---------- */
+  const cabecera = () => {
+    const tipoIns = interno ? `<span class="insignia insignia-tinta">${u.rol === 'admin' ? 'Administración' : 'Moderación'}</span>`
+      : E.tipo === 'profesional' ? '<span class="insignia insignia-marca">Profesional</span>' : '<span class="insignia">Particular</span>';
+    const est = verif ? `<span class="insignia insignia-ok">${svg(P.check, 13, 'stroke-width="2.6"')}Identidad verificada</span>`
+      : `<span class="insignia insignia-avisa">${svg(P.reloj, 13, 'stroke-width="2.2"')}DNI en revisión</span>`;
+    const datos = interno ? '' : u.hechos
+      ? `<div class="pg-cta-datos">
+          <div class="pg-cta-dato"><b>${u.val.toLocaleString('es-ES', {minimumFractionDigits:1})}${svg(P.estrella, 15, 'fill="currentColor" stroke-width="1.4"')}</b><span>valoración</span></div>
+          <div class="pg-cta-dato"><b>${A.num(u.hechos)}</b><span>servicios</span></div>
+          <div class="pg-cta-dato"><b>${A.num(u.resenas)}</b><span>reseñas</span></div></div>`
+      : '<p class="pg-cta-nueva">Cuenta nueva: tus reseñas y servicios aparecerán aquí.</p>';
+    return `<div class="pg-cta-foto">${avatar('avatar-xg')}</div>
+      <div class="pg-cta-cab-txt">
+        <p class="pg-cta-nombre h2">${esc(u.n)}</p>
+        <div class="fila g6" style="justify-content:inherit">${est}${tipoIns}</div>
+        <p class="pg-cta-meta"><span>${svg(P.ubic, 15)}${esc(E.barrio)}, ${esc(u.ciudad)}</span><span class="pg-cta-desde">En Apaño desde ${mesAnio(u.alta)}</span></p>
+      </div>
+      ${datos}
+      ${interno ? '' : `<a class="btn btn-sec btn-p pg-cta-publico" href="perfil.html?id=${u.id}">Ver mi perfil público${svg(P.ext, 15)}</a>`}`;
+  };
+  const pintaCab = () => { $('#cta-cab').innerHTML = cabecera() };
+
+  const cabPanel = (id, t, d) => `<div class="pg-cta-panel-cab">
+      <button class="pg-cta-atras" type="button" data-atras>${svg(P.atras, 20)}<span>Mi cuenta</span></button>
+      <h2 class="h1" id="cta-t-${id}" tabindex="-1">${t}</h2>
+      <p class="sec">${d}</p></div>`;
+  const ajuste = o => `<div class="pg-cta-ajuste ${o.sin ? 'sin' : ''}">
+      <span class="pg-cta-ajuste-ico ${o.tono || ''}">${svg(o.ic, 20)}</span>
+      <div class="col crecer min0"><span class="pg-cta-ajuste-t" id="${o.id}-t">${o.t}</span><span class="pg-cta-ajuste-d" id="${o.id}-d">${o.d}</span></div>
+      ${o.fijo ? `<span class="pg-cta-siempre">${o.fijo}</span>` : `<button class="interruptor" type="button" role="switch" id="${o.id}" aria-checked="${!!o.on}" aria-labelledby="${o.id}-t" aria-describedby="${o.id}-d" ${o.clave ? `data-clave="${o.clave}"` : ''} ${o.conmuta ? `data-conmuta="${o.conmuta}"` : ''}></button>`}
+    </div>`;
+
+  /* ================= PANEL: PERFIL ================= */
+  const IDIOMAS = ['Español', 'Catalán', 'Inglés', 'Francés', 'Alemán', 'Italiano', 'Portugués', 'Árabe', 'Rumano', 'Chino'];
+  const panelPerfil = () => {
+    const barrios = [...new Set(A.USUARIOS.filter(x => x.ciudad === u.ciudad && x.tipo !== 'interno').map(x => x.barrio).concat(E.barrio))].sort((a, b) => a.localeCompare(b, 'es'));
+    const idis = [...new Set(IDIOMAS.concat(E.idiomas))];
+    return `${cabPanel('perfil', 'Perfil', 'Lo que ve la gente cuando entra en tu perfil o mira tus anuncios.')}
+    <form id="f-perfil" class="col g16" novalidate>
+      <div class="bloque pg-cta-foto-zona" id="p-zona">
+        <div class="pg-cta-foto" id="p-foto">${avatar('avatar-xg')}</div>
+        <div class="col g10 min0">
+          <div class="col g4"><h3 class="h3">Foto de perfil</h3><p class="sm sec">De frente, con luz y sin gafas de sol. Arrástrala aquí o elígela.</p></div>
+          <div class="fila g8">
+            <input type="file" id="p-foto-ent" class="solo-lector pg-cta-foto-ent" accept="image/jpeg,image/png,image/webp">
+            <label class="btn btn-suave btn-p" for="p-foto-ent">${svg(P.subir, 16)}<span id="p-foto-et">${E.foto ? 'Cambiar foto' : 'Subir foto'}</span></label>
+            <button class="btn btn-sec btn-p" type="button" id="p-foto-quita" ${E.foto ? '' : 'hidden'}>Quitar</button>
+          </div>
+        </div>
+        <p class="ayuda pg-cta-foto-nota">La foto de perfil es pública. El selfie de la verificación no: ese solo lo ve el equipo de verificación.</p>
+      </div>
+      <div class="bloque col g20">
+        <div class="campo">
+          <label for="p-nombre">Nombre público</label>
+          <div class="pg-cta-fijo"><input class="ent" id="p-nombre" value="${esc(u.corto)}" readonly aria-describedby="p-nombre-ay">${svg(P.candado, 17)}</div>
+          <p class="ayuda" id="p-nombre-ay">Tu nombre y la inicial del primer apellido, tal como figuran en tu documento verificado. No se puede cambiar a mano para que nadie se haga pasar por otra persona, y tu nombre completo no se muestra.</p>
+        </div>
+        <div class="campo">
+          <label for="p-barrio">Barrio</label>
+          <select class="ent" id="p-barrio" aria-describedby="p-barrio-ay">${barrios.map(b => `<option ${b === E.barrio ? 'selected' : ''}>${esc(b)}</option>`).join('')}</select>
+          <p class="ayuda" id="p-barrio-ay">En ${esc(u.ciudad)}. Solo enseñamos el barrio, nunca tu dirección, y lo usamos para calcular distancias.</p>
+        </div>
+        <div class="campo">
+          <div class="fila entre g8"><label for="p-bio">Sobre ti</label><span class="xs ter num" id="p-bio-n"></span></div>
+          <textarea class="ent" id="p-bio" maxlength="300" rows="4" aria-describedby="p-bio-ay p-bio-n" placeholder="Qué haces, desde cuándo y cómo trabajas."></textarea>
+          <p class="ayuda" id="p-bio-ay">Sin teléfonos, correos ni enlaces: el contacto va siempre por el chat de Apaño.</p>
+        </div>
+        <div class="campo">
+          <span class="campo-et" id="p-idi-et">Idiomas que hablas</span>
+          <div class="chips pg-cta-chips" role="group" aria-labelledby="p-idi-et" id="p-idi">${idis.map(i => `<button type="button" class="chip" aria-pressed="${E.idiomas.includes(i)}" data-idioma="${esc(i)}">${esc(i)}</button>`).join('')}</div>
+          <p class="error" id="p-idi-err" hidden>Elige al menos un idioma.</p>
+        </div>
+      </div>
+      ${interno ? `<div class="bloque">${ajuste({id:'p-int', ic:P.escudoOk, tono:'marca', sin:true, t:'Cuenta interna', d:'Las cuentas del equipo no son particulares ni profesionales: no publican anuncios ni contratan servicios.', fijo:u.rol === 'admin' ? 'Administración' : 'Moderación'})}</div>` : `
+      <div class="bloque col g16">
+        <div class="campo">
+          <span class="campo-et" id="p-tipo-et">Tipo de cuenta</span>
+          <div class="seg pg-cta-seg" role="group" aria-labelledby="p-tipo-et">
+            <button type="button" data-tipo="particular" aria-pressed="${E.tipo !== 'profesional'}">Particular</button>
+            <button type="button" data-tipo="profesional" aria-pressed="${E.tipo === 'profesional'}">Profesional</button>
+          </div>
+          <p class="ayuda" id="p-tipo-ay"></p>
+        </div>
+        <div class="col g16" id="p-pro" ${E.tipo === 'profesional' ? '' : 'hidden'}>
+          <div class="pg-cta-2col">
+            <div class="campo"><label for="p-nif">NIF o CIF</label><input class="ent num" id="p-nif" value="${esc(E.nif)}" autocomplete="off" spellcheck="false" autocapitalize="characters" placeholder="12345678Z o B12345678" aria-describedby="p-nif-err"><p class="error" id="p-nif-err" hidden></p></div>
+            <div class="campo"><label for="p-com">Nombre comercial</label><input class="ent" id="p-com" value="${esc(E.comercial)}" autocomplete="organization" placeholder="Cómo se llama tu negocio" aria-describedby="p-com-err"><p class="error" id="p-com-err" hidden></p></div>
+          </div>
+          <p class="aviso">${svg(P.factura, 18)}<span>Tu NIF o CIF no se publica: solo aparece en las facturas que emitas. Lo comprobamos antes de mostrar el distintivo <b>Profesional</b>. ¿Vives de esto? Mira <a class="enlace" href="pro.html">Apaño Pro</a>.</span></p>
+        </div>
+      </div>`}
+      <div class="pg-cta-guardar" id="p-barra"><span class="fila g8 sm sec min0"><span class="pg-cta-led"></span><span id="p-estado">Sin cambios</span></span><button class="btn" type="submit">Guardar cambios</button></div>
+    </form>`;
+  };
+
+  /* ================= PANEL: VERIFICACIÓN ================= */
+  const panelVerif = () => {
+    const checks = [
+      {ic:P.correo, t:'Correo electrónico', d:correoM, ok:u.ver.email},
+      {ic:P.movil, t:'Móvil', d:movilM, ok:u.ver.tel},
+      {ic:P.carnet, t:'Documento de identidad', d:nomDoc + ' ' + enm(u.docNum) + (u.ver.dni ? ' · en vigor' : ''), ok:u.ver.dni},
+      {ic:P.cara, t:'Selfie', d:u.ver.selfie ? 'Coincide con la foto del documento' : 'Lo estamos comparando con tu documento', ok:u.ver.selfie}
+    ];
+    const lista = `<div class="bloque col g16">
+      <div class="pg-cta-bcab"><h3 class="h3">Las 4 comprobaciones</h3><p class="sm sec">${checks.filter(c => c.ok).length} de 4 completadas.</p></div>
+      <ul class="pg-cta-checks">${checks.map(c => `<li class="pg-cta-check">
+        <span class="pg-cta-check-ico">${svg(c.ic, 19)}</span>
+        <span class="col crecer min0"><span class="negrita sm">${c.t}</span><span class="xs ter recorte">${c.d}</span></span>
+        ${c.ok ? `<span class="pg-cta-check-ok" title="Comprobado">${svg(P.check, 14, 'stroke-width="3"')}<span class="solo-lector">Comprobado</span></span>` : '<span class="insignia insignia-avisa">En revisión</span>'}
+      </li>`).join('')}</ul></div>`;
+    const proteccion = `<div class="bloque col g16">
+      <div class="pg-cta-bcab"><h3 class="h3">Tu documento, en buenas manos</h3><p class="sm sec">Qué guardamos, quién lo ve y hasta cuándo.</p></div>
+      <div class="pg-cta-tres">
+        <div><span class="pg-cta-mini-ico">${svg(P.archivo, 19)}</span><h4>Qué guardamos</h4><p>Las fotos de las dos caras del documento, el selfie y los datos que leemos de él: nombre, número, fecha de nacimiento y caducidad.</p></div>
+        <div><span class="pg-cta-mini-ico">${svg(P.ojo, 19)}</span><h4>Quién lo ve</h4><p>Solo el equipo de verificación de Apaño, y cada consulta queda registrada. Nunca publicamos el número: en tu perfil solo aparece el tick verde.</p></div>
+        <div><span class="pg-cta-mini-ico">${svg(P.reloj, 19)}</span><h4>Hasta cuándo</h4><p>Mientras tu cuenta esté activa. Si la cierras, lo bloqueamos y solo lo guardamos el tiempo que exija la normativa aplicable (por ejemplo, la de prevención del blanqueo de capitales puede obligar a conservarlo hasta 10 años). Después, se borra.</p></div>
+      </div>
+      <a class="enlace sm" href="legal.html#identidad">Cómo tratamos tu documento de identidad, con todo detalle</a>
+    </div>`;
+
+    if(verif){
+      const pct = Math.max(4, Math.min(100, Math.round(quedan / vigTotal * 100)));
+      return `${cabPanel('verificacion', 'Verificación de identidad', 'Comprobamos que eres mayor de edad y que eres quien dices ser. Es lo que permite escribir, publicar y pagar en Apaño.')}
+      <section class="pg-cta-estado ok" aria-labelledby="v-estado-t">
+        <div class="pg-cta-estado-cab">
+          <span class="pg-cta-estado-ico">${svg(P.escudoOk, 32, 'stroke-width="2"')}</span>
+          <div class="col g4 min0"><h3 class="h2" id="v-estado-t">Identidad verificada</h3><p class="sm sec">Desde el ${fch(u.alta)}. Puedes escribir, publicar y pagar.</p></div>
+        </div>
+        <dl class="pg-cta-doc">
+          <div><dt>Titular</dt><dd>${esc(u.n)}</dd></div>
+          <div><dt>Documento</dt><dd>${nomDoc}</dd></div>
+          <div><dt>Número</dt><dd class="num" aria-label="Número enmascarado: empieza por ${u.docNum.slice(0, 2)} y acaba en ${u.docNum.slice(-2)}">${enm(u.docNum)}</dd></div>
+          <div><dt>Mayor de edad</dt><dd class="pg-cta-si">${svg(P.check, 15, 'stroke-width="2.8"')}Sí</dd></div>
+          <div><dt>Caduca el</dt><dd>${fch(cad)}</dd></div>
+          <div><dt>Verificada el</dt><dd>${fch(u.alta)}</dd></div>
+        </dl>
+        <div class="pg-cta-vig">
+          <div class="fila entre g8 xs"><span class="negrita">Vigencia del documento</span><span class="sec">Le quedan ${quedanTxt}</span></div>
+          <div class="pg-cta-vig-barra" role="img" aria-label="Le quedan ${quedanTxt} de vigencia"><span style="width:${pct}%"></span></div>
+        </div>
+        <p class="aviso pg-cta-claro">${svg(P.calendario, 18)}<span>El <b>${fch(renov)}</b>, 30 días antes de que caduque, te pediremos que subas el documento renovado. Si llega a caducar, podrás seguir mirando anuncios, pero no escribir, publicar ni pagar hasta que lo actualices.</span></p>
+      </section>
+      ${lista}
+      <div class="bloque pg-cta-renueva">
+        <span class="pg-cta-ajuste-ico">${svg(P.carnet, 20)}</span>
+        <div class="col g4 min0"><span class="negrita">¿Has renovado el documento?</span><span class="sm sec">Súbelo de nuevo y lo comprobamos en menos de 2 horas. Mientras, tu cuenta sigue verificada.</span></div>
+        <a class="btn btn-sec" href="registro.html">Actualizar documento</a>
+      </div>
+      ${proteccion}`;
+    }
+
+    /* pendiente */
+    const enviado = V ? V.f : u.alta + 'T12:00';
+    const auto = new Date(enviado); auto.setMinutes(auto.getMinutes() + 1);
+    const dudosa = V && V.senales.find(s => s.t !== 'ok');
+    const oks = V ? V.senales.filter(s => s.t === 'ok').map((s, i) => { const t = s.m.split(':')[0].replace(/^Edad calculada.*/, 'mayor de edad').replace(/ del (DNI|NIE)/, ''); return i ? t[0].toLowerCase() + t.slice(1) : t }) : [];
+    const yLista = l => l.length > 1 ? l.slice(0, -1).join(', ') + ' y ' + l[l.length - 1] : l.join('');
+    const pasos = [
+      {e:'hecho', t:'Documento enviado', h:fch(enviado) + ', ' + A.hora(enviado), d:nomDoc + ' por las dos caras y selfie.'},
+      {e:'hecho', t:'Revisión automática', h:fch(auto.toISOString()) + ', ' + A.hora(auto.toISOString()), d:oks.length ? yLista(oks) + '.' : 'Letra de control, edad y vigencia comprobadas.'},
+      {e:'actual', t:'Revisión manual', h:'Ahora', d:'Una persona del equipo de verificación compara tu selfie con el documento' + (dudosa ? ' (' + dudosa.m.split(':')[0].toLowerCase() + ').' : '.')},
+      {e:'pendiente', t:'Resultado', h:'', d:'Te avisaremos por correo y con una notificación en cuanto terminemos.'}
+    ];
+    return `${cabPanel('verificacion', 'Verificación de identidad', 'Comprobamos que eres mayor de edad y que eres quien dices ser. Hasta que terminemos, puedes mirar anuncios y guardar favoritos.')}
+      <section class="pg-cta-estado avisa" aria-labelledby="v-estado-t">
+        <div class="pg-cta-estado-cab">
+          <span class="pg-cta-estado-ico">${svg(P.reloj, 32, 'stroke-width="2"')}</span>
+          <div class="col g4 min0"><h3 class="h2" id="v-estado-t">Estamos revisando tu identidad</h3><p class="sm sec">Enviado el ${fch(enviado)} a las ${A.hora(enviado)}.</p></div>
+        </div>
+        <div class="pg-cta-estimado"><span>${svg(P.reloj, 20)}</span><div class="crecer"><span class="xs ter negrita">Tiempo estimado</span><b>menos de 2 horas</b></div></div>
+        <p class="sm">Para escribir, publicar o pagar necesitas tener la identidad verificada. Te avisaremos en cuanto esté.</p>
+      </section>
+      <div class="bloque col g16">
+        <div class="fila entre g8"><h3 class="h3">Cómo va</h3><span class="insignia insignia-avisa">Paso 3 de 4</span></div>
+        <ol class="pg-cta-linea">${pasos.map((p, i) => `<li class="pg-cta-paso ${p.e}" ${p.e === 'actual' ? 'aria-current="step"' : ''}>
+          <span class="pg-cta-punto">${p.e === 'hecho' ? svg(P.check, 16, 'stroke-width="3"') : i + 1}</span>
+          <div class="min0"><div class="pg-cta-paso-t">${p.t}${p.e === 'actual' ? ' <span class="insignia insignia-avisa">En curso</span>' : ''}${p.h && p.e !== 'actual' ? `<span class="xs ter" style="font-weight:500">${p.h}</span>` : ''}</div><p>${p.d}</p></div>
+        </li>`).join('')}</ol>
+      </div>
+      ${lista}
+      <div class="bloque col g16">
+        <div class="pg-cta-bcab"><h3 class="h3">Si no podemos verificarte</h3><p class="sm sec">Te diremos el motivo por correo. Casi siempre se arregla repitiendo una foto.</p></div>
+        <ul class="pg-cta-motivos">
+          <li><span class="pg-cta-motivo-ico">${svg(P.camara, 19)}</span><div><b>La foto está borrosa o tiene reflejos</b><span>Repítela sobre una mesa, con buena luz y sin flash.</span></div></li>
+          <li><span class="pg-cta-motivo-ico">${svg(P.calendario, 19)}</span><div><b>El documento está caducado</b><span>Sube un DNI, NIE o pasaporte en vigor.</span></div></li>
+          <li><span class="pg-cta-motivo-ico">${svg(P.cara, 19)}</span><div><b>La cara no coincide con la del documento</b><span>Repite el selfie de frente, sin gafas de sol ni gorra.</span></div></li>
+          <li class="grave"><span class="pg-cta-motivo-ico" aria-hidden="true">18</span><div><b>Eres menor de 18 años</b><span>Cerramos la cuenta de forma definitiva y no se puede volver a intentar. Apaño es solo para mayores de edad.</span></div></li>
+        </ul>
+        <div class="fila g12"><a class="btn" href="registro.html">${svg(P.subir, 17)}Actualizar documento</a><span class="xs ter crecer" style="min-width:160px">¿Te has equivocado de foto? Súbela otra vez sin esperar.</span></div>
+      </div>
+      ${proteccion}`;
+  };
+
+  /* ================= PANEL: SEGURIDAD ================= */
+  const passCampo = (id, et, auto, desc) => `<div class="campo"><label for="${id}">${et}</label>
+      <div class="pg-cta-pass"><input class="ent" type="password" id="${id}" autocomplete="${auto}" aria-describedby="${desc ? desc + ' ' : ''}${id}-err"><button class="ico-btn" type="button" data-ver="${id}" aria-label="Mostrar contraseña" aria-pressed="false">${svg(P.ojo, 19)}</button></div>
+      ${id === 'pw-nueva' ? `<div class="pg-cta-medidor" id="pw-med" data-nivel="0" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+        <div class="fila entre g8 xs"><span class="ter">Seguridad: <span class="pg-cta-nivel" id="pw-nivel" data-nivel="0">escribe una</span></span></div>
+        <ul class="pg-cta-reglas" id="pw-reglas">
+          <li data-r="largo"><span>${svg(P.check, 10, 'stroke-width="3.4"')}</span>Al menos 10 caracteres</li>
+          <li data-r="mayus"><span>${svg(P.check, 10, 'stroke-width="3.4"')}</span>Mayúsculas y minúsculas</li>
+          <li data-r="num"><span>${svg(P.check, 10, 'stroke-width="3.4"')}</span>Algún número o símbolo</li>
+          <li data-r="nombre"><span>${svg(P.check, 10, 'stroke-width="3.4"')}</span>Sin tu nombre ni «123456»</li>
+        </ul>` : ''}
+      <p class="error" id="${id}-err" hidden></p></div>`;
+  const panelSeguridad = () => `${cabPanel('seguridad', 'Seguridad', 'Tu contraseña, la verificación en dos pasos y dónde tienes la sesión abierta.')}
+    <form class="bloque col g16 pg-cta-pass-form" id="f-pass" novalidate>
+      <div class="pg-cta-bcab"><h3 class="h3">Cambiar contraseña</h3><p class="sm sec">La cambiaste por última vez hace 4 meses. Al cambiarla cerraremos tus otras sesiones.</p></div>
+      ${passCampo('pw-act', 'Contraseña actual', 'current-password')}
+      ${passCampo('pw-nueva', 'Nueva contraseña', 'new-password', 'pw-nivel')}
+      ${passCampo('pw-rep', 'Repite la nueva', 'new-password')}
+      <div class="fila entre g12"><a class="enlace sm" href="entrar.html">¿No recuerdas la actual?</a><button class="btn" type="submit">Cambiar contraseña</button></div>
+    </form>
+    <div class="bloque col g16" id="dp">
+      ${ajuste({id:'dp-int', ic:P.escudoOk, tono: E.dos.on ? 'ok' : '', sin:true, on:E.dos.on, t:'Verificación en dos pasos', d:'Al entrar desde un dispositivo nuevo te pediremos, además de la contraseña, un código de 6 cifras.'})}
+      <div id="dp-cuerpo" class="col g16 pg-cta-dos"></div>
+    </div>
+    <div class="bloque col g8">
+      <div class="pg-cta-bcab"><h3 class="h3">Dónde tienes la sesión abierta</h3><p class="sm sec">Si no reconoces alguna, ciérrala y cambia la contraseña.</p></div>
+      <ul class="pg-cta-disps" id="disp"></ul>
+      <button class="btn btn-sec btn-bloque pg-cta-btn-mal" id="disp-todas" type="button">Cerrar todas las demás sesiones</button>
+    </div>
+    <p class="sm sec" style="padding:2px 4px">¿Algo te parece raro? Lee los <a class="enlace" href="ayuda.html#seguridad">consejos de seguridad</a> o <a class="enlace" href="ayuda.html#reportar">avísanos</a>.</p>`;
+
+  /* ================= PANEL: NOTIFICACIONES ================= */
+  const CANALES = [
+    {k:'push', t:'Notificaciones push', d:'En este dispositivo y en la app.', ic:P.campana},
+    {k:'correo', t:'Correo electrónico', d:correoM, ic:P.correo},
+    {k:'sms', t:'SMS', d:'Solo para lo urgente, al ' + movilM + '.', ic:P.sms}
+  ];
+  const TIPOS = [
+    {k:'mensajes', t:'Mensajes', d:'Cuando alguien te escribe por el chat.', ic:P.buzon},
+    {k:'ofertas', t:'Ofertas y reservas', d:'Te envían o aceptan una oferta, o cambia una reserva.', ic:P.etiqueta},
+    {k:'pagos', t:'Pagos y cobros', d:'Pago protegido, cobros y reembolsos. Los importantes te llegarán siempre por correo.', ic:P.euro},
+    {k:'resenas', t:'Reseñas', d:'Cuando te valoran o te toca valorar a alguien.', ic:P.estrella},
+    {k:'novedades', t:'Novedades y promociones', d:'Solo si nos das permiso. Puedes retirarlo cuando quieras.', ic:P.megafono}
+  ];
+  const panelNotif = () => `${cabPanel('notificaciones', 'Notificaciones', 'Elige por dónde te avisamos y de qué. Los avisos de seguridad y de tu identidad no se pueden apagar.')}
+    <div class="bloque col g4">
+      <div class="pg-cta-bcab"><h3 class="h3">Por dónde</h3></div>
+      <div class="pg-cta-ajustes">${CANALES.map(c => ajuste({id:'nc-' + c.k, ic:c.ic, t:c.t, d:c.d, on:E.canal[c.k], clave:'canal.' + c.k, conmuta:c.t})).join('')}</div>
+      <p class="aviso aviso-avisa" id="nc-nada" ${['push', 'correo', 'sms'].some(k => E.canal[k]) ? 'hidden' : ''}>${svg(P.alerta, 18)}<span>Con todo apagado solo verás los avisos al abrir Apaño. Los de seguridad y pagos importantes te seguirán llegando por correo.</span></p>
+    </div>
+    <div class="bloque col g4">
+      <div class="pg-cta-bcab"><h3 class="h3">De qué</h3></div>
+      <div class="pg-cta-ajustes">${TIPOS.map(c => ajuste({id:'nt-' + c.k, ic:c.ic, t:c.t, d:c.d, on:E.aviso[c.k], clave:'aviso.' + c.k, conmuta:c.t})).join('')}
+        ${ajuste({id:'nt-seg', ic:P.escudoOk, t:'Seguridad e identidad', d:'Inicios de sesión nuevos, cambios de contraseña y caducidad del documento.', fijo:'Siempre'})}</div>
+    </div>
+    <div class="bloque col g16">
+      ${ajuste({id:'sil-int', ic:P.luna, sin:true, t:'Horario de silencio', d:'No sonará nada: los avisos te esperan en la app.', on:E.silencio.on, clave:'silencio.on', conmuta:'Horario de silencio'})}
+      <div class="pg-cta-horas" id="sil-horas" aria-disabled="${!E.silencio.on}">
+        <div class="campo"><label for="sil-de">Desde</label><input class="ent num" type="time" id="sil-de" value="${E.silencio.desde}" ${E.silencio.on ? '' : 'disabled'}></div>
+        <div class="campo"><label for="sil-a">Hasta</label><input class="ent num" type="time" id="sil-a" value="${E.silencio.hasta}" ${E.silencio.on ? '' : 'disabled'}></div>
+      </div>
+    </div>
+    <a class="pg-cta-enlace-fila" href="notificaciones.html"><span class="pg-cta-ajuste-ico">${svg(P.campana, 20)}</span><span class="col crecer min0"><span class="negrita">Ver todas tus notificaciones</span><span class="xs ter">Las de los últimos 30 días</span></span>${svg(P.flecha, 18)}</a>`;
+
+  /* ================= PANEL: PAGOS ================= */
+  const panelPagos = () => `${cabPanel('pagos', 'Pagos y cobros', 'Con qué pagas, dónde cobras y a nombre de quién salen las facturas. En esta demostración todos los pagos son simulados.')}
+    ${verif ? '' : `<p class="aviso aviso-avisa">${svg(P.candado, 18)}<span><b>Disponible cuando verifiquemos tu identidad.</b> Hasta entonces no puedes guardar tarjetas ni cobrar. <a class="enlace" href="#verificacion">Ver cómo va</a></span></p>`}
+    <div class="bloque col g16">
+      <div class="pg-cta-bcab"><h3 class="h3">Para pagar</h3><p class="sm sec">Tarjetas guardadas para contratar con Pago protegido: el dinero se retiene hasta que confirmas que el servicio está hecho.</p></div>
+      <ul class="pg-cta-medios" id="tarj"></ul>
+      <div class="fila g10"><button class="btn btn-sec" id="tarj-nueva" type="button" ${verif ? '' : 'disabled'}>${svg(P.mas, 17)}Añadir tarjeta</button></div>
+      <p class="ayuda">Simulado. En la app real la tarjeta la guarda la entidad de pago; Apaño solo ve los 4 últimos números.</p>
+    </div>
+    <div class="bloque col g16">
+      <div class="pg-cta-bcab"><h3 class="h3">Para cobrar</h3><p class="sm sec">Cuando el cliente confirma el servicio, el dinero pasa a tu monedero y de ahí a esta cuenta. Tiene que estar a tu nombre.</p></div>
+      <div id="iban"></div>
+      ${verif ? `<a class="pg-cta-enlace-fila" href="monedero.html"><span class="pg-cta-ajuste-ico marca">${svg(P.monedero, 20)}</span><span class="col crecer min0"><span class="negrita">Monedero</span><span class="xs ter num">${A.eur(A.MONEDERO.saldo)} disponibles · ${A.eur(A.MONEDERO.retenido)} retenidos</span></span>${svg(P.flecha, 18)}</a>` : ''}
+    </div>
+    <div class="pg-cta-pro"><span class="insignia insignia-sol">Pro</span><p class="sm crecer" style="min-width:200px"><b>¿Vives de esto?</b> Con Apaño Pro tienes destacados incluidos, estadísticas y facturas con tu NIF por ${A.eur(A.PRO ? A.PRO.precioMes : 19.99)} al mes.</p><a class="enlace sm" href="pro.html">Ver Apaño Pro</a></div>
+    <form class="bloque col g16" id="f-fact" novalidate>
+      <div class="pg-cta-bcab"><div class="fila g8"><h3 class="h3">Datos de facturación</h3><span class="insignia">Opcional</span></div><p class="sm sec">Rellénalos solo si quieres que las facturas de la comisión de Pago protegido salgan con otro nombre o con tu dirección.</p></div>
+      <div class="pg-cta-2col">
+        <div class="campo"><label for="fa-nombre">Nombre o razón social</label><input class="ent" id="fa-nombre" autocomplete="organization" value="${esc(E.fact.nombre)}" placeholder="${esc(u.n)}"></div>
+        <div class="campo"><label for="fa-nif">NIF o CIF</label><input class="ent num" id="fa-nif" autocomplete="off" spellcheck="false" value="${esc(E.fact.nif)}" aria-describedby="fa-nif-err"><p class="error" id="fa-nif-err" hidden></p></div>
+      </div>
+      <div class="campo"><label for="fa-dir">Dirección</label><input class="ent" id="fa-dir" autocomplete="street-address" value="${esc(E.fact.dir)}" placeholder="Calle, número, piso"></div>
+      <div class="pg-cta-horas">
+        <div class="campo"><label for="fa-cp">Código postal</label><input class="ent num" id="fa-cp" inputmode="numeric" autocomplete="postal-code" maxlength="5" value="${esc(E.fact.cp)}" aria-describedby="fa-cp-err"><p class="error" id="fa-cp-err" hidden></p></div>
+        <div class="campo"><label for="fa-ciudad">Población</label><input class="ent" id="fa-ciudad" autocomplete="address-level2" value="${esc(E.fact.ciudad)}" placeholder="${esc(u.ciudad)}"></div>
+      </div>
+      <div class="fila g10"><button class="btn btn-sec" type="submit">Guardar datos de facturación</button></div>
+    </form>`;
+
+  /* ================= PANEL: PRIVACIDAD ================= */
+  const DATOS = [
+    {t:'Tu identidad', r:'Para comprobar que eres mayor de edad y quien dices ser', d:'Documento por las dos caras, selfie, nombre completo y fecha de nacimiento. Solo lo ve el equipo de verificación.', p:'Mientras la cuenta esté activa. Después, bloqueado el tiempo que marque la normativa aplicable.'},
+    {t:'Tu perfil público', r:'Para que la gente sepa con quién trata', d:'Nombre corto, foto, barrio, bio, idiomas, valoraciones y reseñas.', p:'Hasta que lo cambies o borres la cuenta.'},
+    {t:'Mensajes, pedidos y reseñas', r:'Para prestar el servicio y mediar si algo sale mal', d:'Nadie del equipo lee tus mensajes salvo que haya un reporte o una mediación, y entonces solo los de esa conversación.', p:'Mientras la cuenta esté activa. Los pedidos, lo que exija la normativa fiscal.'},
+    {t:'Pagos y cobros', r:'Para cobrarte, pagarte y emitir facturas', d:'Los 4 últimos números de tu tarjeta, tu IBAN enmascarado y los movimientos del monedero. La tarjeta completa la guarda la entidad de pago.', p:'Lo que exijan la normativa fiscal y la de prevención del blanqueo de capitales.'},
+    {t:'Uso y seguridad', r:'Para proteger tu cuenta y frenar fraudes', d:'Dispositivos, inicios de sesión y dirección IP aproximada.', p:'Un máximo de 12 meses.'}
+  ];
+  const panelPriv = () => `${cabPanel('privacidad', 'Privacidad y datos', 'Qué sabemos de ti, para qué lo usamos y cómo llevártelo o borrarlo.')}
+    <div class="bloque col g8">
+      <div class="pg-cta-bcab"><h3 class="h3">Qué datos tratamos y para qué</h3><p class="sm sec">En corto y sin letra pequeña. No vendemos tus datos ni los usamos para anuncios de otras empresas.</p></div>
+      <div class="pg-cta-acor">${DATOS.map(x => `<details class="acordeon"><summary><span class="col g4"><span>${x.t}</span><span class="sm sec">${x.r}</span></span></summary>
+        <div class="acordeon-cuerpo"><p>${x.d}</p><p class="pg-cta-plazo">${svg(P.reloj, 16)}<span><b>Hasta cuándo:</b> ${x.p}</span></p></div></details>`).join('')}</div>
+      <p class="sm sec">La versión completa está en la <a class="enlace" href="legal.html#privacidad">política de privacidad</a>. Si tienes dudas, escribe a nuestra delegada de protección de datos: <a class="enlace" href="mailto:dpd@apano.example">dpd@apano.example</a>.</p>
+    </div>
+    <div class="bloque col g4">
+      <div class="pg-cta-bcab"><h3 class="h3">Qué se ve en tu perfil</h3></div>
+      <div class="pg-cta-ajustes">
+        ${ajuste({id:'vi-barrio', ic:P.ubic, t:'Mostrar mi barrio', d:'Si lo apagas, solo aparecerá «' + esc(u.ciudad) + '» y la distancia aproximada.', on:E.vis.barrio, clave:'vis.barrio', conmuta:'Mostrar el barrio'})}
+        ${ajuste({id:'vi-conexion', ic:P.reloj, t:'Mostrar mi última conexión', d:'Si la ocultas, tampoco verás la de los demás.', on:E.vis.conexion, clave:'vis.conexion', conmuta:'Última conexión'})}
+      </div>
+    </div>
+    <div class="bloque col g16" id="copia"></div>
+    ${interno ? `<div class="bloque">${ajuste({id:'baja-int', ic:P.candado, sin:true, t:'Baja de la cuenta', d:'Las cuentas internas las da de baja administración cuando alguien deja el equipo.', fijo:'Interna'})}</div>` : `
+    <div class="bloque pg-cta-peligro col g16">
+      <div class="pg-cta-bcab"><h3 class="h3">Eliminar cuenta</h3><p class="sm sec">Borra tu perfil, tus anuncios y tus mensajes. No se puede deshacer.</p></div>
+      <div class="fila g10"><button class="btn btn-sec pg-cta-btn-mal" type="button" id="borra-abre">${svg(P.papelera, 17)}Eliminar mi cuenta</button></div>
+    </div>`}`;
+
+  /* ================= MONTAJE ================= */
+  const panel = (id, html) => `<section class="pg-cta-panel" id="cta-${id}" data-sec="${id}" aria-labelledby="cta-t-${id}" hidden>${html}</section>`;
+  raiz.innerHTML = `
+    <div class="pg-cta-arriba">
+      <h1 class="h1 pg-cta-titulo">Mi cuenta</h1>
+      <header class="pg-cta-cab" id="cta-cab"></header>
+      ${interno ? `<div class="pg-cta-interna">
+        <span class="pg-cta-interna-ico">${svg(P.escudoOk, 22)}</span>
+        <div class="col g4 crecer" style="min-width:200px"><b>Cuenta interna del equipo de Apaño</b><span class="sm">No puede publicar ni contratar. Lo que hagas en moderación queda registrado con tu nombre.</span></div>
+        <a class="btn btn-sol btn-p" href="admin.html">Ir a moderación${svg(P.ext, 15)}</a>
+      </div>` : ''}
+    </div>
+    <div class="con-lateral-izq pg-cta-rejilla">
+      <nav class="pg-cta-menu" aria-label="Secciones de tu cuenta">
+        ${GRUPOS.map(g => `<div><p class="etiqueta pg-cta-grupo-t">${g.t}</p><ul class="pg-cta-lista">${g.s.map(fila).join('')}</ul></div>`).join('')}
+        <button class="pg-cta-salir" type="button" id="cta-salir">${svg(P.salir, 19)}Cerrar sesión</button>
+        <p class="xs ter pg-cta-version">Apaño · maqueta de demostración</p>
+      </nav>
+      <div class="pg-cta-paneles">
+        ${panel('perfil', panelPerfil())}
+        ${panel('verificacion', panelVerif())}
+        ${panel('seguridad', panelSeguridad())}
+        ${interno ? '' : panel('pagos', panelPagos())}
+        ${panel('notificaciones', panelNotif())}
+        ${panel('privacidad', panelPriv())}
+      </div>
+    </div>`;
+  pintaCab();
+
+  /* ---------- PERFIL: lógica ---------- */
+  (() => {
+    const f = $('#f-perfil'), bio = $('#p-bio'), cont = $('#p-bio-n');
+    let foto = E.foto, tipo = E.tipo, sucio = false;
+    const marca = (v) => { sucio = v !== false; $('#p-barra').classList.toggle('sucio', sucio); $('#p-estado').textContent = sucio ? 'Cambios sin guardar' : 'Sin cambios' };
+    const cuenta = () => { const n = bio.value.length; cont.textContent = n + '/300'; cont.style.color = n > 270 ? 'var(--avisa)' : '' };
+    bio.value = E.bio; cuenta();
+    bio.addEventListener('input', cuenta);
+    f.addEventListener('input', e => { if(e.target.id !== 'p-foto-ent') marca() });
+    f.addEventListener('change', e => { if(e.target.id !== 'p-foto-ent') marca() });
+    $('#p-idi').addEventListener('click', e => { const b = e.target.closest('[data-idioma]'); if(!b) return;
+      b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') !== 'true'); $('#p-idi-err').hidden = true; marca() });
+    const ayudaTipo = () => { const a = $('#p-tipo-ay'); if(a) a.textContent = tipo === 'profesional'
+      ? 'Es tu oficio y emites factura. Tu perfil y tus anuncios mostrarán el distintivo Profesional.'
+      : 'Ofreces servicios de vez en cuando, sin factura. Puedes pasarte a profesional cuando quieras.' };
+    ayudaTipo();
+    $$('[data-tipo]', f).forEach(b => b.addEventListener('click', () => {
+      tipo = b.dataset.tipo; $$('[data-tipo]', f).forEach(x => x.setAttribute('aria-pressed', x === b));
+      const pro = $('#p-pro'); const ver = tipo === 'profesional';
+      if(pro.hidden === ver){ pro.hidden = !ver; if(ver && !quieto){ pro.classList.remove('pg-cta-suave'); void pro.offsetWidth; pro.classList.add('pg-cta-suave') } }
+      ayudaTipo(); marca();
+    }));
+    const pintaFoto = () => { $('#p-foto').innerHTML = avatar('avatar-xg', foto); $('#p-foto-quita').hidden = !foto; $('#p-foto-et').textContent = foto ? 'Cambiar foto' : 'Subir foto' };
+    $('#p-foto-quita').addEventListener('click', () => { foto = ''; pintaFoto(); marca(); A.avisa('Foto quitada. Guarda los cambios para aplicarlo') });
+
+    /* subida + recorte circular */
+    const abreRecorte = img => {
+      A.dialogo(`<div class="dialogo-cuerpo col g16 pg-cta-dlg">
+        <div class="col g4"><h2 class="h2">Encuadra tu foto</h2><p class="sm sec">Arrastra la imagen para centrar tu cara y acerca con el control.</p></div>
+        <div class="pg-cta-recorte" id="rc" tabindex="0" role="group" aria-label="Vista previa del recorte circular. Usa las flechas para mover la imagen y más o menos para acercar."></div>
+        <div class="campo"><label for="rc-zoom">Acercar</label><input class="pg-cta-rango" type="range" id="rc-zoom" min="1" max="3" step="0.01" value="1"></div>
+        <div class="pg-cta-acciones"><button class="btn btn-sec" type="button" data-cerrar>Cancelar</button><button class="btn" type="button" id="rc-ok">Usar esta foto</button></div>
+      </div>`, {ancho:440, alAbrir:(capa, cerrar) => {
+        const caja = $('#rc', capa), zoom = $('#rc-zoom', capa);
+        caja.appendChild(img);
+        const L = caja.clientWidth || 280, base = L / Math.min(img.naturalWidth, img.naturalHeight);
+        let z = 1, x = 0, y = 0;
+        const esc_ = () => base * z;
+        const limita = () => { const w = img.naturalWidth * esc_(), h = img.naturalHeight * esc_(); x = Math.min(0, Math.max(L - w, x)); y = Math.min(0, Math.max(L - h, y)) };
+        const pinta = () => { limita(); img.style.width = img.naturalWidth * esc_() + 'px'; img.style.height = img.naturalHeight * esc_() + 'px'; img.style.transform = `translate(${x}px,${y}px)` };
+        x = (L - img.naturalWidth * base) / 2; y = (L - img.naturalHeight * base) / 2; pinta();
+        const acerca = nz => { nz = Math.min(3, Math.max(1, nz)); const cx = (L / 2 - x) / esc_(), cy = (L / 2 - y) / esc_(); z = nz; x = L / 2 - cx * esc_(); y = L / 2 - cy * esc_(); zoom.value = z; pinta() };
+        zoom.addEventListener('input', () => acerca(+zoom.value));
+        let ini = null;
+        caja.addEventListener('pointerdown', e => { ini = {px:e.clientX, py:e.clientY, x, y}; caja.setPointerCapture(e.pointerId); caja.classList.add('arrastra') });
+        caja.addEventListener('pointermove', e => { if(!ini) return; x = ini.x + e.clientX - ini.px; y = ini.y + e.clientY - ini.py; pinta() });
+        const suelta = () => { ini = null; caja.classList.remove('arrastra') };
+        caja.addEventListener('pointerup', suelta); caja.addEventListener('pointercancel', suelta);
+        caja.addEventListener('wheel', e => { e.preventDefault(); acerca(z - e.deltaY * .002) }, {passive:false});
+        caja.addEventListener('keydown', e => { const m = {ArrowLeft:[10, 0], ArrowRight:[-10, 0], ArrowUp:[0, 10], ArrowDown:[0, -10]}[e.key];
+          if(m){ e.preventDefault(); x += m[0]; y += m[1]; pinta() } else if(e.key === '+' || e.key === '='){ acerca(z + .1) } else if(e.key === '-'){ acerca(z - .1) } });
+        $('#rc-ok', capa).addEventListener('click', () => {
+          const c = document.createElement('canvas'); c.width = c.height = 360;
+          c.getContext('2d').drawImage(img, -x / esc_(), -y / esc_(), L / esc_(), L / esc_(), 0, 0, 360, 360);
+          try{ foto = c.toDataURL('image/jpeg', .86) }catch(err){ A.avisa('No hemos podido recortar la imagen', 'mal'); return }
+          cerrar(); pintaFoto(); marca(); A.avisa('Foto lista. Guarda los cambios para publicarla');
+        });
+      }});
+    };
+    const lee = file => {
+      if(!file) return;
+      if(!/^image\/(jpeg|png|webp)$/.test(file.type)) return A.avisa('Elige una imagen JPG, PNG o WebP', 'mal');
+      if(file.size > 10 * 1024 * 1024) return A.avisa('La imagen pesa más de 10 MB', 'mal');
+      const r = new FileReader();
+      r.onload = () => { const img = new Image(); img.alt = ''; img.onload = () => abreRecorte(img); img.onerror = () => A.avisa('No hemos podido abrir esa imagen', 'mal'); img.src = r.result };
+      r.onerror = () => A.avisa('No hemos podido leer el archivo', 'mal');
+      r.readAsDataURL(file);
+    };
+    const ent = $('#p-foto-ent');
+    ent.addEventListener('change', () => { lee(ent.files && ent.files[0]); ent.value = '' });
+    const zona = $('#p-zona');
+    ['dragenter', 'dragover'].forEach(t => zona.addEventListener(t, e => { e.preventDefault(); zona.classList.add('encima') }));
+    ['dragleave', 'drop'].forEach(t => zona.addEventListener(t, e => { e.preventDefault(); if(t === 'drop' || !zona.contains(e.relatedTarget)) zona.classList.remove('encima') }));
+    zona.addEventListener('drop', e => lee(e.dataTransfer && e.dataTransfer.files[0]));
+
+    f.addEventListener('submit', e => {
+      e.preventDefault();
+      const idiomas = $$('[data-idioma][aria-pressed="true"]', f).map(b => b.dataset.idioma);
+      let ok = true;
+      $('#p-idi-err').hidden = idiomas.length > 0; if(!idiomas.length) ok = false;
+      if(!interno && tipo === 'profesional'){
+        const nif = $('#p-nif').value.trim(), com = $('#p-com').value.trim();
+        ok = error('p-nif', !nif ? 'Escribe tu NIF o CIF.' : !nifValido(nif) ? 'Ese NIF o CIF no es válido: revisa la letra o el dígito de control.' : '') && ok;
+        ok = error('p-com', com.length < 2 ? 'Escribe el nombre de tu negocio.' : '') && ok;
+      }
+      if(!ok){ A.avisa('Revisa los campos marcados', 'mal'); const m = $('[aria-invalid="true"]', f); if(m) m.focus(); return }
+      Object.assign(E, {foto, barrio:$('#p-barrio').value, bio:bio.value.trim(), idiomas, tipo: interno ? E.tipo : tipo});
+      if(!interno && tipo === 'profesional'){ E.nif = $('#p-nif').value.trim().toUpperCase().replace(/[^0-9A-Z]/g, ''); E.comercial = $('#p-com').value.trim() }
+      try{ guarda() }catch(err){}
+      pintaCab(); refrescaMenu(); marca(false);
+      A.avisa(tipo === 'profesional' && u.tipo !== 'profesional' && !interno ? 'Perfil guardado. Revisaremos tu NIF en 24 h' : 'Perfil guardado');
+    });
+  })();
+
+  /* ---------- SEGURIDAD: lógica ---------- */
+  (() => {
+    raiz.addEventListener('click', e => { const b = e.target.closest('[data-ver]'); if(!b) return;
+      const i = $('#' + b.dataset.ver), ver = i.type === 'password'; i.type = ver ? 'text' : 'password';
+      b.setAttribute('aria-pressed', ver); b.setAttribute('aria-label', ver ? 'Ocultar contraseña' : 'Mostrar contraseña'); b.innerHTML = svg(ver ? P.ojoNo : P.ojo, 19) });
+    const reglas = v => ({largo:v.length >= 10, mayus:/[a-zñ]/.test(v) && /[A-ZÑ]/.test(v), num:/[\d\W_]/.test(v),
+      nombre: !!v && !/123456|qwerty|contrase|password|apano/i.test(norm(v)) && !norm(v).includes(norm(nombre[0]))});
+    const nivel = v => { if(!v) return 0; const r = reglas(v); let s = [r.largo, r.mayus, r.num].filter(Boolean).length + (v.length >= 14 ? 1 : 0);
+      if(!r.nombre || v.length < 8) s = Math.min(s, 1); return Math.max(1, Math.min(4, s)) };
+    const NIV = ['escribe una', 'débil', 'mejorable', 'buena', 'muy buena'];
+    const nueva = $('#pw-nueva');
+    nueva.addEventListener('input', () => { const v = nueva.value, n = nivel(v), r = reglas(v);
+      $('#pw-med').dataset.nivel = n; const t = $('#pw-nivel'); t.dataset.nivel = n; t.textContent = NIV[n];
+      $$('#pw-reglas li').forEach(li => li.classList.toggle('ok', !!r[li.dataset.r])); error('pw-nueva', '') });
+    $('#f-pass').addEventListener('submit', e => {
+      e.preventDefault();
+      const a = $('#pw-act').value, n = nueva.value, r = $('#pw-rep').value, rg = reglas(n);
+      let ok = error('pw-act', a ? '' : 'Escribe tu contraseña actual.');
+      ok = error('pw-nueva', !n ? 'Escribe la nueva contraseña.' : !(rg.largo && rg.mayus && rg.num && rg.nombre) ? 'Todavía no cumple las 4 condiciones de abajo.' : n === a ? 'Tiene que ser distinta de la actual.' : '') && ok;
+      ok = error('pw-rep', r !== n || !r ? 'Las dos contraseñas no coinciden.' : '') && ok;
+      if(!ok){ const m = $('#f-pass [aria-invalid="true"]'); if(m) m.focus(); return }
+      e.target.reset(); $('#pw-med').dataset.nivel = 0; $('#pw-nivel').dataset.nivel = 0; $('#pw-nivel').textContent = NIV[0]; $$('#pw-reglas li').forEach(li => li.classList.remove('ok'));
+      const habia = E.sesiones.length; E.sesiones = []; guarda(); pintaDisp(); refrescaMenu();
+      A.avisa(habia ? 'Contraseña cambiada. Hemos cerrado tus otras sesiones' : 'Contraseña cambiada');
+    });
+
+    /* dos pasos */
+    const qr = () => { let r = A.hash(u.id + 'dos-pasos') || 7; const rnd = () => (r = (Math.imul(r, 1103515245) + 12345) >>> 0) / 4294967296;
+      const n = 21, fin = (x, y) => (x < 8 && y < 8) || (x > n - 9 && y < 8) || (x < 8 && y > n - 9); let d = '';
+      for(let y = 0; y < n; y++) for(let x = 0; x < n; x++){ if(!fin(x, y) && rnd() > .5) d += `M${x} ${y}h1v1h-1z` }
+      const ojo = (x, y) => `M${x} ${y}h7v7h-7zM${x + 1} ${y + 1}v5h5v-5zM${x + 2} ${y + 2}h3v3h-3z`;
+      return `<svg width="128" height="128" viewBox="0 0 21 21" aria-hidden="true" shape-rendering="crispEdges"><path fill="currentColor" fill-rule="evenodd" d="${ojo(0, 0) + ojo(14, 0) + ojo(0, 14)}"/><path fill="currentColor" d="${d}"/></svg>` };
+    const clave = (() => { const a = 'ABCDEFGHJKLMNPQRSTUVWXYZ234567'; let h = A.hash(u.id + 'clave'), s = ''; for(let i = 0; i < 16; i++){ s += a[h % a.length]; h = (Math.imul(h, 2654435761) + i) >>> 0 } return s.match(/.{4}/g).join(' ') })();
+    const codigos = () => { const a = 'abcdefghjkmnpqrstuvwxyz23456789'; let h = A.hash(u.id + 'rec'); return Array.from({length:8}, () => { let s = ''; for(let i = 0; i < 8; i++){ h = (Math.imul(h, 1664525) + 1013904223) >>> 0; s += a[h % a.length] } return s.slice(0, 4) + '-' + s.slice(4) }) };
+    const int = $('#dp-int'), cuerpo = $('#dp-cuerpo');
+    const pintaDos = (configura) => {
+      int.setAttribute('aria-checked', E.dos.on || !!configura);
+      int.previousElementSibling.previousElementSibling.className = 'pg-cta-ajuste-ico' + (E.dos.on ? ' ok' : '');
+      if(E.dos.on){
+        cuerpo.innerHTML = `<p class="aviso aviso-ok">${svg(P.check, 18, 'stroke-width="2.6"')}<span><b>Activada</b> con ${E.dos.metodo === 'app' ? 'app de códigos' : 'SMS al ' + movilM} desde el ${fch(E.dos.desde)}.</span></p>
+          <div class="fila g8"><button class="btn btn-sec btn-p" type="button" id="dp-codigos">Ver códigos de recuperación</button></div>`;
+        $('#dp-codigos').addEventListener('click', () => { const cs = codigos(); A.dialogo(`<div class="dialogo-cuerpo col g16 pg-cta-dlg">
+          <div class="col g8"><h2 class="h2">Códigos de recuperación</h2><p class="sm sec">Si pierdes el móvil, cada código te deja entrar una vez. Guárdalos en un sitio seguro, fuera de este dispositivo.</p></div>
+          <ul class="pg-cta-codigos num">${cs.map(c => `<li>${c}</li>`).join('')}</ul>
+          <div class="pg-cta-acciones"><button class="btn btn-sec" type="button" data-copia="${cs.join(' ')}">Copiar</button><button class="btn" type="button" data-cerrar>Listo</button></div></div>`, {ancho:420}) });
+        return;
+      }
+      if(!configura){ cuerpo.innerHTML = `<p class="aviso aviso-avisa">${svg(P.alerta, 18)}<span>Te recomendamos activarla: aunque alguien adivine tu contraseña, no podrá entrar sin tu móvil.</span></p>`; return }
+      cuerpo.innerHTML = `<fieldset class="pg-cta-fs col g10"><legend>¿Cómo quieres recibir el código?</legend>
+          <label class="opcion"><input type="radio" name="dp-m" value="app" ${E.dos.metodo !== 'sms' ? 'checked' : ''}><span class="col g4"><b>App de códigos</b><span class="sm sec">Recomendado. Funciona aunque no tengas cobertura.</span></span></label>
+          <label class="opcion"><input type="radio" name="dp-m" value="sms" ${E.dos.metodo === 'sms' ? 'checked' : ''}><span class="col g4"><b>SMS</b><span class="sm sec">Al ${movilM}.</span></span></label>
+        </fieldset>
+        <div id="dp-paso"></div>
+        <form id="f-dos" class="col g12" novalidate>
+          <div class="campo"><label for="dp-cod">Código de 6 cifras</label><input class="ent num pg-cta-codigo" id="dp-cod" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000" aria-describedby="dp-cod-ay dp-cod-err"><p class="ayuda" id="dp-cod-ay">Simulación: vale cualquier código de 6 cifras.</p><p class="error" id="dp-cod-err" hidden></p></div>
+          <div class="fila g8"><button class="btn" type="submit">Activar</button><button class="btn btn-sec" type="button" id="dp-no">Ahora no</button></div>
+        </form>`;
+      const paso = () => { const m = ($('input[name="dp-m"]:checked', cuerpo) || {}).value || 'app';
+        $('#dp-paso').innerHTML = m === 'app'
+          ? `<div class="pg-cta-qr-fila"><div class="pg-cta-qr">${qr()}</div><div class="col g8"><p class="sm">Abre tu app de códigos, toca <b>Añadir</b> y escanea este código. ¿No puedes? Escribe esta clave:</p><button type="button" class="pg-cta-clave num" data-copia="${clave.replace(/ /g, '')}" aria-label="Copiar la clave">${clave}</button></div></div>`
+          : `<div class="pg-cta-qr-fila"><p class="sm crecer" style="min-width:180px">Te mandaremos un SMS con el código al ${movilM}.</p><button type="button" class="btn btn-suave btn-p" data-avisa="SMS enviado al ${movilM} (simulado)">Enviar SMS</button></div>` };
+      paso();
+      $$('input[name="dp-m"]', cuerpo).forEach(r => r.addEventListener('change', paso));
+      $('#dp-no').addEventListener('click', () => pintaDos(false));
+      const cod = $('#dp-cod'); cod.addEventListener('input', () => { cod.value = cod.value.replace(/\D/g, '').slice(0, 6); error('dp-cod', '') });
+      $('#f-dos').addEventListener('submit', e => { e.preventDefault();
+        if(!error('dp-cod', /^\d{6}$/.test(cod.value) ? '' : 'Escribe las 6 cifras que te da la app o el SMS.')) return cod.focus();
+        E.dos = {on:true, metodo:($('input[name="dp-m"]:checked', cuerpo) || {}).value || 'app', desde:A.HOY}; guarda(); pintaDos(); refrescaMenu();
+        A.avisa('Verificación en dos pasos activada') });
+      if(!quieto){ cuerpo.classList.remove('pg-cta-suave'); void cuerpo.offsetWidth; cuerpo.classList.add('pg-cta-suave') }
+    };
+    pintaDos(false);
+    int.addEventListener('click', () => {
+      if(E.dos.on) return confirma({t:'¿Desactivar la verificación en dos pasos?', d:'Tu cuenta quedará protegida solo con la contraseña. Podrás volver a activarla cuando quieras.', si:'Desactivar', no:'Mantenerla',
+        alSi:() => { E.dos = {on:false, metodo:E.dos.metodo, desde:''}; guarda(); pintaDos(false); refrescaMenu(); A.avisa('Verificación en dos pasos desactivada') }});
+      pintaDos(int.getAttribute('aria-checked') !== 'true');
+    });
+
+    /* sesiones abiertas */
+    const DISP = {
+      d1:{ic:P.movil, n:'iPhone · App de Apaño', l:'Palma', c:'15 nov, 22:31'},
+      d2:{ic:P.portatil, n:'Navegador en Windows', l:'Palma', c:'hace 3 días'},
+      d3:{ic:P.tableta, n:'Tableta Android · App de Apaño', l:'Madrid', c:'hace 3 semanas', raro:true}
+    };
+    const ua = navigator.userAgent;
+    const nav = /Edg\//.test(ua) ? 'Edge' : /Firefox\//.test(ua) ? 'Firefox' : /Chrome\//.test(ua) ? 'Chrome' : /Safari\//.test(ua) ? 'Safari' : 'Navegador';
+    const so = /iPhone|iPad/.test(ua) ? 'iOS' : /Android/.test(ua) ? 'Android' : /Mac OS X/.test(ua) ? 'macOS' : /Windows/.test(ua) ? 'Windows' : 'Linux';
+    const esMovil = /iPhone|Android.+Mobile/.test(ua);
+    const pintaDisp = () => {
+      $('#disp').innerHTML = `<li class="pg-cta-disp este"><span class="pg-cta-disp-ico">${svg(esMovil ? P.movil : P.portatil, 22)}</span>
+          <div class="col g4 min0"><span class="negrita recorte recorte-1">${nav} en ${so}</span><span class="pg-cta-disp-meta"><span class="pg-cta-vivo" aria-hidden="true"></span>Activa ahora · ${esc(u.ciudad)}</span></div>
+          <span class="insignia insignia-marca">Este dispositivo</span></li>`
+        + E.sesiones.filter(id => DISP[id]).map(id => { const d = DISP[id]; return `<li class="pg-cta-disp" data-disp="${id}"><span class="pg-cta-disp-ico">${svg(d.ic, 22)}</span>
+          <div class="col g4 min0"><span class="negrita recorte recorte-1">${d.n}</span><span class="pg-cta-disp-meta">${d.l} · ${d.c}${d.raro ? ' <span class="insignia insignia-avisa">Ubicación poco habitual</span>' : ''}</span></div>
+          <button class="btn btn-sec btn-p" type="button" data-cierra="${id}" aria-label="Cerrar sesión en ${d.n}">Cerrar sesión</button></li>` }).join('')
+        + (E.sesiones.length ? '' : '<li class="pg-cta-disp-nada">No tienes la sesión abierta en ningún otro sitio.</li>');
+      $('#disp-todas').hidden = !E.sesiones.length;
+    };
+    pintaDisp();
+    const cierra = ids => { ids.forEach(id => { const li = $(`[data-disp="${id}"]`); if(li) li.classList.add('pg-cta-sale') });
+      setTimeout(() => { E.sesiones = E.sesiones.filter(x => !ids.includes(x)); guarda(); pintaDisp(); refrescaMenu() }, quieto ? 0 : 280) };
+    $('#disp').addEventListener('click', e => { const b = e.target.closest('[data-cierra]'); if(!b) return; const d = DISP[b.dataset.cierra];
+      cierra([b.dataset.cierra]); A.avisa('Sesión cerrada en ' + d.n) });
+    $('#disp-todas').addEventListener('click', () => confirma({t:'¿Cerrar las demás sesiones?', d:'Saldrás de Apaño en ' + E.sesiones.length + (E.sesiones.length === 1 ? ' dispositivo' : ' dispositivos') + '. Este seguirá abierto.', si:'Cerrar todas',
+      alSi:() => { const n = E.sesiones.length; cierra(E.sesiones.slice()); A.avisa('Hemos cerrado ' + n + (n === 1 ? ' sesión' : ' sesiones')) }}));
+  })();
+
+  /* ---------- INTERRUPTORES con estado (notificaciones y privacidad) ---------- */
+  raiz.addEventListener('click', e => {
+    const it = e.target.closest('.interruptor[data-clave]'); if(!it) return;
+    const [g, k] = it.dataset.clave.split('.'); E[g][k] = it.getAttribute('aria-checked') === 'true'; guarda(); refrescaMenu();
+    if(g === 'canal') $('#nc-nada').hidden = ['push', 'correo', 'sms'].some(x => E.canal[x]);
+    if(g === 'silencio'){ $('#sil-horas').setAttribute('aria-disabled', !E.silencio.on); $$('#sil-horas input').forEach(i => i.disabled = !E.silencio.on) }
+  });
+  $$('#sil-horas input').forEach(i => i.addEventListener('change', () => {
+    E.silencio[i.id === 'sil-de' ? 'desde' : 'hasta'] = i.value || (i.id === 'sil-de' ? '23:00' : '08:00'); guarda(); refrescaMenu();
+    A.avisa('Silencio de ' + E.silencio.desde + ' a ' + E.silencio.hasta) }));
+
+  /* ---------- PAGOS: lógica ---------- */
+  if(!interno) (() => {
+    const pintaTarj = () => {
+      $('#tarj').innerHTML = E.tarjetas.length ? E.tarjetas.map((t, i) => `<li class="pg-cta-medio"><span class="pg-cta-plastico" aria-hidden="true"></span>
+        <span class="col crecer min0"><span class="negrita num">${esc(t.marca)} ···· ${esc(t.ult)}</span><span class="xs ter">Caduca ${esc(t.cad)}${i === 0 ? ' · Principal' : ''}</span></span>
+        <button class="btn btn-sec btn-p pg-cta-btn-mal" type="button" data-quita="${t.id}" aria-label="Eliminar la tarjeta ${esc(t.marca)} acabada en ${esc(t.ult)}">Eliminar</button></li>`).join('')
+        : `<li class="pg-cta-vacio">${verif ? 'No tienes tarjetas guardadas. Te la pediremos al contratar.' : 'Aún no puedes guardar tarjetas.'}</li>`;
+    };
+    const pintaIban = () => {
+      $('#iban').innerHTML = E.iban ? `<div class="pg-cta-medio"><span class="pg-cta-banco">${svg(P.banco, 20)}</span>
+          <span class="col crecer min0"><span class="negrita num">${esc(E.iban)}</span><span class="xs ter">A nombre de ${esc(u.n)} · comprobada</span></span>
+          <button class="btn btn-sec btn-p" type="button" id="iban-cambia">Cambiar</button></div>`
+        : `<div class="pg-cta-vacio">${verif ? 'Añade una cuenta para recibir tus cobros.' : 'Podrás añadir una cuenta cuando verifiquemos tu identidad.'}${verif ? `<div style="margin-top:10px"><button class="btn btn-sec btn-p" type="button" id="iban-cambia">Añadir cuenta</button></div>` : ''}</div>`;
+      const b = $('#iban-cambia'); if(b) b.addEventListener('click', abreIban);
+    };
+    const abreIban = () => A.dialogo(`<div class="dialogo-cuerpo col g16 pg-cta-dlg">
+        <div class="col g8"><h2 class="h2">Cuenta para cobrar</h2><p class="sm sec">Tiene que estar a tu nombre, <b>${esc(u.n)}</b>. Si no coincide con tu identidad verificada, no podremos enviarte el dinero.</p></div>
+        <form id="f-iban" class="col g16" novalidate>
+          <div class="campo"><label for="iban-ent">IBAN</label><input class="ent num" id="iban-ent" autocomplete="off" spellcheck="false" autocapitalize="characters" placeholder="ES00 0000 0000 0000 0000 0000" aria-describedby="iban-ay iban-ent-err"><p class="ayuda" id="iban-ay">Simulado: solo guardamos los 4 primeros y los 4 últimos caracteres.</p><p class="error" id="iban-ent-err" hidden></p></div>
+          <button class="btn btn-bloque" type="submit">Guardar cuenta</button>
+        </form></div>`, {ancho:460, alAbrir:(capa, cerrar) => {
+        const i = $('#iban-ent', capa);
+        i.addEventListener('input', () => { i.value = i.value.toUpperCase().replace(/[^0-9A-Z]/g, '').slice(0, 34).replace(/(.{4})(?=.)/g, '$1 '); error('iban-ent', '') });
+        $('#f-iban', capa).addEventListener('submit', e => { e.preventDefault(); const v = i.value.replace(/\s/g, '');
+          if(!error('iban-ent', !v ? 'Escribe el IBAN.' : !A.ibanValido(v) ? 'Ese IBAN no es válido: revisa que esté completo.' : '')) return i.focus();
+          E.iban = v.slice(0, 4) + ' ···· ' + v.slice(-4); guarda(); cerrar(); pintaIban(); refrescaMenu(); A.avisa('Cuenta para cobrar guardada') });
+      }});
+    pintaTarj(); pintaIban();
+    $('#tarj').addEventListener('click', e => { const b = e.target.closest('[data-quita]'); if(!b) return; const t = E.tarjetas.find(x => x.id === b.dataset.quita);
+      confirma({t:'¿Eliminar la ' + esc(t.marca) + ' ···· ' + esc(t.ult) + '?', d:'Ya no podrás pagar con ella sin volver a añadirla. Los pagos que ya están en curso no cambian.', si:'Eliminar tarjeta',
+        alSi:() => { E.tarjetas = E.tarjetas.filter(x => x.id !== t.id); guarda(); pintaTarj(); refrescaMenu(); A.avisa('Tarjeta eliminada') }}) });
+    $('#tarj-nueva').addEventListener('click', () => A.dialogo(`<div class="dialogo-cuerpo col g16 pg-cta-dlg">
+        <div class="col g8"><h2 class="h2">Añadir tarjeta</h2><p class="sm sec">Para pagar servicios con Pago protegido.</p></div>
+        <form id="f-tarj" class="col g16" novalidate>
+          <div class="campo"><div class="fila entre g8"><label for="tj-num">Número de la tarjeta</label><span class="insignia" id="tj-marca" hidden></span></div><input class="ent num" id="tj-num" inputmode="numeric" autocomplete="cc-number" placeholder="0000 0000 0000 0000" aria-describedby="tj-num-err"><p class="error" id="tj-num-err" hidden></p></div>
+          <div class="pg-cta-horas">
+            <div class="campo"><label for="tj-cad">Caducidad</label><input class="ent num" id="tj-cad" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/AA" maxlength="5" aria-describedby="tj-cad-err"><p class="error" id="tj-cad-err" hidden></p></div>
+            <div class="campo"><label for="tj-cvc">Código de seguridad</label><input class="ent num" id="tj-cvc" inputmode="numeric" autocomplete="cc-csc" placeholder="CVC" maxlength="4" aria-describedby="tj-cvc-err"><p class="error" id="tj-cvc-err" hidden></p></div>
+          </div>
+          <p class="aviso aviso-marca">${svg(P.candado, 18)}<span><b>Pago simulado.</b> No se guarda el número: en la app real lo custodia la entidad de pago y Apaño solo ve los 4 últimos.</span></p>
+          <button class="btn btn-bloque btn-g" type="submit">Guardar tarjeta</button>
+        </form></div>`, {ancho:460, alAbrir:(capa, cerrar) => {
+        const T = A.tarjetaPago, n = $('#tj-num', capa), c = $('#tj-cad', capa), v = $('#tj-cvc', capa), m = $('#tj-marca', capa);
+        n.addEventListener('input', () => { n.value = T.formatea(n.value); const mc = T.marca(n.value); m.hidden = !mc; m.textContent = mc; error('tj-num', '') });
+        c.addEventListener('input', () => { let d = c.value.replace(/\D/g, '').slice(0, 4); c.value = d.length > 2 ? d.slice(0, 2) + '/' + d.slice(2) : d; error('tj-cad', '') });
+        v.addEventListener('input', () => { v.value = v.value.replace(/\D/g, '').slice(0, 4); error('tj-cvc', '') });
+        $('#f-tarj', capa).addEventListener('submit', e => { e.preventDefault();
+          const num = T.limpia(n.value), mm = +c.value.slice(0, 2), aa = +c.value.slice(3, 5), hoyA = +A.HOY.slice(2, 4), hoyM = +A.HOY.slice(5, 7);
+          const amex = /^3[47]/.test(num);
+          let ok = error('tj-num', !num ? 'Escribe el número de la tarjeta.' : !T.luhn(num) ? 'Ese número no es válido: revisa las cifras.' : '');
+          ok = error('tj-cad', !/^\d\d\/\d\d$/.test(c.value) || mm < 1 || mm > 12 ? 'Escribe la fecha como MM/AA.' : (aa < hoyA || (aa === hoyA && mm < hoyM)) ? 'Esta tarjeta ya ha caducado.' : '') && ok;
+          ok = error('tj-cvc', v.value.length !== (amex ? 4 : 3) ? 'Son las ' + (amex ? 4 : 3) + ' cifras de detrás.' : '') && ok;
+          if(!ok){ const f = $('[aria-invalid="true"]', capa); if(f) f.focus(); return }
+          E.tarjetas.push({id:'t' + Date.now(), marca:T.marca(num) || 'Tarjeta', ult:num.slice(-4), cad:c.value}); guarda(); cerrar(); pintaTarj(); refrescaMenu(); A.avisa('Tarjeta guardada') });
+      }}));
+    $('#f-fact').addEventListener('submit', e => { e.preventDefault();
+      const nif = $('#fa-nif').value.trim(), cp = $('#fa-cp').value.trim();
+      let ok = error('fa-nif', nif && !nifValido(nif) ? 'Ese NIF o CIF no es válido.' : '');
+      ok = error('fa-cp', cp && !/^(0[1-9]|[1-4]\d|5[0-2])\d{3}$/.test(cp) ? 'Un código postal tiene 5 cifras, por ejemplo 07001.' : '') && ok;
+      if(!ok){ const f = $('#f-fact [aria-invalid="true"]'); if(f) f.focus(); return }
+      E.fact = {nombre:$('#fa-nombre').value.trim(), nif:nif.toUpperCase(), dir:$('#fa-dir').value.trim(), cp, ciudad:$('#fa-ciudad').value.trim()}; guarda();
+      A.avisa('Datos de facturación guardados') });
+  })();
+
+  /* ---------- PRIVACIDAD: copia de datos y baja ---------- */
+  const pideCopia = () => { E.copia = A.HOY + 'T' + new Date().toTimeString().slice(0, 5); guarda(); pintaCopia(); refrescaMenu(); A.avisa('Te avisaremos por correo cuando esté lista') };
+  const pintaCopia = () => {
+    const c = $('#copia');
+    c.innerHTML = !E.copia ? `${ajuste({id:'cp', ic:P.bajar, sin:true, t:'Descargar mis datos', d:'Te preparamos un archivo con tu perfil, anuncios, mensajes, pedidos y pagos: en PDF para leerlo y en JSON para llevártelo a otro servicio.', fijo:' '})}
+        <div class="fila g10"><button class="btn btn-suave" type="button" id="copia-pide">${svg(P.bajar, 17)}Pedir una copia</button></div>`
+      : `${ajuste({id:'cp', ic:P.bajar, tono:'marca', sin:true, t:'Preparando tu copia', d:'Te llegará por correo a ' + correoM + '. Suele tardar unas horas; como máximo, un mes.', fijo:' '})}
+        <div class="col g8" role="group" aria-label="Estado de la copia: preparando">
+          <div class="progreso"><span class="hecho"></span><span class="activo"></span><span></span></div>
+          <div class="pg-cta-etapas"><span class="hecho">Pedida el ${A.fechaCorta(E.copia)}, ${E.copia.slice(11)}</span><span class="activo">Preparando</span><span>Enviada a tu correo</span></div>
+        </div>
+        <div class="fila g10"><button class="btn btn-sec btn-p" type="button" id="copia-cancela">Cancelar la petición</button></div>`;
+    const p = $('#copia-pide'); if(p) p.addEventListener('click', pideCopia);
+    const k = $('#copia-cancela'); if(k) k.addEventListener('click', () => { E.copia = ''; guarda(); pintaCopia(); refrescaMenu(); A.avisa('Petición cancelada') });
+  };
+  pintaCopia();
+  const borra = $('#borra-abre');
+  if(borra) borra.addEventListener('click', () => {
+    const abiertos = (A.PEDIDOS || []).filter(p => (p.cliente === u.id || p.prov === u.id) && p.estado !== 'completado');
+    const saldo = verif && A.MONEDERO ? A.MONEDERO.saldo : 0;
+    const pendiente = saldo || abiertos.length ? `<p class="aviso aviso-avisa">${svg(P.alerta, 18)}<span>${saldo ? `Tienes <b>${A.eur(saldo)}</b> en el monedero` : ''}${saldo && abiertos.length ? ' y ' : ''}${abiertos.length ? `<b>${abiertos.length} ${abiertos.length === 1 ? 'servicio' : 'servicios'} sin cerrar</b>${abiertos.some(p => p.estado === 'en disputa') ? ', uno en mediación' : ''}` : ''}. ${saldo ? '<a class="enlace" href="monedero.html">Retira el saldo</a> antes de seguir: ' : ''}los servicios en curso y las mediaciones seguirán hasta resolverse.</span></p>` : '';
+    A.dialogo(`<div class="dialogo-cuerpo col g16 pg-cta-dlg" id="borra-cuerpo">
+        <span class="pg-cta-alerta">${svg(P.alerta, 26)}</span>
+        <div class="col g8"><h2 class="h2" id="borra-t" tabindex="-1">Eliminar tu cuenta</h2><p class="sec">Vas a borrar tu cuenta de Apaño. <b>No se puede deshacer</b>: no podrás recuperarla ni volver a ver tus mensajes, y para volver tendrías que darte de alta y verificarte de nuevo.</p></div>
+        ${pendiente}
+        <div class="pg-cta-borra">
+          <div><h3>Qué borramos</h3><ul><li>Tu perfil, tu foto y tu bio</li><li>Tus anuncios y tus favoritos</li><li>Tus mensajes: los demás verán «Usuario eliminado»</li><li>Tu nombre en las reseñas que escribiste, que quedan anónimas</li><li>Tus ajustes y tus sesiones abiertas</li></ul></div>
+          <div><h3>Qué conservamos porque la ley lo exige</h3><ul><li>Pagos, cobros y facturas, el tiempo que marca la normativa fiscal y mercantil</li><li>Tu documento de identidad y el selfie, bloqueados el tiempo que marque la ley (por ejemplo, la de prevención del blanqueo de capitales)</li><li>Nadie podrá usarlos salvo para atender a jueces o autoridades. Pasado el plazo, se borran</li></ul></div>
+        </div>
+        <p class="sm sec">¿Quieres llevarte una copia antes? <button type="button" class="enlace" id="borra-copia" style="border:0;background:none;padding:0;font:inherit;font-weight:600;cursor:pointer">Pide tus datos</button> y espera a recibirla.</p>
+        <form id="f-borra" class="col g12" novalidate>
+          <div class="campo"><label for="borra-ent">Para confirmar, escribe <b>ELIMINAR</b></label><input class="ent pg-cta-confirma" id="borra-ent" autocomplete="off" spellcheck="false" autocapitalize="characters" aria-describedby="borra-ent-err"><p class="error" id="borra-ent-err" hidden></p></div>
+          <button class="btn btn-peligro btn-bloque btn-g" type="submit" id="borra-si" aria-disabled="true">Eliminar mi cuenta para siempre</button>
+          <button class="btn btn-sec btn-bloque" type="button" data-cerrar>Cancelar</button>
+        </form></div>`, {ancho:620, alAbrir:(capa) => {
+      $('#borra-t', capa).focus({preventScroll:true}); $('.dialogo', capa).scrollTop = 0;
+      const i = $('#borra-ent', capa), b = $('#borra-si', capa);
+      i.addEventListener('input', () => { b.setAttribute('aria-disabled', i.value.trim() !== 'ELIMINAR'); error('borra-ent', '') });
+      $('#borra-copia', capa).addEventListener('click', () => { if(!E.copia) pideCopia(); else A.avisa('Ya estamos preparando tu copia') });
+      $('#f-borra', capa).addEventListener('submit', e => { e.preventDefault();
+        if(!error('borra-ent', i.value.trim() === 'ELIMINAR' ? '' : 'Escribe ELIMINAR, en mayúsculas, para confirmar.')) return i.focus();
+        $('#borra-cuerpo', capa).outerHTML = `<div class="dialogo-cuerpo col g16 pg-cta-dlg pg-cta-centro">
+          <span class="pg-cta-hecho-ico">${svg(P.check, 30, 'stroke-width="2.6"')}</span>
+          <h2 class="h2" tabindex="-1" id="borra-fin">Cuenta eliminada</h2>
+          <p class="sec">Es una simulación: en esta demostración no se borra nada. En la app real te mandaríamos la confirmación a ${correoM}.</p>
+          <button class="btn btn-bloque btn-g" type="button" id="borra-salir">Salir</button></div>`;
+        $('#borra-fin', capa).focus({preventScroll:true});
+        $('#borra-salir', capa).addEventListener('click', () => A.cambiaPerfil(''));
+      });
+    }});
+  });
+
+  /* ---------- cerrar sesión ---------- */
+  $('#cta-salir').addEventListener('click', () => A.cambiaPerfil(''));
+
+  /* ================= NAVEGACIÓN POR HASH (lista ↔ panel) ================= */
+  const mq = matchMedia('(max-width:960px)');
+  const porDefecto = verif ? 'perfil' : 'verificacion';
+  let vista = '', actual = '', desdeLista = false, scrollLista = 0;
+  const anima = (el, cls) => { if(!el || quieto) return; el.classList.remove('pg-cta-der', 'pg-cta-izq', 'pg-cta-suave'); void el.offsetWidth; el.classList.add(cls);
+    el.addEventListener('animationend', function f(ev){ if(ev.target === el){ el.classList.remove(cls); el.removeEventListener('animationend', f) } }) };
+  const enciende = sec => { $$('.pg-cta-panel', raiz).forEach(p => p.hidden = p.dataset.sec !== sec);
+    $$('.pg-cta-fila', raiz).forEach(a => a.dataset.sec === sec ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current')); actual = sec };
+  const pinta = (evento) => {
+    const h = location.hash.slice(1);
+    const vale = /^[a-z0-9-]+$/.test(h) && SECC.includes(h);
+    if(h && !vale && evento) return;               /* otras anclas (p. ej. #contenido): no tocar */
+    if(h && !vale && S[h]) try{ history.replaceState(null, '', location.pathname + location.search) }catch(err){}  /* sección que este perfil no tiene */
+    const sec = vale ? h : '';
+    const antes = vista, antesSec = actual;
+    if(mq.matches){
+      if(sec){
+        if(antes === 'lista' && evento){ scrollLista = scrollY; desdeLista = true }
+        main.dataset.vista = vista = 'panel'; enciende(sec);
+        if(evento && (antes !== 'panel' || antesSec !== sec)){ scrollTo(0, 0); anima($('#cta-' + sec), 'pg-cta-der') }
+        if(evento){ const t = $('#cta-t-' + sec); if(t) t.focus({preventScroll:true}) }
+      } else {
+        main.dataset.vista = vista = 'lista';
+        if(antes === 'panel' && evento){ anima($('.pg-cta-arriba', raiz), 'pg-cta-izq'); anima($('.pg-cta-menu', raiz), 'pg-cta-izq'); scrollTo(0, scrollLista);
+          const f = $(`.pg-cta-fila[data-sec="${antesSec}"]`, raiz); if(f) f.focus({preventScroll:true}) }
+        desdeLista = false;
+      }
+    } else {
+      main.dataset.vista = vista = 'doble';
+      const s = sec || actual || porDefecto, cambia = s !== actual;
+      enciende(s);
+      if(evento && cambia){ anima($('#cta-' + s), 'pg-cta-suave');
+        const y = $('.pg-cta-rejilla', raiz).getBoundingClientRect().top + scrollY - 96; if(scrollY > y) scrollTo({top:y, behavior:quieto ? 'auto' : 'smooth'}) }
+    }
+  };
+  raiz.addEventListener('click', e => { if(!e.target.closest('[data-atras]')) return;
+    if(desdeLista) history.back(); else { try{ history.replaceState(null, '', location.pathname + location.search) }catch(err){} pinta(true) } });
+  addEventListener('hashchange', () => pinta(true));
+  if(mq.addEventListener) mq.addEventListener('change', () => pinta(false)); else mq.addListener(() => pinta(false));
+  pinta(false);
+};
+</script>

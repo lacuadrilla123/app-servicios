@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Cómo funciona · Apaño</title>
+<meta name="description" content="Servicios entre personas reales, todas mayores de edad y con la identidad verificada. Así se contrata, se ofrece y se paga en Apaño.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="base.css">
+<script src="datos.js"></script>
+<script src="app.js"></script>
+</head>
+<body>
+<a class="solo-lector" href="#contenido">Saltar al contenido</a>
+<header class="cab">
+  <div class="contenedor cab-fila">
+    <a class="logo" href="index.html" aria-label="Apaño, ir al inicio">apa<span class="n">ñ</span>o<span class="punto">.</span></a>
+    <form class="buscador escritorio" data-busqueda role="search" aria-label="Buscar servicios">
+      <svg class="ico" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M10.8 17.6a6.8 6.8 0 1 0 0-13.6 6.8 6.8 0 0 0 0 13.6zM20 20l-4.3-4.3"/></svg>
+      <label class="solo-lector" for="q-cab">Qué necesitas</label>
+      <input id="q-cab" name="q" type="search" placeholder="Busca un servicio: paseo de perros, electricista, clases…" autocomplete="off">
+      <button class="buscador-btn" type="submit">Buscar</button>
+    </form>
+    <div class="crecer solo-movil"></div>
+    <div class="cab-acc">
+      <a class="ico-btn solo-escritorio" href="favoritos.html" aria-label="Favoritos">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.3A4.2 4.2 0 0 1 12 7.7a4.2 4.2 0 0 1 7.5 2.5c0 5.7-7.5 10.3-7.5 10.3z"/></svg>
+      </a>
+      <a class="ico-btn" href="notificaciones.html" aria-label="Notificaciones" data-punto-notif>
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15zM10 20.5a2.2 2.2 0 0 0 4 0"/></svg>
+      </a>
+      <a class="ico-btn" href="chat.html" aria-label="Buzón de mensajes" data-punto-buzon>
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5h16v11H8.5L4 20z"/></svg>
+      </a>
+      <a class="btn btn-subir solo-escritorio" href="subir.html" data-exige="publicar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        Subir anuncio
+      </a>
+      <div class="fila g6" id="cuenta"></div>
+    </div>
+  </div>
+  <div class="contenedor cab-movil">
+    <form class="buscador" data-busqueda role="search" aria-label="Buscar servicios">
+      <svg class="ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M10.8 17.6a6.8 6.8 0 1 0 0-13.6 6.8 6.8 0 0 0 0 13.6zM20 20l-4.3-4.3"/></svg>
+      <label class="solo-lector" for="q-movil">Qué necesitas</label>
+      <input id="q-movil" name="q" type="search" placeholder="Buscar en Apaño" autocomplete="off">
+    </form>
+  </div>
+</header>
+<nav class="tabbar" aria-label="Navegación principal">
+  <a href="index.html"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11 12 4l8.5 7M6 9.4V20h12V9.4"/></svg>Inicio</a>
+  <a href="favoritos.html"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.3A4.2 4.2 0 0 1 12 7.7a4.2 4.2 0 0 1 7.5 2.5c0 5.7-7.5 10.3-7.5 10.3z"/></svg>Favoritos</a>
+  <a href="subir.html" data-exige="publicar" aria-label="Subir anuncio"><span class="mas"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></a>
+  <a href="chat.html" data-punto-buzon><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5h16v11H8.5L4 20z"/></svg>Buzón</a>
+  <a href="cuenta.html" id="tab-tu"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4.5 20.5c.8-3.6 3.8-5.5 7.5-5.5s6.7 1.9 7.5 5.5"/></svg>Tú</a>
+</nav>
+<style>
+/* ===== Cómo funciona ===== */
+.pg-cf-ceja{ display:inline-flex; align-items:center; gap:8px; font-size:var(--t-xs); font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--marca) }
+.pg-cf-ceja::before{ content:""; width:18px; height:2px; border-radius:2px; background:currentColor }
+.pg-cf-cab{ display:flex; flex-direction:column; gap:10px; margin-bottom:26px; max-width:720px }
+.pg-cf-cab .entradilla{ margin-top:4px }
+
+/* héroe */
+.pg-cf-heroe{ position:relative; overflow:hidden; border-bottom:1px solid var(--linea);
+  background:radial-gradient(60% 70% at 92% 0%, color-mix(in srgb,var(--marca) 16%,transparent) 0%, transparent 70%),
+             radial-gradient(40% 50% at 0% 100%, color-mix(in srgb,var(--sol) 18%,transparent) 0%, transparent 70%), var(--fondo) }
+.pg-cf-heroe-in{ display:grid; gap:34px; padding-block:26px 40px; align-items:center }
+@media (min-width:920px){ .pg-cf-heroe-in{ grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr); gap:56px; padding-block:64px 72px } }
+.pg-cf-heroe h1{ margin:14px 0 16px; isolation:isolate }
+.pg-cf-heroe h1 em{ font-style:normal; position:relative; white-space:nowrap }
+.pg-cf-heroe h1 em::after{ content:""; position:absolute; z-index:-1; left:-.06em; right:-.06em; bottom:.06em; height:.24em; border-radius:99px; background:var(--sol) }
+.pg-cf-acc{ display:flex; flex-wrap:wrap; gap:10px; margin-top:24px }
+@media (max-width:520px){ .pg-cf-acc .btn{ flex:1 1 100% } }
+.pg-cf-prueba{ display:flex; align-items:center; gap:12px; margin-top:22px; font-size:var(--t-sm); color:var(--tinta-2) }
+.pg-cf-pila{ display:flex }
+.pg-cf-pila .avatar{ width:34px; height:34px; font-size:.72rem; border:2.5px solid var(--fondo); margin-left:-10px }
+.pg-cf-pila .avatar:first-child{ margin-left:0 }
+.pg-cf-pila .tick{ display:none }
+.pg-cf-garantias{ display:flex; flex-wrap:wrap; gap:8px 18px; margin-top:22px; padding-top:20px; border-top:1px solid var(--linea); font-size:var(--t-sm); font-weight:600 }
+.pg-cf-garantias span{ display:inline-flex; align-items:center; gap:7px }
+.pg-cf-garantias svg{ color:var(--ok) }
+
+/* escena del héroe */
+.pg-cf-escena{ position:relative; width:100%; max-width:410px; margin-inline:auto; padding:34px 22px 30px }
+.pg-cf-ficha{ position:relative; background:var(--fondo); border-radius:var(--r-xl); box-shadow:var(--sombra-3); padding:10px; rotate:-2deg;
+  transition:rotate .5s var(--ease) }
+.pg-cf-escena:hover .pg-cf-ficha{ rotate:0deg }
+.pg-cf-ficha-img{ position:relative; aspect-ratio:5/4; border-radius:var(--r-l); overflow:hidden }
+.pg-cf-ficha-img>.portada{ position:absolute; inset:0 }
+.pg-cf-ficha-img .insignia{ position:absolute; left:10px; top:10px; z-index:2 }
+.pg-cf-ficha-pie{ padding:12px 6px 6px; display:flex; flex-direction:column; gap:8px }
+.pg-cf-ficha-pie .tarjeta-precio{ font-size:1.2rem }
+.pg-cf-quien{ display:flex; align-items:center; gap:10px; padding-top:10px; border-top:1px solid var(--linea) }
+.pg-cf-quien b{ display:block; font-size:var(--t-sm); line-height:1.2 }
+.pg-cf-quien .xs{ display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+.pg-cf-flota{ position:absolute; z-index:3; display:flex; align-items:center; gap:10px; padding:10px 14px 10px 10px; border-radius:16px;
+  background:var(--fondo); box-shadow:var(--sombra-2); font-size:var(--t-xs); line-height:1.3; color:var(--tinta-2); max-width:230px;
+  animation:sube .6s var(--ease) both }
+.pg-cf-flota b{ display:block; font-size:var(--t-sm); color:var(--tinta) }
+.pg-cf-flota-ico{ flex:0 0 auto; width:36px; height:36px; border-radius:11px; display:grid; place-items:center }
+.pg-cf-flota-1{ left:0; top:38%; animation-delay:.25s }
+.pg-cf-flota-1 .pg-cf-flota-ico{ background:var(--marca); color:var(--fondo) }
+.pg-cf-flota-2{ right:0; top:6px; animation-delay:.4s }
+.pg-cf-flota-2 .pg-cf-flota-ico{ background:var(--tinta); color:var(--fondo); font:800 .82rem/1 var(--display); letter-spacing:-.04em }
+.pg-cf-flota-3{ right:4px; bottom:4px; padding:8px 14px 8px 8px; border-radius:99px; font-weight:650; color:var(--ok); animation-delay:.55s }
+.pg-cf-flota-3 .pg-cf-flota-ico{ width:26px; height:26px; border-radius:50%; background:var(--ok); color:var(--fondo) }
+
+/* pasos */
+.pg-cf-pasos-cab{ display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:18px 24px; margin-bottom:28px }
+.pg-cf-seg{ width:100%; max-width:380px }
+.pg-cf-seg button{ flex:1; height:42px; font-size:var(--t-base); white-space:nowrap }
+.pg-cf-seg button:active{ transform:scale(.97) }
+@media (min-width:760px){ .pg-cf-seg{ width:auto } .pg-cf-seg button{ padding:0 22px } }
+.pg-cf-pasos{ list-style:none; margin:0; padding:0; display:grid; gap:14px; counter-reset:paso }
+@media (min-width:860px){ .pg-cf-pasos{ grid-template-columns:repeat(4,minmax(0,1fr)); gap:20px } }
+.pg-cf-pasos.pg-cf-sale{ animation:pg-cf-sale .16s ease-in both }
+.pg-cf-pasos.pg-cf-entra>li{ animation:sube .45s var(--ease) both }
+.pg-cf-pasos.pg-cf-entra>li:nth-child(2){ animation-delay:.06s } .pg-cf-pasos.pg-cf-entra>li:nth-child(3){ animation-delay:.12s } .pg-cf-pasos.pg-cf-entra>li:nth-child(4){ animation-delay:.18s }
+@keyframes pg-cf-sale{ to{ opacity:0; transform:translateY(-6px) } }
+.pg-cf-paso{ position:relative; display:grid; grid-template-columns:64px minmax(0,1fr); gap:16px; align-items:start; padding:16px; border-radius:var(--r-l);
+  background:var(--sup); counter-increment:paso; transition:background .2s, box-shadow .25s var(--ease) }
+.pg-cf-paso:hover{ background:var(--fondo); box-shadow:var(--sombra-2) }
+.pg-cf-baldosa.cat-ico{ width:64px; height:64px; border-radius:20px; box-shadow:0 10px 22px -12px var(--c2) }
+.pg-cf-paso:hover .pg-cf-baldosa{ transform:translateY(-3px) rotate(-4deg) }
+.pg-cf-paso-n{ display:block; font-size:var(--t-xs); font-weight:700; color:var(--tinta-3); letter-spacing:.04em; margin-bottom:4px }
+.pg-cf-paso-n::before{ content:"Paso " counter(paso) }
+.pg-cf-paso h3{ font-size:var(--t-md); margin-bottom:6px }
+.pg-cf-paso p{ font-size:var(--t-sm); color:var(--tinta-2) }
+@media (min-width:860px){
+  .pg-cf-paso{ grid-template-columns:minmax(0,1fr); padding:22px 20px 24px; gap:18px }
+  .pg-cf-paso:not(:last-child)::after{ content:""; position:absolute; top:54px; left:100px; right:-14px; border-top:2px dashed var(--linea-2); pointer-events:none }
+}
+.pg-cf-pasos-pie{ display:flex; flex-wrap:wrap; align-items:center; gap:12px 20px; margin-top:22px }
+.pg-cf-pasos-pie span.sm{ color:var(--tinta-2) }
+@media (max-width:520px){ .pg-cf-pasos-pie .btn{ flex:1 1 100% } .pg-cf-pasos-pie{ justify-content:center; text-align:center } }
+
+/* verificación */
+.pg-cf-banda{ background:var(--sup); border-block:1px solid var(--linea) }
+.pg-cf-razones{ display:grid; gap:12px; margin-bottom:34px }
+@media (min-width:760px){ .pg-cf-razones{ grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px } }
+.pg-cf-razon{ display:flex; gap:14px; align-items:flex-start; padding:18px; border-radius:var(--r-l); background:var(--fondo); border:1px solid var(--linea) }
+.pg-cf-razon h3{ font-size:var(--t-md); margin-bottom:4px }
+.pg-cf-razon p{ font-size:var(--t-sm); color:var(--tinta-2) }
+.pg-cf-mini{ flex:0 0 auto; width:42px; height:42px; border-radius:13px; display:grid; place-items:center; background:var(--marca-sup); color:var(--marca) }
+.pg-cf-tl-tit{ display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:6px 16px; margin-bottom:18px }
+.pg-cf-tl{ list-style:none; margin:0 0 34px; padding:20px 18px; display:grid; gap:0; background:var(--fondo); border-radius:var(--r-xl); border:1px solid var(--linea) }
+.pg-cf-tl li{ position:relative; display:grid; grid-template-columns:44px minmax(0,1fr) auto; gap:4px 14px; padding-bottom:20px }
+.pg-cf-tl li:last-child{ padding-bottom:0 }
+.pg-cf-tl li:not(:last-child)::before{ content:""; position:absolute; left:21px; top:46px; bottom:2px; width:2px; border-radius:2px; background:var(--marca-borde) }
+.pg-cf-tl-ico{ grid-row:span 2; width:44px; height:44px; border-radius:50%; display:grid; place-items:center; background:var(--marca-sup); color:var(--marca); box-shadow:0 0 0 4px var(--fondo) }
+.pg-cf-tl li.fin .pg-cf-tl-ico{ background:var(--ok); color:var(--fondo) }
+.pg-cf-tl b{ font-size:var(--t-base); align-self:end }
+.pg-cf-tl p{ grid-column:2 / -1; font-size:var(--t-sm); color:var(--tinta-2) }
+.pg-cf-dur{ align-self:end; font-size:var(--t-xs); font-weight:650; color:var(--tinta-3); font-variant-numeric:tabular-nums }
+@media (min-width:980px){
+  .pg-cf-tl{ grid-template-columns:repeat(6,minmax(0,1fr)); gap:0 14px; padding:28px 26px }
+  .pg-cf-tl li{ grid-template-columns:minmax(0,1fr); align-content:start; gap:6px; padding:0 }
+  .pg-cf-tl li:not(:last-child)::before{ left:52px; right:-10px; top:21px; bottom:auto; width:auto; height:2px }
+  .pg-cf-tl-ico{ grid-row:auto; margin-bottom:8px }
+  .pg-cf-tl b{ align-self:start }
+  .pg-cf-tl p{ grid-column:auto }
+  .pg-cf-dur{ align-self:start; order:-1; position:absolute; top:12px; left:54px; padding:2px 8px; border-radius:99px; background:var(--sup) }
+  .pg-cf-tl li:not(:last-child) .pg-cf-dur{ background:var(--fondo) }
+}
+.pg-cf-par{ display:grid; gap:16px }
+@media (min-width:860px){ .pg-cf-par{ grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:20px } }
+.pg-cf-menor{ display:grid; grid-template-columns:auto minmax(0,1fr); gap:18px; align-items:start; padding:22px; border-radius:var(--r-xl); background:var(--fondo); border:1px solid var(--linea) }
+.pg-cf-menor .puerta-18{ width:64px; height:64px; border-radius:20px; font-size:1.6rem; box-shadow:var(--sombra-2) }
+.pg-cf-menor .puerta-18::after{ width:26px; height:26px; right:-8px; top:-8px; font-size:1rem; border-width:2.5px }
+.pg-cf-lista{ list-style:none; margin:12px 0 0; padding:0; display:flex; flex-direction:column; gap:9px; font-size:var(--t-sm); color:var(--tinta-2) }
+.pg-cf-lista li{ display:grid; grid-template-columns:20px minmax(0,1fr); gap:8px; align-items:start }
+.pg-cf-lista svg{ margin-top:1px }
+.pg-cf-lista .si{ color:var(--ok) } .pg-cf-lista .no{ color:var(--mal) }
+.pg-cf-lista b{ color:var(--tinta); font-weight:600 }
+.pg-cf-ven{ padding:22px; border-radius:var(--r-xl); background:var(--fondo); border:1px solid var(--linea) }
+.pg-cf-perfil{ display:flex; align-items:center; gap:14px; padding:14px; margin:14px 0 4px; border-radius:var(--r-l); background:var(--sup) }
+.pg-cf-perfil b{ display:block; font:700 var(--t-md)/1.2 var(--display) }
+.pg-cf-ven-cols{ display:grid; gap:4px 18px }
+@media (min-width:520px){ .pg-cf-ven-cols{ grid-template-columns:1fr 1fr } }
+
+/* pago protegido */
+.pg-cf-flujo{ margin:0 0 20px; padding:18px 14px 12px; border-radius:var(--r-xl); background:var(--fondo); border:1px solid var(--linea) }
+@media (min-width:760px){ .pg-cf-flujo{ padding:26px 24px 18px } }
+.pg-cf-flujo svg{ display:block; width:100%; height:auto; overflow:visible }
+.pg-cf-flujo-h{ display:none!important }
+@media (min-width:760px){ .pg-cf-flujo-h{ display:block!important } .pg-cf-flujo-v{ display:none!important } }
+.pg-cf-flujo .n-c{ fill:var(--fondo); stroke:var(--marca-borde); stroke-width:2 }
+.pg-cf-flujo .n-i{ color:var(--marca) }
+.pg-cf-flujo .n-marca .n-c{ fill:var(--marca); stroke:var(--marca) } .pg-cf-flujo .n-marca .n-i{ color:var(--fondo) }
+.pg-cf-flujo .n-ok .n-c{ fill:var(--ok-sup); stroke:var(--ok) } .pg-cf-flujo .n-ok .n-i{ color:var(--ok) }
+.pg-cf-flujo .t-t{ fill:var(--tinta); font:700 15px var(--texto) }
+.pg-cf-flujo .t-s{ fill:var(--tinta-2); font:500 12.5px var(--texto) }
+.pg-cf-flujo .fl{ stroke:var(--tinta-3); stroke-width:2; fill:none; stroke-linecap:round; stroke-linejoin:round }
+.pg-cf-flujo .fl-r{ stroke:var(--mal); stroke-width:1.8; fill:none; stroke-dasharray:5 5; stroke-linecap:round }
+.pg-cf-flujo .fl-rp{ stroke:var(--mal); stroke-width:1.8; fill:none; stroke-linecap:round; stroke-linejoin:round }
+.pg-cf-flujo .caja-r{ fill:var(--mal-sup); stroke:color-mix(in srgb,var(--mal) 35%,transparent) }
+.pg-cf-flujo .t-r{ fill:var(--mal); font:700 13px var(--texto) } .pg-cf-flujo .t-r2{ fill:var(--tinta-2); font:500 12px var(--texto) }
+.pg-cf-flujo .dinero rect{ fill:var(--sol-sup); stroke:var(--sol); stroke-width:1.5 } .pg-cf-flujo .dinero text{ fill:var(--sol-tinta); font:700 12px var(--texto); font-variant-numeric:tabular-nums }
+.pg-cf-flujo .nodo, .pg-cf-flujo .dinero{ transform-box:fill-box; transform-origin:center; transition:opacity .5s var(--ease), transform .5s var(--ease); transition-delay:calc(var(--i) * .1s) }
+.pg-cf-flujo .fl{ transition:stroke-dashoffset .5s var(--ease); transition-delay:calc(var(--i) * .1s + .08s) }
+.pg-cf-flujo.armado:not(.visible) .nodo{ opacity:0; transform:scale(.6) }
+.pg-cf-flujo.armado:not(.visible) .dinero{ opacity:0; transform:translateY(6px) }
+.pg-cf-flujo.armado:not(.visible) .fl{ stroke-dasharray:1; stroke-dashoffset:1 }
+.pg-cf-flujo.visible .fl{ stroke-dasharray:1; stroke-dashoffset:0 }
+.pg-cf-flujo figcaption{ margin-top:10px; font-size:var(--t-xs); color:var(--tinta-3); text-align:center }
+.pg-cf-pago-rej{ display:grid; gap:16px; align-items:start }
+@media (min-width:920px){ .pg-cf-pago-rej{ grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr); gap:20px } }
+.pg-cf-cubre{ display:grid; gap:10px }
+@media (min-width:600px){ .pg-cf-cubre{ grid-template-columns:1fr 1fr } }
+.pg-cf-caso{ display:grid; grid-template-columns:36px minmax(0,1fr); gap:2px 14px; padding:16px; border-radius:var(--r-l); background:var(--sup) }
+.pg-cf-caso .pg-cf-mini{ grid-row:span 2 }
+@media (min-width:600px){ .pg-cf-caso{ display:block; padding:16px 16px 18px } .pg-cf-caso .pg-cf-mini{ margin-bottom:12px } }
+.pg-cf-caso .pg-cf-mini{ width:36px; height:36px; border-radius:11px }
+.pg-cf-caso.ok .pg-cf-mini{ background:var(--ok-sup); color:var(--ok) }
+.pg-cf-caso.mal .pg-cf-mini{ background:var(--mal-sup); color:var(--mal) }
+.pg-cf-caso h4{ font-size:var(--t-base); margin-bottom:4px; font-family:var(--texto); letter-spacing:-.01em }
+.pg-cf-caso p{ font-size:var(--t-sm); color:var(--tinta-2) }
+.pg-cf-calc{ padding:22px; border-radius:var(--r-xl); background:var(--marca-sup); border:1px solid var(--marca-borde); display:flex; flex-direction:column; gap:16px }
+.pg-cf-calc .ent{ background-color:var(--fondo) }
+.pg-cf-cant{ display:flex; align-items:center; gap:6px; height:50px; padding:4px; border-radius:999px; background:var(--fondo); border:1.5px solid var(--linea-2); width:max-content }
+.pg-cf-cant button{ width:40px; height:40px; border-radius:50%; border:0; background:var(--sup-2); color:var(--tinta); display:grid; place-items:center; transition:background .18s, transform .15s var(--ease) }
+.pg-cf-cant button:hover{ background:var(--sup-3) } .pg-cf-cant button:active{ transform:scale(.9) }
+.pg-cf-cant button[disabled]{ opacity:.35; pointer-events:none }
+.pg-cf-cant output{ min-width:92px; text-align:center; font-weight:700; font-variant-numeric:tabular-nums }
+.pg-cf-desglose{ margin:0; display:flex; flex-direction:column; gap:10px; padding:16px; border-radius:var(--r-l); background:var(--fondo) }
+.pg-cf-desglose div{ display:flex; justify-content:space-between; align-items:baseline; gap:12px }
+.pg-cf-desglose dt{ font-size:var(--t-sm); color:var(--tinta-2) }
+.pg-cf-desglose dt small{ display:block; font-size:var(--t-xs); color:var(--tinta-3) }
+.pg-cf-desglose dd{ margin:0; font-weight:650; font-variant-numeric:tabular-nums; white-space:nowrap }
+.pg-cf-desglose .total{ padding-top:12px; border-top:1px dashed var(--linea-2) }
+.pg-cf-desglose .total dt{ font-weight:700; color:var(--tinta) }
+.pg-cf-desglose .total dd{ font-size:var(--t-xl) }
+.pg-cf-recibe{ display:flex; align-items:center; gap:12px; font-size:var(--t-sm); color:var(--tinta-2) }
+.pg-cf-recibe b{ color:var(--tinta) }
+.pg-cf-cambia{ animation:pg-cf-latido .35s var(--ease) }
+@keyframes pg-cf-latido{ 40%{ transform:scale(1.06) } }
+
+/* cifras */
+.pg-cf-cifras{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1px; border-radius:var(--r-xl); overflow:hidden; background:var(--linea); border:1px solid var(--linea) }
+@media (min-width:860px){ .pg-cf-cifras{ grid-template-columns:repeat(4,minmax(0,1fr)) } }
+.pg-cf-cifra{ background:var(--fondo); padding:22px 18px; display:flex; flex-direction:column; gap:4px }
+.pg-cf-cifra .cifra{ font-size:clamp(1.9rem,5vw,2.6rem); line-height:1; display:flex; align-items:baseline; gap:6px }
+.pg-cf-cifra .cifra svg{ color:var(--sol); align-self:center }
+.pg-cf-cifra span.sm{ color:var(--tinta-2) }
+.pg-cf-cifras-pie{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px; margin-top:14px; font-size:var(--t-xs); color:var(--tinta-3) }
+
+/* preguntas y cierre */
+.pg-cf-faq{ display:grid; gap:20px }
+@media (min-width:920px){ .pg-cf-faq{ grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); gap:56px } }
+.pg-cf-faq .acordeon:first-child>summary{ padding-top:4px }
+.pg-cf-cierre{ position:relative; overflow:hidden; isolation:isolate; display:grid; gap:22px; padding:30px 24px; border-radius:var(--r-xl);
+  background:linear-gradient(135deg,var(--marca) 0%,var(--marca-2) 100%); color:var(--fondo); box-shadow:0 24px 50px -28px var(--marca) }
+@media (min-width:860px){ .pg-cf-cierre{ grid-template-columns:minmax(0,1fr) auto; align-items:center; padding:44px 48px } }
+.pg-cf-cierre::after{ content:""; position:absolute; z-index:-1; right:-70px; top:-90px; width:280px; height:280px; border-radius:50%;
+  background:radial-gradient(circle,color-mix(in srgb,var(--sol) 55%,transparent),transparent 68%); opacity:.55; pointer-events:none }
+.pg-cf-cierre p{ color:color-mix(in srgb,var(--fondo) 80%,transparent); margin-top:10px; max-width:52ch }
+.pg-cf-cierre .btn-sec{ background:transparent; color:var(--fondo); box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--fondo) 35%,transparent) }
+.pg-cf-cierre .btn-sec:hover{ background:color-mix(in srgb,var(--fondo) 10%,transparent) }
+@media (max-width:520px){ .pg-cf-cierre .btn{ flex:1 1 100% } }
+</style>
+<main id="contenido">
+
+  <!-- Héroe -->
+  <section class="pg-cf-heroe" aria-labelledby="cf-t">
+    <div class="contenedor pg-cf-heroe-in">
+      <div>
+        <span class="pg-cf-ceja">Cómo funciona Apaño</span>
+        <h1 class="titular" id="cf-t">Servicios entre personas reales. Todas mayores de edad y <em>verificadas</em>.</h1>
+        <p class="entradilla">Electricistas, paseadores, profes o peluqueras de tu barrio. Antes de escribir, publicar o pagar, cada persona demuestra con su documento que tiene 18 años o más y que es quien dice ser.</p>
+        <div class="pg-cf-acc">
+          <a class="btn btn-g" href="registro.html">Crear cuenta gratis</a>
+          <a class="btn btn-g btn-sec" href="buscar.html">Ver servicios</a>
+        </div>
+        <div class="pg-cf-prueba"><div class="pg-cf-pila" id="cf-pila"></div><span id="cf-prueba-txt">Personas verificadas cerca de ti</span></div>
+        <div class="pg-cf-garantias" id="cf-garantias"></div>
+      </div>
+      <div class="pg-cf-escena" aria-hidden="true">
+        <div class="pg-cf-ficha">
+          <div class="pg-cf-ficha-img" id="cf-escena-img"><span class="insignia insignia-sol">Destacado</span></div>
+          <div class="pg-cf-ficha-pie">
+            <div class="fila entre g8"><span class="tarjeta-precio" id="cf-escena-precio"></span><span class="fila g4 xs sec" id="cf-escena-nota"></span></div>
+            <p class="sm sec recorte recorte-1" id="cf-escena-titulo"></p>
+            <div class="pg-cf-quien" id="cf-escena-quien"></div>
+          </div>
+        </div>
+        <div class="pg-cf-flota pg-cf-flota-1"><span class="pg-cf-flota-ico" data-ic="candado" data-t="20" data-g="2"></span><div><b id="cf-escena-retenido"></b>cobra cuando confirmes</div></div>
+        <div class="pg-cf-flota pg-cf-flota-2"><span class="pg-cf-flota-ico">18+</span><div><b>DNI comprobado</b>El número nunca se enseña</div></div>
+        <div class="pg-cf-flota pg-cf-flota-3"><span class="pg-cf-flota-ico" data-ic="check" data-t="14" data-g="3"></span>Servicio confirmado</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Paso a paso -->
+  <section class="contenedor seccion" aria-labelledby="cf-pasos-t">
+    <div class="pg-cf-pasos-cab">
+      <div class="col g8">
+        <span class="pg-cf-ceja">Paso a paso</span>
+        <h2 class="h1" id="cf-pasos-t">Cuatro pasos y listo</h2>
+      </div>
+      <div class="seg pg-cf-seg" role="group" aria-label="Qué quieres hacer en Apaño">
+        <button type="button" aria-pressed="true" data-modo="contratar" aria-controls="cf-contratar">Para contratar</button>
+        <button type="button" aria-pressed="false" data-modo="ofrecer" aria-controls="cf-ofrecer">Para ofrecer</button>
+      </div>
+    </div>
+
+    <div id="cf-contratar" class="pg-cf-modo">
+      <ol class="pg-cf-pasos">
+        <li class="pg-cf-paso"><span class="cat-ico pg-cf-baldosa" data-cat="clases" data-ic="lupa" data-t="30"></span>
+          <div><span class="pg-cf-paso-n"></span><h3>Busca y compara</h3><p>Filtra por categoría, precio y distancia. Cada ficha enseña reseñas reales y el sello verde de identidad verificada.</p></div></li>
+        <li class="pg-cf-paso"><span class="cat-ico pg-cf-baldosa" data-cat="limpieza" data-ic="buzon" data-t="30"></span>
+          <div><span class="pg-cf-paso-n"></span><h3>Escribe y concreta</h3><p>Por el chat de Apaño acordáis día, hora y qué incluye. Te llega una oferta con el precio cerrado, sin sorpresas.</p></div></li>
+        <li class="pg-cf-paso"><span class="cat-ico pg-cf-baldosa" data-cat="jardin" data-ic="escudo" data-t="30"></span>
+          <div><span class="pg-cf-paso-n"></span><h3>Paga con Pago protegido</h3><p>Pagas en la app y retenemos el dinero. El profesional sabe que está pagado, pero aún no lo cobra.</p></div></li>
+        <li class="pg-cf-paso"><span class="cat-ico pg-cf-baldosa" data-cat="eventos" data-ic="estrella" data-t="30"></span>
+          <div><span class="pg-cf-paso-n"></span><h3>Confirma y valora</h3><p>Cuando el trabajo está hecho lo confirmas y se libera el pago. Tu reseña ayuda a la siguiente persona.</p></div></li>
+      </ol>
+      <div class="pg-cf-pasos-pie">
+        <a class="btn" href="buscar.html">Buscar un servicio</a>
+        <a class="enlace sm" href="#pago">Cómo te protege el pago</a>
+      </div>
+    </div>
+
+    <div id="cf-ofrecer" class="pg-cf-modo" hidden>
+      <ol class="pg-cf-pasos">
+        <li class="pg-cf-paso"><span class="cat-ico pg-cf-baldosa" data-cat="diseno" data-ic="carne" data-t="30"></span>
+          <div><span class="pg-cf-paso-n"></span><h3>Verifica tu identidad</h3><p>Correo, móvil, documento y un selfie. Son unos minutos y solo lo haces una vez.</p></div></li>
+        <li class="pg-cf-paso"><span class="cat-ico pg-cf-baldosa" data-cat="hogar" data-ic="mas" data-t="30"></span>
+          <div><span class="pg-cf-paso-n"></span><h3>Sube tu anuncio</h3><p>Título, precio, zona y cuándo estás disponible. Lo publicas en tres minutos y lo pausas cuando quieras.</p></div></li>
+        <li class="pg-cf-paso"><span class="cat-ico pg-cf-baldosa" data-cat="mascotas" data-ic="calendario" data-t="30"></span>
+          <div><span class="pg-cf-paso-n"></span><h3>Acepta y haz el trabajo</h3><p>Respondes por el chat, mandas tu oferta y quedáis. Cuando vas, el cliente ya ha pagado.</p></div></li>
+        <li class="pg-cf-paso"><span class="cat-ico pg-cf-baldosa" data-cat="recados" data-ic="cartera" data-t="30"></span>
+          <div><span class="pg-cf-paso-n"></span><h3>Cobra en tu monedero</h3><p>Al confirmar el cliente, el precio íntegro llega a tu monedero. Lo pasas a tu banco cuando quieras, sin coste.</p></div></li>
+      </ol>
+      <div class="pg-cf-pasos-pie">
+        <a class="btn" href="subir.html" data-exige="publicar">Subir mi primer anuncio</a>
+        <span class="sm" id="cf-publicar-nota">Publicar es gratis y no hay cuotas.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Verificación -->
+  <section class="pg-cf-banda" id="verificacion" aria-labelledby="cf-ver-t">
+    <div class="contenedor seccion">
+      <div class="pg-cf-cab">
+        <span class="pg-cf-ceja">Verificación de identidad</span>
+        <h2 class="h1" id="cf-ver-t">Por qué te pedimos el DNI</h2>
+        <p class="entradilla">Porque aquí la confianza va en las dos direcciones: quien entra en tu casa y quien te abre la puerta saben con quién tratan. Es la única forma seria de garantizar que en Apaño solo hay adultos.</p>
+      </div>
+
+      <div class="pg-cf-razones">
+        <article class="pg-cf-razon rev"><span class="pg-cf-mini" data-ic="dieciocho"></span>
+          <div><h3>Solo mayores de 18</h3><p>La fecha de nacimiento sale del documento, no de lo que escribas. Sin excepciones.</p></div></article>
+        <article class="pg-cf-razon rev"><span class="pg-cf-mini" data-ic="cara"></span>
+          <div><h3>Quien viene es quien dice ser</h3><p>Comparamos tu selfie con la foto del documento. Adiós a perfiles falsos.</p></div></article>
+        <article class="pg-cf-razon rev"><span class="pg-cf-mini" data-ic="persona"></span>
+          <div><h3>Una persona, una cuenta</h3><p>Si alguien incumple las normas y le cerramos la cuenta, no puede volver con otro nombre.</p></div></article>
+      </div>
+
+      <div class="pg-cf-tl-tit">
+        <h3 class="h2">Así es el proceso</h3>
+        <span class="sm sec">Unos 4 minutos en total. Lo haces desde el móvil.</span>
+      </div>
+      <ol class="pg-cf-tl rev">
+        <li><span class="pg-cf-tl-ico" data-ic="correo"></span><b>Correo</b><span class="pg-cf-dur">30 s</span><p>Confirmas tu email con un enlace.</p></li>
+        <li><span class="pg-cf-tl-ico" data-ic="movil"></span><b>Móvil</b><span class="pg-cf-dur">30 s</span><p>Escribes el código que te llega por SMS.</p></li>
+        <li><span class="pg-cf-tl-ico" data-ic="datos"></span><b>Datos</b><span class="pg-cf-dur">1 min</span><p>Nombre y fecha de nacimiento, tal como salen en el documento.</p></li>
+        <li><span class="pg-cf-tl-ico" data-ic="carne"></span><b>Documento</b><span class="pg-cf-dur">1 min</span><p>Fotos del DNI o NIE por las dos caras, o del pasaporte.</p></li>
+        <li><span class="pg-cf-tl-ico" data-ic="cara"></span><b>Selfie</b><span class="pg-cf-dur">20 s</span><p>Un vídeo corto mirando a la cámara para saber que eres tú.</p></li>
+        <li class="fin"><span class="pg-cf-tl-ico" data-ic="check"></span><b>Revisión</b><span class="pg-cf-dur">&lt; 2 h</span><p>Casi siempre automática en minutos. Si hay dudas, la mira una persona.</p></li>
+      </ol>
+
+      <div class="pg-cf-par">
+        <article class="pg-cf-menor rev">
+          <span class="puerta-18" aria-hidden="true">18</span>
+          <div>
+            <h3 class="h3">¿Y si tienes menos de 18?</h3>
+            <ul class="pg-cf-lista">
+              <li><span class="no" data-ic="cerrar"></span><span><b>No puedes darte de alta.</b> Ni con permiso de tu familia.</span></li>
+              <li><span class="no" data-ic="cerrar"></span><span>Si el documento dice que eres menor, el alta se rechaza sola, sin que nadie lo mire.</span></li>
+              <li><span class="no" data-ic="reloj"></span><span><b>El dispositivo queda bloqueado 24 horas.</b></span></li>
+              <li><span class="no" data-ic="cerrar"></span><span>Si alguien miente sobre su edad y lo descubrimos, cerramos la cuenta.</span></li>
+            </ul>
+            <p class="ayuda" style="margin-top:12px">¿Necesitas un servicio? Pide a una persona adulta de tu familia que lo contrate.</p>
+          </div>
+        </article>
+        <article class="pg-cf-ven rev">
+          <h3 class="h3">Qué ve el resto de usuarios</h3>
+          <div class="pg-cf-perfil" id="cf-perfil"></div>
+          <div class="pg-cf-ven-cols">
+            <ul class="pg-cf-lista">
+              <li><span class="si" data-ic="check"></span><span>El sello <b>Identidad verificada</b></span></li>
+              <li><span class="si" data-ic="check"></span><span>Tu nombre y la inicial del apellido</span></li>
+              <li><span class="si" data-ic="check"></span><span>Tu barrio, nunca la dirección</span></li>
+            </ul>
+            <ul class="pg-cf-lista">
+              <li><span class="no" data-ic="ojo-no"></span><span>El número del documento</span></li>
+              <li><span class="no" data-ic="ojo-no"></span><span>Las fotos del documento y el selfie</span></li>
+              <li><span class="no" data-ic="ojo-no"></span><span>Tu fecha de nacimiento</span></li>
+            </ul>
+          </div>
+          <p class="ayuda" style="margin-top:14px">Tu documento solo lo ve el equipo de verificación. Más detalle en <a class="enlace" href="legal.html#identidad">cómo tratamos tu documento</a>.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pago protegido -->
+  <section class="contenedor seccion" id="pago" aria-labelledby="cf-pago-t">
+    <div class="pg-cf-cab">
+      <span class="pg-cf-ceja">Pago protegido</span>
+      <h2 class="h1" id="cf-pago-t">Tu dinero espera hasta que el trabajo está hecho</h2>
+      <p class="entradilla">Pagas dentro de Apaño y nosotros lo guardamos. El profesional cobra cuando confirmas que todo ha ido bien. Si algo falla, mediamos.</p>
+    </div>
+
+    <figure class="pg-cf-flujo rev" id="cf-flujo">
+      <div id="cf-flujo-svg"></div>
+      <figcaption id="cf-flujo-pie"></figcaption>
+    </figure>
+
+    <div class="pg-cf-pago-rej">
+      <div class="col g12"><h3 class="h3">Lo que te cubre</h3><div class="pg-cf-cubre">
+        <article class="pg-cf-caso ok rev"><span class="pg-cf-mini" data-ic="devolver"></span><h4>Si no se presenta</h4><p>Te devolvemos todo, comisión incluida, en 3 a 5 días hábiles.</p></article>
+        <article class="pg-cf-caso ok rev"><span class="pg-cf-mini" data-ic="balanza"></span><h4>Si no queda como acordasteis</h4><p>No confirmes y abre una incidencia. Mediamos y decidimos en un máximo de 7 días.</p></article>
+        <article class="pg-cf-caso ok rev"><span class="pg-cf-mini" data-ic="reloj"></span><h4>Si se te olvida confirmar</h4><p>Te lo recordamos. A las 72 h del servicio, si no hay incidencia, el pago se libera solo.</p></article>
+        <article class="pg-cf-caso mal rev"><span class="pg-cf-mini" data-ic="alerta"></span><h4>Si pagas fuera de la app</h4><p>Ahí no podemos ayudarte. Si alguien te lo pide, <a class="enlace" href="ayuda.html#reportar">repórtalo</a>.</p></article>
+      </div></div>
+
+      <form class="pg-cf-calc" id="cf-calc" aria-labelledby="cf-calc-t">
+        <div class="fila entre g8"><h3 class="h3" id="cf-calc-t">Haz la cuenta</h3><span class="insignia insignia-marca">Comisión: 5 % + 0,99 €</span></div>
+        <div class="campo">
+          <label for="cf-serv">Servicio de ejemplo</label>
+          <select class="ent" id="cf-serv"></select>
+        </div>
+        <div class="campo">
+          <span class="campo-et" id="cf-cant-et">Cantidad</span>
+          <div class="pg-cf-cant" role="group" aria-labelledby="cf-cant-et">
+            <button type="button" id="cf-menos" aria-label="Quitar una unidad"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/></svg></button>
+            <output id="cf-cant" for="cf-serv" aria-live="polite"></output>
+            <button type="button" id="cf-mas" aria-label="Añadir una unidad"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+          </div>
+        </div>
+        <dl class="pg-cf-desglose" aria-live="polite">
+          <div><dt>Precio del servicio<small id="cf-d-det"></small></dt><dd id="cf-d-base"></dd></div>
+          <div><dt>Pago protegido<small id="cf-d-pdet"></small></dt><dd id="cf-d-prot"></dd></div>
+          <div class="total"><dt>Pagas en total</dt><dd class="cifra" id="cf-d-total"></dd></div>
+        </dl>
+        <div class="pg-cf-recibe" id="cf-recibe"></div>
+        <p class="ayuda">Importes de ejemplo con anuncios reales de Apaño. En esta demostración no se cobra nada.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- Cifras -->
+  <section class="contenedor" aria-labelledby="cf-cifras-t">
+    <h2 class="solo-lector" id="cf-cifras-t">Apaño en cifras</h2>
+    <div class="pg-cf-cifras rev" id="cf-cifras"></div>
+    <div class="pg-cf-cifras-pie"><span id="cf-cifras-nota"></span><span>Datos de la demostración, calculados con los perfiles y anuncios publicados.</span></div>
+  </section>
+
+  <!-- Preguntas -->
+  <section class="contenedor seccion" aria-labelledby="cf-faq-t">
+    <div class="pg-cf-faq">
+      <div class="col g10">
+        <span class="pg-cf-ceja">Preguntas frecuentes</span>
+        <h2 class="h1" id="cf-faq-t">Lo que todo el mundo pregunta</h2>
+        <p class="sec">¿Te queda alguna duda? En el <a class="enlace" href="ayuda.html">centro de ayuda</a> hay respuestas para casi todo.</p>
+      </div>
+      <div>
+        <details class="acordeon"><summary>¿Cuánto cuesta usar Apaño?</summary><div class="acordeon-cuerpo"><p>Crear la cuenta, buscar, escribir y publicar es gratis. Solo al contratar pagas el Pago protegido: el 5 % del servicio más 0,99 €. <span id="cf-faq-ej"></span> Quien ofrece el servicio cobra el precio íntegro.<span id="cf-faq-extra"></span></p></div></details>
+        <details class="acordeon"><summary>¿Puedo mirar anuncios sin cuenta?</summary><div class="acordeon-cuerpo"><p>Sí. Puedes buscar, ver fichas y perfiles y guardar favoritos sin registrarte. Para escribir, publicar o pagar necesitas una cuenta con la identidad verificada.</p></div></details>
+        <details class="acordeon"><summary>¿Quién ve mi DNI?</summary><div class="acordeon-cuerpo"><p>Solo el equipo de verificación y el proveedor que hace la comprobación por encargo nuestro. El resto de usuarios ve únicamente el sello de identidad verificada; el número nunca se publica.</p></div></details>
+        <details class="acordeon"><summary>¿Qué pasa si el profesional no aparece?</summary><div class="acordeon-cuerpo"><p>Márcalo como «No se presentó» en Mis servicios. Te devolvemos el importe completo, comisión incluida, y avisamos al anunciante. Si se repite, cerramos su cuenta.</p></div></details>
+        <details class="acordeon"><summary>¿Puedo ofrecer servicios como particular?</summary><div class="acordeon-cuerpo"><p>Sí, para ayudas puntuales como pasear perros, hacer recados o dar clases. Si tu oficio exige una habilitación (electricidad, gas, fisioterapia…), tienes que tenerla y te la podemos pedir.</p></div></details>
+        <details class="acordeon"><summary>¿Puedo contratar algo para mi hijo o para mi madre?</summary><div class="acordeon-cuerpo"><p>Sí: la cuenta es tuya y eres tú quien contrata y paga. En servicios para menores, como clases de refuerzo, quien trata con el profesional es siempre la madre, el padre o el tutor.</p></div></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cierre -->
+  <section class="contenedor">
+    <div class="pg-cf-cierre rev">
+      <div>
+        <h2 class="h1">Lo que necesitas, hecho por alguien de confianza.</h2>
+        <p>Date de alta en un par de minutos y verifica tu identidad cuando quieras contratar o publicar.</p>
+      </div>
+      <div class="fila g10">
+        <a class="btn btn-g btn-tinta" href="registro.html">Crear mi cuenta</a>
+        <a class="btn btn-g btn-sec" href="buscar.html">Buscar servicios</a>
+      </div>
+    </div>
+  </section>
+</main>
+<script>
+A.pagina = function(){
+  const $ = A.$, $$ = A.$$;
+  const IC = {
+    lupa:'M10.8 17.6a6.8 6.8 0 1 0 0-13.6 6.8 6.8 0 0 0 0 13.6zM20 20l-4.3-4.3',
+    buzon:'M4 5.5h16v11H8.5L4 20zM8.5 10h7M8.5 13h4',
+    escudo:'M12 3 4.5 6v5.6c0 4.4 3.1 8.2 7.5 9.4 4.4-1.2 7.5-5 7.5-9.4V6zM8.8 12l2.2 2.2 4.4-4.4',
+    estrella:'M12 3.4l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.8l-5.2 2.8 1-5.9L3.5 9.6l5.9-.8z',
+    carne:'M3.5 5.5h17v13h-17zM8.5 12.2a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM5.6 15.6c.5-1.4 1.6-2.1 2.9-2.1s2.4.7 2.9 2.1M14 9.5h3.5M14 12.5h3.5',
+    mas:'M12 5v14M5 12h14',
+    calendario:'M4.5 6h15v14h-15zM4.5 10h15M8.5 3.5v4M15.5 3.5v4M8 13.5h2M14 13.5h2M8 16.5h2',
+    cartera:'M4 8h15a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1zM4 8V7a2 2 0 0 1 2-2h10v3M15.5 13.5h1.5',
+    candado:'M6 10.5h12v10H6zM8.5 10.5V7.5a3.5 3.5 0 0 1 7 0v3M12 14.5v2.5',
+    check:'M5 12.5l4.2 4.2L19 7',
+    cerrar:'M7 7l10 10M17 7 7 17',
+    reloj:'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 7.5V12l3 2',
+    correo:'M3.5 6h17v12h-17zM3.5 7l8.5 6.5L20.5 7',
+    movil:'M7.5 3h9v18h-9zM11 17.5h2',
+    datos:'M6 3.5h12v17H6zM9 8h6M9 11.5h6M9 15h3.5',
+    cara:'M12 13a3.3 3.3 0 1 0 0-6.6 3.3 3.3 0 0 0 0 6.6zM7 19c.9-2.4 2.7-3.6 5-3.6s4.1 1.2 5 3.6M3.5 8V5.5a2 2 0 0 1 2-2H8M16 3.5h2.5a2 2 0 0 1 2 2V8M20.5 16v2.5a2 2 0 0 1-2 2H16M8 20.5H5.5a2 2 0 0 1-2-2V16',
+    persona:'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4.5 20.5c.8-3.6 3.8-5.5 7.5-5.5s6.7 1.9 7.5 5.5',
+    dieciocho:'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM8 9.5l1.5-1v7M13.6 11.7a1.6 1.6 0 1 1 0-3.2 1.6 1.6 0 0 1 0 3.2zm0 0a1.9 1.9 0 1 0 0 3.8 1.9 1.9 0 0 0 0-3.8z',
+    'ojo-no':'M2.5 12s3.5-6.5 9.5-6.5 9.5 6.5 9.5 6.5-3.5 6.5-9.5 6.5S2.5 12 2.5 12zM12 14.8a2.8 2.8 0 1 0 0-5.6 2.8 2.8 0 0 0 0 5.6zM4 4l16 16',
+    devolver:'M9 14 4 9l5-5M4 9h10.5a5.5 5.5 0 0 1 0 11H11',
+    balanza:'M12 4v16M8 20h8M5 7h14M5 7l-2.5 6a2.5 2.5 0 0 0 5 0zM19 7l-2.5 6a2.5 2.5 0 0 0 5 0z',
+    alerta:'M12 4 2.8 20h18.4zM12 10v4.5M12 17.4h.01',
+    tarjeta:'M3 6h18v12H3zM3 10h18M6.5 14.5h4',
+    herramienta:'M14.6 6.1a4.1 4.1 0 0 0-5.5 5.5L3 17.7 6.3 21l6.1-6.1a4.1 4.1 0 0 0 5.5-5.5l-2.6 2.6-2.6-.5-.5-2.6z'
+  };
+  const svg = (n, t, g) => `<svg width="${t||20}" height="${t||20}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${g||1.9}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${IC[n]||''}"/></svg>`;
+
+  // iconos y baldosas de color (colores de categoría desde datos.js)
+  $$('[data-ic]').forEach(el => { el.insertAdjacentHTML('beforeend', svg(el.dataset.ic, +el.dataset.t || (el.closest('.pg-cf-lista') ? 18 : 22), +el.dataset.g || (el.dataset.t ? 1.7 : 2))) });
+  $$('[data-cat]').forEach(el => { const c = A.categoria(el.dataset.cat); if(c){ el.style.setProperty('--c1', c.c1); el.style.setProperty('--c2', c.c2) } });
+
+  // datos de confianza
+  const gente = A.USUARIOS.filter(u => u.rol === 'usuario');
+  const verif = gente.filter(A.verificado);
+  const resenas = verif.reduce((n,u) => n + u.resenas, 0);
+  const media = verif.reduce((n,u) => n + u.val * u.resenas, 0) / resenas;
+  const hechos = verif.reduce((n,u) => n + u.hechos, 0);
+  const activos = A.activos();
+  const anunciantes = [...new Set(activos.map(a => a.u))].map(A.usuario);
+  const pct = Math.round(anunciantes.filter(A.verificado).length / anunciantes.length * 100);
+  const coma = n => n.toLocaleString('es-ES', {minimumFractionDigits:1, maximumFractionDigits:1});
+
+  // héroe
+  const cerca = verif.slice().sort((a,b) => a.km - b.km);
+  $('#cf-pila').innerHTML = cerca.slice(0,5).map(u => A.avatar(u)).join('');
+  $('#cf-prueba-txt').innerHTML = `<b>${verif.length} personas verificadas</b> cerca de ti · ${coma(media)} de media`;
+  $('#cf-garantias').innerHTML = ['Solo mayores de 18', 'Documento comprobado', 'Pago retenido hasta que confirmas']
+    .map(t => `<span>${svg('check', 17, 2.6)}${t}</span>`).join('');
+
+  const ej = A.anuncio('s5'), ella = A.usuario(ej.u);
+  const pedidoEj = A.PEDIDOS.find(p => p.s === ej.id && p.estado === 'pagado');
+  $('#cf-escena-img').insertAdjacentHTML('afterbegin', A.portada(ej, {texto:true}));
+  $('#cf-escena-precio').innerHTML = A.precio(ej);
+  $('#cf-escena-nota').innerHTML = A.estrellas(ella.val, 12) + `<span>${coma(ella.val)} · ${ella.resenas}</span>`;
+  $('#cf-escena-titulo').textContent = ej.t;
+  $('#cf-escena-quien').innerHTML = `${A.avatar(ella)}<div class="crecer min0"><b>${ella.corto}</b><span class="xs ter">${ella.barrio} · ${A.km(ella.km)}</span></div><span class="insignia insignia-ok">${svg('check', 12, 3)}Verificada</span>`;
+  $('#cf-escena-retenido').textContent = `${A.eur(pedidoEj ? pedidoEj.importe : ej.precio)} retenidos`;
+  $('#cf-escena-retenido').insertAdjacentText('afterend', ella.corto.split(' ')[0] + ' ');
+
+  // pasos: control segmentado con transición
+  const botones = $$('.pg-cf-seg button');
+  botones.forEach(b => b.addEventListener('click', () => {
+    if(b.getAttribute('aria-pressed') === 'true') return;
+    const actual = $('.pg-cf-modo:not([hidden])'), nuevo = $('#' + b.getAttribute('aria-controls'));
+    botones.forEach(x => x.setAttribute('aria-pressed', x === b));
+    const lista = actual.querySelector('.pg-cf-pasos');
+    lista.classList.remove('pg-cf-entra'); lista.classList.add('pg-cf-sale');
+    setTimeout(() => {
+      lista.classList.remove('pg-cf-sale'); actual.hidden = true; nuevo.hidden = false;
+      const l2 = nuevo.querySelector('.pg-cf-pasos'); l2.classList.remove('pg-cf-entra'); void l2.offsetWidth; l2.classList.add('pg-cf-entra');
+    }, 160);
+  }));
+
+  // perfil de ejemplo: lo que ven los demás
+  const p = A.usuario('u3');
+  $('#cf-perfil').innerHTML = `${A.avatar(p, 'avatar-g')}<div class="col g4 min0"><b>${p.corto}</b><span class="insignia insignia-ok" style="align-self:flex-start">${svg('escudo', 13, 2.2)}Identidad verificada</span><span class="xs ter">${p.barrio} · ${p.hechos} servicios · ${A.estrellas(p.val, 11)} ${coma(p.val)}</span></div>`;
+
+  // diagrama de flujo del Pago protegido (horizontal en escritorio, vertical en móvil)
+  const fx = A.pedido.calcula({s:'s1', cantidad:2, extra:0});
+  const pro = A.usuario(fx.a.u);
+  const nodos = [
+    {t:'Tú pagas', s:`${A.eur(fx.total)} en la app`, ic:'tarjeta'},
+    {t:'Apaño lo retiene', s:'Nadie lo toca todavía', ic:'candado', c:'n-marca'},
+    {t:'Se hace el servicio', s:`${pro.corto} sabe que está pagado`, ic:'herramienta'},
+    {t:'Tú confirmas', s:'Todo ha ido bien', ic:'check'},
+    {t:'El profesional cobra', s:`${A.eur(fx.base)} a su monedero`, ic:'cartera', c:'n-ok'}
+  ];
+  const nodo = (n, x, y, r, i) => `<g class="nodo ${n.c||''}" style="--i:${i*2}"><circle class="n-c" cx="${x}" cy="${y}" r="${r}"/><g class="n-i" transform="translate(${x-13} ${y-13}) scale(1.08)"><path d="${IC[n.ic]}" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></g></g>`;
+  const dinero = (x, y, txt, i) => { const w = txt.length * 7.2 + 18; return `<g class="dinero" style="--i:${i}"><rect x="${x - w/2}" y="${y-11}" width="${w}" height="22" rx="11"/><text x="${x}" y="${y+4}" text-anchor="middle">${txt}</text></g>` };
+  const titulo = `<title>Cómo funciona el Pago protegido</title><desc>${nodos.map((n,i) => (i+1)+'. '+n.t+': '+n.s).join('. ')}. Si algo va mal, abres una incidencia y mediamos; si no se presentó, te devolvemos todo.</desc>`;
+  // horizontal
+  let h = `<svg class="pg-cf-flujo-h" viewBox="0 0 1000 250" role="img" aria-labelledby="cf-svg-h-t">${titulo.replace('<title>','<title id="cf-svg-h-t">')}`;
+  nodos.forEach((n,i) => {
+    const x = 100 + i*200;
+    if(i < 4) h += `<path class="fl" pathLength="1" style="--i:${i*2+1}" d="M${x+46} 64H${x+152}"/><path class="fl" pathLength="1" style="--i:${i*2+1}" d="M${x+146} 58l6 6-6 6"/>`;
+    h += nodo(n, x, 64, 34, i);
+    h += `<text class="t-t" x="${x}" y="126" text-anchor="middle">${n.t}</text><text class="t-s" x="${x}" y="147" text-anchor="middle">${n.s}</text>`;
+  });
+  h += dinero(200, 28, A.eur(fx.total), 1) + dinero(800, 28, A.eur(fx.base), 7);
+  h += `<path class="fl-r" d="M600 70V188"/><path class="fl-rp" d="M594 182l6 6 6-6"/>
+    <rect class="caja-r" x="440" y="194" width="320" height="52" rx="14"/>
+    <text class="t-r" x="600" y="215" text-anchor="middle">¿Algo va mal? Abre una incidencia</text>
+    <text class="t-r2" x="600" y="234" text-anchor="middle">Mediamos y, si no vino, te lo devolvemos todo</text></svg>`;
+  // vertical
+  const ys = [34, 136, 238, 404, 506];
+  let v = `<svg class="pg-cf-flujo-v" viewBox="0 0 320 548" role="img" aria-labelledby="cf-svg-v-t">${titulo.replace('<title>','<title id="cf-svg-v-t">')}`;
+  nodos.forEach((n,i) => {
+    const y = ys[i];
+    if(i < 4){ const y2 = ys[i+1]; v += `<path class="fl" pathLength="1" style="--i:${i*2+1}" d="M32 ${y+38}V${y2-38}"/><path class="fl" pathLength="1" style="--i:${i*2+1}" d="M26 ${y2-44}l6 6 6-6"/>` }
+    v += nodo(n, 32, y, 28, i);
+    v += `<text class="t-t" x="76" y="${y-3}">${n.t}</text><text class="t-s" x="76" y="${y+16}">${n.s}</text>`;
+  });
+  v += dinero(76 + (A.eur(fx.total).length*7.2+18)/2, 86, A.eur(fx.total), 1) + dinero(76 + (A.eur(fx.base).length*7.2+18)/2, 456, A.eur(fx.base), 7);
+  v += `<path class="fl-r" d="M32 318H64"/><path class="fl-rp" d="M58 312l6 6-6 6"/>
+    <rect class="caja-r" x="70" y="286" width="246" height="66" rx="14"/>
+    <text class="t-r" x="84" y="308">¿Algo va mal?</text>
+    <text class="t-r2" x="84" y="326">Abre una incidencia y mediamos.</text>
+    <text class="t-r2" x="84" y="343">Si no vino, te lo devolvemos todo.</text></svg>`;
+  $('#cf-flujo-svg').innerHTML = h + v;
+  $('#cf-flujo-pie').textContent = `Ejemplo con ${pro.corto} (${fx.a.sub.toLowerCase()}, 2 horas): de los ${A.eur(fx.total)}, ${A.eur(fx.prot)} son el Pago protegido.`;
+
+  // calculadora con A.pedido.calcula
+  const UNI = {hora:['hora','horas'], paseo:['paseo','paseos'], clase:['clase','clases'], 'sesión':['sesión','sesiones'], servicio:['servicio','servicios'], foto:['foto','fotos']};
+  const opciones = ['s1','s5','s14','s17','s21'].map(A.anuncio).filter(a => a && a.estado === 'activo');
+  const sel = $('#cf-serv');
+  sel.innerHTML = opciones.map(a => `<option value="${a.id}">${a.sub} con ${A.usuario(a.u).corto} · ${A.precioTxt(a)}</option>`).join('');
+  let cant = 2;
+  const uni = (a, n) => { const u = UNI[a.unidad] || ['unidad','unidades']; return n + ' ' + (n === 1 ? u[0] : u[1]) };
+  const pinta = (latido) => {
+    const r = A.pedido.calcula({s:sel.value, cantidad:cant, extra:0});
+    const quien = A.usuario(r.a.u);
+    $('#cf-cant').textContent = uni(r.a, cant);
+    $('#cf-menos').disabled = cant <= 1; $('#cf-mas').disabled = cant >= 10;
+    $('#cf-d-det').textContent = `${A.eur0(r.a.precio)} × ${uni(r.a, cant)}`;
+    $('#cf-d-base').textContent = A.eur(r.base);
+    $('#cf-d-pdet').textContent = `5 % de ${A.eur(r.base)} + 0,99 €`;
+    $('#cf-d-prot').textContent = A.eur(r.prot);
+    const tot = $('#cf-d-total'); tot.textContent = A.eur(r.total);
+    if(latido){ tot.classList.remove('pg-cf-cambia'); void tot.offsetWidth; tot.classList.add('pg-cf-cambia') }
+    $('#cf-recibe').innerHTML = `${A.avatar(quien)}<span><b>${quien.corto} recibe ${A.eur(r.base)}</b>, íntegros. La comisión la paga quien contrata y la ves antes de pagar.</span>`;
+  };
+  sel.addEventListener('change', () => pinta(true));
+  $('#cf-menos').addEventListener('click', () => { if(cant > 1){ cant--; pinta(true) } });
+  $('#cf-mas').addEventListener('click', () => { if(cant < 10){ cant++; pinta(true) } });
+  $('#cf-calc').addEventListener('submit', e => e.preventDefault());
+  pinta(false);
+
+  // cifras de confianza (se animan con data-cuenta)
+  $('#cf-cifras').innerHTML = [
+    {v:verif.length, t:'personas con la identidad verificada'},
+    {v:hechos, t:'servicios hechos a través de Apaño'},
+    {v:media, d:1, t:`de valoración media en ${A.num(resenas)} reseñas`, ic:true},
+    {v:activos.length, t:`anuncios activos en ${A.CATEGORIAS.length} categorías`}
+  ].map(c => `<div class="pg-cf-cifra"><span class="cifra"><span data-cuenta="${c.v}" ${c.d ? 'data-dec="1"' : ''}>${c.d ? coma(c.v) : A.num(c.v)}</span>${c.ic ? `<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="${IC.estrella}"/></svg>` : ''}</span><span class="sm">${c.t}</span></div>`).join('');
+  $('#cf-cifras-nota').innerHTML = `<span class="insignia insignia-ok">${pct} % de quienes anuncian, verificados</span>`;
+
+  // ejemplo en las preguntas y extras opcionales (destacados y Pro, desde datos.js)
+  $('#cf-faq-ej').textContent = `Por ejemplo, en un servicio de ${A.eur(fx.base)} pagas ${A.eur(fx.total)} en total.`;
+  const dMin = (A.DESTACADOS || []).reduce((m,d) => Math.min(m, d.precio), Infinity);
+  if(isFinite(dMin)){
+    $('#cf-publicar-nota').innerHTML = `Publicar es gratis. Si quieres más visitas, <a class="enlace" href="destacar.html">destaca un anuncio</a> desde ${A.eur(dMin)}.`;
+    $('#cf-faq-extra').innerHTML = ` Si quieres, puedes <a class="enlace" href="destacar.html">destacar un anuncio</a> desde ${A.eur(dMin)}${A.PRO ? ` o pasarte a <a class="enlace" href="pro.html">Apaño Pro</a> por ${A.eur(A.PRO.precioMes)} al mes` : ''}; es opcional.`;
+  }
+  // al llegar con ancla (#…), recoloca cuando ya han cargado las fuentes y el contenido
+  if(location.hash.length > 1){
+    const t = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if(t && t.closest("main")) (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(() => requestAnimationFrame(() => t.scrollIntoView({block:"start"})));
+  }
+};
+</script>
+<footer class="pie">
+  <div class="contenedor">
+    <div class="pie-cols">
+      <div class="col g12">
+        <a class="logo" href="index.html" aria-label="Apaño, inicio">apa<span class="n">ñ</span>o<span class="punto">.</span></a>
+        <p class="sm sec" style="max-width:34ch">Servicios entre personas de verdad. Todo el que publica o contrata es mayor de edad y ha presentado su documento de identidad.</p>
+        <div class="fila g8">
+          <span class="insignia insignia-ok">Solo +18 verificados</span>
+          <span class="insignia">Pago protegido</span>
+        </div>
+      </div>
+      <div><h4>Usar Apaño</h4><div class="pie-enl">
+        <a href="buscar.html">Buscar servicios</a><a href="subir.html">Subir un anuncio</a><a href="destacar.html">Destacar un anuncio</a><a href="pro.html">Apaño Pro</a><a href="como-funciona.html">Cómo funciona</a><a href="como-funciona.html#pago">Pago protegido</a>
+      </div></div>
+      <div><h4>Tu cuenta</h4><div class="pie-enl">
+        <a href="registro.html">Crear cuenta</a><a href="entrar.html">Entrar</a><a href="cuenta.html#verificacion">Verificar mi identidad</a><a href="servicios.html">Mis servicios</a><a href="monedero.html">Monedero</a>
+      </div></div>
+      <div><h4>Confianza</h4><div class="pie-enl">
+        <a href="como-funciona.html#verificacion">Por qué pedimos el DNI</a><a href="ayuda.html#seguridad">Consejos de seguridad</a><a href="ayuda.html#reportar">Reportar a alguien</a><a href="ayuda.html">Centro de ayuda</a>
+      </div></div>
+      <div><h4>Legal</h4><div class="pie-enl">
+        <a href="legal.html#condiciones">Condiciones de uso</a><a href="legal.html#privacidad">Privacidad</a><a href="legal.html#identidad">Tratamiento del DNI</a><a href="legal.html#cookies">Cookies</a>
+      </div></div>
+    </div>
+    <div class="pie-legal">
+      <span>Apaño es una maqueta de demostración: las personas, los anuncios y los importes son inventados y no se cobra nada.</span>
+      <span>Hecho en Palma · 2026</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

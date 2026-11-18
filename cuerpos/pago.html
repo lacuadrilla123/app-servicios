@@ -1,0 +1,1171 @@
+<!-- titulo: Contratar con Pago protegido | desc: Elige día, paga con tarjeta, Bizum o tu monedero y el dinero queda retenido hasta que confirmes que el servicio se ha hecho. -->
+<style>
+.pg-pago{ padding-block:14px 8px }
+.pg-pago-cont{ max-width:1100px }
+.pg-pago-volver{ display:inline-flex; align-items:center; gap:4px; height:36px; padding:0 12px 0 6px; margin-left:-6px; border-radius:999px;
+  font-size:var(--t-sm); font-weight:600; color:var(--tinta-2); transition:background .18s, color .18s, transform .15s var(--ease) }
+.pg-pago-volver:hover{ background:var(--sup); color:var(--tinta) }
+.pg-pago-volver:active{ transform:scale(.96) }
+.pg-pago-cab{ display:flex; flex-direction:column; gap:8px; margin:10px 0 18px }
+.pg-pago-sello{ align-self:flex-start; display:inline-flex; align-items:center; gap:6px; height:28px; padding:0 11px 0 9px; border-radius:999px;
+  background:var(--marca-sup); color:var(--marca-tinta); font-size:var(--t-xs); font-weight:700; letter-spacing:.01em }
+.pg-pago-prueba{ margin-bottom:18px }
+
+/* bloques numerados */
+.pg-pago-bloque{ background:var(--fondo); border:1px solid var(--linea); border-radius:var(--r-xl); padding:18px 16px 20px }
+@media (min-width:760px){ .pg-pago-bloque{ padding:24px 26px 26px } }
+.pg-pago-tit{ display:flex; align-items:center; gap:10px; margin-bottom:16px }
+.pg-pago-n{ width:26px; height:26px; flex:0 0 auto; border-radius:50%; display:grid; place-items:center; background:var(--tinta); color:var(--fondo);
+  font:700 .8125rem/1 var(--display) }
+.pg-pago-sub{ display:flex; flex-direction:column; gap:12px; padding-top:18px; margin-top:18px; border-top:1px solid var(--linea) }
+.pg-pago-et{ font-weight:650; font-size:var(--t-base); color:var(--tinta) }
+.pg-pago-opc{ font-weight:500; color:var(--tinta-3) }
+
+/* servicio */
+.pg-pago-serv{ display:grid; grid-template-columns:84px minmax(0,1fr); gap:14px; align-items:start }
+@media (min-width:760px){ .pg-pago-serv{ grid-template-columns:104px minmax(0,1fr) } }
+.pg-pago-mini{ position:relative; display:block; aspect-ratio:1; border-radius:var(--r-l); overflow:hidden; background:var(--sup-2); isolation:isolate }
+.pg-pago-mini>.portada,.pg-pago-mini>img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform .5s var(--ease) }
+a.pg-pago-mini:hover>.portada{ transform:scale(1.05) }
+.pg-pago-serv-t{ font:650 var(--t-md)/1.3 var(--texto); letter-spacing:-.01em }
+.pg-pago-quien{ display:flex; align-items:center; flex-wrap:wrap; gap:6px 8px; font-size:var(--t-sm); color:var(--tinta-2) }
+.pg-pago-quien a{ font-weight:650; color:var(--tinta) }
+.pg-pago-quien a:hover{ color:var(--marca) }
+.pg-pago-precio{ font:700 var(--t-lg)/1.1 var(--display); letter-spacing:-.02em }
+.pg-pago-precio small{ font:500 var(--t-xs) var(--texto); color:var(--tinta-3); letter-spacing:0 }
+
+/* cantidad */
+.pg-pago-fila{ display:flex; align-items:center; justify-content:space-between; gap:14px }
+.pg-pago-cant{ display:inline-flex; align-items:center; gap:2px; padding:4px; border-radius:999px; background:var(--sup); flex:0 0 auto }
+.pg-pago-cant button{ width:40px; height:40px; border-radius:50%; border:0; display:grid; place-items:center; background:var(--fondo); color:var(--tinta);
+  box-shadow:var(--sombra-1); transition:transform .15s var(--ease), opacity .2s, box-shadow .2s }
+.pg-pago-cant button:hover{ box-shadow:var(--sombra-2) }
+.pg-pago-cant button:active{ transform:scale(.88) }
+.pg-pago-cant button:disabled{ opacity:.35; box-shadow:none; cursor:not-allowed }
+.pg-pago-cant output{ min-width:46px; text-align:center; font:700 var(--t-lg)/1 var(--display); font-variant-numeric:tabular-nums }
+.pg-pago-cant output.pg-pago-salta{ animation:pg-pago-salta .3s var(--ease) }
+@keyframes pg-pago-salta{ 40%{ transform:scale(1.22) } }
+.pg-pago-fijo{ display:flex; gap:10px; align-items:flex-start; padding:12px 14px; border-radius:var(--r); background:var(--sup); font-size:var(--t-sm); color:var(--tinta-2) }
+.pg-pago-fijo svg{ flex:0 0 auto; margin-top:1px; color:var(--marca) }
+
+/* fecha */
+.pg-pago-dias{ display:flex; gap:8px; overflow-x:auto; scrollbar-width:none; padding:3px 3px 4px; margin:-3px -3px 0; scroll-snap-type:x proximity;
+  -webkit-mask-image:linear-gradient(90deg,var(--tinta) 88%,transparent); mask-image:linear-gradient(90deg,var(--tinta) 88%,transparent) }
+.pg-pago-dias::-webkit-scrollbar{ display:none }
+.pg-pago-dia{ flex:0 0 auto; width:60px; padding:9px 0 10px; display:flex; flex-direction:column; align-items:center; gap:1px; border-radius:16px;
+  border:1.5px solid var(--linea-2); background:var(--fondo); color:var(--tinta-2); scroll-snap-align:start;
+  transition:background .18s, border-color .18s, color .18s, transform .15s var(--ease) }
+.pg-pago-dia:hover{ border-color:var(--tinta-3) }
+.pg-pago-dia:active{ transform:scale(.94) }
+.pg-pago-dia .ds{ font-size:var(--t-xs); font-weight:650 }
+.pg-pago-dia .dn{ font:700 1.3rem/1.15 var(--display); color:var(--tinta); letter-spacing:-.02em }
+.pg-pago-dia .dm{ font-size:.6875rem; color:var(--tinta-3) }
+.pg-pago-dia.finde .ds{ color:var(--marca) }
+.pg-pago-dia[aria-pressed="true"]{ background:var(--tinta); border-color:var(--tinta); color:var(--fondo) }
+.pg-pago-dia[aria-pressed="true"] .dn,.pg-pago-dia[aria-pressed="true"] .dm,.pg-pago-dia[aria-pressed="true"] .ds{ color:var(--fondo) }
+.pg-pago-dias[aria-invalid="true"] .pg-pago-dia{ border-color:var(--mal) }
+@media (min-width:700px){
+  .pg-pago-dias{ display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); overflow:visible; -webkit-mask-image:none; mask-image:none; margin:0; padding:0 }
+  .pg-pago-dia{ width:auto }
+}
+.pg-pago-franja{ display:flex; width:100% }
+.pg-pago-franja button{ flex:1; height:auto; min-height:48px; padding:6px 10px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0; line-height:1.2 }
+.pg-pago-franja button small{ font-size:.6875rem; font-weight:500; color:var(--tinta-3) }
+@media (min-width:520px){ .pg-pago-franja{ width:auto; align-self:flex-start } .pg-pago-franja button{ flex:0 0 auto; min-width:150px } }
+.pg-pago-nota{ min-height:92px!important }
+
+/* métodos */
+.pg-pago-metodos{ display:flex; flex-direction:column; gap:10px }
+.pg-pago-op{ align-items:center; padding:13px 14px }
+.pg-pago-op input{ margin:0 }
+.pg-pago-op-ico{ width:42px; height:42px; flex:0 0 auto; border-radius:13px; display:grid; place-items:center; background:var(--sup); color:var(--tinta);
+  transition:background .2s, color .2s, transform .25s var(--ease) }
+.opcion:has(input:checked) .pg-pago-op-ico{ background:var(--marca); color:var(--fondo); transform:rotate(-6deg) }
+.pg-pago-op-t{ font-weight:650; font-size:var(--t-base); line-height:1.3 }
+.pg-pago-op-d{ font-size:var(--t-xs); color:var(--tinta-2); line-height:1.4 }
+.pg-pago-op-d b{ color:var(--tinta); font-weight:650 }
+.pg-pago-op.pg-pago-no{ cursor:not-allowed; background:var(--sup); border-color:var(--linea) }
+.pg-pago-op.pg-pago-no:hover{ border-color:var(--linea) }
+.pg-pago-op.pg-pago-no .pg-pago-op-ico,.pg-pago-op.pg-pago-no .pg-pago-op-t{ opacity:.5 }
+.pg-pago-panel{ padding:14px; border-radius:var(--r-l); background:var(--sup); display:flex; flex-direction:column; gap:16px;
+  container-type:inline-size; animation:sube .32s var(--ease) both }
+@media (min-width:760px){ .pg-pago-panel{ padding:20px } }
+
+/* tarjeta dibujada */
+.pg-pago-tj{ display:grid; gap:18px }
+@container (min-width:540px){ .pg-pago-tj{ grid-template-columns:250px minmax(0,1fr); align-items:start; gap:22px } }
+.pg-pago-tarjeta{ --pg-t-txt:var(--fondo);
+  --pg-t-0a:var(--tinta); --pg-t-0b:color-mix(in srgb,var(--tinta) 70%,var(--marca));
+  --pg-t-va:var(--marca); --pg-t-vb:var(--marca-tinta);
+  --pg-t-ma:color-mix(in srgb,var(--mal) 70%,var(--tinta)); --pg-t-mb:color-mix(in srgb,var(--sol) 45%,var(--mal));
+  --pg-t-aa:color-mix(in srgb,var(--ok) 60%,var(--tinta)); --pg-t-ab:var(--ok);
+  width:100%; max-width:330px; aspect-ratio:1.586; perspective:1100px; margin-inline:auto; container-type:inline-size; user-select:none }
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) .pg-pago-tarjeta{ --pg-t-txt:var(--tinta);
+  --pg-t-0a:var(--sup-3); --pg-t-0b:color-mix(in srgb,var(--marca) 22%,var(--sup-2));
+  --pg-t-va:color-mix(in srgb,var(--marca) 62%,var(--fondo)); --pg-t-vb:color-mix(in srgb,var(--marca-borde) 85%,var(--fondo));
+  --pg-t-ma:color-mix(in srgb,var(--mal) 48%,var(--fondo)); --pg-t-mb:color-mix(in srgb,var(--sol) 34%,var(--fondo));
+  --pg-t-aa:color-mix(in srgb,var(--ok) 42%,var(--fondo)); --pg-t-ab:color-mix(in srgb,var(--ok) 22%,var(--fondo)) } }
+:root[data-theme="dark"] .pg-pago-tarjeta{ --pg-t-txt:var(--tinta);
+  --pg-t-0a:var(--sup-3); --pg-t-0b:color-mix(in srgb,var(--marca) 22%,var(--sup-2));
+  --pg-t-va:color-mix(in srgb,var(--marca) 62%,var(--fondo)); --pg-t-vb:color-mix(in srgb,var(--marca-borde) 85%,var(--fondo));
+  --pg-t-ma:color-mix(in srgb,var(--mal) 48%,var(--fondo)); --pg-t-mb:color-mix(in srgb,var(--sol) 34%,var(--fondo));
+  --pg-t-aa:color-mix(in srgb,var(--ok) 42%,var(--fondo)); --pg-t-ab:color-mix(in srgb,var(--ok) 22%,var(--fondo)) }
+.pg-pago-giro{ position:relative; width:100%; height:100%; transform-style:preserve-3d; transition:transform .7s var(--ease) }
+.pg-pago-tarjeta.vuelta .pg-pago-giro{ transform:rotateY(180deg) }
+.pg-pago-cara{ position:absolute; inset:0; border-radius:5.4cqw; overflow:hidden; -webkit-backface-visibility:hidden; backface-visibility:hidden;
+  color:var(--pg-t-txt); box-shadow:var(--sombra-2); padding:6cqw 6.4cqw 5.6cqw; display:flex; flex-direction:column; justify-content:space-between; isolation:isolate }
+.pg-pago-cara::after{ content:""; position:absolute; z-index:-1; width:78%; aspect-ratio:1; right:-26%; top:-46%; border-radius:50%;
+  background:color-mix(in srgb,var(--pg-t-txt) 9%,transparent); box-shadow:0 0 0 14cqw color-mix(in srgb,var(--pg-t-txt) 4%,transparent) }
+.pg-pago-fondo{ position:absolute; inset:0; z-index:-2; opacity:0; transition:opacity .5s ease }
+.pg-pago-fondo.on{ opacity:1 }
+.pg-pago-fondo[data-m=""]{ background:linear-gradient(135deg,var(--pg-t-0a) 0%,var(--pg-t-0b) 100%) }
+.pg-pago-fondo[data-m="Visa"]{ background:linear-gradient(135deg,var(--pg-t-va) 0%,var(--pg-t-vb) 100%) }
+.pg-pago-fondo[data-m="Mastercard"]{ background:linear-gradient(135deg,var(--pg-t-ma) 0%,var(--pg-t-mb) 100%) }
+.pg-pago-fondo[data-m="American Express"]{ background:linear-gradient(135deg,var(--pg-t-aa) 0%,var(--pg-t-ab) 100%) }
+.pg-pago-cara.detras{ transform:rotateY(180deg); padding:0; justify-content:flex-start; gap:5cqw }
+.pg-pago-arriba{ display:flex; align-items:center; justify-content:space-between }
+.pg-pago-chip{ width:13cqw; height:10cqw; border-radius:2.2cqw; position:relative; overflow:hidden;
+  background:linear-gradient(135deg,var(--sol) 0%,color-mix(in srgb,var(--sol) 55%,var(--avisa)) 100%) }
+.pg-pago-chip::before{ content:""; position:absolute; inset:28% 0; border-block:1px solid color-mix(in srgb,var(--sol-tinta) 40%,transparent) }
+.pg-pago-chip::after{ content:""; position:absolute; inset:0 34%; border-inline:1px solid color-mix(in srgb,var(--sol-tinta) 40%,transparent) }
+.pg-pago-tmarca{ font:800 6cqw/1 var(--display); letter-spacing:-.02em; font-style:italic; min-height:6cqw; transition:opacity .3s, transform .3s var(--ease) }
+.pg-pago-tmarca.pg-pago-cambia{ animation:pg-pago-marca .35s var(--ease) }
+@keyframes pg-pago-marca{ from{ opacity:0; transform:translateY(6px) } }
+.pg-pago-tnum{ display:flex; gap:.55em; font:600 6.3cqw/1 var(--display); letter-spacing:.06em; font-variant-numeric:tabular-nums; white-space:nowrap }
+.pg-pago-tpie{ display:flex; align-items:flex-end; justify-content:space-between; gap:4cqw }
+.pg-pago-tet{ display:block; font-size:3cqw; font-weight:600; opacity:.7; text-transform:uppercase; letter-spacing:.06em; margin-bottom:1cqw }
+.pg-pago-tval{ display:block; font:600 4.4cqw/1.2 var(--texto); letter-spacing:.04em; text-transform:uppercase; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+.pg-pago-banda{ display:block; height:17%; margin-top:9%; background:color-mix(in srgb,var(--tinta) 82%,var(--marca)) }
+.pg-pago-firma{ display:flex; align-items:center; justify-content:flex-end; gap:3cqw; margin:0 6.4cqw; height:15cqw; padding:0 4cqw; border-radius:1.6cqw;
+  background:repeating-linear-gradient(-45deg,color-mix(in srgb,var(--fondo) 92%,var(--sup-3)) 0 4px,color-mix(in srgb,var(--fondo) 80%,var(--sup-3)) 4px 8px); color:var(--tinta) }
+.pg-pago-firma b{ font:italic 700 5cqw/1 var(--display); letter-spacing:.1em; background:var(--fondo); padding:1.4cqw 2.4cqw; border-radius:1cqw }
+.pg-pago-detras-t{ margin:0 6.4cqw; font-size:3.2cqw; opacity:.75 }
+
+/* campos */
+.pg-pago-ent{ position:relative }
+.pg-pago-ent .ent{ padding-right:44px }
+.pg-pago-vale svg,.pg-pago-ck svg,.pg-pago-hito svg{ stroke-width:3 }
+.pg-pago-vale{ position:absolute; right:14px; top:50%; translate:0 -50%; color:var(--ok); display:grid; opacity:0; transform:scale(.4); transition:opacity .2s, transform .3s var(--ease); pointer-events:none }
+.pg-pago-ent.vale .pg-pago-vale{ opacity:1; transform:none }
+.pg-pago-dos{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:12px }
+.pg-pago-prefijo .ent{ padding-left:58px }
+.pg-pago-prefijo>span:first-child{ position:absolute; left:15px; top:50%; translate:0 -50%; font-weight:600; color:var(--tinta-2); padding-right:10px; border-right:1.5px solid var(--linea-2); line-height:1.2 }
+
+/* tarjetas de prueba */
+.pg-pago-pruebas{ border-radius:var(--r); background:var(--fondo); border:1px dashed var(--linea-2); padding:12px 12px 4px }
+.pg-pago-pruebas ul{ list-style:none; margin:6px 0 0; padding:0 }
+.pg-pago-pruebas li{ display:flex; align-items:center; gap:10px; padding:8px 0; border-top:1px solid var(--linea) }
+.pg-pago-pruebas li:first-child{ border-top:0 }
+.pg-pago-pruebas .num{ font-weight:600; font-size:var(--t-sm); letter-spacing:.02em; white-space:nowrap }
+.pg-pago-pruebas .btn{ flex:0 0 auto; margin-left:auto }
+@media (max-width:420px){ .pg-pago-pruebas .pg-pago-pr-txt{ flex-direction:column; align-items:flex-start; gap:3px } }
+
+/* monedero */
+.pg-pago-cuentas{ display:flex; flex-direction:column; gap:8px; font-size:var(--t-sm) }
+.pg-pago-cuentas>div{ display:flex; justify-content:space-between; gap:12px }
+.pg-pago-cuentas .pg-pago-quedan{ padding-top:10px; border-top:1px solid var(--linea-2); font-weight:650 }
+
+/* resumen */
+.pg-pago-lado{ min-width:0; align-self:stretch }
+.pg-pago-resumen{ display:flex; flex-direction:column; gap:14px }
+.pg-pago-res-serv{ display:grid; grid-template-columns:52px minmax(0,1fr); gap:12px; align-items:center; padding-bottom:14px; border-bottom:1px solid var(--linea) }
+.pg-pago-res-serv .pg-pago-mini{ border-radius:var(--r) }
+@media (max-width:960px){ .pg-pago-res-serv{ display:none } }
+.pg-pago-cuando{ display:flex; align-items:center; gap:8px; font-size:var(--t-sm); color:var(--tinta-2) }
+.pg-pago-cuando svg{ color:var(--tinta-3); flex:0 0 auto }
+.pg-pago-cuando.falta{ color:var(--tinta-3) }
+.pg-pago-lineas{ margin:0; display:flex; flex-direction:column; gap:10px; font-size:var(--t-sm) }
+.pg-pago-lineas>div{ display:flex; justify-content:space-between; align-items:baseline; gap:12px }
+.pg-pago-lineas dt{ color:var(--tinta-2); min-width:0 }
+.pg-pago-lineas dd{ margin:0; font-variant-numeric:tabular-nums; font-weight:600; white-space:nowrap }
+.pg-pago-lineas .pg-pago-total{ padding-top:12px; margin-top:2px; border-top:1px solid var(--linea); align-items:center }
+.pg-pago-lineas .pg-pago-total dt{ color:var(--tinta); font-weight:700; font-size:var(--t-md) }
+.pg-pago-lineas .pg-pago-total dd{ font:700 var(--t-xl)/1 var(--display); letter-spacing:-.03em }
+.pg-pago-quees{ border:0; background:none; padding:0; font-size:var(--t-xs); font-weight:650; color:var(--marca); text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px }
+.pg-pago-quees:hover{ color:var(--marca-2) }
+.pg-pago-retiene{ display:flex; gap:10px; align-items:flex-start; padding:12px 14px; border-radius:var(--r); background:var(--marca-sup); color:var(--marca-tinta); font-size:var(--t-sm); line-height:1.45 }
+.pg-pago-retiene svg{ flex:0 0 auto; margin-top:1px }
+.pg-pago-retiene b{ color:var(--marca-tinta) }
+.pg-pago-casilla a{ color:var(--tinta); font-weight:600; text-decoration:underline; text-underline-offset:2px; text-decoration-color:var(--linea-2) }
+.pg-pago-casilla a:hover{ color:var(--marca) }
+.pg-pago-casilla[aria-invalid="true"]{ color:var(--mal) }
+.pg-pago-pagar .btn{ gap:10px }
+.pg-pago-pagar .num{ font-variant-numeric:tabular-nums }
+.pg-pago-nota-pie{ display:flex; align-items:center; justify-content:center; gap:6px; font-size:var(--t-xs); color:var(--tinta-3); text-align:center }
+@media (max-width:960px){ .pg-pago-lado .pegajoso{ position:static } }
+@media (max-width:860px){
+  body:has(.pg-pago-pagar){ padding-bottom:calc(var(--barra) + 78px + env(safe-area-inset-bottom,0px)) }
+  .pg-pago-pagar{ position:fixed; z-index:65; left:0; right:0; bottom:calc(var(--barra) + env(safe-area-inset-bottom,0px));
+    padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));
+    background:color-mix(in srgb,var(--fondo) 94%,transparent); backdrop-filter:blur(16px) saturate(1.8); border-top:1px solid var(--linea);
+    animation:pg-pago-barra .45s var(--ease) both }
+  @keyframes pg-pago-barra{ from{ transform:translateY(100%) } }
+}
+
+/* hojas: 3-D Secure, Bizum, procesando */
+.pg-pago-hoja{ display:flex; flex-direction:column; gap:16px; padding-top:22px }
+.pg-pago-hoja.pg-pago-entra>*{ animation:sube .32s var(--ease) both }
+.pg-pago-banco{ display:flex; align-items:center; gap:10px; padding-right:40px }
+.pg-pago-banco-ico{ width:40px; height:40px; border-radius:12px; display:grid; place-items:center; background:var(--tinta); color:var(--fondo); flex:0 0 auto }
+.pg-pago-dl{ margin:0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1px; border-radius:var(--r); overflow:hidden; background:var(--linea) }
+.pg-pago-dl>div{ background:var(--sup); padding:10px 12px; min-width:0 }
+.pg-pago-dl dt{ font-size:var(--t-xs); color:var(--tinta-3); font-weight:600 }
+.pg-pago-dl dd{ margin:2px 0 0; font-weight:650; font-size:var(--t-sm); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-variant-numeric:tabular-nums }
+.pg-pago-codigo{ display:flex; align-items:center; gap:10px; padding:11px 14px; border-radius:var(--r); background:var(--sol-sup); color:var(--sol-tinta); font-size:var(--t-sm) }
+.pg-pago-codigo b{ font:700 var(--t-md)/1 var(--display); letter-spacing:.14em; background:var(--sol); color:var(--sol-tinta); padding:5px 9px; border-radius:8px; font-variant-numeric:tabular-nums }
+.pg-pago-modo{ display:inline-flex; align-items:center; height:22px; padding:0 9px; margin-right:4px; border-radius:999px; background:var(--sol); color:var(--sol-tinta); font-size:var(--t-xs); font-weight:700; vertical-align:1px }
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) .pg-pago-codigo b,:root:not([data-theme="light"]) .pg-pago-modo{ color:var(--fondo) } }
+:root[data-theme="dark"] .pg-pago-codigo b,:root[data-theme="dark"] .pg-pago-modo{ color:var(--fondo) }
+.pg-pago-hoja:focus{ outline:none }
+.pg-pago-hoja .num{ white-space:nowrap }
+.pg-pago-otp{ display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:8px; border:0; padding:0; margin:0; min-width:0; position:relative }
+.pg-pago-otp input{ width:100%; min-width:0; height:58px; padding:0; text-align:center; font:700 1.5rem/1 var(--display); border-radius:14px;
+  border:1.5px solid var(--linea-2); background:var(--fondo); caret-color:var(--marca); transition:border-color .16s, box-shadow .16s, background .16s }
+.pg-pago-otp input:focus{ outline:none; border-color:var(--marca); box-shadow:0 0 0 4px var(--marca-sup) }
+.pg-pago-otp input.lleno{ background:var(--sup) }
+.pg-pago-otp input[aria-invalid="true"]{ border-color:var(--mal); background:var(--mal-sup) }
+.pg-pago-otp input:disabled{ opacity:.5 }
+.pg-pago-otp.tiembla{ animation:pg-pago-tiembla .42s var(--ease) }
+@keyframes pg-pago-tiembla{ 20%,60%{ transform:translateX(-7px) } 40%,80%{ transform:translateX(7px) } }
+.pg-pago-reloj{ display:flex; justify-content:space-between; gap:10px; font-size:var(--t-xs); color:var(--tinta-3) }
+.pg-pago-reloj b{ color:var(--tinta-2); font-variant-numeric:tabular-nums }
+.pg-pago-barrita{ height:5px; border-radius:9px; background:var(--sup-2); overflow:hidden }
+.pg-pago-barrita span{ display:block; height:100%; width:0; border-radius:inherit; background:var(--marca); transition:width .7s var(--ease) }
+.pg-pago-checks{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:14px }
+.pg-pago-checks li{ display:flex; align-items:center; gap:12px; font-size:var(--t-sm); color:var(--tinta-3); transition:color .25s }
+.pg-pago-ck{ width:26px; height:26px; flex:0 0 auto; border-radius:50%; border:2px solid var(--linea-2); display:grid; place-items:center; color:var(--fondo);
+  transition:background .25s, border-color .25s, box-shadow .25s }
+.pg-pago-ck svg{ opacity:0; transform:scale(.3); transition:opacity .2s, transform .35s var(--ease) }
+.pg-pago-checks li.activo{ color:var(--tinta); font-weight:650 }
+.pg-pago-checks li.activo .pg-pago-ck{ border-color:var(--marca); box-shadow:0 0 0 4px var(--marca-sup) }
+.pg-pago-checks li.hecho{ color:var(--tinta-2) }
+.pg-pago-checks li.hecho .pg-pago-ck{ background:var(--ok); border-color:var(--ok) }
+.pg-pago-checks li.mal{ color:var(--mal); font-weight:650 }
+.pg-pago-checks li.mal .pg-pago-ck{ background:var(--mal); border-color:var(--mal) }
+.pg-pago-checks li.hecho .pg-pago-ck svg,.pg-pago-checks li.mal .pg-pago-ck svg{ opacity:1; transform:none }
+.pg-pago-res{ display:flex; flex-direction:column; align-items:center; text-align:center; gap:10px; padding-top:6px }
+.pg-pago-res-ico{ width:68px; height:68px; border-radius:50%; display:grid; place-items:center; background:var(--mal-sup); color:var(--mal); animation:pg-pago-pop .45s var(--ease) both }
+@keyframes pg-pago-pop{ from{ transform:scale(.5); opacity:0 } }
+.pg-pago-anillo{ position:relative; width:128px; height:128px; margin:2px auto 0 }
+.pg-pago-anillo svg{ width:100%; height:100%; transform:rotate(-90deg) }
+.pg-pago-anillo circle{ fill:none; stroke-width:8 }
+.pg-pago-anillo .pg-pago-anillo-f{ stroke:var(--sup-2) }
+.pg-pago-anillo .pg-pago-anillo-a{ stroke:var(--marca); stroke-linecap:round; stroke-dasharray:339.3; transition:stroke-dashoffset 1s linear }
+.pg-pago-anillo-c{ position:absolute; inset:0; display:grid; place-content:center; text-align:center; line-height:1.1 }
+.pg-pago-anillo-c b{ font-size:2.2rem }
+.pg-pago-centro{ text-align:center; display:flex; flex-direction:column; gap:8px; align-items:center }
+.pg-pago-hoja .aviso{ font-size:var(--t-xs) }
+
+/* acceso */
+.pg-pago-acceso{ display:grid; gap:28px; padding-block:28px 12px; align-items:start }
+@media (min-width:900px){ .pg-pago-acceso{ grid-template-columns:minmax(0,1fr) 340px; gap:56px; padding-top:44px } }
+.pg-pago-acceso .puerta-18{ width:76px; height:76px; border-radius:24px; font-size:1.9rem }
+.pg-pago-razones{ list-style:none; margin:4px 0 0; padding:0; display:flex; flex-direction:column; gap:14px }
+.pg-pago-razones li{ display:grid; grid-template-columns:40px minmax(0,1fr); gap:12px; align-items:start }
+.pg-pago-razones .pg-pago-op-ico{ width:40px; height:40px; background:var(--marca-sup); color:var(--marca-tinta) }
+.pg-pago-razones strong{ display:block; font-size:var(--t-base) }
+.pg-pago-razones span{ font-size:var(--t-sm); color:var(--tinta-2) }
+.pg-pago-acc{ display:flex; flex-wrap:wrap; gap:10px }
+@media (max-width:520px){ .pg-pago-acc .btn{ flex:1 1 100% } }
+.pg-pago-ibas{ display:flex; flex-direction:column; gap:12px }
+.pg-pago-ibas .pg-pago-mini{ aspect-ratio:16/10 }
+
+/* éxito */
+.pg-pago-exito{ display:flex; flex-direction:column; gap:20px; padding-block:22px 8px }
+.pg-pago-ex-cab{ display:flex; flex-direction:column; align-items:center; text-align:center; gap:12px; padding:8px 0 4px }
+.pg-pago-ex-cab .h1{ max-width:20ch }
+.pg-pago-ex-cab .h1:focus{ outline:none }
+.pg-pago-ex-cab p{ max-width:52ch }
+.pg-pago-ok{ width:80px; height:80px; color:var(--ok) }
+.pg-pago-ok circle{ fill:var(--ok-sup); stroke:currentColor; stroke-width:3; stroke-dasharray:214; stroke-dashoffset:214; animation:pg-pago-traza .6s var(--ease) forwards }
+.pg-pago-ok path{ fill:none; stroke:currentColor; stroke-width:4.5; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:42; stroke-dashoffset:42; animation:pg-pago-traza .38s .42s var(--ease) forwards }
+@keyframes pg-pago-traza{ to{ stroke-dashoffset:0 } }
+.pg-pago-pedido{ display:inline-flex; align-items:center; gap:8px; height:34px; padding:0 12px 0 14px; border-radius:999px; border:1.5px solid var(--linea-2); background:var(--fondo);
+  font-size:var(--t-sm); color:var(--tinta-2); transition:border-color .18s, transform .15s var(--ease) }
+.pg-pago-pedido b{ color:var(--tinta); letter-spacing:.02em; font-variant-numeric:tabular-nums }
+.pg-pago-pedido:hover{ border-color:var(--tinta-3) }
+.pg-pago-pedido:active{ transform:scale(.96) }
+.pg-pago-ex-acc{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px; width:100%; margin-top:4px }
+@media (max-width:520px){ .pg-pago-ex-acc .btn{ flex:1 1 100% } }
+.pg-pago-tl{ list-style:none; margin:0; padding:0; display:grid; gap:0; counter-reset:pgtl }
+.pg-pago-tl li{ position:relative; display:grid; grid-template-columns:34px minmax(0,1fr); gap:12px; padding-bottom:18px }
+.pg-pago-tl li:last-child{ padding-bottom:0 }
+.pg-pago-tl li::before{ content:""; position:absolute; left:16px; top:34px; bottom:2px; width:2px; border-radius:2px; background:var(--linea) }
+.pg-pago-tl li:last-child::before{ display:none }
+.pg-pago-tl li.hecho::before{ background:var(--ok) }
+.pg-pago-hito{ width:34px; height:34px; border-radius:50%; display:grid; place-items:center; background:var(--sup-2); color:var(--tinta-2); font:700 .875rem/1 var(--display); position:relative; z-index:1 }
+.pg-pago-tl li.hecho .pg-pago-hito{ background:var(--ok); color:var(--fondo) }
+.pg-pago-tl li.sig .pg-pago-hito{ background:var(--marca-sup); color:var(--marca-tinta); box-shadow:0 0 0 2px var(--marca) }
+.pg-pago-tl strong{ display:block; font-size:var(--t-base); line-height:1.3; padding-top:6px }
+.pg-pago-tl span.d{ display:block; font-size:var(--t-sm); color:var(--tinta-2); line-height:1.45; margin-top:2px }
+@media (min-width:700px){
+  .pg-pago-tl{ grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px }
+  .pg-pago-tl li{ grid-template-columns:minmax(0,1fr); gap:10px; padding-bottom:0 }
+  .pg-pago-tl li::before{ left:42px; right:-10px; top:16px; bottom:auto; width:auto; height:2px }
+  .pg-pago-tl li:last-child::before{ display:none }
+  .pg-pago-tl strong{ padding-top:0 }
+}
+.pg-pago-recibo{ position:relative; background:var(--sup); border-radius:var(--r-xl) var(--r-xl) 0 0; padding:22px 20px 34px; display:flex; flex-direction:column; gap:16px;
+  -webkit-mask:radial-gradient(9px at 50% 100%,transparent 98%,var(--tinta)) 50% 100% / 22px 100% repeat-x; mask:radial-gradient(9px at 50% 100%,transparent 98%,var(--tinta)) 50% 100% / 22px 100% repeat-x }
+@media (min-width:760px){ .pg-pago-recibo{ padding:26px 28px 38px } }
+.pg-pago-recibo .pg-pago-lineas .pg-pago-total{ border-top-style:dashed; border-top-color:var(--linea-2) }
+.pg-pago-datos{ margin:0; display:grid; gap:10px; font-size:var(--t-sm); padding-top:14px; border-top:1px dashed var(--linea-2) }
+.pg-pago-datos>div{ display:grid; grid-template-columns:120px minmax(0,1fr); gap:12px }
+.pg-pago-datos dt{ color:var(--tinta-3) }
+.pg-pago-datos dd{ margin:0; font-weight:600; min-width:0; overflow-wrap:anywhere }
+@media (max-width:420px){ .pg-pago-datos>div{ grid-template-columns:minmax(0,1fr) } .pg-pago-datos dd{ margin-top:-8px } }
+</style>
+<main id="contenido" class="pg-pago"></main>
+<script>
+A.pagina = function(){
+  const $ = A.$, $$ = A.$$;
+  const main = $('#contenido');
+  const ses = A.sesion();
+  const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const esc = t => String(t == null ? '' : t).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const r2 = n => Math.round(n * 100) / 100;
+
+  /* iconos propios (trazo, currentColor) */
+  const P = {
+    izq:'M15 5l-7 7 7 7', tarjeta:'M3 6.5h18v11H3zM3 10.5h18M6.5 14.5h4', movil:'M7.5 2.8h9v18.4h-9zM11 18h2',
+    cartera:'M4 7.5h15.5v12H4zM4 7.5l11-3.5v3.5M15.5 13.6h.1', toque:'M8.4 8.6a5 5 0 0 1 0 6.8M11.8 6.2a8.4 8.4 0 0 1 0 11.6M15.2 3.8a11.8 11.8 0 0 1 0 16.4',
+    candado:'M6 10.5h12v9.5H6zM8.6 10.5V8a3.4 3.4 0 0 1 6.8 0v2.5', reloj:'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 7.5V12l3 2',
+    info:'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 11v5.5M12 7.9v.1', cal:'M4 6h16v14H4zM4 10.2h16M8.5 3.5v4M15.5 3.5v4',
+    copia:'M9 9h10.5v10.5H9zM15 9V4.5H4.5V15H9', menos:'M5 12h14', mas:'M12 5v14M5 12h14', etiqueta:'M3.5 12.2V4h8.2l8.8 8.8-8.2 8.2zM8 8.4h.1',
+    adulto:'M12 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM5.5 20c.6-3.4 3.2-5.5 6.5-5.5s5.9 2.1 6.5 5.5', doc:'M3.5 6h17v12h-17zM7 10.5h4M7 13.5h6M15.5 10a1.5 1.5 0 1 0 0-.1'
+  };
+  const ic = (n, t, extra) => `<svg width="${t||20}" height="${t||20}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" ${extra||''}><path d="${P[n]}"/></svg>`;
+
+  /* ---------- pedido en curso ---------- */
+  const qs = new URLSearchParams(location.search);
+  let ped = A.pedido.leer();
+  const qsS = qs.get('s');
+  if(qsS && A.anuncio(qsS) && qsS !== ped.s) ped = {s:qsS, cantidad:1, extra:0, fecha:'', nota:''};
+  const a = A.anuncio(ped.s) || A.anuncio('s5');
+  const prov = A.usuario(a.u);
+  const nom = prov.n.split(' ')[0];
+  const cat = A.categoria(a.cat);
+
+  if(!ses || !A.puede('pagar')) return pintaAcceso();
+  if(a.u === ses.id) return pintaPropio();
+
+  /* ---------- unidades ---------- */
+  const UNI = {
+    hora:{u:'hora', v:'horas', q:'¿Cuántas horas?', min:1, max:8},
+    paseo:{u:'paseo', v:'paseos', q:'¿Cuántos paseos?', min:1, max:20},
+    foto:{u:'foto', v:'fotos', q:'¿Cuántas fotos?', min:10, max:80, nota:'mínimo 10 fotos'},
+    clase:{u:'clase', v:'clases', q:'¿Cuántas clases?', min:1, max:10},
+    'sesión':{u:'sesión', v:'sesiones', q:'¿Cuántas sesiones?', min:1, max:12},
+    'día':{u:'día', v:'días', q:'¿Cuántos días?', min:1, max:30},
+    mes:{u:'mes', v:'meses', q:'¿Cuántos meses?', min:1, max:12},
+    'm²':{u:'m²', v:'m²', q:'¿Cuántos metros cuadrados?', min:10, max:300, paso:5},
+    servicio:{fijo:true, u:'servicio', v:'servicios'},
+    desde:{fijo:true, desde:true, u:'servicio', v:'servicios'}
+  };
+  /* oferta cerrada en el chat: importe fijo = precio + extra */
+  const oferta = ped.oferta && +ped.oferta.importe > 0 ? ped.oferta : null;
+  const un = oferta ? {fijo:true, oferta:true, u:'servicio', v:'servicios'} : (UNI[a.unidad] || UNI.servicio);
+  const paso = un.paso || 1;
+  const ajusta = n => { if(un.fijo) return 1; n = Math.round((+n || un.min) / paso) * paso; return Math.min(un.max, Math.max(un.min, n)) };
+  const palabra = n => n === 1 ? un.u : un.v;
+
+  /* ---------- próximos 14 días ---------- */
+  const DS = ['dom','lun','mar','mié','jue','vie','sáb'];
+  const DL = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+  const MS = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  const ML = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const [hy, hm, hd] = A.HOY.split('-').map(Number);
+  const ini = a.urg ? 0 : 1;
+  const dias = [];
+  for(let i = ini; i < ini + 14; i++){
+    const d = new Date(hy, hm - 1, hd + i);
+    const iso = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    dias.push({iso, ds: i === 0 ? 'hoy' : DS[d.getDay()], dn: d.getDate(), dm: MS[d.getMonth()], finde: d.getDay() === 0 || d.getDay() === 6,
+      corto: (i === 0 ? 'hoy' : DS[d.getDay()]) + ' ' + d.getDate() + ' ' + MS[d.getMonth()],
+      largo: (i === 0 ? 'hoy, ' : '') + DL[d.getDay()] + ' ' + d.getDate() + ' de ' + ML[d.getMonth()]});
+  }
+  const FR = {manana:{t:'Mañana', h:'9:00 a 14:00', por:'por la mañana'}, tarde:{t:'Tarde', h:'16:00 a 21:00', por:'por la tarde'}};
+
+  const st = {
+    cant: ajusta(ped.cantidad),
+    fecha: dias.some(d => d.iso === ped.fecha) ? ped.fecha : '',
+    franja: ped.franja === 'tarde' ? 'tarde' : 'manana',
+    nota: (oferta && ped.nota === oferta.concepto ? '' : (ped.nota || '')).slice(0, 300),
+    metodo: 'tarjeta'
+  };
+  const extra = +ped.extra || 0;
+  const guarda = () => A.pedido.guardar(Object.assign({}, ped, {s:a.id, cantidad:st.cant, extra, fecha:st.fecha, franja:st.franja, nota:st.nota}));
+  guarda();
+  const calc = () => A.pedido.calcula({s:a.id, cantidad:st.cant, extra});
+  const lineaServ = () => oferta ? r2(a.precio * st.cant + extra) : r2(a.precio * st.cant);
+  const extraVisible = oferta ? 0 : extra;
+  const lineaTxt = () => oferta ? 'Oferta: ' + (oferta.concepto || 'precio acordado') : un.fijo ? (un.desde ? 'Precio de partida' : 'Servicio completo') : `${A.eur(a.precio)} × ${st.cant} ${palabra(st.cant)}`;
+  const cuadra = c => {
+    const ok = Math.abs(r2(lineaServ() + extraVisible) - c.base) < 0.001 && Math.abs(r2(c.base + c.prot) - c.total) < 0.001;
+    if(!ok) A.errores.push('pago: el desglose no cuadra (' + c.base + ' + ' + c.prot + ' ≠ ' + c.total + ')');
+    return ok;
+  };
+  const diaSel = () => dias.find(d => d.iso === st.fecha);
+  const saldo = () => A.MONEDERO.saldo;
+
+  const placeholderNota = {
+    mascotas:'Ej.: cómo se llama, si tira de la correa, dónde dejas la llave…',
+    hogar:'Ej.: qué falla y desde cuándo, dirección y si hay sitio para aparcar…',
+    reparaciones:'Ej.: marca y modelo, qué le pasa, dirección…',
+    mudanzas:'Ej.: origen y destino, qué piso y si hay ascensor…',
+    clases:'Ej.: tu nivel, qué te gustaría aprender, si traes material…',
+    cuidados:'Ej.: quién es, qué necesita, horarios de medicación…'
+  }[a.cat] || 'Cuéntale lo que necesita saber: dirección, acceso, detalles del trabajo…';
+
+  const c0 = calc();
+  const PRUEBAS = [
+    {n:'4242424242424242', r:'Aceptada', cl:'ok', d:'el pago saldrá bien'},
+    {n:'4000000000000002', r:'Rechazada', cl:'mal', d:'el banco la rechazará'},
+    {n:'4000000000009995', r:'Sin fondos', cl:'avisa', d:'dará fondos insuficientes'}
+  ];
+
+  /* ---------- pintado del formulario ---------- */
+  main.innerHTML = `
+  <div class="contenedor pg-pago-cont">
+    <a class="pg-pago-volver" href="anuncio.html?id=${a.id}">${ic('izq',18)}Volver al anuncio</a>
+    <header class="pg-pago-cab">
+      <span class="pg-pago-sello">${A.icono('escudo',14)}Pago protegido</span>
+      <h1 class="h1">Contratar y pagar</h1>
+      <p class="sec">Tu dinero queda retenido hasta que confirmes que ${esc(nom)} ha hecho el servicio.</p>
+    </header>
+    <p class="aviso pg-pago-prueba" role="note"><span><span class="pg-pago-modo">Modo prueba</span> No se cobra nada y ningún dato sale de esta página. La tarjeta no se guarda en ningún sitio, tampoco en tu navegador.</span></p>
+
+    <form class="con-lateral" id="pg-pago-form" novalidate>
+      <div class="col g16 min0">
+
+        <section class="pg-pago-bloque" aria-labelledby="pg-pago-t1">
+          <div class="pg-pago-tit"><span class="pg-pago-n" aria-hidden="true">1</span><h2 class="h3" id="pg-pago-t1">Servicio</h2></div>
+          <div class="pg-pago-serv">
+            <a class="pg-pago-mini" href="anuncio.html?id=${a.id}" aria-label="Ver el anuncio: ${esc(a.t)}">${A.portada(a)}</a>
+            <div class="col g8 min0">
+              <span class="etiqueta">${esc(cat.n)} · ${esc(a.sub)}</span>
+              <h3 class="pg-pago-serv-t recorte">${esc(a.t)}</h3>
+              <div class="pg-pago-quien">${A.avatar(prov,'avatar-p')}<a href="perfil.html?id=${prov.id}">${esc(prov.corto)}</a>
+                ${A.verificado(prov) ? `<span class="insignia insignia-ok">${A.icono('check',12)}Identidad verificada</span>` : ''}
+                <span class="fila g4">${A.estrellas(prov.val,12)}<span class="num xs sec">${prov.val.toLocaleString('es-ES',{minimumFractionDigits:1})} (${prov.resenas})</span></span>
+              </div>
+              <div class="pg-pago-precio">${A.precio(a)}</div>
+            </div>
+          </div>
+
+          <div class="pg-pago-sub">
+            ${un.fijo ? `<div class="pg-pago-fijo">${ic('etiqueta',18)}<span>${un.oferta
+                ? `<b>Precio acordado en el chat:</b> ${esc(oferta.concepto || a.t)} por ${A.eur(lineaServ())}.${oferta.chat ? ` <a class="enlace" href="chat.html?c=${esc(oferta.chat)}">Ver la conversación</a>` : ''}`
+                : un.desde
+                ? `<b>Precio de partida.</b> Si el trabajo necesita más, ${esc(nom)} te enviará una oferta por el chat y solo pagarás la diferencia si la aceptas.`
+                : `<b>Precio cerrado</b> por el servicio completo. Incluye ${esc(a.incluye.slice(0,2).map(x => x.charAt(0).toLowerCase() + x.slice(1)).join(' y '))}.`}</span></div>`
+            : `<div class="pg-pago-fila">
+                <div class="col g2 min0"><span class="pg-pago-et" id="pg-pago-cant-et">${un.q}</span><span class="xs ter">${A.eur0(a.precio)} por ${un.u}${un.nota ? ' · ' + un.nota : ''}</span></div>
+                <div class="pg-pago-cant" role="group" aria-labelledby="pg-pago-cant-et">
+                  <button type="button" id="pg-pago-menos" aria-label="Quitar ${paso === 1 ? 'un' : paso} ${paso === 1 ? un.u : un.v}">${ic('menos',18)}</button>
+                  <output id="pg-pago-cant" aria-live="polite">${st.cant}</output>
+                  <button type="button" id="pg-pago-mas" aria-label="Añadir ${paso === 1 ? 'un' : paso} ${paso === 1 ? un.u : un.v}">${ic('mas',18)}</button>
+                </div>
+              </div>`}
+          </div>
+
+          <div class="pg-pago-sub">
+            <div class="fila entre g8"><span class="pg-pago-et" id="pg-pago-dia-et">¿Qué día?</span><span class="xs ter">Disponibilidad de ${esc(nom)}: ${esc(a.dispo.charAt(0).toLowerCase() + a.dispo.slice(1))}</span></div>
+            <div class="pg-pago-dias" id="pg-pago-dias" role="group" aria-labelledby="pg-pago-dia-et" aria-describedby="pg-pago-dia-err">
+              ${dias.map(d => `<button type="button" class="pg-pago-dia${d.finde ? ' finde' : ''}" data-dia="${d.iso}" aria-pressed="${d.iso === st.fecha}" aria-label="${d.largo}"><span class="ds">${d.ds}</span><span class="dn">${d.dn}</span><span class="dm">${d.dm}</span></button>`).join('')}
+            </div>
+            <p class="error" id="pg-pago-dia-err" hidden></p>
+            <div class="seg pg-pago-franja" role="group" aria-label="Franja horaria">
+              ${Object.keys(FR).map(k => `<button type="button" data-franja="${k}" aria-pressed="${st.franja === k}">${FR[k].t}<small>${FR[k].h}</small></button>`).join('')}
+            </div>
+          </div>
+
+          <div class="pg-pago-sub">
+            <div class="campo">
+              <label for="pg-pago-nota">Nota para ${esc(nom)} <span class="pg-pago-opc">(opcional)</span></label>
+              <textarea class="ent pg-pago-nota" id="pg-pago-nota" maxlength="300" rows="3" placeholder="${esc(placeholderNota)}" aria-describedby="pg-pago-nota-ay">${esc(st.nota)}</textarea>
+              <div class="fila entre g8"><span class="ayuda" id="pg-pago-nota-ay">Solo la ve ${esc(nom)}. Nunca pongas aquí datos de pago.</span><span class="ayuda num" id="pg-pago-nota-n">${st.nota.length}/300</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="pg-pago-bloque" aria-labelledby="pg-pago-t2">
+          <div class="pg-pago-tit"><span class="pg-pago-n" aria-hidden="true">2</span><h2 class="h3" id="pg-pago-t2">Método de pago</h2></div>
+          <div class="pg-pago-metodos" role="radiogroup" aria-labelledby="pg-pago-t2">
+
+            <label class="opcion pg-pago-op" for="pg-m-tarjeta">
+              <input type="radio" name="pg-metodo" id="pg-m-tarjeta" value="tarjeta" checked>
+              <span class="pg-pago-op-ico">${ic('tarjeta',22)}</span>
+              <span class="col crecer min0"><span class="pg-pago-op-t">Tarjeta</span><span class="pg-pago-op-d">Visa, Mastercard o American Express</span></span>
+            </label>
+            <div class="pg-pago-panel" id="pg-p-tarjeta">
+              <div class="pg-pago-tj">
+                <div class="pg-pago-tarjeta" id="pg-pago-dib" aria-hidden="true">
+                  <div class="pg-pago-giro">
+                    <div class="pg-pago-cara">
+                      <span class="pg-pago-fondo on" data-m=""></span><span class="pg-pago-fondo" data-m="Visa"></span><span class="pg-pago-fondo" data-m="Mastercard"></span><span class="pg-pago-fondo" data-m="American Express"></span>
+                      <div class="pg-pago-arriba"><span class="pg-pago-chip"></span><span class="pg-pago-tmarca" id="pg-pago-dmarca"></span></div>
+                      <div class="pg-pago-tnum" id="pg-pago-dnum"></div>
+                      <div class="pg-pago-tpie">
+                        <div class="min0"><span class="pg-pago-tet">Titular</span><span class="pg-pago-tval" id="pg-pago-dtit"></span></div>
+                        <div><span class="pg-pago-tet">Caduca</span><span class="pg-pago-tval" id="pg-pago-dcad"></span></div>
+                      </div>
+                    </div>
+                    <div class="pg-pago-cara detras">
+                      <span class="pg-pago-fondo on" data-m="" id="pg-pago-fdetras"></span>
+                      <span class="pg-pago-banda"></span>
+                      <div class="pg-pago-firma"><b id="pg-pago-dcvc">•••</b></div>
+                      <span class="pg-pago-detras-t" id="pg-pago-dcvc-t">CVC: las 3 cifras de detrás</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col g12 min0">
+                  <div class="campo">
+                    <label for="pg-pago-num">Número de la tarjeta</label>
+                    <div class="pg-pago-ent" data-vale="num"><input class="ent num" id="pg-pago-num" type="text" inputmode="numeric" autocomplete="off" spellcheck="false" placeholder="0000 0000 0000 0000" maxlength="19" aria-describedby="pg-pago-num-err"><span class="pg-pago-vale">${A.icono('check',18)}</span></div>
+                    <p class="error" id="pg-pago-num-err" hidden></p>
+                  </div>
+                  <div class="pg-pago-dos">
+                    <div class="campo">
+                      <label for="pg-pago-cad">Caducidad</label>
+                      <div class="pg-pago-ent" data-vale="cad"><input class="ent num" id="pg-pago-cad" type="text" inputmode="numeric" autocomplete="off" placeholder="MM/AA" maxlength="5" aria-describedby="pg-pago-cad-err"><span class="pg-pago-vale">${A.icono('check',18)}</span></div>
+                      <p class="error" id="pg-pago-cad-err" hidden></p>
+                    </div>
+                    <div class="campo">
+                      <label for="pg-pago-cvc">CVC</label>
+                      <div class="pg-pago-ent" data-vale="cvc"><input class="ent num" id="pg-pago-cvc" type="text" inputmode="numeric" autocomplete="off" placeholder="3 cifras" maxlength="4" aria-describedby="pg-pago-cvc-err"><span class="pg-pago-vale">${A.icono('check',18)}</span></div>
+                      <p class="error" id="pg-pago-cvc-err" hidden></p>
+                    </div>
+                  </div>
+                  <div class="campo">
+                    <label for="pg-pago-tit">Titular de la tarjeta</label>
+                    <div class="pg-pago-ent" data-vale="tit"><input class="ent" id="pg-pago-tit" type="text" autocomplete="off" spellcheck="false" placeholder="Como aparece en la tarjeta" aria-describedby="pg-pago-tit-err"><span class="pg-pago-vale">${A.icono('check',18)}</span></div>
+                    <p class="error" id="pg-pago-tit-err" hidden></p>
+                  </div>
+                </div>
+              </div>
+              <div class="pg-pago-pruebas">
+                <div class="fila entre g8"><span class="etiqueta">Tarjetas de prueba</span><span class="xs ter">Rellenan caducidad y CVC</span></div>
+                <ul>${PRUEBAS.map(t => `<li><span class="fila g8 pg-pago-pr-txt"><span class="num">${A.tarjetaPago.formatea(t.n)}</span><span class="insignia insignia-${t.cl}">${t.r}</span></span><button type="button" class="btn btn-p btn-sec" data-prueba="${t.n}" aria-label="Usar la tarjeta de prueba ${t.r.toLowerCase()}">Usar esta</button></li>`).join('')}</ul>
+              </div>
+            </div>
+
+            <label class="opcion pg-pago-op" for="pg-m-bizum">
+              <input type="radio" name="pg-metodo" id="pg-m-bizum" value="bizum">
+              <span class="pg-pago-op-ico">${ic('movil',22)}</span>
+              <span class="col crecer min0"><span class="pg-pago-op-t">Bizum</span><span class="pg-pago-op-d">Lo aceptas en la app de tu banco</span></span>
+            </label>
+            <div class="pg-pago-panel" id="pg-p-bizum" hidden>
+              <div class="campo">
+                <label for="pg-pago-biz">Móvil con Bizum</label>
+                <div class="pg-pago-ent pg-pago-prefijo" data-vale="biz"><span aria-hidden="true">+34</span><input class="ent num" id="pg-pago-biz" type="tel" inputmode="tel" autocomplete="off" placeholder="600 000 000" maxlength="11" aria-describedby="pg-pago-biz-err pg-pago-biz-ay"><span class="pg-pago-vale">${A.icono('check',18)}</span></div>
+                <p class="error" id="pg-pago-biz-err" hidden></p>
+                <p class="ayuda" id="pg-pago-biz-ay">Te llegará una solicitud de pago a la app de tu banco. Tendrás 60 segundos para aceptarla.</p>
+              </div>
+              <div class="fila entre g8"><span class="xs ter">Para probar vale cualquier móvil español.</span><button type="button" class="btn btn-p btn-sec" id="pg-pago-biz-prueba">Usar 612 345 678</button></div>
+            </div>
+
+            <label class="opcion pg-pago-op" for="pg-m-monedero" id="pg-pago-op-mon">
+              <input type="radio" name="pg-metodo" id="pg-m-monedero" value="monedero">
+              <span class="pg-pago-op-ico">${ic('cartera',22)}</span>
+              <span class="col crecer min0"><span class="pg-pago-op-t">Monedero de Apaño</span><span class="pg-pago-op-d" id="pg-pago-mon-d"></span></span>
+            </label>
+            <div class="pg-pago-panel" id="pg-p-monedero" hidden>
+              <div class="pg-pago-cuentas" id="pg-pago-mon-cuentas"></div>
+            </div>
+
+            <label class="opcion pg-pago-op pg-pago-no" for="pg-m-movil">
+              <input type="radio" name="pg-metodo" id="pg-m-movil" value="movil" disabled>
+              <span class="pg-pago-op-ico">${ic('toque',22)}</span>
+              <span class="col crecer min0"><span class="pg-pago-op-t">Apple Pay o Google Pay</span><span class="pg-pago-op-d">Aún no disponible en Apaño. Llegará pronto.</span></span>
+            </label>
+          </div>
+        </section>
+      </div>
+
+      <aside class="pg-pago-lado">
+        <div class="pegajoso">
+          <section class="pg-pago-bloque pg-pago-resumen" aria-labelledby="pg-pago-t3">
+            <div class="pg-pago-tit" style="margin-bottom:0"><span class="pg-pago-n" aria-hidden="true">3</span><h2 class="h3" id="pg-pago-t3">Resumen</h2></div>
+            <div class="pg-pago-res-serv">
+              <span class="pg-pago-mini">${A.portada(a)}</span>
+              <div class="col g2 min0"><span class="sm negrita recorte">${esc(a.t)}</span><span class="xs ter">con ${esc(prov.corto)}</span></div>
+            </div>
+            <p class="pg-pago-cuando" id="pg-pago-cuando"></p>
+            <dl class="pg-pago-lineas">
+              <div><dt id="pg-pago-l1t"></dt><dd id="pg-pago-l1"></dd></div>
+              ${extraVisible ? `<div><dt>Extras acordados</dt><dd>${A.eur(extraVisible)}</dd></div>` : ''}
+              <div><dt class="col g2"><span>Protección Apaño</span><span class="xs ter">5 % + 0,99 € · <button type="button" class="pg-pago-quees" id="pg-pago-quees">¿Qué es?</button></span></dt><dd id="pg-pago-l2"></dd></div>
+              <div class="pg-pago-total"><dt>Total</dt><dd id="pg-pago-tot"></dd></div>
+            </dl>
+            <p class="pg-pago-retiene">${A.icono('escudo',18)}<span>El dinero queda retenido y <b>${esc(nom)}</b> lo recibe cuando confirmes que el servicio se ha hecho.</span></p>
+            <label class="casilla pg-pago-casilla" for="pg-pago-acepto" id="pg-pago-acepto-l">
+              <input type="checkbox" id="pg-pago-acepto" aria-describedby="pg-pago-acepto-err">
+              <span>Acepto las <a href="legal.html#condiciones">condiciones de uso</a> y las del <a href="como-funciona.html#pago">Pago protegido</a>.</span>
+            </label>
+            <p class="error" id="pg-pago-acepto-err" hidden></p>
+            <div class="pg-pago-pagar"><button class="btn btn-g btn-bloque" type="submit" id="pg-pago-pagar">${ic('candado',19)}<span>Pagar <span class="num" id="pg-pago-btn-tot"></span></span></button></div>
+            <p class="pg-pago-nota-pie">${ic('info',14)}Pago simulado: no se cobra nada.</p>
+          </section>
+        </div>
+      </aside>
+    </form>
+  </div>`;
+
+  /* ---------- referencias ---------- */
+  const form = $('#pg-pago-form');
+  const TP = A.tarjetaPago;
+  const el = {num:$('#pg-pago-num'), cad:$('#pg-pago-cad'), cvc:$('#pg-pago-cvc'), tit:$('#pg-pago-tit'), biz:$('#pg-pago-biz')};
+  const dib = $('#pg-pago-dib');
+  const tocado = {};
+  let totalPintado = c0.total;
+
+  /* ---------- cantidad, fecha, franja, nota ---------- */
+  const menos = $('#pg-pago-menos'), mas = $('#pg-pago-mas'), salida = $('#pg-pago-cant');
+  const cambiaCant = d => {
+    const n = ajusta(st.cant + d * paso); if(n === st.cant) return;
+    st.cant = n; salida.textContent = n; salida.classList.remove('pg-pago-salta'); void salida.offsetWidth; salida.classList.add('pg-pago-salta');
+    guarda(); actualiza();
+  };
+  if(menos){ menos.addEventListener('click', () => cambiaCant(-1)); mas.addEventListener('click', () => cambiaCant(1)) }
+
+  const diasEl = $('#pg-pago-dias');
+  diasEl.addEventListener('click', e => {
+    const b = e.target.closest('[data-dia]'); if(!b) return;
+    st.fecha = b.dataset.dia;
+    $$('[data-dia]', diasEl).forEach(x => x.setAttribute('aria-pressed', x === b));
+    diasEl.removeAttribute('aria-invalid'); err('pg-pago-dia-err', '');
+    guarda(); actualiza();
+  });
+  { const sel = $('[aria-pressed="true"]', diasEl); if(sel) diasEl.scrollLeft = Math.max(0, sel.offsetLeft - 60) }
+  $$('[data-franja]').forEach(b => b.addEventListener('click', () => {
+    st.franja = b.dataset.franja;
+    $$('[data-franja]').forEach(x => x.setAttribute('aria-pressed', x === b));
+    guarda(); actualiza();
+  }));
+  const nota = $('#pg-pago-nota');
+  nota.addEventListener('input', () => { st.nota = nota.value.slice(0, 300); $('#pg-pago-nota-n').textContent = st.nota.length + '/300'; guarda() });
+
+  /* ---------- métodos ---------- */
+  const radios = $$('input[name="pg-metodo"]');
+  const eligeMetodo = (m, foco) => {
+    st.metodo = m;
+    radios.forEach(r => { r.checked = r.value === m });
+    ['tarjeta','bizum','monedero'].forEach(k => { $('#pg-p-' + k).hidden = k !== m });
+    if(foco){ const f = m === 'tarjeta' ? el.num : m === 'bizum' ? el.biz : null; if(f) f.focus() }
+  };
+  radios.forEach(r => r.addEventListener('change', () => { if(r.checked) eligeMetodo(r.value) }));
+
+  /* ---------- validaciones ---------- */
+  function err(id, txt){ const p = document.getElementById(id); if(!p) return; p.textContent = txt; p.hidden = !txt }
+  const reglas = {
+    num(){
+      const d = TP.limpia(el.num.value), m = TP.marca(d);
+      if(!d) return 'Escribe el número de la tarjeta';
+      if(!m) return 'Solo aceptamos Visa, Mastercard y American Express';
+      const L = m === 'American Express' ? 15 : 16;
+      if(d.length < L) return 'Faltan cifras: tiene ' + L;
+      if(!TP.luhn(d)) return 'Este número no es válido. Revisa las cifras';
+      return '';
+    },
+    cad(){
+      const v = el.cad.value, m = v.match(/^(\d{2})\/(\d{2})$/);
+      if(!v) return 'Pon la fecha de caducidad';
+      if(!m) return 'Escríbela como MM/AA';
+      const mm = +m[1], yy = 2000 + +m[2];
+      if(mm < 1 || mm > 12) return 'El mes va del 01 al 12';
+      if(yy < 2026 || (yy === 2026 && mm < 11)) return 'Esta tarjeta está caducada';
+      if(yy > 2046) return 'Revisa el año';
+      return '';
+    },
+    cvc(){
+      const d = el.cvc.value.replace(/\D/g, ''), m = TP.marca(el.num.value);
+      if(!d) return 'Escribe el CVC';
+      if(m === 'American Express') return d.length === 4 ? '' : 'En American Express son 4 cifras';
+      if(m) return d.length === 3 ? '' : 'Son 3 cifras';
+      return d.length >= 3 ? '' : 'Son 3 o 4 cifras';
+    },
+    tit(){
+      const v = el.tit.value.trim();
+      if(v.length < 3) return 'Escribe el nombre que aparece en la tarjeta';
+      if(/\d/.test(v)) return 'El nombre no lleva números';
+      return '';
+    },
+    biz(){
+      const v = el.biz.value;
+      if(!v.trim()) return 'Escribe el móvil que tienes en Bizum';
+      return A.movilValido(v) ? '' : 'Tiene que ser un móvil español de 9 cifras que empiece por 6 o 7';
+    }
+  };
+  function revisa(k, mostrar){
+    const msg = reglas[k]();
+    const caja = $(`[data-vale="${k}"]`);
+    if(caja) caja.classList.toggle('vale', !msg);
+    if(mostrar || tocado[k]){
+      tocado[k] = true;
+      el[k].setAttribute('aria-invalid', msg ? 'true' : 'false');
+      err('pg-pago-' + k + '-err', msg);
+    }
+    return msg;
+  }
+  Object.keys(el).forEach(k => {
+    el[k].addEventListener('blur', () => { if(el[k].value.trim()) revisa(k, true) });
+  });
+
+  /* número: formato en grupos sin perder el cursor */
+  el.num.addEventListener('input', () => {
+    const pos = el.num.selectionStart || 0;
+    const antes = TP.limpia(el.num.value.slice(0, pos)).length;
+    let d = TP.limpia(el.num.value);
+    d = d.slice(0, TP.marca(d) === 'American Express' ? 15 : 16);
+    const f = TP.formatea(d);
+    el.num.value = f;
+    let i = 0, n = 0; while(i < f.length && n < antes){ if(/\d/.test(f[i])) n++; i++ }
+    try{ el.num.setSelectionRange(i, i) }catch(e){}
+    pintaTarjeta(); revisa('num'); if(el.cvc.value) revisa('cvc');
+  });
+  el.cad.addEventListener('input', e => {
+    let d = el.cad.value.replace(/\D/g, '').slice(0, 4);
+    if(d.length === 1 && d > '1') d = '0' + d;
+    el.cad.value = d.length > 2 ? d.slice(0, 2) + '/' + d.slice(2) : (d.length === 2 && e.inputType !== 'deleteContentBackward' ? d + '/' : d);
+    pintaTarjeta(); revisa('cad');
+  });
+  el.cvc.addEventListener('input', () => { el.cvc.value = el.cvc.value.replace(/\D/g, '').slice(0, 4); pintaTarjeta(); revisa('cvc') });
+  el.cvc.addEventListener('focus', () => dib.classList.add('vuelta'));
+  el.cvc.addEventListener('blur', () => dib.classList.remove('vuelta'));
+  el.tit.addEventListener('input', () => { pintaTarjeta(); revisa('tit') });
+  el.biz.addEventListener('input', () => {
+    const d = el.biz.value.replace(/\D/g, '').slice(0, 9);
+    el.biz.value = d.replace(/^(\d{3})(\d{0,3})(\d{0,3}).*/, (x, p1, p2, p3) => [p1, p2, p3].filter(Boolean).join(' '));
+    revisa('biz');
+  });
+
+  /* tarjeta dibujada en vivo */
+  let marcaPrevia = null;
+  function pintaTarjeta(){
+    const d = TP.limpia(el.num.value), m = TP.marca(d), amex = m === 'American Express';
+    const grupos = amex ? [4,6,5] : [4,4,4,4];
+    let i = 0;
+    $('#pg-pago-dnum').innerHTML = grupos.map(n => { let s = ''; for(let k = 0; k < n; k++){ s += i < d.length ? d[i] : '•'; i++ } return `<span>${s}</span>` }).join('');
+    if(m !== marcaPrevia){
+      const mk = $('#pg-pago-dmarca');
+      mk.textContent = m === 'Visa' ? 'VISA' : amex ? 'AMEX' : m;
+      mk.classList.remove('pg-pago-cambia'); void mk.offsetWidth; if(m) mk.classList.add('pg-pago-cambia');
+      $$('.pg-pago-cara:not(.detras) .pg-pago-fondo', dib).forEach(f => f.classList.toggle('on', f.dataset.m === m));
+      $('#pg-pago-fdetras').dataset.m = m;
+      $('#pg-pago-dcvc-t').textContent = amex ? 'CID: las 4 cifras del frontal' : 'CVC: las 3 cifras de detrás';
+      el.cvc.placeholder = amex ? '4 cifras' : '3 cifras';
+      marcaPrevia = m;
+    }
+    $('#pg-pago-dtit').textContent = el.tit.value.trim() || 'Nombre y apellidos';
+    $('#pg-pago-dcad').textContent = el.cad.value || 'MM/AA';
+    $('#pg-pago-dcvc').textContent = el.cvc.value || (amex ? '••••' : '•••');
+  }
+  pintaTarjeta();
+
+  /* tarjetas de prueba */
+  $$('[data-prueba]').forEach(b => b.addEventListener('click', () => {
+    el.num.value = TP.formatea(b.dataset.prueba);
+    el.cad.value = '12/29'; el.cvc.value = '123';
+    if(!el.tit.value.trim()) el.tit.value = ses.n;
+    pintaTarjeta();
+    ['num','cad','cvc','tit'].forEach(k => revisa(k, true));
+    dib.scrollIntoView({behavior: quieto ? 'auto' : 'smooth', block:'nearest'});
+    A.avisa('Tarjeta de prueba lista: ' + PRUEBAS.find(t => t.n === b.dataset.prueba).d);
+  }));
+  $('#pg-pago-biz-prueba').addEventListener('click', () => { el.biz.value = '612 345 678'; revisa('biz', true) });
+
+  /* ---------- resumen y totales ---------- */
+  function tween(nodo, de, a2){
+    const yo = nodo.pgAnim = (nodo.pgAnim || 0) + 1;
+    if(quieto || de === a2){ nodo.textContent = A.eur(a2); return }
+    const t0 = performance.now();
+    const paso2 = t => { if(nodo.pgAnim !== yo) return; const p = Math.min(1, (t - t0) / 380); nodo.textContent = A.eur(r2(de + (a2 - de) * (1 - Math.pow(1 - p, 3)))); if(p < 1) requestAnimationFrame(paso2) };
+    requestAnimationFrame(paso2);
+  }
+  function actualiza(){
+    const c = calc(); cuadra(c);
+    if(menos){ menos.disabled = st.cant <= un.min; mas.disabled = st.cant >= un.max }
+    $('#pg-pago-l1t').textContent = lineaTxt();
+    $('#pg-pago-l1').textContent = A.eur(lineaServ());
+    $('#pg-pago-l2').textContent = A.eur(c.prot);
+    tween($('#pg-pago-tot'), totalPintado, c.total);
+    tween($('#pg-pago-btn-tot'), totalPintado, c.total);
+    totalPintado = c.total;
+    const d = diaSel(), cu = $('#pg-pago-cuando');
+    cu.classList.toggle('falta', !d);
+    cu.innerHTML = ic('cal',16) + (d ? `<span><b>${d.corto.charAt(0).toUpperCase() + d.corto.slice(1)}</b> · ${FR[st.franja].por} (${FR[st.franja].h})</span>` : '<span>Elige el día para terminar</span>');
+    /* monedero: ¿llega el saldo? */
+    const falta = r2(c.total - saldo()), llega = falta <= 0;
+    const rm = $('#pg-m-monedero');
+    rm.disabled = !llega;
+    $('#pg-pago-op-mon').classList.toggle('pg-pago-no', !llega);
+    $('#pg-pago-mon-d').innerHTML = llega
+      ? `Saldo disponible: <b>${A.eur(saldo())}</b>`
+      : `Saldo: ${A.eur(saldo())}. No llega para este pago: te faltan <b>${A.eur(falta)}</b>. Usa tarjeta o Bizum.`;
+    $('#pg-pago-mon-cuentas').innerHTML = `<div><span class="sec">Saldo disponible</span><b class="num">${A.eur(saldo())}</b></div>
+      <div><span class="sec">Este pago</span><b class="num">−${A.eur(c.total)}</b></div>
+      <div class="pg-pago-quedan"><span>Te quedarán</span><span class="num">${A.eur(r2(saldo() - c.total))}</span></div>`;
+    if(!llega && st.metodo === 'monedero'){ eligeMetodo('tarjeta'); A.avisa('Tu saldo ya no llega: hemos vuelto a tarjeta', 'mal') }
+  }
+  actualiza();
+  $('#pg-pago-acepto').addEventListener('change', e => { if(e.target.checked){ err('pg-pago-acepto-err', ''); $('#pg-pago-acepto-l').removeAttribute('aria-invalid'); e.target.setAttribute('aria-invalid','false') } });
+
+  /* ---------- ¿Qué es la Protección Apaño? ---------- */
+  $('#pg-pago-quees').addEventListener('click', () => {
+    const c = calc();
+    A.dialogo(`<div class="dialogo-cuerpo col g16" style="padding-top:24px">
+      <span class="pg-pago-sello">${A.icono('escudo',14)}Protección Apaño</span>
+      <h2 class="h2">Tu dinero no se mueve hasta que todo ha ido bien</h2>
+      <ul class="pg-pago-razones">
+        <li><span class="pg-pago-op-ico">${A.icono('escudo',20)}</span><div><strong>Retenido, no entregado</strong><span>Guardamos el pago nosotros. ${esc(nom)} lo recibe cuando confirmas que el servicio se ha hecho.</span></div></li>
+        <li><span class="pg-pago-op-ico">${ic('reloj',20)}</span><div><strong>Si no se presenta o no cumple, te lo devolvemos</strong><span>Abre una incidencia antes de confirmar y mediamos. Si tienes razón, recuperas el importe completo.</span></div></li>
+        <li><span class="pg-pago-op-ico">${ic('adulto',20)}</span><div><strong>Solo personas verificadas</strong><span>Quien te atiende es mayor de 18 y ha verificado su DNI, NIE o pasaporte con un selfie.</span></div></li>
+        <li><span class="pg-pago-op-ico">${A.icono('buzon',20)}</span><div><strong>Todo dentro de Apaño</strong><span>Si pagas por fuera pierdes la protección. Nunca te pediremos pagar por Bizum directo ni en efectivo.</span></div></li>
+      </ul>
+      <div class="bloque bloque-sup col g6"><span class="etiqueta">Cuánto cuesta en este pedido</span>
+        <span class="sm sec num">5 % de ${A.eur(c.base)} + 0,99 € = <b style="color:var(--tinta)">${A.eur(c.prot)}</b></span></div>
+      <div class="fila entre g12"><a class="enlace sm" href="como-funciona.html#pago">Cómo funciona el Pago protegido</a><button class="btn" type="button" data-cerrar>Entendido</button></div>
+    </div>`, {ancho:500});
+  });
+
+  /* ---------- hojas: 3-D Secure, Bizum, procesando ---------- */
+  let hojaCapa = null, ocupado = false, terminado = false, timers = [];
+  const para = () => { timers.forEach(t => { clearTimeout(t); clearInterval(t) }); timers = [] };
+  addEventListener('keydown', e => { if(ocupado && e.key === 'Escape'){ e.stopImmediatePropagation(); e.preventDefault() } }, true);
+  addEventListener('click', e => { if(ocupado && hojaCapa && e.target === hojaCapa) e.stopImmediatePropagation() }, true);
+  function abreHoja(html, alCancelar){
+    terminado = false;
+    A.dialogo(`<div class="dialogo-cuerpo pg-pago-hoja" id="pg-pago-hoja">${html}</div>`, {ancho:440, alAbrir:capa => { hojaCapa = capa }});
+    const capa = hojaCapa;
+    const mo = new MutationObserver(() => {
+      if(capa.isConnected) return;
+      mo.disconnect(); para(); ocupado = false;
+      if(hojaCapa === capa) hojaCapa = null;
+      if(!terminado && alCancelar) alCancelar();
+    });
+    mo.observe(document.body, {childList:true});
+  }
+  function cambiaHoja(html){
+    const h = $('#pg-pago-hoja'); if(!h) return;
+    h.innerHTML = html; h.classList.remove('pg-pago-entra'); void h.offsetWidth; h.classList.add('pg-pago-entra');
+    const dl = h.closest('.dialogo'); if(dl) dl.scrollTop = 0;
+    const f = h.querySelector('.btn'); if(f) f.focus({preventScroll:true}); else { h.tabIndex = -1; h.focus({preventScroll:true}) }
+  }
+  function bloquea(on){
+    ocupado = on;
+    const x = hojaCapa && hojaCapa.querySelector('.dialogo > div > [data-cerrar]'); if(x) x.hidden = on;
+  }
+  const cierraHoja = () => { terminado = true; if(hojaCapa) A.cerrarDialogo() };
+  const cancelado = () => A.avisa('Pago cancelado. No se ha cobrado nada');
+
+  /* 3-D Secure */
+  function hoja3DS(c){
+    const d = TP.limpia(el.num.value), m = TP.marca(d);
+    const res = d === '4000000000000002' ? 'rechazada' : d === '4000000000009995' ? 'fondos' : 'ok';
+    const etq = m + ' •••• ' + d.slice(-4);
+    let intentos = 3, seg = 120;
+    const cajas = Array.from({length:6}, (x, i) => `<label class="solo-lector" for="pg-otp-${i}">Cifra ${i + 1} de 6</label><input id="pg-otp-${i}" type="text" inputmode="numeric" pattern="[0-9]*" ${i === 0 ? 'autocomplete="one-time-code"' : 'autocomplete="off"'} aria-describedby="pg-pago-otp-err">`).join('');
+    abreHoja(`
+      <div class="pg-pago-banco"><span class="pg-pago-banco-ico">${ic('candado',20)}</span><div class="col"><strong>Verificación de tu banco</strong><span class="xs ter">Compra segura · 3-D Secure</span></div></div>
+      <h2 class="h2">Confirma que eres tú</h2>
+      <dl class="pg-pago-dl"><div><dt>Comercio</dt><dd>Apaño</dd></div><div><dt>Importe</dt><dd>${A.eur(c.total)}</dd></div><div><dt>Tarjeta</dt><dd>•••• ${d.slice(-4)}</dd></div></dl>
+      <p class="sm sec">Te hemos enviado un código de 6 cifras por SMS al móvil que tienes dado de alta en tu banco.</p>
+      <div class="pg-pago-codigo">${ic('info',18)}<span class="crecer">Es una prueba: tu código es</span><b>123456</b></div>
+      <form class="col g12" id="pg-pago-otp-f" novalidate>
+        <fieldset class="pg-pago-otp" id="pg-pago-otp"><legend class="solo-lector">Código de verificación de 6 cifras</legend>${cajas}</fieldset>
+        <p class="error" id="pg-pago-otp-err" role="alert" hidden></p>
+        <div class="pg-pago-reloj"><span id="pg-pago-reloj-t">El código caduca en <b id="pg-pago-reloj">2:00</b></span><span id="pg-pago-intentos">3 intentos</span></div>
+        <button class="btn btn-g btn-bloque" type="submit" id="pg-pago-otp-ok">Confirmar ${A.eur(c.total)}</button>
+      </form>
+      <button class="btn btn-sec btn-bloque" type="button" data-cerrar>Cancelar</button>`, cancelado);
+    const ins = $$('#pg-pago-otp input');
+    const codigo = () => ins.map(x => x.value).join('');
+    const marca = () => ins.forEach(x => x.classList.toggle('lleno', !!x.value));
+    const reparte = (i, digitos) => {
+      digitos.split('').forEach((dg, k) => { if(ins[i + k]) ins[i + k].value = dg });
+      const sig = Math.min(i + digitos.length, 5);
+      ins[sig].focus(); marca();
+      ins.forEach(x => x.removeAttribute('aria-invalid')); err('pg-pago-otp-err', '');
+      if(codigo().length === 6) timers.push(setTimeout(comprueba, 180));
+    };
+    ins.forEach((inp, i) => {
+      inp.addEventListener('input', () => {
+        const dg = inp.value.replace(/\D/g, '');
+        if(!dg){ inp.value = ''; marca(); return }
+        if(dg.length >= 6) return reparte(0, dg.slice(0, 6));
+        inp.value = '';
+        reparte(i, dg.slice(0, 6 - i));
+      });
+      inp.addEventListener('keydown', e => {
+        if(e.key === 'Backspace' && !inp.value && i > 0){ e.preventDefault(); ins[i - 1].value = ''; ins[i - 1].focus(); marca() }
+        else if(e.key === 'ArrowLeft' && i > 0){ e.preventDefault(); ins[i - 1].focus() }
+        else if(e.key === 'ArrowRight' && i < 5){ e.preventDefault(); ins[i + 1].focus() }
+      });
+      inp.addEventListener('paste', e => {
+        const t = ((e.clipboardData || window.clipboardData).getData('text') || '').replace(/\D/g, '');
+        if(!t) return; e.preventDefault();
+        if(t.length >= 6) reparte(0, t.slice(0, 6)); else reparte(i, t.slice(0, 6 - i));
+      });
+      inp.addEventListener('focus', () => { try{ inp.select() }catch(x){} });
+    });
+    const pintaReloj = () => { const r = $('#pg-pago-reloj'); if(r) r.textContent = Math.floor(seg / 60) + ':' + String(seg % 60).padStart(2, '0') };
+    const arranca = () => {
+      timers.push(setInterval(() => {
+        seg--; pintaReloj();
+        if(seg <= 0){
+          para(); ins.forEach(x => { x.disabled = true; x.value = '' }); marca();
+          $('#pg-pago-reloj-t').innerHTML = 'El código ha caducado';
+          $('#pg-pago-otp-ok').outerHTML = `<button class="btn btn-g btn-bloque" type="button" id="pg-pago-reenvia">Enviarme otro código</button>`;
+          $('#pg-pago-reenvia').addEventListener('click', e => {
+            seg = 120; pintaReloj(); ins.forEach(x => x.disabled = false); ins[0].focus();
+            $('#pg-pago-reloj-t').innerHTML = 'El código caduca en <b id="pg-pago-reloj">2:00</b>';
+            e.target.outerHTML = `<button class="btn btn-g btn-bloque" type="submit" id="pg-pago-otp-ok">Confirmar ${A.eur(c.total)}</button>`;
+            A.avisa('Te hemos enviado otro código'); arranca();
+          });
+        }
+      }, 1000));
+    };
+    arranca();
+    function comprueba(){
+      if(seg <= 0 || !hojaCapa) return;
+      const v = codigo();
+      if(v.length < 6){ err('pg-pago-otp-err', 'Faltan cifras: el código tiene 6'); (ins.find(x => !x.value) || ins[0]).focus(); return }
+      if(v === '123456'){ para(); return procesa(c, res, etq) }
+      intentos--;
+      const caja = $('#pg-pago-otp');
+      caja.classList.remove('tiembla'); void caja.offsetWidth; caja.classList.add('tiembla');
+      ins.forEach(x => x.setAttribute('aria-invalid', 'true'));
+      if(intentos <= 0){
+        para(); terminado = true;
+        return cambiaHoja(`<div class="pg-pago-res"><span class="pg-pago-res-ico">${ic('candado',30)}</span><h2 class="h2">Hemos cancelado el pago</h2>
+          <p class="sec">Has fallado el código 3 veces y, por seguridad, tu banco ha parado la operación. No se ha cobrado nada.</p></div>
+          <button class="btn btn-g btn-bloque" type="button" data-cerrar>Volver al pago</button>`);
+      }
+      $('#pg-pago-intentos').textContent = intentos + (intentos === 1 ? ' intento' : ' intentos');
+      err('pg-pago-otp-err', 'Código incorrecto. Te ' + (intentos === 1 ? 'queda 1 intento' : 'quedan ' + intentos + ' intentos') + '.');
+      timers.push(setTimeout(() => { ins.forEach(x => { x.value = '' }); marca(); ins[0].focus() }, 420));
+    }
+    $('#pg-pago-otp-f').addEventListener('submit', e => { e.preventDefault(); comprueba() });
+  }
+
+  /* Bizum */
+  function hojaBizum(c){
+    const tel = el.biz.value;
+    let seg = 60;
+    const C = 339.3;
+    abreHoja('', cancelado);
+    const pinta = () => {
+      seg = 60;
+      cambiaHoja(`
+        <div class="pg-pago-centro">
+          <div class="pg-pago-anillo" aria-hidden="true"><svg viewBox="0 0 120 120"><circle class="pg-pago-anillo-f" r="54" cx="60" cy="60"/><circle class="pg-pago-anillo-a" id="pg-pago-arco" r="54" cx="60" cy="60" style="stroke-dashoffset:0"/></svg>
+            <div class="pg-pago-anillo-c"><b class="cifra" id="pg-pago-seg">60</b><span class="xs ter">segundos</span></div></div>
+          <h2 class="h2">Confirma en la app de tu banco</h2>
+          <p class="sec">Te hemos enviado una solicitud de <b>${A.eur(c.total)}</b> al <b class="num">${esc(tel)}</b>. Ábrela en la app de tu banco y acéptala.</p>
+          <p class="solo-lector" id="pg-pago-seg-sr" aria-live="polite"></p>
+        </div>
+        <div class="aviso">${ic('info',18)}<span>Es una prueba: no te llegará nada al móvil. Pulsa el botón para simular que aceptas el pago en tu banco.</span></div>
+        <button class="btn btn-g btn-bloque" type="button" id="pg-pago-bizok">Simular confirmación del banco</button>
+        <button class="btn btn-sec btn-bloque" type="button" data-cerrar>Cancelar</button>`);
+      $('#pg-pago-bizok').addEventListener('click', () => { para(); procesa(c, 'ok', 'Bizum al ••• ••• ' + tel.replace(/\D/g, '').slice(-3)) });
+      timers.push(setInterval(() => {
+        seg--;
+        const s = $('#pg-pago-seg'), arc = $('#pg-pago-arco'); if(!s) return;
+        s.textContent = seg; arc.style.strokeDashoffset = (C * (1 - seg / 60)).toFixed(1);
+        if(seg === 30 || seg === 10) $('#pg-pago-seg-sr').textContent = 'Quedan ' + seg + ' segundos';
+        if(seg <= 0){
+          para();
+          cambiaHoja(`<div class="pg-pago-res"><span class="pg-pago-res-ico">${ic('reloj',30)}</span><h2 class="h2">La solicitud ha caducado</h2>
+            <p class="sec">Han pasado 60 segundos sin respuesta del banco. No se ha cobrado nada.</p></div>
+            <button class="btn btn-g btn-bloque" type="button" id="pg-pago-bizotra">Enviar otra solicitud</button>
+            <button class="btn btn-sec btn-bloque" type="button" data-cerrar>Cancelar</button>`);
+          $('#pg-pago-bizotra').addEventListener('click', pinta);
+        }
+      }, 1000));
+    };
+    pinta();
+  }
+
+  /* procesando → resultado */
+  function procesa(c, res, metodoTxt){
+    if(!hojaCapa) abreHoja('', cancelado);
+    bloquea(true);
+    const pasos = [
+      st.metodo === 'tarjeta' ? 'Conectando con tu banco' : st.metodo === 'bizum' ? 'Bizum aceptado en tu banco' : 'Comprobando tu saldo de Apaño',
+      st.metodo === 'monedero' ? 'Descontando ' + A.eur(c.total) + ' del monedero' : 'Autorizando ' + A.eur(c.total),
+      'Reteniendo el dinero con Pago protegido',
+      'Avisando a ' + nom + ' de tu reserva'
+    ];
+    const falla = res === 'rechazada' ? 0 : res === 'fondos' ? 1 : -1;
+    const okSvg = A.icono('check',14), malSvg = A.icono('cerrar',13);
+    cambiaHoja(`<h2 class="h2">Procesando el pago</h2>
+      <p class="sm sec" style="margin-top:-8px">No cierres esta pantalla: tarda unos segundos.</p>
+      <div class="pg-pago-barrita" aria-hidden="true"><span id="pg-pago-barrita"></span></div>
+      <ol class="pg-pago-checks" role="status" aria-live="polite">${pasos.map(p => `<li><span class="pg-pago-ck">${okSvg}</span><span>${p}</span></li>`).join('')}</ol>`);
+    const lis = $$('.pg-pago-checks li', hojaCapa), barra = $('#pg-pago-barrita');
+    let i = 0;
+    const siguiente = () => {
+      if(i > 0) lis[i - 1].className = 'hecho';
+      if(i >= pasos.length){ barra.style.width = '100%'; timers.push(setTimeout(() => exito(c, metodoTxt), 500)); return }
+      lis[i].className = 'activo';
+      barra.style.width = ((i + 0.6) / pasos.length * 100) + '%';
+      if(i === falla){
+        timers.push(setTimeout(() => {
+          lis[i].className = 'mal'; lis[i].querySelector('.pg-pago-ck').innerHTML = malSvg;
+          timers.push(setTimeout(() => fallo(c, res), 650));
+        }, 900));
+        return;
+      }
+      i++;
+      timers.push(setTimeout(siguiente, i === 1 ? 950 : 750));
+    };
+    siguiente();
+  }
+  function fallo(c, res){
+    bloquea(false); terminado = true;
+    const T = res === 'rechazada'
+      ? {t:'Tu banco ha rechazado la tarjeta', p:'No se ha cobrado nada. Suele pasar cuando la tarjeta está bloqueada o tiene desactivadas las compras por internet. Prueba con otra o paga con Bizum.'}
+      : {t:'No hay saldo suficiente', p:`Tu banco dice que la tarjeta no tiene fondos para ${A.eur(c.total)}. No se ha cobrado nada. Prueba con otra tarjeta o paga con Bizum.`};
+    cambiaHoja(`<div class="pg-pago-res"><span class="pg-pago-res-ico">${A.icono('cerrar',30)}</span><h2 class="h2">${T.t}</h2><p class="sec">${T.p}</p></div>
+      <button class="btn btn-g btn-bloque" type="button" id="pg-pago-otra">Probar con otra tarjeta</button>
+      <button class="btn btn-sec btn-bloque" type="button" id="pg-pago-abizum">Pagar con Bizum</button>`);
+    $('#pg-pago-otra').addEventListener('click', () => {
+      cierraHoja(); el.num.value = ''; el.cvc.value = ''; tocado.num = tocado.cvc = false;
+      ['num','cvc'].forEach(k => { el[k].removeAttribute('aria-invalid'); err('pg-pago-' + k + '-err', ''); $(`[data-vale="${k}"]`).classList.remove('vale') });
+      pintaTarjeta(); el.num.focus();
+    });
+    $('#pg-pago-abizum').addEventListener('click', () => { cierraHoja(); eligeMetodo('bizum', true) });
+  }
+
+  /* ---------- pagar ---------- */
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    if(!A.exige('pagar')) return;
+    const fallos = [];
+    if(!st.fecha){ diasEl.setAttribute('aria-invalid', 'true'); err('pg-pago-dia-err', 'Elige qué día quieres el servicio'); fallos.push($('[data-dia]', diasEl)) }
+    const campos = st.metodo === 'tarjeta' ? ['num','cad','cvc','tit'] : st.metodo === 'bizum' ? ['biz'] : [];
+    campos.forEach(k => { if(revisa(k, true)) fallos.push(el[k]) });
+    if(st.metodo === 'monedero' && saldo() < calc().total){ eligeMetodo('tarjeta'); fallos.push(el.num) }
+    const acepto = $('#pg-pago-acepto');
+    if(!acepto.checked){
+      acepto.setAttribute('aria-invalid', 'true'); $('#pg-pago-acepto-l').setAttribute('aria-invalid', 'true');
+      err('pg-pago-acepto-err', 'Para pagar tienes que aceptar las condiciones'); fallos.push(acepto);
+    }
+    if(fallos.length){
+      fallos[0].focus({preventScroll:true});
+      fallos[0].scrollIntoView({behavior: quieto ? 'auto' : 'smooth', block:'center'});
+      A.avisa(fallos.length === 1 ? 'Te falta un dato' : 'Revisa los ' + fallos.length + ' datos marcados', 'mal');
+      return;
+    }
+    const c = calc();
+    if(!cuadra(c)) return A.avisa('No hemos podido calcular el total. Recarga la página', 'mal');
+    if(st.metodo === 'tarjeta') hoja3DS(c);
+    else if(st.metodo === 'bizum') hojaBizum(c);
+    else procesa(c, 'ok', 'Monedero de Apaño');
+  });
+
+  /* ---------- éxito ---------- */
+  function exito(c, metodoTxt){
+    bloquea(false); cierraHoja();
+    if(st.metodo === 'monedero'){
+      A.MONEDERO.saldo = r2(saldo() - c.total);
+      A.MONEDERO.movimientos.unshift({f:A.HOY, c:a.t + ' · ' + prov.corto, i:-c.total});
+    }
+    const id = 'AP-26-4' + String(Math.floor(Math.random() * 10000)).padStart(4, '0');
+    const hora = new Date().toLocaleTimeString('es-ES', {hour:'2-digit', minute:'2-digit'});
+    const d = diaSel(), fr = FR[st.franja];
+    const cuando = d.largo.charAt(0).toUpperCase() + d.largo.slice(1) + ', ' + fr.por;
+    main.innerHTML = `
+    <div class="contenedor estrecho pg-pago-exito">
+      <div class="pg-pago-ex-cab">
+        <svg class="pg-pago-ok" viewBox="0 0 76 76" aria-hidden="true"><circle cx="38" cy="38" r="34"/><path d="M24 39.5l9.5 9.5L53 29"/></svg>
+        <h1 class="h1" id="pg-pago-ex-t" tabindex="-1">Pagado. ${esc(nom)} ya tiene tu reserva</h1>
+        <p class="sec">Hemos retenido <b class="num">${A.eur(c.total)}</b> con Pago protegido. ${esc(nom)} no lo cobra hasta que confirmes que el servicio se ha hecho.</p>
+        <button class="pg-pago-pedido" type="button" data-copia="${id}" aria-label="Copiar el número de pedido ${id}">Pedido <b>${id}</b>${ic('copia',15)}</button>
+        <div class="pg-pago-ex-acc">
+          <a class="btn btn-g" href="chat.html?con=${prov.id}&amp;s=${a.id}">${A.icono('buzon',19)}Escribir a ${esc(nom)}</a>
+          <a class="btn btn-g btn-sec" href="servicios.html">Ver mis servicios</a>
+        </div>
+      </div>
+
+      <section class="pg-pago-bloque" aria-labelledby="pg-pago-ex-qp">
+        <h2 class="h3" id="pg-pago-ex-qp" style="margin-bottom:18px">Qué pasa ahora</h2>
+        <ol class="pg-pago-tl">
+          <li class="hecho"><span class="pg-pago-hito">${A.icono('check',16)}</span><div><strong>Pagado</strong><span class="d">Hoy a las ${hora}. El dinero queda retenido en Apaño.</span></div></li>
+          <li class="sig"><span class="pg-pago-hito">2</span><div><strong>Servicio</strong><span class="d">${esc(cuando)}, con ${esc(nom)}.</span></div></li>
+          <li><span class="pg-pago-hito">3</span><div><strong>Confirmas</strong><span class="d">Cuando acabe, confirmas en Mis servicios que todo ha ido bien.</span></div></li>
+          <li><span class="pg-pago-hito">4</span><div><strong>Liberamos el pago</strong><span class="d">${esc(nom)} recibe su dinero. Si algo falla, abre una incidencia antes de confirmar.</span></div></li>
+        </ol>
+      </section>
+
+      <section class="pg-pago-recibo" aria-labelledby="pg-pago-rec-t">
+        <div class="fila entre g8"><h2 class="h3" id="pg-pago-rec-t">Recibo</h2><span class="insignia insignia-marca">${A.icono('escudo',13)}Retenido</span></div>
+        <p class="xs ter num" style="margin-top:-10px">${id} · ${A.fecha(A.HOY)}, ${hora}</p>
+        <div class="pg-pago-res-serv" style="display:grid">
+          <span class="pg-pago-mini">${A.portada(a)}</span>
+          <div class="col g2 min0"><span class="sm negrita recorte">${esc(a.t)}</span><span class="xs ter">con ${esc(prov.n)}</span></div>
+        </div>
+        <dl class="pg-pago-lineas">
+          <div><dt>${esc(lineaTxt())}</dt><dd>${A.eur(lineaServ())}</dd></div>
+          ${extraVisible ? `<div><dt>Extras acordados</dt><dd>${A.eur(extraVisible)}</dd></div>` : ''}
+          <div><dt>Protección Apaño (5 % + 0,99 €)</dt><dd>${A.eur(c.prot)}</dd></div>
+          <div class="pg-pago-total"><dt>Total pagado</dt><dd>${A.eur(c.total)}</dd></div>
+        </dl>
+        <dl class="pg-pago-datos">
+          <div><dt>Método</dt><dd>${esc(metodoTxt)}</dd></div>
+          <div><dt>Cuándo</dt><dd>${esc(cuando)} (${fr.h})</dd></div>
+          <div><dt>Profesional</dt><dd>${esc(prov.n)}</dd></div>
+          ${st.nota.trim() ? `<div><dt>Tu nota</dt><dd style="font-weight:500">${esc(st.nota.trim())}</dd></div>` : ''}
+        </dl>
+        <p class="xs ter">Pago simulado en modo prueba: no se ha cobrado nada.</p>
+      </section>
+    </div>`;
+    scrollTo({top:0, behavior:'auto'});
+    const h = $('#pg-pago-ex-t'); if(h) h.focus({preventScroll:true});
+  }
+
+  /* ---------- pantallas de acceso ---------- */
+  function ibas(){
+    return `<aside class="bloque bloque-sup pg-pago-ibas" aria-label="Servicio que ibas a contratar">
+      <span class="etiqueta">Ibas a contratar</span>
+      <span class="pg-pago-mini">${A.portada(a, {texto:true})}</span>
+      <div class="col g4"><strong class="recorte">${esc(a.t)}</strong><span class="fila g6 sm sec">${A.avatar(prov,'avatar-p')}${esc(prov.corto)} · ${A.precioTxt(a)}</span></div>
+      <a class="btn btn-sec btn-bloque" href="anuncio.html?id=${a.id}">Volver al anuncio</a>
+    </aside>`;
+  }
+  function pintaAcceso(){
+    const revision = ses && !A.verificado(ses);
+    main.innerHTML = `<div class="contenedor pg-pago-acceso">
+      <div class="col g20">
+        ${revision ? `<span class="insignia insignia-avisa" style="align-self:flex-start">Identidad en revisión</span>` : `<span class="puerta-18" aria-hidden="true">18</span>`}
+        <h1 class="h1">${revision ? 'Podrás pagar en cuanto verifiquemos tu identidad' : 'Para pagar necesitas una cuenta verificada'}</h1>
+        <p class="entradilla">${revision
+          ? 'Estamos revisando tu documento. Suele tardar menos de 2 horas y te avisaremos al terminar. Mientras tanto puedes mirar anuncios y guardar favoritos.'
+          : 'En Apaño solo pueden contratar y pagar personas mayores de 18 años que han verificado su identidad. Así quien entra en tu casa y quien te paga es quien dice ser.'}</p>
+        <ul class="pg-pago-razones">
+          <li><span class="pg-pago-op-ico">${ic('adulto',20)}</span><div><strong>Solo mayores de 18</strong><span>Lo comprobamos con tu documento al darte de alta, no con una casilla.</span></div></li>
+          <li><span class="pg-pago-op-ico">${ic('doc',20)}</span><div><strong>DNI, NIE o pasaporte y un selfie</strong><span>Nunca publicamos el número de tu documento. Solo lo ve el equipo de verificación.</span></div></li>
+          <li><span class="pg-pago-op-ico">${A.icono('escudo',20)}</span><div><strong>Tu dinero protegido</strong><span>El pago queda retenido hasta que confirmas que el servicio se ha hecho.</span></div></li>
+        </ul>
+        <div class="pg-pago-acc">${revision
+          ? `<a class="btn btn-g" href="cuenta.html#verificacion">Ver el estado de mi verificación</a><a class="btn btn-g btn-sec" href="buscar.html">Seguir mirando</a>`
+          : `<a class="btn btn-g" href="registro.html">Crear cuenta</a><a class="btn btn-g btn-sec" href="entrar.html">Ya tengo cuenta</a>`}</div>
+        <a class="enlace sm" href="como-funciona.html#verificacion">Por qué pedimos el documento</a>
+      </div>
+      ${ibas()}
+    </div>`;
+  }
+  function pintaPropio(){
+    main.innerHTML = `<div class="contenedor pg-pago-acceso">
+      <div class="col g16">
+        <span class="insignia insignia-marca" style="align-self:flex-start">Tu anuncio</span>
+        <h1 class="h1">No puedes contratar tu propio servicio</h1>
+        <p class="entradilla">Este anuncio es tuyo. Cuando alguien lo contrate, verás el pedido en Mis servicios y el cobro llegará a tu monedero.</p>
+        <div class="pg-pago-acc"><a class="btn btn-g" href="servicios.html">Ir a Mis servicios</a><a class="btn btn-g btn-sec" href="monedero.html">Ver mi monedero</a></div>
+      </div>
+      ${ibas()}
+    </div>`;
+  }
+};
+</script>

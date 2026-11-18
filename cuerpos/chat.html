@@ -1,0 +1,833 @@
+<!-- titulo: Buzón | desc: Habla con quien contratas o con quien te contrata y paga siempre dentro de Apaño con Pago protegido. -->
+<style>
+.pg-chat{ padding:16px 0 }
+.pg-chat-app{ position:relative; display:grid; grid-template-columns:minmax(300px,368px) minmax(0,1fr); height:var(--pg-chat-alto,calc(100dvh - var(--cab) - 32px)); min-height:520px;
+  background:var(--fondo); border:1px solid var(--linea); border-radius:var(--r-xl); overflow:hidden; box-shadow:var(--sombra-1) }
+.pg-chat-interno{ margin-bottom:12px }
+.pg-chat-interno svg{ color:var(--marca) }
+
+/* ---- lista ---- */
+.pg-chat-lista{ display:flex; flex-direction:column; min-height:0; min-width:0; border-right:1px solid var(--linea); background:var(--fondo) }
+.pg-chat-lcab{ display:flex; flex-direction:column; gap:12px; padding:18px 16px 10px }
+.pg-chat-busca{ flex:0 0 auto; height:42px; padding-right:14px }
+.pg-chat-lupa{ display:inline-flex; color:var(--tinta-3) }
+.pg-chat-seg{ display:flex }
+.pg-chat-seg button{ flex:1; padding:0 8px }
+.pg-chat-items{ list-style:none; margin:0; padding:2px 8px 12px; overflow-y:auto; flex:1; min-height:0; overscroll-behavior:contain }
+.pg-chat-item{ position:relative; display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:center; gap:12px; padding:11px 10px; border-radius:var(--r-l);
+  transition:background .18s, transform .15s var(--ease) }
+.pg-chat-item:hover{ background:var(--sup) }
+.pg-chat-item:active{ transform:scale(.985) }
+.pg-chat-item[aria-current="true"]{ background:var(--marca-sup) }
+.pg-chat-item .avatar{ width:50px; height:50px; font-size:1rem }
+.pg-chat-it{ display:flex; flex-direction:column; gap:1px; min-width:0 }
+.pg-chat-l1,.pg-chat-l3{ display:flex; align-items:center; gap:8px; min-width:0 }
+.pg-chat-nom{ flex:1; min-width:0; font-weight:650; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+.pg-chat-hora{ flex:0 0 auto; font-size:var(--t-xs); color:var(--tinta-3) }
+.pg-chat-an{ font-size:var(--t-xs); color:var(--tinta-3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+.pg-chat-ult{ flex:1; min-width:0; font-size:var(--t-sm); color:var(--tinta-2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+.pg-chat-item.nuevo .pg-chat-hora{ color:var(--marca); font-weight:650 }
+.pg-chat-item.nuevo .pg-chat-ult{ color:var(--tinta); font-weight:600 }
+.pg-chat-cont{ flex:0 0 auto; min-width:20px; height:20px; padding:0 6px; border-radius:99px; background:var(--marca); color:white; font-size:11px; font-weight:700; display:grid; place-items:center;
+  animation:pg-chat-pop .35s var(--ease) both }
+.pg-chat-bloq-et{ flex:0 0 auto; font-size:var(--t-xs); font-weight:650; color:var(--mal) }
+.pg-chat-mini{ position:relative; display:block; width:46px; height:46px; flex:0 0 auto; border-radius:12px; overflow:hidden; background:var(--sup-2) }
+.pg-chat-mini>.portada,.pg-chat-mini>img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover }
+.pg-chat-lvacio{ display:flex; flex-direction:column; align-items:center; text-align:center; gap:10px; padding:36px 18px; color:var(--tinta-2); font-size:var(--t-sm) }
+.pg-chat-lvacio svg{ color:var(--tinta-3) }
+
+/* ---- conversación ---- */
+.pg-chat-conv{ position:relative; display:flex; flex-direction:column; min-height:0; min-width:0; background:var(--fondo) }
+.pg-chat-ccab{ display:flex; align-items:center; gap:4px; padding:10px 10px 10px 12px; min-height:66px; border-bottom:1px solid var(--linea) }
+.pg-chat-atras{ display:none }
+.pg-chat-quien{ display:flex; align-items:center; gap:11px; flex:1; min-width:0; padding:4px 6px 4px 4px; border-radius:var(--r); transition:background .18s }
+.pg-chat-quien:hover{ background:var(--sup) }
+.pg-chat-quien .avatar{ width:42px; height:42px }
+.pg-chat-qn{ display:block; font:700 var(--t-md)/1.2 var(--display); letter-spacing:-.02em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; outline:none }
+.pg-chat-qe{ display:block; font-size:var(--t-xs); color:var(--tinta-3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; transition:color .2s }
+.pg-chat .insignia svg{ flex:0 0 auto }
+.pg-chat-qe.escribe{ color:var(--marca); font-weight:650 }
+.pg-chat-tira{ display:flex; align-items:center; gap:12px; padding:10px 14px; background:var(--sup); border-bottom:1px solid var(--linea) }
+.pg-chat-tira .pg-chat-mini{ width:44px; height:44px; border-radius:11px }
+.pg-chat-tt{ display:block; font-size:var(--t-sm); font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+.pg-chat-tt:hover{ color:var(--marca) }
+.pg-chat-tp{ display:flex; align-items:center; gap:8px; margin-top:3px; min-width:0 }
+.pg-chat-tp .tarjeta-precio{ font-size:var(--t-base); white-space:nowrap }
+.pg-chat-tp .insignia{ height:22px; animation:pg-chat-pop .4s var(--ease) both }
+
+/* ---- mensajes ---- */
+.pg-chat-msgs{ flex:1; min-height:0; overflow-y:auto; overscroll-behavior:contain; padding:14px 14px 10px; display:flex; flex-direction:column }
+.pg-chat-nota{ display:flex; gap:10px; align-items:flex-start; align-self:center; max-width:470px; margin:2px 0 6px; padding:11px 14px; border-radius:var(--r-l);
+  background:var(--marca-sup); color:var(--marca-tinta); font-size:var(--t-xs); line-height:1.5 }
+.pg-chat-nota svg{ flex:0 0 auto; margin-top:1px }
+.pg-chat-dia{ align-self:center; margin:14px 0 4px; padding:5px 12px; border-radius:99px; font-size:var(--t-xs); font-weight:650; color:var(--tinta-2);
+  background:color-mix(in srgb,var(--fondo) 86%,transparent); backdrop-filter:blur(8px); box-shadow:inset 0 0 0 1px var(--linea) }
+.pg-chat-fila{ display:flex; flex-direction:column; align-items:flex-start; max-width:min(80%,520px); margin-top:3px; transform-origin:0 100% }
+.pg-chat-fila.prim{ margin-top:12px }
+.pg-chat-fila.mio{ align-self:flex-end; align-items:flex-end; transform-origin:100% 100% }
+.pg-chat-fila.sis{ align-self:center; align-items:center; max-width:min(94%,450px); margin:12px 0 4px; transform-origin:50% 100% }
+.pg-chat-fila.entra{ animation:pg-chat-entra .42s var(--ease) both }
+.pg-chat-burbuja{ position:relative; padding:8px 12px; border-radius:20px; background:var(--sup); color:var(--tinta); line-height:1.45; overflow-wrap:anywhere }
+.pg-chat-fila.mio .pg-chat-burbuja{ background:var(--marca); color:white }
+.pg-chat-fila.suyo:not(.prim) .pg-chat-burbuja{ border-top-left-radius:6px }
+.pg-chat-fila.suyo:not(.ult) .pg-chat-burbuja{ border-bottom-left-radius:6px }
+.pg-chat-fila.suyo.ult .pg-chat-burbuja{ border-bottom-left-radius:6px }
+.pg-chat-fila.mio:not(.prim) .pg-chat-burbuja{ border-top-right-radius:6px }
+.pg-chat-fila.mio .pg-chat-burbuja{ border-bottom-right-radius:6px }
+.pg-chat-t{ white-space:pre-wrap }
+.pg-chat-t::after{ content:""; display:inline-block; width:38px }
+.mio .pg-chat-t::after{ width:58px }
+.pg-chat-meta{ position:absolute; right:11px; bottom:6px; display:inline-flex; align-items:center; gap:3px; font-size:.6875rem; line-height:1; color:var(--tinta-3) }
+.mio .pg-chat-meta{ color:color-mix(in srgb,white 74%,transparent) }
+.pg-chat-check{ display:inline-flex; transition:color .3s }
+.pg-chat-check.leido{ color:white }
+.pg-chat-check svg{ display:block }
+.pg-chat-sis{ padding:6px 12px; border-radius:var(--r); background:var(--sup); font-size:var(--t-xs); color:var(--tinta-2); text-align:center; line-height:1.45 }
+.pg-chat-inicio{ display:flex; flex-direction:column; align-items:center; text-align:center; gap:8px; margin:auto 0; padding:24px 12px }
+.pg-chat-inicio.sale{ animation:pg-chat-sale .25s ease both }
+
+/* tarjeta de oferta */
+.pg-chat-oferta{ width:min(292px,100%); border-radius:20px; background:var(--fondo); border:1.5px solid var(--marca-borde); box-shadow:var(--sombra-1); overflow:hidden }
+.mio .pg-chat-oferta{ border-bottom-right-radius:6px }
+.suyo .pg-chat-oferta{ border-bottom-left-radius:6px }
+.pg-chat-of-cab{ display:flex; align-items:center; gap:7px; padding:9px 14px; background:var(--marca-sup); color:var(--marca-tinta); font-size:var(--t-xs); font-weight:700; letter-spacing:.02em; text-transform:uppercase }
+.pg-chat-of-cab time{ margin-left:auto; font-weight:600; text-transform:none; letter-spacing:0; opacity:.75 }
+.pg-chat-of-cuerpo{ display:flex; flex-direction:column; gap:6px; padding:12px 14px 14px }
+.pg-chat-of-imp{ font-size:1.875rem; line-height:1.05 }
+.pg-chat-of-con{ font-weight:600; font-size:var(--t-sm); line-height:1.4 }
+.pg-chat-of-desg{ font-size:var(--t-xs); color:var(--tinta-3); line-height:1.45 }
+.pg-chat-of-acc{ margin-top:6px }
+.pg-chat-of-acc .insignia{ height:30px; padding:0 12px; animation:pg-chat-pop .45s var(--ease) both }
+
+/* reserva / pago protegido */
+.pg-chat-reserva{ display:flex; gap:12px; align-items:flex-start; padding:13px 15px; border-radius:var(--r-l); background:var(--ok-sup); color:var(--tinta-2); font-size:var(--t-sm); line-height:1.5 }
+.pg-chat-reserva b{ display:block; color:var(--ok); font-size:var(--t-sm) }
+.pg-chat-reserva .enlace{ color:var(--ok); font-size:var(--t-xs) }
+.pg-chat-res-ico{ width:36px; height:36px; flex:0 0 auto; border-radius:12px; background:var(--ok); color:white; display:grid; place-items:center }
+
+/* escribiendo */
+.pg-chat-puntos{ display:inline-flex; align-items:center; gap:4px; height:38px; padding:0 15px }
+.pg-chat-puntos i{ width:7px; height:7px; border-radius:50%; background:var(--tinta-3); animation:pg-chat-bota .7s var(--ease) 2 }
+.pg-chat-puntos i:nth-child(2){ animation-delay:.12s }
+.pg-chat-puntos i:nth-child(3){ animation-delay:.24s }
+
+/* ---- pie: aviso, respuestas rápidas y redacción ---- */
+.pg-chat-pie{ display:flex; flex-direction:column; gap:10px; padding:10px 12px 12px; border-top:1px solid var(--linea); background:var(--fondo) }
+.pg-chat-alerta{ display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:10px; align-items:start; padding:10px 10px 11px 12px; border-radius:var(--r-l);
+  background:var(--avisa-sup); color:var(--tinta-2); font-size:var(--t-xs); line-height:1.45; animation:pg-chat-franja .38s var(--ease) both }
+.pg-chat-alerta>svg{ color:var(--avisa); margin-top:1px }
+.pg-chat-alerta b{ display:block; color:var(--avisa); font-size:var(--t-sm); margin-bottom:1px }
+.pg-chat-alerta .enlace{ white-space:nowrap }
+.pg-chat-alerta .btn{ height:30px; padding:0 12px; font-size:var(--t-xs) }
+.pg-chat-rapidas{ padding-bottom:1px }
+.pg-chat-rapidas .chip{ flex:0 0 auto; height:34px; padding:0 14px; font-size:var(--t-xs) }
+.pg-chat-rapidas .chip:active{ transform:scale(.95) }
+.pg-chat-redacta{ display:flex; align-items:flex-end; gap:8px }
+.pg-chat-caja{ flex:1; min-width:0; display:flex; align-items:flex-end; padding:0 16px; border-radius:24px; background:var(--sup); border:1.5px solid transparent;
+  transition:border-color .18s, background .18s, box-shadow .18s }
+.pg-chat-caja:focus-within{ background:var(--fondo); border-color:var(--marca); box-shadow:0 0 0 4px var(--marca-sup) }
+.pg-chat-caja textarea{ flex:1; min-width:0; height:45px; max-height:140px; padding:11px 0; border:0; outline:none; background:transparent; resize:none; line-height:1.45; font-size:var(--t-base) }
+.pg-chat-caja textarea::placeholder{ color:var(--tinta-3) }
+.pg-chat-redonda{ width:48px; height:48px; flex:0 0 auto; border-radius:50%; border:0; display:grid; place-items:center; background:var(--marca); color:white;
+  transition:transform .18s var(--ease), background .18s, opacity .2s }
+.pg-chat-redonda:hover{ background:var(--marca-2) }
+.pg-chat-redonda:active{ transform:scale(.9) }
+.pg-chat-redonda[disabled]{ opacity:.32; cursor:default; transform:none }
+.pg-chat-redonda.suave{ background:var(--marca-sup); color:var(--marca-tinta) }
+.pg-chat-redonda.suave:hover{ background:var(--marca-borde) }
+.pg-chat-bloqueado{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 14px; border-radius:var(--r-l); background:var(--sup); font-size:var(--t-sm); color:var(--tinta-2) }
+
+/* ---- menú de la conversación ---- */
+.pg-chat-menu-env{ position:relative }
+.pg-chat-menu{ position:absolute; right:0; top:calc(100% + 6px); z-index:20; min-width:240px; padding:6px; border-radius:var(--r-l); background:var(--fondo); border:1px solid var(--linea);
+  box-shadow:var(--sombra-3); transform-origin:top right; opacity:0; transform:translateY(-4px) scale(.94); visibility:hidden;
+  transition:opacity .16s, transform .22s var(--ease), visibility 0s linear .22s }
+.pg-chat-menu.abierto{ opacity:1; transform:none; visibility:visible; transition:opacity .16s, transform .22s var(--ease), visibility 0s }
+.pg-chat-menu [role="menuitem"]{ display:flex; align-items:center; gap:10px; width:100%; padding:11px 12px; border:0; border-radius:var(--r); background:none;
+  font-size:var(--t-sm); font-weight:600; color:var(--tinta); text-align:left; transition:background .15s }
+.pg-chat-menu [role="menuitem"]:hover,.pg-chat-menu [role="menuitem"]:focus-visible{ background:var(--sup); outline:none }
+.pg-chat-menu [role="menuitem"] svg{ color:var(--tinta-3) }
+.pg-chat-menu .mal,.pg-chat-menu .mal svg{ color:var(--mal) }
+.pg-chat-menu hr{ border:0; height:1px; background:var(--linea); margin:5px 6px }
+
+/* ---- vacío, puerta y hojas ---- */
+.pg-chat-vacio{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:32px; text-align:center }
+.pg-chat-vacio-ico{ width:84px; height:84px; border-radius:28px; display:grid; place-items:center; background:var(--marca-sup); color:var(--marca) }
+.pg-chat-consejos{ display:grid; gap:10px; width:100%; max-width:400px; margin:10px 0 0; padding:0; list-style:none; text-align:left }
+.pg-chat-consejos li{ display:flex; gap:12px; align-items:flex-start; padding:12px 14px; border-radius:var(--r-l); background:var(--sup); font-size:var(--t-sm); color:var(--tinta-2); line-height:1.45 }
+.pg-chat-consejos li svg{ flex:0 0 auto; color:var(--marca); margin-top:1px }
+.pg-chat-consejos b{ color:var(--tinta) }
+.pg-chat-puerta{ max-width:560px; margin:20px auto 8px; padding:24px 0; display:flex; flex-direction:column; align-items:center; gap:16px; text-align:center }
+.pg-chat-puerta-ico{ position:relative; width:96px; height:96px; border-radius:30px; display:grid; place-items:center; background:var(--marca); color:white; box-shadow:0 18px 36px -18px var(--marca);
+  animation:pg-chat-pop .5s var(--ease) both }
+.pg-chat-puerta-ico::after{ content:"18"; position:absolute; right:-12px; top:-10px; width:38px; height:38px; border-radius:50%; display:grid; place-items:center;
+  background:var(--sol); color:var(--sol-tinta); font:800 .9rem/1 var(--display); letter-spacing:-.04em; border:3px solid var(--fondo) }
+.pg-chat-puerta-txt{ max-width:46ch }
+.pg-chat-puerta-btns{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:4px }
+.pg-chat-puerta .pg-chat-consejos{ margin-top:14px }
+.pg-chat-hoja{ padding-top:26px }
+.pg-chat-euro{ position:relative }
+.pg-chat-euro .ent{ padding-right:42px; font:700 var(--t-lg) var(--display); letter-spacing:-.02em }
+.pg-chat-euro span{ position:absolute; right:16px; top:50%; translate:0 -50%; font-weight:700; color:var(--tinta-3) }
+.pg-chat-resumen{ display:grid; gap:8px; padding:14px 16px; border-radius:var(--r-l); background:var(--sup); font-size:var(--t-sm); color:var(--tinta-2) }
+.pg-chat-resumen div{ display:flex; justify-content:space-between; gap:12px }
+.pg-chat-resumen b{ color:var(--tinta); font-variant-numeric:tabular-nums }
+.pg-chat-motivos{ border:0; margin:0; padding:0; display:grid; gap:8px }
+.pg-chat-motivos legend{ font-size:var(--t-sm); font-weight:600; margin-bottom:8px; padding:0 }
+.pg-chat-motivos .opcion{ padding:12px 14px; font-size:var(--t-sm); font-weight:600 }
+.pg-chat-hoja-ico{ width:56px; height:56px; border-radius:18px; display:grid; place-items:center; background:var(--mal-sup); color:var(--mal) }
+
+@keyframes pg-chat-entra{ from{ opacity:0; transform:translateY(12px) scale(.94) } }
+@keyframes pg-chat-pop{ 0%{ transform:scale(.6); opacity:0 } 60%{ transform:scale(1.08); opacity:1 } }
+@keyframes pg-chat-bota{ 0%,100%{ transform:none; opacity:.45 } 40%{ transform:translateY(-4px); opacity:1 } }
+@keyframes pg-chat-franja{ from{ opacity:0; transform:translateY(10px) } }
+@keyframes pg-chat-sale{ to{ opacity:0; transform:scale(.96) } }
+
+@media (min-width:861px){
+  .pg-chat-msgs{ padding:16px 26px 12px }
+  .pg-chat-pie{ padding:10px 18px 16px }
+}
+@media (max-width:860px){
+  .pg-chat{ padding:0 }
+  .pg-chat>.contenedor{ padding-left:0; padding-right:0 }
+  .pg-chat-interno{ margin:10px 16px }
+  .pg-chat-app{ grid-template-columns:minmax(0,1fr); height:var(--pg-chat-alto,calc(100dvh - 118px - var(--barra))); min-height:380px; border:0; border-radius:0; box-shadow:none }
+  .pg-chat-lista,.pg-chat-conv{ grid-area:1/1 }
+  .pg-chat-lista{ border-right:0; transition:transform .42s var(--ease), opacity .42s var(--ease), visibility 0s }
+  .pg-chat-conv{ transform:translateX(100%); visibility:hidden; box-shadow:var(--sombra-3); transition:transform .42s var(--ease), visibility 0s linear .42s }
+  .pg-chat-app[data-vista="conv"] .pg-chat-conv{ transform:none; visibility:visible; transition:transform .42s var(--ease), visibility 0s }
+  .pg-chat-app[data-vista="conv"] .pg-chat-lista{ transform:translateX(-22%); opacity:0; visibility:hidden;
+    transition:transform .42s var(--ease), opacity .42s var(--ease), visibility 0s linear .42s }
+  .pg-chat-app.sin-anim .pg-chat-lista,.pg-chat-app.sin-anim .pg-chat-conv{ transition:none!important }
+  .pg-chat-atras{ display:inline-grid }
+  .pg-chat-ccab{ padding-left:4px }
+  .pg-chat-caja textarea{ font-size:16px }
+  .pg-chat-vacio{ display:none }
+}
+@media (max-width:420px){
+  .pg-chat-tira{ gap:10px; padding:9px 12px }
+  .pg-chat-tira .btn{ padding:0 13px }
+  .pg-chat-fila{ max-width:86% }
+}
+</style>
+<main id="contenido" class="pg-chat">
+  <div class="contenedor" id="pgChatRaiz">
+    <div class="pg-chat-app" aria-busy="true">
+      <div class="pg-chat-lista"><div class="pg-chat-lcab"><div class="esqueleto" style="height:30px;width:42%"></div><div class="esqueleto" style="height:42px"></div><div class="esqueleto" style="height:44px"></div></div></div>
+      <div class="pg-chat-conv"></div>
+    </div>
+  </div>
+</main>
+<script>
+A.pagina = function(){
+  const raiz = A.$('#pgChatRaiz');
+  if(!raiz) return;
+  const yo = A.sesion();
+  const P = new URLSearchParams(location.search);
+  const esMovil = () => matchMedia('(max-width:860px)').matches;
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const ic = (d, t, g) => `<svg width="${t||20}" height="${t||20}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${g||1.9}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
+  const IC = {
+    atras:'M15 5l-7 7 7 7',
+    mas:'M5.5 12h.01M12 12h.01M18.5 12h.01',
+    enviar:'M21 3 10.4 13.6M21 3l-6.6 18-4-7.4L3 9.6z',
+    uno:'M5 12.5l4.2 4.2L19 7',
+    doble:'M1.8 12.8l4 4 9.6-9.6M11.2 16.2l.6.6 9.6-9.6',
+    etiqueta:'M3.5 3.5h7.8l9.2 9.2-7.8 7.8-9.2-9.2zM8 8h.01',
+    bloquear:'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM5.6 5.6l12.8 12.8',
+    bandera:'M5.5 21V4M5.5 4.5h12L15 9l2.5 4.5h-12',
+    aviso:'M12 4 2.8 19.5h18.4zM12 10v4.2M12 16.9v.1',
+    reloj:'M12 20.5a8.5 8.5 0 1 0 0-17 8.5 8.5 0 0 0 0 17zM12 7.5V12l3 2',
+    candado:'M6.5 10.5h11v9.5h-11zM9 10.5V8a3 3 0 0 1 6 0v2.5',
+    ficha:'M6 3.5h8.5L18 7v13.5H6zM14 3.5v4h4M9 12h6M9 15.5h4'
+  };
+  const nom = u => u ? u.corto.split(' ')[0] : '';
+  const pad = n => String(n).padStart(2,'0');
+  const isoLocal = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  const dia = h => String(h||'').slice(0,10);
+  const AYER = (()=>{ const d = new Date(A.HOY+'T12:00'); d.setDate(d.getDate()-1); return isoLocal(d).slice(0,10) })();
+  const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+  const etDia = d => d===A.HOY ? 'Hoy' : d===AYER ? 'Ayer' : cap(new Date(d+'T12:00').toLocaleDateString('es-ES',{weekday:'long', day:'numeric', month:'long'}));
+  const cuando = h => dia(h)===A.HOY ? A.hora(h) : dia(h)===AYER ? 'ayer' : A.fechaCorta(h);
+  const ahora = tras => { const d = new Date(); let h = A.HOY+'T'+pad(d.getHours())+':'+pad(d.getMinutes());
+    if(tras && h <= tras){ const x = new Date(tras); x.setMinutes(x.getMinutes()+1); h = isoLocal(x) } return h };
+  const prot = n => Math.round((n*0.05 + 0.99)*100)/100;
+  const minus = s => s ? s.charAt(0).toLowerCase() + s.slice(1) : '';
+  const enLista = l => l.length < 2 ? l.join('') : l.slice(0,-1).join(', ') + ' y ' + l[l.length-1];
+
+  /* ---------- pantallas sin acceso ---------- */
+  const CONSEJOS = [
+    ['escudo','<b>Solo mayores de 18 verificados.</b> Todo el que escribe ha presentado DNI, NIE o pasaporte y un selfie.'],
+    ['candado','<b>Tu documento no se publica nunca.</b> Solo lo ve el equipo de verificación.'],
+    ['check','<b>Pagas dentro de Apaño.</b> Con Pago protegido, si algo sale mal, te devolvemos el dinero.']
+  ];
+  const consejos = () => `<ul class="pg-chat-consejos">${CONSEJOS.map(c=>`<li>${c[0]==='candado'?ic(IC.candado,18):A.icono(c[0],18)}<span>${c[1]}</span></li>`).join('')}</ul>`;
+  const destino = (()=>{ const u = A.usuario(P.get('con')); return u && u.rol==='usuario' ? u : null })();
+  const puerta = o => { raiz.innerHTML = `<section class="pg-chat-puerta" aria-labelledby="pgChatPT">
+      <span class="pg-chat-puerta-ico">${A.icono('buzon',40)}</span>
+      ${o.insignia||''}
+      <h1 class="h1" id="pgChatPT">${o.titulo}</h1>
+      <p class="sec pg-chat-puerta-txt">${o.texto}</p>
+      <div class="pg-chat-puerta-btns">${o.botones}</div>
+      ${consejos()}
+    </section>` };
+  if(!yo){
+    puerta({titulo:'Entra para hablar con la gente de Apaño',
+      texto:`Para escribir ${destino ? 'a '+esc(destino.corto) : 'a alguien'} necesitas una cuenta con la identidad verificada. Así todos sabemos que hablamos con personas reales y mayores de edad.`,
+      botones:'<a class="btn btn-g" href="registro.html">Crear cuenta</a><a class="btn btn-sec btn-g" href="entrar.html">Ya tengo cuenta</a>'});
+    return;
+  }
+  const interno = ['moderador','admin'].includes(yo.rol);
+  if(!interno && !A.verificado(yo)){
+    puerta({insignia:'<span class="insignia insignia-avisa">Identidad en revisión</span>',
+      titulo:'Podrás escribir en cuanto verifiquemos tu identidad',
+      texto:`Estamos revisando tu documento: suele tardar menos de 2 horas. ${destino ? 'Después podrás escribir a '+esc(destino.corto)+'.' : 'Después podrás escribir, contratar y publicar.'} Mientras tanto puedes mirar anuncios y guardar favoritos.`,
+      botones:'<a class="btn btn-g" href="cuenta.html#verificacion">Ver mi verificación</a><a class="btn btn-sec btn-g" href="buscar.html">Mirar anuncios</a>'});
+    return;
+  }
+
+  /* ---------- buzón ---------- */
+  const chats = yo.id==='u1' ? A.CHATS : [];
+  let actual = null, filtro = 'todos', q = '', tRiesgo = 0, tCierre = 0, empujado = false;
+  raiz.innerHTML = `${interno ? `<div class="aviso aviso-marca pg-chat-interno" role="note">${A.icono('escudo',20)}<p><b>Este es tu buzón interno.</b> Las cuentas del equipo de Apaño no contratan ni venden, así que aquí no te escribirán usuarios. Las conversaciones reportadas se revisan desde <a class="enlace" href="admin.html">Moderación</a>.</p></div>` : ''}
+    <div class="pg-chat-app" id="pgChatApp" data-vista="lista">
+      <section class="pg-chat-lista" aria-labelledby="pgChatTit">
+        <div class="pg-chat-lcab">
+          <div class="fila entre g8"><h1 class="h2" id="pgChatTit">Buzón</h1><span class="insignia insignia-marca" id="pgChatNoLeidos" hidden></span></div>
+          <div class="buscador pg-chat-busca"><span class="pg-chat-lupa">${A.icono('lupa',18)}</span><label class="solo-lector" for="pgChatBusca">Buscar en tus conversaciones</label><input id="pgChatBusca" type="search" placeholder="Buscar persona o anuncio" autocomplete="off"></div>
+          <div class="seg pg-chat-seg" role="group" aria-label="Filtrar conversaciones">
+            <button type="button" data-filtro="todos" aria-pressed="true">Todos</button>
+            <button type="button" data-filtro="cliente" aria-pressed="false">Comprando</button>
+            <button type="button" data-filtro="proveedor" aria-pressed="false">Vendiendo</button>
+          </div>
+        </div>
+        <ul class="pg-chat-items" id="pgChatItems" aria-label="Conversaciones"></ul>
+      </section>
+      <section class="pg-chat-conv" id="pgChatConv" aria-label="Conversación"></section>
+    </div>`;
+  const app = A.$('#pgChatApp'), conv = A.$('#pgChatConv'), items = A.$('#pgChatItems');
+
+  function ajustaAlto(){
+    const barra = A.$('.tabbar');
+    const arriba = app.getBoundingClientRect().top + scrollY;
+    const abajo = esMovil() ? (barra && barra.offsetHeight || 64) : 16;
+    app.style.setProperty('--pg-chat-alto', Math.max(esMovil() ? 380 : 520, Math.round(innerHeight - arriba - abajo)) + 'px');
+  }
+  ajustaAlto();
+  addEventListener('resize', ajustaAlto);
+
+  /* ---------- utilidades de conversación ---------- */
+  const otro = c => A.usuario(c.con);
+  const sinLeerTotal = () => chats.reduce((n,c)=>n+(c.sinLeer||0),0);
+  function actualizaPunto(){
+    const n = sinLeerTotal();
+    const et = A.$('#pgChatNoLeidos');
+    if(et){ et.hidden = !n; et.textContent = n + (n===1 ? ' sin leer' : ' sin leer') }
+    if(yo.id!=='u1') return;
+    A.$$('[data-punto-buzon]').forEach(el=>{
+      let p = el.querySelector('.punto-aviso');
+      if(!n){ if(p) p.remove(); return }
+      if(!p){ el.insertAdjacentHTML('beforeend','<span class="punto-aviso"></span>'); p = el.querySelector('.punto-aviso') }
+      p.textContent = n;
+    });
+  }
+  const previa = c => {
+    const m = c.msgs[c.msgs.length-1];
+    if(!m) return 'Conversación nueva: di hola';
+    if(m.tipo==='oferta') return (m.de==='yo' ? 'Has enviado una oferta de ' : 'Oferta: ') + A.eur(m.importe);
+    if(m.tipo==='reserva') return 'Pago protegido activado';
+    if(m.de==='sistema') return m.t;
+    return (m.de==='yo' ? 'Tú: ' : '') + m.t;
+  };
+  const ESTADO = {
+    consulta:['','Consulta'],
+    negociando:['insignia-marca','Negociando'],
+    reservado:['insignia-ok', A.icono('escudo',13)+'Pago protegido'],
+    completado:['', A.icono('check',13)+'Completado']
+  };
+
+  /* riesgo: pagos o contacto fuera de la app */
+  function riesgo(texto){
+    const t = String(texto||'');
+    if(/\bbizum\b|transferencia|\befectivo\b|fuera de (la )?(app|aplicaci[oó]n|apa[ñn]o)/i.test(t)) return 'pago';
+    const iban = t.match(/\b[a-z]{2}\d{2}(?:[\s-]?[a-z0-9]{4}){3,7}\b/i);
+    if(iban && (iban[0].match(/\d/g)||[]).length >= 10) return 'pago';
+    if(/(?:\+?34)?[6789]\d{8}\b/.test(t.replace(/(\d)[\s.-]+(?=\d)/g,'$1'))) return 'contacto';
+    if(/\bhttps?:\/\/|\bwww\.|\b[a-z0-9-]{2,}\.(com|es|net|org|me|ly|io|link|app|info|example)\b/i.test(t)) return 'contacto';
+    return null;
+  }
+
+  /* ---------- lista ---------- */
+  function pintaLista(){
+    const qq = q.trim().toLowerCase();
+    const lista = chats.filter(c=>{
+      if(filtro!=='todos' && c.rolYo!==filtro) return false;
+      if(!qq) return true;
+      const u = otro(c), a = A.anuncio(c.s);
+      return [u.n, a.t, ...c.msgs.map(m=>m.t||m.concepto||'')].join(' ').toLowerCase().includes(qq);
+    }).sort((a,b)=>String(b.ult).localeCompare(String(a.ult)));
+    if(!chats.length){
+      items.innerHTML = `<li class="pg-chat-lvacio">${A.icono('buzon',34)}<b class="md">${interno ? 'Sin conversaciones' : 'Aún no tienes conversaciones'}</b><span>${interno ? 'Tu cuenta es del equipo: aquí no llegan mensajes de usuarios.' : 'Cuando escribas a alguien desde un anuncio, la conversación aparecerá aquí.'}</span>${interno ? '<a class="btn btn-sec btn-p" href="admin.html">Ir a Moderación</a>' : '<a class="btn btn-p" href="buscar.html">Buscar servicios</a>'}</li>`;
+    } else if(!lista.length){
+      items.innerHTML = `<li class="pg-chat-lvacio">${A.icono('lupa',30)}<b>Nada por aquí</b><span>${qq ? 'No hay conversaciones con «'+esc(q.trim())+'».' : filtro==='cliente' ? 'No estás contratando nada ahora mismo.' : 'Nadie te está contratando ahora mismo.'}</span></li>`;
+    } else {
+      items.innerHTML = lista.map(c=>{
+        const u = otro(c), a = A.anuncio(c.s);
+        return `<li><a class="pg-chat-item${c.sinLeer?' nuevo':''}" href="chat.html?c=${c.id}" data-c="${c.id}"${actual && actual.id===c.id ? ' aria-current="true"' : ''}>
+          ${A.avatar(u)}
+          <span class="pg-chat-it">
+            <span class="pg-chat-l1"><span class="pg-chat-nom">${esc(u.n)}</span><time class="pg-chat-hora" datetime="${c.ult}">${cuando(c.ult)}</time></span>
+            <span class="pg-chat-an">${esc(a.t)}</span>
+            <span class="pg-chat-l3"><span class="pg-chat-ult">${esc(previa(c))}</span>${c.bloqueado ? '<span class="pg-chat-bloq-et">Bloqueado</span>' : ''}${c.sinLeer ? `<span class="pg-chat-cont"><span class="solo-lector">Sin leer: </span>${c.sinLeer}</span>` : ''}</span>
+          </span>
+          <span class="pg-chat-mini">${A.portada(a)}</span>
+        </a></li>`;
+      }).join('');
+    }
+    actualizaPunto();
+  }
+
+  /* ---------- conversación ---------- */
+  function pintaVacio(){
+    conv.setAttribute('aria-label','Conversación');
+    conv.innerHTML = `<div class="pg-chat-vacio">
+      <span class="pg-chat-vacio-ico">${A.icono('buzon',38)}</span>
+      <h2 class="h3">${interno ? 'Buzón interno' : chats.length ? 'Elige una conversación' : 'Tu buzón está listo'}</h2>
+      ${interno ? '<p class="sec sm" style="max-width:40ch">Las conversaciones que reportan los usuarios se revisan desde Moderación, con el historial completo.</p><a class="btn btn-sec" href="admin.html">Ir a Moderación</a>'
+        : '<p class="sec sm" style="max-width:40ch">Aquí hablas con quien contratas y con quien te contrata. Tres cosas que conviene saber:</p>' + consejos()}
+    </div>`;
+  }
+  const quieroPagar = (c, i) => { const sig = c.msgs.slice(i+1).find(m=>m.tipo==='oferta' || m.tipo==='reserva'); return !!(sig && sig.tipo==='reserva') };
+  function ofertaAcc(c, i){
+    const m = c.msgs[i], u = otro(c);
+    if(quieroPagar(c, i)) return `<span class="insignia insignia-ok">${A.icono('check',14)}Aceptada y pagada</span>`;
+    if(m.de==='yo') return `<span class="insignia insignia-avisa">${ic(IC.reloj,14)}Esperando a que ${esc(nom(u))} la acepte</span>`;
+    if(c.rolYo==='cliente') return `<button class="btn btn-bloque" type="button" data-acepta="${i}">Aceptar y pagar</button>`;
+    return '';
+  }
+  function filaHTML(c, i, nueva){
+    const m = c.msgs[i], prev = c.msgs[i-1], sig = c.msgs[i+1], u = otro(c);
+    let h = (!prev || dia(prev.h)!==dia(m.h)) ? `<p class="pg-chat-dia"><span>${etDia(dia(m.h))}</span></p>` : '';
+    const an = nueva ? ' entra' : '';
+    if(m.tipo==='reserva'){
+      const ruta = c.rolYo==='cliente' ? 'compro' : 'vendo';
+      return h + `<div class="pg-chat-fila sis${an}" data-i="${i}"><div class="pg-chat-reserva"><span class="pg-chat-res-ico">${A.icono('escudo',19)}</span><div class="col g4"><div><b>Pago protegido</b>${esc(m.t)}</div><a class="enlace" href="servicios.html#${ruta}">Ver el pedido</a></div></div></div>`;
+    }
+    if(m.de==='sistema') return h + `<div class="pg-chat-fila sis${an}" data-i="${i}"><p class="pg-chat-sis">${esc(m.t)}</p></div>`;
+    const lado = m.de==='yo' ? 'mio' : 'suyo';
+    if(m.tipo==='oferta'){
+      const p = prot(m.importe);
+      return h + `<div class="pg-chat-fila ${lado} prim ult${an}" data-i="${i}">
+        <div class="pg-chat-oferta" data-oferta-i="${i}">
+          <div class="pg-chat-of-cab">${ic(IC.etiqueta,15,2)}<span>${m.de==='yo' ? 'Tu oferta' : 'Oferta de '+esc(nom(u))}</span><time datetime="${m.h}">${A.hora(m.h)}</time></div>
+          <div class="pg-chat-of-cuerpo">
+            <span class="cifra pg-chat-of-imp">${A.eur(m.importe)}</span>
+            <p class="pg-chat-of-con">${esc(m.concepto)}</p>
+            <p class="pg-chat-of-desg">${m.de==='yo' ? 'Recibes '+A.eur(m.importe)+' cuando '+esc(nom(u))+' confirme que está hecho.' : 'Más '+A.eur(p)+' de Pago protegido · total '+A.eur(Math.round((m.importe+p)*100)/100)}</p>
+            <div class="pg-chat-of-acc">${ofertaAcc(c, i)}</div>
+          </div>
+        </div></div>`;
+    }
+    const mismo = x => x && x.de===m.de && x.tipo==='txt' && x.de!=='sistema' && dia(x.h)===dia(m.h);
+    const cls = (mismo(prev) ? '' : ' prim') + (mismo(sig) ? '' : ' ult');
+    const check = m.de==='yo' ? `<span class="pg-chat-check${m.est==='enviado' ? '' : ' leido'}" data-check="${i}">${m.est==='enviado' ? ic(IC.uno,14,2.2)+'<span class="solo-lector">Enviado</span>' : ic(IC.doble,17,2)+'<span class="solo-lector">Leído</span>'}</span>` : '';
+    return h + `<div class="pg-chat-fila ${lado}${cls}${an}" data-i="${i}"><div class="pg-chat-burbuja"><span class="pg-chat-t">${esc(m.t)}</span><span class="pg-chat-meta"><time datetime="${m.h}">${A.hora(m.h)}</time>${check}</span></div></div>`;
+  }
+  const notaHTML = c => { const u = otro(c);
+    return `<div class="pg-chat-nota">${A.icono('escudo',17)}<p><b>${esc(nom(u))} ha verificado su identidad</b> con documento oficial. Habla y paga siempre por Apaño: nunca te pediremos la tarjeta por chat.</p></div>` };
+  const inicioHTML = c => { const u = otro(c), a = A.anuncio(c.s);
+    return `<div class="pg-chat-inicio">${A.avatar(u,'avatar-g')}<h2 class="h3">Escribe a ${esc(nom(u))}</h2><p class="sm sec" style="max-width:34ch">Sobre «${esc(a.t)}». Suele responder ${esc(u.responde)}.</p></div>` };
+  function rapidas(c){
+    if(c.bloqueado) return [];
+    if(!c.msgs.length) return c.rolYo==='cliente' ? ['Hola, ¿tienes disponibilidad esta semana?','¿Cuánto costaría en mi caso?','¿Trabajas en mi zona?'] : ['¡Hola! ¿En qué te puedo ayudar?','¿Qué día te va bien?'];
+    if(c.rolYo==='proveedor') return c.estado==='reservado' ? ['¡Gracias! Nos vemos el día acordado','¿Te va bien a las 10?'] : ['Te mando la oferta ahora','¿Qué día te va bien?','¡Gracias por confiar en mí!'];
+    if(c.estado==='reservado') return ['Bajo yo, sin problema','¿A qué hora llegas?','¡Gracias!'];
+    if(c.estado==='completado') return ['¡Todo perfecto, gracias!','¿Tienes hueco el mes que viene?'];
+    return ['¿Tienes hueco esta semana?','¿Qué incluye el precio?','¿Me mandas una oferta?'];
+  }
+  const rapidasHTML = c => { const ya = new Set(c.msgs.filter(m=>m.de==='yo').map(m=>m.t)); return rapidas(c).filter(t=>!ya.has(t)).map(t=>`<button class="chip" type="button" data-rapida>${esc(t)}</button>`).join('') };
+  function tiraHTML(c){
+    const a = A.anuncio(c.s), e = ESTADO[c.estado] || ESTADO.consulta;
+    let acc;
+    if(c.estado==='reservado' || c.estado==='completado') acc = `<a class="btn btn-sec btn-p" href="servicios.html#${c.rolYo==='cliente'?'compro':'vendo'}">Ver pedido</a>`;
+    else if(c.rolYo==='proveedor') acc = c.bloqueado ? '' : `<button class="btn btn-p" type="button" data-oferta>Enviar oferta</button>`;
+    else acc = c.bloqueado ? '' : `<button class="btn btn-p" type="button" data-contratar>Contratar</button>`;
+    return `<a class="pg-chat-mini" href="anuncio.html?id=${a.id}" tabindex="-1" aria-hidden="true">${A.portada(a)}</a>
+      <div class="crecer min0"><a class="pg-chat-tt" href="anuncio.html?id=${a.id}">${esc(a.t)}</a>
+        <div class="pg-chat-tp"><span class="tarjeta-precio">${A.precio(a)}</span><span class="insignia ${e[0]}">${e[1]}</span></div></div>
+      ${acc}`;
+  }
+  function pieHTML(c){
+    const u = otro(c);
+    if(c.bloqueado) return `<div class="pg-chat-bloqueado"><span>Has bloqueado a ${esc(nom(u))}. No puede escribirte.</span><button class="btn btn-sec btn-p" type="button" data-desbloquear>Desbloquear</button></div>`;
+    return `<div id="pgChatAlerta"></div>
+      <div class="chips pg-chat-rapidas" id="pgChatRapidas" role="group" aria-label="Respuestas rápidas">${rapidasHTML(c)}</div>
+      <form class="pg-chat-redacta" id="pgChatForm" novalidate>
+        ${c.rolYo==='proveedor' ? `<button class="pg-chat-redonda suave" type="button" data-oferta aria-label="Enviar oferta" title="Enviar oferta">${ic(IC.etiqueta,20,2)}</button>` : ''}
+        <div class="pg-chat-caja"><label class="solo-lector" for="pgChatTexto">Mensaje para ${esc(nom(u))}</label><textarea id="pgChatTexto" rows="1" placeholder="Escribe un mensaje…" enterkeyhint="send" maxlength="1000"></textarea></div>
+        <button class="pg-chat-redonda" type="submit" id="pgChatEnviar" aria-label="Enviar mensaje" disabled>${ic(IC.enviar,20,2)}</button>
+      </form>`;
+  }
+  function pintaConv(){
+    const c = actual, u = otro(c), a = A.anuncio(c.s);
+    conv.setAttribute('aria-label','Conversación con '+u.n);
+    conv.innerHTML = `<header class="pg-chat-ccab">
+        <button class="ico-btn pg-chat-atras" type="button" data-atras aria-label="Volver a las conversaciones">${ic(IC.atras,22,2.2)}</button>
+        <a class="pg-chat-quien" href="perfil.html?id=${u.id}">${A.avatar(u)}<span class="min0"><span class="pg-chat-qn" id="pgChatQn" tabindex="-1">${esc(u.n)}</span><span class="pg-chat-qe" id="pgChatQe">${A.verificado(u) ? 'Verificada · ' : ''}responde ${esc(u.responde)}</span></span></a>
+        <div class="pg-chat-menu-env">
+          <button class="ico-btn" type="button" id="pgChatMas" aria-haspopup="menu" aria-expanded="false" aria-controls="pgChatMenu" aria-label="Más opciones">${ic(IC.mas,22,3)}</button>
+          <div class="pg-chat-menu" id="pgChatMenu" role="menu" aria-label="Opciones de la conversación">
+            <a role="menuitem" href="perfil.html?id=${u.id}">${A.icono('persona',18)}Ver el perfil de ${esc(nom(u))}</a>
+            <a role="menuitem" href="anuncio.html?id=${a.id}">${ic(IC.ficha,18)}Ver el anuncio</a>
+            <hr>
+            <button role="menuitem" type="button" data-menu="bloquear">${ic(IC.bloquear,18)}${c.bloqueado ? 'Desbloquear a ' : 'Bloquear a '}${esc(nom(u))}</button>
+            <button role="menuitem" type="button" class="mal" data-menu="reportar">${ic(IC.bandera,18)}Reportar a ${esc(nom(u))}</button>
+          </div>
+        </div>
+      </header>
+      <div class="pg-chat-tira" id="pgChatTira">${tiraHTML(c)}</div>
+      <div class="pg-chat-msgs" id="pgChatMsgs" role="log" aria-live="polite" aria-label="Mensajes">${notaHTML(c)}${c.msgs.length ? c.msgs.map((m,i)=>filaHTML(c,i)).join('') : inicioHTML(c)}</div>
+      <div class="pg-chat-pie" id="pgChatPie">${pieHTML(c)}</div>`;
+    const ms = A.$('#pgChatMsgs'); ms.scrollTop = ms.scrollHeight;
+    const r = c.msgs.map(m=>m.de!=='sistema' ? riesgo(m.t) : null).find(Boolean);
+    if(r) muestraAlerta(r, true);
+  }
+  const msgsEl = () => A.$('#pgChatMsgs', conv);
+  const alFondo = suave => { const ms = msgsEl(); if(ms) ms.scrollTo({top:ms.scrollHeight, behavior: suave ? 'smooth' : 'auto'}) };
+
+  function abre(c, op){
+    op = op || {};
+    clearTimeout(tCierre);
+    cierraMenu();
+    actual = c;
+    if(c.sinLeer){ c.sinLeer = 0 }
+    pintaConv(); pintaLista();
+    if(op.inicial){ app.classList.add('sin-anim'); requestAnimationFrame(()=>requestAnimationFrame(()=>app.classList.remove('sin-anim'))) }
+    app.dataset.vista = 'conv';
+    if(op.historial !== false){
+      const url = 'chat.html?c=' + c.id;
+      try{ if(op.inicial || empujado) history.replaceState({pgChat:c.id}, '', url); else { history.pushState({pgChat:c.id}, '', url); empujado = true } }catch(e){}
+    }
+    if(!op.inicial){
+      if(esMovil()) setTimeout(()=>{ const t = A.$('#pgChatQn'); if(t) t.focus({preventScroll:true}) }, 60);
+      else { const t = A.$('#pgChatTexto'); if(t) t.focus({preventScroll:true}) }
+    }
+  }
+  function cierra(op){
+    op = op || {};
+    cierraMenu();
+    app.dataset.vista = 'lista';
+    const antes = actual;
+    actual = null; pintaLista();
+    tCierre = setTimeout(()=>{ if(app.dataset.vista==='lista') pintaVacio() }, esMovil() ? 440 : 0);
+    if(op.historial !== false){ try{ history.replaceState(null,'','chat.html') }catch(e){} }
+    empujado = false;
+    if(antes){ const el = items.querySelector(`[data-c="${antes.id}"]`); if(el) el.focus({preventScroll:false}) }
+  }
+
+  /* ---------- alerta de seguridad ---------- */
+  function muestraAlerta(tipo, forzar){
+    const c = actual; if(!c) return;
+    const caja = A.$('#pgChatAlerta'); if(!caja) return;
+    if(!forzar && c._alertaOk) return;
+    if(caja.dataset.tipo===tipo && caja.innerHTML) return;
+    caja.dataset.tipo = tipo;
+    const txt = tipo==='pago'
+      ? 'Por Bizum, transferencia o en efectivo no hay Pago protegido: si algo sale mal, no hay reembolso. Paga desde la oferta del chat.'
+      : 'Mejor seguid hablando por aquí: fuera de Apaño no podemos ayudarte y sin Pago protegido no hay reembolso.';
+    caja.innerHTML = `<div class="pg-chat-alerta" role="status">${ic(IC.aviso,19,2)}<div><b>Ojo con salir de Apaño</b>${txt} <a class="enlace" href="ayuda.html#seguridad">Consejos de seguridad</a></div><button class="btn btn-sec" type="button" data-alerta-ok>Entendido</button></div>`;
+  }
+  function quitaAlerta(){ const caja = A.$('#pgChatAlerta'); if(caja){ caja.innerHTML = ''; caja.dataset.tipo = '' } }
+
+  /* ---------- enviar y recibir ---------- */
+  function anade(c, m, i){
+    if(actual!==c) return;
+    const ms = msgsEl(); if(!ms) return;
+    const ini = A.$('.pg-chat-inicio', ms);
+    if(ini){ ini.classList.add('sale'); setTimeout(()=>ini.remove(), 240) }
+    const prev = c.msgs[i-1];
+    if(prev && prev.de===m.de && prev.tipo==='txt' && m.tipo==='txt' && m.de!=='sistema' && dia(prev.h)===dia(m.h)){
+      const pe = ms.querySelector(`.pg-chat-fila[data-i="${i-1}"]`); if(pe) pe.classList.remove('ult');
+    }
+    const esc_ = A.$('.pg-chat-esc', ms);
+    const tmp = document.createElement('div'); tmp.innerHTML = filaHTML(c, i, true);
+    [...tmp.children].forEach(n => esc_ ? ms.insertBefore(n, esc_) : ms.appendChild(n));
+    alFondo(true);
+  }
+  function mete(c, m){
+    c.msgs.push(m); c.ult = m.h;
+    const i = c.msgs.length - 1;
+    if(actual===c) anade(c, m, i);
+    else if(m.de!=='yo'){ c.sinLeer = (c.sinLeer||0) + 1 }
+    pintaLista();
+    return i;
+  }
+  const ultimaHora = c => c.msgs.length ? c.msgs[c.msgs.length-1].h : '';
+  function envia(texto){
+    const c = actual; texto = String(texto||'').trim();
+    if(!c || c.bloqueado || !texto) return;
+    if(!A.exige('contactar')) return;
+    const m = {de:'yo', tipo:'txt', t:texto, h:ahora(ultimaHora(c)), est:'enviado'};
+    if(c.estado==='consulta' && c.rolYo==='cliente' && c.msgs.length > 2) c.estado = 'negociando';
+    mete(c, m);
+    const ta = A.$('#pgChatTexto'); if(ta){ ta.value = ''; crece(ta); A.$('#pgChatEnviar').disabled = true }
+    const r = riesgo(texto); if(r) muestraAlerta(r, true);
+    const rp = A.$('#pgChatRapidas'); if(rp) rp.innerHTML = rapidasHTML(c);
+    contesta(c, {texto});
+  }
+  function marcaLeidos(c){
+    c.msgs.forEach(m=>{ if(m.est==='enviado') m.est = 'leido' });
+    if(actual!==c) return;
+    A.$$('.pg-chat-check:not(.leido)', conv).forEach(el=>{ el.classList.add('leido'); el.innerHTML = ic(IC.doble,17,2)+'<span class="solo-lector">Leído</span>' });
+  }
+  function escribiendo(c, si){
+    if(actual!==c) return;
+    const ms = msgsEl(), qe = A.$('#pgChatQe'); if(!ms) return;
+    const u = otro(c);
+    if(si){
+      if(!A.$('.pg-chat-esc', ms)) ms.insertAdjacentHTML('beforeend', `<div class="pg-chat-fila suyo prim ult entra pg-chat-esc"><div class="pg-chat-burbuja pg-chat-puntos"><i></i><i></i><i></i><span class="solo-lector">${esc(nom(u))} está escribiendo</span></div></div>`);
+      if(qe){ qe.dataset.antes = qe.textContent; qe.textContent = 'escribiendo…'; qe.classList.add('escribe') }
+      alFondo(true);
+    } else {
+      const e = A.$('.pg-chat-esc', ms); if(e) e.remove();
+      if(qe && qe.dataset.antes){ qe.textContent = qe.dataset.antes; qe.classList.remove('escribe') }
+    }
+  }
+  const elige = l => l[Math.floor(Math.random()*l.length)];
+  function respuesta(c, texto){
+    const t = String(texto||'').toLowerCase(), a = A.anuncio(c.s);
+    if(riesgo(texto)) return 'Mejor lo hacemos todo por Apaño: con el Pago protegido estamos los dos tranquilos.';
+    if(/gracias|genial|perfecto|estupendo|fenomenal/.test(t)) return elige(['¡A ti! Cualquier cosa me dices por aquí.','¡Nada! Si surge algo, escríbeme por aquí.']);
+    if(c.rolYo==='cliente'){
+      if(c.estado==='reservado'){
+        if(/llave|buz[oó]n|bajo|bajar/.test(t)) return 'Perfecto, pues te espero abajo a la hora acordada.';
+        if(/hora|cu[aá]ndo|llegas/.test(t)) return 'Llegaré a la hora que quedamos. Si me retraso, te aviso por aquí.';
+        return '¡Apuntado! Te escribo por aquí cuando vaya de camino.';
+      }
+      if(c.estado==='completado') return '¡Me alegro mucho de que haya ido bien! Si necesitas algo más, aquí estoy.';
+      if(/oferta|precio|cu[aá]nto|presupuesto|cuesta|costar/.test(t)) return `Sale a ${A.precioTxt(a)}. Si me cuentas un poco más lo que necesitas, te mando una oferta cerrada por aquí y la pagas con Pago protegido.`;
+      if(/zona|barrio|vienes|desplaz/.test(t)) return `Trabajo en ${a.zona}. Dime tu barrio y te lo confirmo.`;
+      if(/incluye|material|qu[eé] (entra|lleva)/.test(t)) return `Incluye ${enLista(a.incluye.slice(0,3).map(minus))}. Lo tienes todo en el anuncio.`;
+      if(/hueco|disponib|cu[aá]ndo|d[ií]a|semana|hoy|mañana|tarde/.test(t)) return 'Esta semana tengo hueco el jueves por la tarde y el sábado por la mañana. ¿Cuál te va mejor?';
+      return elige(['¡Hola! Sí, cuéntame qué necesitas y te digo cómo lo hacemos.','Perfecto, lo miro y te digo algo en un rato.']);
+    }
+    if(/d[ií]a|cu[aá]ndo|hueco|hora/.test(t)) return 'El jueves me iría genial. ¿Te parece a las 11?';
+    if(/oferta/.test(t)) return '¡Genial! En cuanto me llegue la acepto y la pago desde aquí.';
+    return elige(['Me parece perfecto, ¡gracias!','Genial, quedamos así entonces.']);
+  }
+  function contesta(c, op){
+    if(c.bloqueado) return;
+    clearTimeout(c._t1); clearTimeout(c._t2); clearTimeout(c._t3);
+    c._t1 = setTimeout(()=>{
+      marcaLeidos(c);
+      escribiendo(c, true);
+      c._t2 = setTimeout(()=>{
+        escribiendo(c, false);
+        if(c.bloqueado) return;
+        const de = (c.msgs.find(m=>m.de!=='yo' && m.de!=='sistema') || {de:'ella'}).de;
+        if(op.oferta){
+          mete(c, {de, tipo:'txt', t:'¡Perfecto! La acepto y la pago ahora mismo.', h:ahora(ultimaHora(c))});
+          c._t3 = setTimeout(()=>{
+            const u = otro(c);
+            c.estado = 'reservado';
+            mete(c, {de:'sistema', tipo:'reserva', t:`${nom(u)} ha pagado ${A.eur(op.oferta.importe)} con Pago protegido. Cobrarás cuando confirme que el servicio se ha hecho.`, h:ahora(ultimaHora(c))});
+            if(actual===c){
+              const of = A.$(`[data-oferta-i="${op.i}"] .pg-chat-of-acc`, conv); if(of) of.innerHTML = ofertaAcc(c, op.i);
+              A.$('#pgChatTira').innerHTML = tiraHTML(c);
+              const rp = A.$('#pgChatRapidas'); if(rp) rp.innerHTML = rapidasHTML(c);
+            }
+            A.avisa(`${nom(u)} ha pagado tu oferta`);
+          }, 1300);
+          return;
+        }
+        mete(c, {de, tipo:'txt', t:respuesta(c, op.texto), h:ahora(ultimaHora(c))});
+      }, 1500);
+    }, 650);
+  }
+
+  /* ---------- hojas: oferta, contratar, bloquear y reportar ---------- */
+  const PREVIA = {c3:{importe:400, concepto:'40 fotos de producto: 30 con fondo blanco y 10 de ambiente'}};
+  const leeImporte = v => { const n = parseFloat(String(v||'').replace(/\s|€/g,'').replace(/\.(?=\d{3}(\D|$))/g,'').replace(',','.')); return isFinite(n) ? Math.round(n*100)/100 : NaN };
+  function hojaOferta(){
+    const c = actual; if(!c || c.bloqueado) return;
+    if(!A.exige('contactar')) return;
+    const u = otro(c), a = A.anuncio(c.s), pre = PREVIA[c.id] || {importe:a.precio, concepto:a.t};
+    A.dialogo(`<form class="dialogo-cuerpo col g16 pg-chat-hoja" id="pgOfForm" novalidate>
+        <div class="col g6"><span class="etiqueta">Oferta para ${esc(nom(u))}</span><h2 class="h2">Envía una oferta cerrada</h2>
+          <p class="sec sm">${esc(nom(u))} la verá en el chat y podrá aceptarla y pagarla con Pago protegido. Cobras cuando confirme que el servicio se ha hecho.</p></div>
+        <div class="campo"><label for="pgOfImp">Importe total</label>
+          <div class="pg-chat-euro"><input class="ent" id="pgOfImp" type="text" inputmode="decimal" autocomplete="off" value="${String(pre.importe).replace('.',',')}" aria-describedby="pgOfImpErr"><span aria-hidden="true">€</span></div>
+          <span class="error" id="pgOfImpErr" hidden></span></div>
+        <div class="campo"><label for="pgOfCon">Concepto</label>
+          <input class="ent" id="pgOfCon" type="text" maxlength="90" autocomplete="off" value="${esc(pre.concepto)}" aria-describedby="pgOfConAy pgOfConErr">
+          <span class="ayuda" id="pgOfConAy">Qué incluye, en una línea. Por ejemplo: «40 fotos con fondo blanco, entrega en 48 h».</span>
+          <span class="error" id="pgOfConErr" hidden></span></div>
+        <div class="pg-chat-resumen" id="pgOfRes" aria-live="polite"></div>
+        <button class="btn btn-g btn-bloque" type="submit">${ic(IC.etiqueta,19,2)}Enviar oferta</button>
+        <p class="ayuda" style="text-align:center">Pago simulado: en esta demostración no se cobra nada.</p>
+      </form>`, {alAbrir:(capa, cerrar)=>{
+        const f = A.$('#pgOfForm', capa), imp = A.$('#pgOfImp', capa), con = A.$('#pgOfCon', capa), res = A.$('#pgOfRes', capa);
+        const resumen = ()=>{ const n = leeImporte(imp.value);
+          res.innerHTML = n > 0 ? `<div><span>Tú recibes</span><b>${A.eur(n)}</b></div><div><span>${esc(nom(u))} paga (con ${A.eur(prot(n))} de Pago protegido)</span><b>${A.eur(Math.round((n+prot(n))*100)/100)}</b></div>` : '<div><span>Escribe un importe para ver el resumen</span></div>' };
+        const marca = (el, err, txt) => { el.setAttribute('aria-invalid', txt ? 'true' : 'false'); err.hidden = !txt; err.textContent = txt || '' };
+        resumen();
+        imp.addEventListener('input', ()=>{ resumen(); if(imp.getAttribute('aria-invalid')==='true') marca(imp, A.$('#pgOfImpErr',capa), '') });
+        con.addEventListener('input', ()=>{ if(con.getAttribute('aria-invalid')==='true') marca(con, A.$('#pgOfConErr',capa), '') });
+        f.addEventListener('submit', e=>{
+          e.preventDefault();
+          const n = leeImporte(imp.value), t = con.value.trim();
+          let ok = true;
+          if(!(n > 0)){ marca(imp, A.$('#pgOfImpErr',capa), 'Escribe un importe mayor que 0 €.'); ok = false }
+          else if(n > 5000){ marca(imp, A.$('#pgOfImpErr',capa), 'El máximo por oferta es 5.000 €.'); ok = false }
+          else marca(imp, A.$('#pgOfImpErr',capa), '');
+          if(t.length < 4){ marca(con, A.$('#pgOfConErr',capa), 'Cuenta en pocas palabras qué incluye la oferta.'); ok = false }
+          else marca(con, A.$('#pgOfConErr',capa), '');
+          if(!ok){ (A.$('[aria-invalid="true"]', f)||imp).focus(); return }
+          cerrar();
+          const i = mete(c, {de:'yo', tipo:'oferta', importe:n, concepto:t, h:ahora(ultimaHora(c))});
+          if(c.estado==='consulta') c.estado = 'negociando';
+          A.$('#pgChatTira').innerHTML = tiraHTML(c);
+          A.avisa('Oferta enviada a ' + nom(u));
+          contesta(c, {oferta:{importe:n}, i});
+        });
+      }});
+  }
+  function aPagar(c, importe, concepto){
+    if(!A.exige('pagar')) return;
+    const a = A.anuncio(c.s);
+    const p = {s:c.s, cantidad:1, extra:0, fecha:'', nota:''};
+    if(importe != null){ p.extra = Math.round((importe - a.precio)*100)/100; p.nota = concepto || ''; p.oferta = {importe, concepto, chat:c.id} }
+    A.pedido.guardar(p);
+    location.href = 'pago.html';
+  }
+  function bloquea(c, si){
+    const u = otro(c);
+    c.bloqueado = si;
+    if(si){ clearTimeout(c._t1); clearTimeout(c._t2); clearTimeout(c._t3); escribiendo(c, false) }
+    mete(c, {de:'sistema', tipo:'txt', t: si ? `Has bloqueado a ${nom(u)}. No podrá escribirte ni contratarte.` : `Has desbloqueado a ${nom(u)}.`, h:ahora(ultimaHora(c))});
+    if(actual===c){ A.$('#pgChatPie').innerHTML = pieHTML(c); A.$('#pgChatTira').innerHTML = tiraHTML(c); const b = A.$('[data-menu="bloquear"]', conv); if(b) b.innerHTML = ic(IC.bloquear,18) + (si ? 'Desbloquear a ' : 'Bloquear a ') + esc(nom(u)) }
+    A.avisa(si ? 'Has bloqueado a '+nom(u) : 'Has desbloqueado a '+nom(u));
+  }
+  function hojaBloquear(){
+    const c = actual, u = otro(c);
+    if(c.bloqueado){ bloquea(c, false); return }
+    A.dialogo(`<div class="dialogo-cuerpo col g16 pg-chat-hoja">
+        <span class="pg-chat-hoja-ico">${ic(IC.bloquear,26,2)}</span>
+        <h2 class="h2">¿Bloquear a ${esc(nom(u))}?</h2>
+        <p class="sec">No podrá escribirte ni contratarte, y dejarás de ver sus mensajes. Si tenéis un pedido en curso, sigue cubierto por el Pago protegido.</p>
+        <div class="col g8"><button class="btn btn-peligro btn-bloque" type="button" id="pgBloqSi">Bloquear a ${esc(nom(u))}</button><button class="btn btn-sec btn-bloque" type="button" data-cerrar>Cancelar</button></div>
+      </div>`, {alAbrir:(capa, cerrar)=>{ A.$('#pgBloqSi', capa).addEventListener('click', ()=>{ cerrar(); bloquea(c, true) }) }});
+  }
+  function hojaReportar(){
+    const c = actual, u = otro(c);
+    const MOT = ['Me pide pagar fuera de Apaño','Comportamiento ofensivo o acoso','Parece una estafa o se hace pasar por otra persona','Creo que es menor de edad','Otro motivo'];
+    A.dialogo(`<form class="dialogo-cuerpo col g16 pg-chat-hoja" id="pgRepForm" novalidate>
+        <div class="col g6"><span class="etiqueta">Reporte confidencial</span><h2 class="h2">Reportar a ${esc(nom(u))}</h2>
+          <p class="sec sm">${esc(nom(u))} no sabrá que has sido tú. El equipo de confianza lo revisa en menos de 24 h.</p></div>
+        <fieldset class="pg-chat-motivos"><legend>¿Qué ha pasado?</legend>
+          ${MOT.map((m,i)=>`<label class="opcion"><input type="radio" name="motivo" value="${i}"><span>${m}</span></label>`).join('')}
+          <span class="error" id="pgRepErr" hidden>Elige un motivo para que sepamos qué revisar.</span>
+        </fieldset>
+        <div class="campo"><label for="pgRepDet">Detalles (opcional)</label><textarea class="ent" id="pgRepDet" maxlength="600" style="min-height:96px" placeholder="Qué te ha dicho o pedido, y cuándo."></textarea></div>
+        <label class="casilla"><input type="checkbox" id="pgRepBloq" checked><span>Bloquear también a ${esc(nom(u))}</span></label>
+        <button class="btn btn-tinta btn-g btn-bloque" type="submit">${ic(IC.bandera,18,2)}Enviar reporte</button>
+      </form>`, {alAbrir:(capa, cerrar)=>{
+        const f = A.$('#pgRepForm', capa);
+        f.addEventListener('change', ()=>{ if(A.$('input[name="motivo"]:checked', f)){ A.$('#pgRepErr', capa).hidden = true; A.$$('input[name="motivo"]', f).forEach(r=>r.removeAttribute('aria-invalid')) } });
+        f.addEventListener('submit', e=>{
+          e.preventDefault();
+          if(!A.$('input[name="motivo"]:checked', f)){ A.$('#pgRepErr', capa).hidden = false; A.$$('input[name="motivo"]', f).forEach(r=>r.setAttribute('aria-invalid','true')); A.$('input[name="motivo"]', f).focus(); return }
+          const bloq = A.$('#pgRepBloq', capa).checked;
+          cerrar();
+          mete(c, {de:'sistema', tipo:'txt', t:'Has reportado esta conversación. El equipo de confianza la revisará en menos de 24 h.', h:ahora(ultimaHora(c))});
+          if(bloq && !c.bloqueado) bloquea(c, true);
+          A.avisa('Reporte enviado. Gracias por avisarnos');
+        });
+      }});
+  }
+
+  /* ---------- menú ---------- */
+  function cierraMenu(){ const m = A.$('#pgChatMenu'), b = A.$('#pgChatMas'); if(m && m.classList.contains('abierto')){ m.classList.remove('abierto'); b.setAttribute('aria-expanded','false') } }
+  function abreMenu(){ const m = A.$('#pgChatMenu'), b = A.$('#pgChatMas'); m.classList.add('abierto'); b.setAttribute('aria-expanded','true'); const p = A.$('[role="menuitem"]', m); if(p) p.focus() }
+
+  /* ---------- redacción ---------- */
+  function crece(ta){ ta.style.height = 'auto'; ta.style.height = Math.min(ta.scrollHeight + 2, 140) + 'px' }
+
+  /* ---------- eventos ---------- */
+  items.addEventListener('click', e=>{
+    const a = e.target.closest('[data-c]'); if(!a || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    e.preventDefault();
+    const c = chats.find(x=>x.id===a.dataset.c); if(c) abre(c);
+  });
+  A.$('#pgChatBusca').addEventListener('input', e=>{ q = e.target.value; pintaLista() });
+  A.$$('.pg-chat-seg button').forEach(b=>b.addEventListener('click', ()=>{
+    filtro = b.dataset.filtro;
+    A.$$('.pg-chat-seg button').forEach(x=>x.setAttribute('aria-pressed', x===b));
+    pintaLista();
+  }));
+  conv.addEventListener('click', e=>{
+    const t = e.target;
+    if(t.closest('#pgChatMas')){ const m = A.$('#pgChatMenu'); m.classList.contains('abierto') ? cierraMenu() : abreMenu(); return }
+    const mi = t.closest('[data-menu]');
+    if(mi){ cierraMenu(); mi.dataset.menu==='bloquear' ? hojaBloquear() : hojaReportar(); return }
+    if(t.closest('[data-atras]')){ if(empujado) history.back(); else cierra(); return }
+    if(t.closest('[data-oferta]')){ hojaOferta(); return }
+    if(t.closest('[data-contratar]')){ aPagar(actual); return }
+    const ac = t.closest('[data-acepta]');
+    if(ac){ const m = actual.msgs[+ac.dataset.acepta]; aPagar(actual, m.importe, m.concepto); return }
+    if(t.closest('[data-desbloquear]')){ bloquea(actual, false); return }
+    if(t.closest('[data-alerta-ok]')){ actual._alertaOk = true; quitaAlerta(); return }
+    const rq = t.closest('[data-rapida]');
+    if(rq){ envia(rq.textContent); return }
+  });
+  conv.addEventListener('input', e=>{
+    if(e.target.id!=='pgChatTexto') return;
+    const ta = e.target; crece(ta);
+    A.$('#pgChatEnviar').disabled = !ta.value.trim();
+    clearTimeout(tRiesgo);
+    tRiesgo = setTimeout(()=>{ const r = riesgo(ta.value); if(r) muestraAlerta(r) }, 260);
+  });
+  conv.addEventListener('keydown', e=>{
+    if(e.target.id==='pgChatTexto' && e.key==='Enter' && !e.shiftKey && !e.isComposing){ e.preventDefault(); envia(e.target.value); return }
+    const m = A.$('#pgChatMenu');
+    if(m && m.classList.contains('abierto')){
+      if(e.key==='Escape'){ e.stopPropagation(); cierraMenu(); A.$('#pgChatMas').focus(); return }
+      if(e.key==='ArrowDown' || e.key==='ArrowUp'){
+        e.preventDefault();
+        const l = A.$$('[role="menuitem"]', m), i = l.indexOf(document.activeElement);
+        l[(i + (e.key==='ArrowDown' ? 1 : -1) + l.length) % l.length].focus();
+      }
+    }
+  });
+  conv.addEventListener('submit', e=>{ if(e.target.id==='pgChatForm'){ e.preventDefault(); const ta = A.$('#pgChatTexto'); envia(ta && ta.value) } });
+  document.addEventListener('click', e=>{ if(!e.target.closest('.pg-chat-menu-env')) cierraMenu() });
+  addEventListener('popstate', ()=>{
+    const id = new URLSearchParams(location.search).get('c');
+    const c = chats.find(x=>x.id===id);
+    if(c) abre(c, {historial:false}); else { empujado = false; if(actual) cierra({historial:false}) }
+  });
+
+  /* ---------- arranque: ?c=c1 o ?con=u3&s=s5 ---------- */
+  function buscaOCrea(con, s){
+    const u = A.usuario(con);
+    if(!u || u.rol!=='usuario'){ A.avisa('No encontramos a esa persona', 'mal'); return null }
+    if(u.id===yo.id){ A.avisa('No puedes abrir una conversación contigo', 'mal'); return null }
+    if(interno){ A.avisa('Desde una cuenta del equipo no se escribe a usuarios', 'mal'); return null }
+    let a = s && A.anuncio(s);
+    if(a && a.u!==con && a.u!==yo.id) a = null;
+    if(!a) a = A.anunciosDe(con)[0];
+    if(!a) return null;
+    let c = chats.find(x=>x.con===con && x.s===a.id);
+    if(c) return c;
+    c = {id:'n' + Date.now().toString(36), con, s:a.id, rolYo: a.u===yo.id ? 'proveedor' : 'cliente', sinLeer:0, ult:ahora(), estado:'consulta', msgs:[]};
+    chats.unshift(c);
+    return c;
+  }
+  pintaLista();
+  let inicial = null;
+  if(P.get('c')) inicial = chats.find(c=>c.id===P.get('c')) || null;
+  else if(P.get('con')) inicial = buscaOCrea(P.get('con'), P.get('s'));
+  if(inicial) abre(inicial, {inicial:true});
+  else pintaVacio();
+};
+</script>

@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Monedero · Apaño</title>
+<meta name="description" content="Tu saldo de Apaño: lo que cobras por tus servicios, lo retenido hasta que el cliente confirma y tus retiradas al banco.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="base.css">
+<script src="datos.js"></script>
+<script src="app.js"></script>
+</head>
+<body>
+<a class="solo-lector" href="#contenido">Saltar al contenido</a>
+<header class="cab">
+  <div class="contenedor cab-fila">
+    <a class="logo" href="index.html" aria-label="Apaño, ir al inicio">apa<span class="n">ñ</span>o<span class="punto">.</span></a>
+    <form class="buscador escritorio" data-busqueda role="search" aria-label="Buscar servicios">
+      <svg class="ico" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M10.8 17.6a6.8 6.8 0 1 0 0-13.6 6.8 6.8 0 0 0 0 13.6zM20 20l-4.3-4.3"/></svg>
+      <label class="solo-lector" for="q-cab">Qué necesitas</label>
+      <input id="q-cab" name="q" type="search" placeholder="Busca un servicio: paseo de perros, electricista, clases…" autocomplete="off">
+      <button class="buscador-btn" type="submit">Buscar</button>
+    </form>
+    <div class="crecer solo-movil"></div>
+    <div class="cab-acc">
+      <a class="ico-btn solo-escritorio" href="favoritos.html" aria-label="Favoritos">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.3A4.2 4.2 0 0 1 12 7.7a4.2 4.2 0 0 1 7.5 2.5c0 5.7-7.5 10.3-7.5 10.3z"/></svg>
+      </a>
+      <a class="ico-btn" href="notificaciones.html" aria-label="Notificaciones" data-punto-notif>
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15zM10 20.5a2.2 2.2 0 0 0 4 0"/></svg>
+      </a>
+      <a class="ico-btn" href="chat.html" aria-label="Buzón de mensajes" data-punto-buzon>
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5h16v11H8.5L4 20z"/></svg>
+      </a>
+      <a class="btn btn-subir solo-escritorio" href="subir.html" data-exige="publicar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        Subir anuncio
+      </a>
+      <div class="fila g6" id="cuenta"></div>
+    </div>
+  </div>
+  <div class="contenedor cab-movil">
+    <form class="buscador" data-busqueda role="search" aria-label="Buscar servicios">
+      <svg class="ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M10.8 17.6a6.8 6.8 0 1 0 0-13.6 6.8 6.8 0 0 0 0 13.6zM20 20l-4.3-4.3"/></svg>
+      <label class="solo-lector" for="q-movil">Qué necesitas</label>
+      <input id="q-movil" name="q" type="search" placeholder="Buscar en Apaño" autocomplete="off">
+    </form>
+  </div>
+</header>
+<nav class="tabbar" aria-label="Navegación principal">
+  <a href="index.html"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11 12 4l8.5 7M6 9.4V20h12V9.4"/></svg>Inicio</a>
+  <a href="favoritos.html"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.3A4.2 4.2 0 0 1 12 7.7a4.2 4.2 0 0 1 7.5 2.5c0 5.7-7.5 10.3-7.5 10.3z"/></svg>Favoritos</a>
+  <a href="subir.html" data-exige="publicar" aria-label="Subir anuncio"><span class="mas"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></a>
+  <a href="chat.html" data-punto-buzon><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5h16v11H8.5L4 20z"/></svg>Buzón</a>
+  <a href="cuenta.html" id="tab-tu"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4.5 20.5c.8-3.6 3.8-5.5 7.5-5.5s6.7 1.9 7.5 5.5"/></svg>Tú</a>
+</nav>
+<style>
+.pg-mon{ padding-block:18px 8px }
+.pg-mon-cab{ display:flex; flex-direction:column; gap:6px; margin-bottom:20px }
+
+/* tarjeta de saldo */
+.pg-mon-pila{ display:flex; flex-direction:column }
+.pg-mon-saldo{ --pg-mon-txt:var(--fondo); --pg-mon-a:var(--marca); --pg-mon-b:var(--marca-tinta);
+  position:relative; z-index:1; overflow:hidden; isolation:isolate; border-radius:var(--r-xl); padding:20px 20px 18px; color:var(--pg-mon-txt);
+  display:flex; flex-direction:column; gap:22px; box-shadow:0 24px 50px -28px var(--marca);
+  background:radial-gradient(90% 120% at 100% 0%,color-mix(in srgb,var(--pg-mon-txt) 16%,transparent) 0%,transparent 60%),linear-gradient(145deg,var(--pg-mon-a) 0%,var(--pg-mon-b) 100%) }
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) .pg-mon-saldo{ --pg-mon-txt:var(--tinta); --pg-mon-a:color-mix(in srgb,var(--marca) 62%,var(--fondo)); --pg-mon-b:color-mix(in srgb,var(--marca-borde) 85%,var(--fondo)) } }
+:root[data-theme="dark"] .pg-mon-saldo{ --pg-mon-txt:var(--tinta); --pg-mon-a:color-mix(in srgb,var(--marca) 62%,var(--fondo)); --pg-mon-b:color-mix(in srgb,var(--marca-borde) 85%,var(--fondo)) }
+@media (min-width:760px){ .pg-mon-saldo{ padding:26px 28px 24px; gap:28px } }
+.pg-mon-saldo::before,.pg-mon-saldo::after{ content:""; position:absolute; z-index:-1; border-radius:50%; pointer-events:none }
+.pg-mon-saldo::before{ width:320px; aspect-ratio:1; right:-120px; bottom:-170px; box-shadow:inset 0 0 0 44px color-mix(in srgb,var(--pg-mon-txt) 7%,transparent) }
+.pg-mon-saldo::after{ width:150px; aspect-ratio:1; right:40px; top:-80px; background:color-mix(in srgb,var(--pg-mon-txt) 8%,transparent) }
+.pg-mon-logo{ color:var(--pg-mon-txt); font-size:1.35rem }
+.pg-mon-logo .punto{ color:var(--sol) }
+.pg-mon-et{ font-size:var(--t-xs); font-weight:600; letter-spacing:.02em; opacity:.78 }
+.pg-mon-cifra{ font:800 clamp(2.9rem,12vw,4.2rem)/.95 var(--display); letter-spacing:-.045em; font-variant-numeric:tabular-nums; white-space:nowrap }
+.pg-mon-cifra span{ font-size:.46em; font-weight:700; letter-spacing:-.02em; opacity:.85; margin-left:2px }
+.pg-mon-delta{ display:inline-flex; align-items:center; height:26px; padding:0 10px; border-radius:999px; font-size:var(--t-sm); font-weight:700; font-variant-numeric:tabular-nums;
+  background:color-mix(in srgb,var(--pg-mon-txt) 16%,transparent); align-self:flex-start; animation:pg-mon-delta 2.8s var(--ease) both }
+@keyframes pg-mon-delta{ 0%{ opacity:0; transform:translateY(-8px) } 12%{ opacity:1; transform:none } 80%{ opacity:1 } 100%{ opacity:0 } }
+.pg-mon-delta-caja:empty{ display:none }
+.pg-mon-saldo-pie{ display:flex; align-items:center; justify-content:space-between; gap:10px 16px; flex-wrap:wrap }
+.pg-mon-retirar{ background:var(--pg-mon-txt); color:var(--pg-mon-b); box-shadow:0 8px 20px -10px color-mix(in srgb,var(--tinta) 60%,transparent) }
+.pg-mon-retirar:hover{ background:var(--pg-mon-txt); color:var(--pg-mon-a); box-shadow:0 12px 26px -10px color-mix(in srgb,var(--tinta) 70%,transparent) }
+@media (max-width:420px){ .pg-mon-retirar{ flex:1 1 100% } }
+
+/* retenido: lengüeta bajo la tarjeta */
+.pg-mon-ret{ margin-top:-22px; padding:36px 18px 18px; border-radius:0 0 var(--r-xl) var(--r-xl); background:var(--sup); display:grid; grid-template-columns:40px minmax(0,1fr); gap:12px; align-items:start }
+@media (min-width:760px){ .pg-mon-ret{ padding:38px 28px 20px } }
+.pg-mon-ret-ico{ width:40px; height:40px; border-radius:12px; display:grid; place-items:center; background:var(--fondo); color:var(--avisa); box-shadow:var(--sombra-1) }
+.pg-mon-ret-t{ font:650 var(--t-base)/1.3 var(--texto); letter-spacing:0 }
+.pg-mon-ret .cifra{ font-size:var(--t-lg) }
+
+/* movimientos */
+.pg-mon-movs-cab{ display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:6px }
+.pg-mon-mes{ margin-top:14px }
+.pg-mon-mes-cab{ display:flex; align-items:baseline; justify-content:space-between; gap:12px; padding:8px 2px; border-bottom:1px solid var(--linea) }
+.pg-mon-lista{ list-style:none; margin:0; padding:0 }
+.pg-mon-mov{ display:grid; grid-template-columns:44px minmax(0,1fr) auto; gap:12px; align-items:center; padding:12px 2px; border-bottom:1px solid var(--linea) }
+.pg-mon-mov:last-child{ border-bottom:0 }
+.pg-mon-mov.nuevo{ animation:pg-mon-nuevo 1.6s var(--ease) both; border-radius:var(--r) }
+@keyframes pg-mon-nuevo{ 0%{ opacity:0; transform:translateY(-10px); background:var(--marca-sup) } 25%{ opacity:1; transform:none; background:var(--marca-sup) } 100%{ background:transparent } }
+.pg-mon-mov-ico{ width:44px; height:44px; border-radius:14px; display:grid; place-items:center; background:var(--sup-2); color:var(--tinta-2) }
+.pg-mon-mov-ico.entra{ background:var(--ok-sup); color:var(--ok) }
+.pg-mon-mov-t{ font-weight:600; font-size:var(--t-sm); line-height:1.35 }
+.pg-mon-mov-s{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; font-size:var(--t-xs); color:var(--tinta-3); margin-top:2px }
+.pg-mon-imp{ font:700 var(--t-md)/1 var(--display); letter-spacing:-.02em; font-variant-numeric:tabular-nums; white-space:nowrap; text-align:right }
+.pg-mon-imp.entra{ color:var(--ok) }
+.pg-mon-vacio{ padding:28px 8px; text-align:center; color:var(--tinta-3); font-size:var(--t-sm) }
+
+/* lateral */
+.pg-mon-lado{ display:flex; flex-direction:column; gap:16px; min-width:0 }
+.pg-mon-fis-ico{ width:40px; height:40px; border-radius:12px; display:grid; place-items:center; background:var(--marca-sup); color:var(--marca-tinta); flex:0 0 auto }
+.pg-mon-medidor{ display:flex; flex-direction:column; gap:7px }
+.pg-mon-barra{ height:8px; border-radius:99px; background:var(--sup-2); overflow:hidden }
+.pg-mon-barra span{ display:block; height:100%; border-radius:inherit; background:var(--marca); transform-origin:left; animation:pg-mon-crece .9s .15s var(--ease) both }
+.pg-mon-barra span.cerca{ background:var(--avisa) }
+@keyframes pg-mon-crece{ from{ transform:scaleX(0) } }
+.pg-mon-pasos{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:14px }
+.pg-mon-pasos li{ display:grid; grid-template-columns:32px minmax(0,1fr); gap:10px; font-size:var(--t-sm); color:var(--tinta-2); line-height:1.45 }
+.pg-mon-pasos b{ display:block; color:var(--tinta); font-size:var(--t-sm) }
+.pg-mon-pasos .pg-mon-p-ico{ width:32px; height:32px; border-radius:10px; display:grid; place-items:center; background:var(--fondo); color:var(--marca) }
+
+/* hoja de retirada */
+.pg-mon-hoja{ display:flex; flex-direction:column; gap:16px; padding-top:22px }
+.pg-mon-hoja.pg-mon-entra>*{ animation:sube .3s var(--ease) both }
+.pg-mon-hoja .progreso{ max-width:120px }
+.pg-mon-imp-ent{ position:relative }
+.pg-mon-imp-ent .ent{ height:64px; padding-right:48px; font:700 1.75rem/1 var(--display); letter-spacing:-.02em; font-variant-numeric:tabular-nums }
+.pg-mon-imp-ent>span{ position:absolute; right:18px; top:50%; translate:0 -50%; font:700 1.3rem/1 var(--display); color:var(--tinta-3); pointer-events:none }
+.pg-mon-ent{ position:relative }
+.pg-mon-ent .ent{ padding-right:44px }
+.pg-mon-vale{ position:absolute; right:14px; top:50%; translate:0 -50%; color:var(--ok); display:grid; opacity:0; transform:scale(.4); transition:opacity .2s, transform .3s var(--ease); pointer-events:none }
+.pg-mon-vale svg{ stroke-width:3 }
+.pg-mon-ent.vale .pg-mon-vale{ opacity:1; transform:none }
+.pg-mon-chips .chip:disabled{ opacity:.4; cursor:not-allowed }
+.pg-mon-enl{ border:0; background:none; padding:0; font:inherit; font-weight:650; color:var(--marca); text-decoration:underline; text-underline-offset:2px }
+.pg-mon-plazo{ display:flex; gap:10px; align-items:flex-start; padding:12px 14px; border-radius:var(--r); background:var(--sup); font-size:var(--t-sm); color:var(--tinta-2); line-height:1.45 }
+.pg-mon-plazo svg{ flex:0 0 auto; color:var(--marca); margin-top:1px }
+.pg-mon-plazo b{ color:var(--tinta) }
+.pg-mon-conf{ text-align:center; padding:6px 0 2px }
+.pg-mon-conf .cifra{ font-size:clamp(2.4rem,10vw,3rem); line-height:1 }
+.pg-mon-dl{ margin:0; display:flex; flex-direction:column; border:1px solid var(--linea); border-radius:var(--r-l); overflow:hidden }
+.pg-mon-dl>div{ display:flex; justify-content:space-between; gap:16px; padding:12px 14px; border-top:1px solid var(--linea); font-size:var(--t-sm) }
+.pg-mon-dl>div:first-child{ border-top:0 }
+.pg-mon-dl dt{ color:var(--tinta-3) }
+.pg-mon-dl dd{ margin:0; font-weight:650; text-align:right; min-width:0; overflow-wrap:anywhere; font-variant-numeric:tabular-nums }
+
+/* acceso */
+.pg-mon-acceso{ display:flex; flex-direction:column; gap:18px; padding-block:32px 12px }
+.pg-mon-acceso-ico{ width:76px; height:76px; border-radius:24px; display:grid; place-items:center; color:var(--fondo);
+  background:linear-gradient(145deg,var(--marca),var(--marca-tinta)); box-shadow:0 18px 36px -18px var(--marca); transform:rotate(-6deg) }
+.pg-mon-acceso .pg-mon-pasos{ margin-top:4px }
+.pg-mon-acceso .pg-mon-p-ico{ background:var(--marca-sup); color:var(--marca-tinta) }
+.pg-mon-acc{ display:flex; flex-wrap:wrap; gap:10px }
+@media (max-width:520px){ .pg-mon-acc .btn{ flex:1 1 100% } }
+</style>
+<main id="contenido" class="pg-mon"></main>
+<script>
+A.pagina = function(){
+  const $ = A.$, $$ = A.$$;
+  const main = $('#contenido');
+  const ses = A.sesion();
+  const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const esc = t => String(t == null ? '' : t).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const r2 = n => Math.round(n * 100) / 100;
+  const P = {
+    banco:'M3.5 9.5 12 4.5l8.5 5M5.5 10v7.5M10 10v7.5M14 10v7.5M18.5 10v7.5M3.5 20h17',
+    entra:'M17 7 7 17M7 9.5V17h7.5', sale:'M7 17 17 7M9.5 7H17v7.5', reloj:'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 7.5V12l3 2',
+    doc:'M6 3.5h8l4 4v13H6zM14 3.5v4h4M9 12.5h6M9 16h6', cartera:'M4 7.5h15.5v12H4zM4 7.5l11-3.5v3.5M15.5 13.6h.1',
+    tarjeta:'M3 6.5h18v11H3zM3 10.5h18M6.5 14.5h4', persona:'M12 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM5.5 20c.6-3.4 3.2-5.5 6.5-5.5s5.9 2.1 6.5 5.5'
+  };
+  const ic = (n, t) => `<svg width="${t||20}" height="${t||20}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${P[n]}"/></svg>`;
+  const ML = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  const DS = ['dom','lun','mar','mié','jue','vie','sáb'];
+  const MS = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  const dia = iso => { const [y, m, d] = iso.split('-').map(Number); return d + ' ' + MS[m - 1] };
+
+  if(!ses) return pintaAcceso();
+
+  const M = A.MONEDERO;
+  const AÑO = A.HOY.slice(0, 4);
+  const tipo = mv => mv.i > 0 ? 'cobro' : /^Retirada/i.test(mv.c) ? 'retirada' : 'pago';
+  const ETQ = {cobro:'Cobro de servicio', retirada:'Transferencia a tu banco', pago:'Pago con el monedero'};
+
+  /* plazo: 1 a 2 días laborables desde hoy */
+  const laborable = n => { const [y, m, d] = A.HOY.split('-').map(Number); const f = new Date(y, m - 1, d); let k = 0; while(k < n){ f.setDate(f.getDate() + 1); if(f.getDay() % 6) k++ } return f };
+  const L1 = laborable(1), L2 = laborable(2);
+  const fCorta = f => DS[f.getDay()] + ' ' + f.getDate() + ' ' + MS[f.getMonth()];
+  const plazoTxt = `entre el ${DS[L1.getDay()]} ${L1.getDate()} y el ${DS[L2.getDay()]} ${L2.getDate()} de ${ML[L2.getMonth()].toLowerCase()}`;
+
+  /* ---------- pintado ---------- */
+  main.innerHTML = `
+  <div class="contenedor medio">
+    <header class="pg-mon-cab">
+      <h1 class="h1">Monedero</h1>
+      <p class="sec">Lo que cobras por tus servicios en Apaño, listo para pasarlo a tu banco cuando quieras.</p>
+    </header>
+    <div class="con-lateral">
+      <div class="col g32 min0">
+        <div class="pg-mon-pila">
+          <section class="pg-mon-saldo" aria-labelledby="pg-mon-saldo-t">
+            <div class="fila entre g8"><span class="logo pg-mon-logo" aria-hidden="true">apa<span class="n">ñ</span>o<span class="punto">.</span></span><span class="pg-mon-et">Monedero · ${esc(ses.corto)}</span></div>
+            <div class="col g8">
+              <span class="pg-mon-et" id="pg-mon-saldo-t">Saldo disponible</span>
+              <p class="pg-mon-cifra" id="pg-mon-cifra"></p>
+              <span id="pg-mon-delta-caja" class="fila pg-mon-delta-caja"></span>
+            </div>
+            <div class="pg-mon-saldo-pie">
+              <button class="btn btn-g pg-mon-retirar" type="button" id="pg-mon-retirar">${ic('banco',19)}Retirar a mi cuenta</button>
+              <span class="pg-mon-et">Sin comisiones · llega en 1 a 2 días laborables</span>
+            </div>
+          </section>
+          <section class="pg-mon-ret" aria-labelledby="pg-mon-ret-t">
+            <span class="pg-mon-ret-ico">${ic('reloj',20)}</span>
+            <div class="col g4 min0">
+              <div class="fila entre g8"><h2 class="pg-mon-ret-t" id="pg-mon-ret-t">Retenido</h2><b class="cifra num">${A.eur(M.retenido)}</b></div>
+              <p class="sm sec">Pagos de servicios que ya has hecho y que tus clientes aún no han confirmado. Pasan a tu saldo en cuanto confirman.</p>
+              <a class="enlace sm" href="servicios.html">Ver mis ventas</a>
+            </div>
+          </section>
+        </div>
+
+        <section aria-labelledby="pg-mon-mov-t">
+          <div class="pg-mon-movs-cab">
+            <h2 class="h2" id="pg-mon-mov-t">Movimientos</h2>
+            <div class="seg" role="group" aria-label="Filtrar movimientos">
+              <button type="button" data-filtro="todo" aria-pressed="true">Todo</button>
+              <button type="button" data-filtro="cobro" aria-pressed="false">Cobros</button>
+              <button type="button" data-filtro="salida" aria-pressed="false">Salidas</button>
+            </div>
+          </div>
+          <div id="pg-mon-lista" aria-live="polite"></div>
+        </section>
+      </div>
+
+      <aside class="pg-mon-lado">
+        <section class="bloque col g16" aria-labelledby="pg-mon-fis-t" id="pg-mon-fiscal"></section>
+        <section class="bloque bloque-sup col g16" aria-labelledby="pg-mon-como-t">
+          <h2 class="h3" id="pg-mon-como-t">Cómo funciona</h2>
+          <ul class="pg-mon-pasos">
+            <li><span class="pg-mon-p-ico">${A.icono('escudo',17)}</span><span><b>Cobras cuando el cliente confirma</b>El pago queda retenido mientras haces el servicio.</span></li>
+            <li><span class="pg-mon-p-ico">${ic('banco',17)}</span><span><b>Retiras cuando quieras</b>Sin comisiones. Mínimo 1 €.</span></li>
+            <li><span class="pg-mon-p-ico">${ic('persona',17)}</span><span><b>Siempre a tu nombre</b>Solo enviamos dinero a cuentas de la persona verificada.</span></li>
+          </ul>
+          <a class="enlace sm" href="como-funciona.html#pago">Más sobre el Pago protegido</a>
+        </section>
+      </aside>
+    </div>
+  </div>`;
+
+  /* ---------- saldo ---------- */
+  const cifra = $('#pg-mon-cifra');
+  const pintaCifra = v => { const s = A.eur(r2(v)), i = s.indexOf(','); cifra.innerHTML = i > 0 ? `${s.slice(0, i)}<span>${s.slice(i)}</span>` : s };
+  pintaCifra(M.saldo);
+  const animaSaldo = (de, a) => {
+    if(quieto){ pintaCifra(a); return }
+    const t0 = performance.now();
+    const paso = t => { const p = Math.min(1, (t - t0) / 1100); pintaCifra(de + (a - de) * (1 - Math.pow(1 - p, 3))); if(p < 1) requestAnimationFrame(paso) };
+    requestAnimationFrame(paso);
+  };
+  const botonRetirar = $('#pg-mon-retirar');
+  const estadoBoton = () => { botonRetirar.disabled = M.saldo < 1; botonRetirar.title = M.saldo < 1 ? 'No tienes saldo para retirar' : '' };
+  estadoBoton();
+
+  /* ---------- movimientos ---------- */
+  let filtro = 'todo';
+  const lista = $('#pg-mon-lista');
+  function pintaMovs(nuevo){
+    const movs = M.movimientos.filter(mv => filtro === 'todo' || (filtro === 'cobro' ? mv.i > 0 : mv.i < 0));
+    if(!movs.length){ lista.innerHTML = `<p class="pg-mon-vacio">No hay movimientos con este filtro.</p>`; return }
+    const meses = [];
+    movs.forEach(mv => { const k = mv.f.slice(0, 7); let g = meses.find(x => x.k === k); if(!g){ g = {k, l:[]}; meses.push(g) } g.l.push(mv) });
+    lista.innerHTML = meses.map(g => {
+      const ent = r2(g.l.filter(x => x.i > 0).reduce((s, x) => s + x.i, 0)), sal = r2(g.l.filter(x => x.i < 0).reduce((s, x) => s + x.i, 0));
+      const [y, m] = g.k.split('-').map(Number);
+      return `<div class="pg-mon-mes">
+        <div class="pg-mon-mes-cab"><h3 class="etiqueta">${ML[m - 1]} ${y}</h3><span class="xs ter num">${[ent ? '+' + A.eur(ent) : '', sal ? '−' + A.eur(-sal) : ''].filter(Boolean).join(' · ')}</span></div>
+        <ul class="pg-mon-lista">${g.l.map(mv => {
+          const t = tipo(mv), partes = mv.c.split(' · ');
+          return `<li class="pg-mon-mov${mv === nuevo ? ' nuevo' : ''}">
+            <span class="pg-mon-mov-ico${t === 'cobro' ? ' entra' : ''}">${ic(t === 'cobro' ? 'entra' : t === 'retirada' ? 'banco' : 'tarjeta', 20)}</span>
+            <div class="min0"><div class="pg-mon-mov-t recorte recorte-1">${esc(partes[0])}</div>
+              <div class="pg-mon-mov-s"><span>${dia(mv.f)} · ${esc(partes[1] || ETQ[t])}</span>${mv.llega ? `<span class="insignia insignia-marca">Llega el ${esc(mv.llega)}</span>` : ''}</div></div>
+            <span class="pg-mon-imp${mv.i > 0 ? ' entra' : ''}">${mv.i > 0 ? '+' : '−'}${A.eur(Math.abs(mv.i))}</span>
+          </li>`;
+        }).join('')}</ul>
+      </div>`;
+    }).join('');
+  }
+  pintaMovs();
+  $$('[data-filtro]').forEach(b => b.addEventListener('click', () => {
+    filtro = b.dataset.filtro;
+    $$('[data-filtro]').forEach(x => x.setAttribute('aria-pressed', x === b));
+    pintaMovs();
+  }));
+
+  /* ---------- datos fiscales (DAC7) ---------- */
+  (function fiscal(){
+    const cobros = M.movimientos.filter(mv => mv.i > 0 && mv.f.slice(0, 4) === AÑO);
+    const ops = cobros.length, ing = r2(cobros.reduce((s, x) => s + x.i, 0));
+    let eurG; try{ eurG = new Intl.NumberFormat('es-ES', {style:'currency', currency:'EUR', useGrouping:'always'}) }catch(e){ eurG = new Intl.NumberFormat('es-ES', {style:'currency', currency:'EUR'}) }
+    const eg = n => eurG.format(n), eg0 = n => eg(n).replace(/,00(?=\s)/, '');
+    $('#pg-mon-fiscal').innerHTML = `
+      <div class="fila g12"><span class="pg-mon-fis-ico">${ic('doc',20)}</span><div class="col"><h2 class="h3" id="pg-mon-fis-t">Datos fiscales</h2><span class="xs ter">Año ${AÑO}</span></div></div>
+      <p class="sm sec">Por la normativa europea DAC7, las plataformas digitales comunicamos a Hacienda cada año lo que cobra cada persona. En la venta de objetos hay un mínimo (30 operaciones o 2.000 €), pero <b>en servicios personales no lo hay</b>: se comunican todos los ingresos desde el primer euro.</p>
+      <div class="fila g12" style="flex-wrap:wrap">
+        <div class="col g4 crecer"><span class="xs ter">Cobrado en ${AÑO}</span><span class="cifra lg">${eg(ing)}</span></div>
+        <div class="col g4 crecer"><span class="xs ter">Operaciones</span><span class="cifra lg">${ops}</span></div>
+      </div>
+      <p class="xs ter">En enero enviaremos este resumen a Hacienda con tu NIF y tu domicilio fiscal, que ya tenemos de tu verificación. Declarar estos ingresos en tu renta sigue siendo cosa tuya.</p>
+      <a class="enlace sm" href="ayuda.html">Impuestos y Apaño: preguntas frecuentes</a>`;
+  })();
+
+  /* ---------- retirar ---------- */
+  const norm = s => (s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
+  const ibanLimpio = v => (v || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 34);
+  const ibanGrupos = v => v.replace(/(.{4})/g, '$1 ').trim();
+  const ibanOculto = v => v.slice(0, 4) + ' •••• •••• •••• •••• ' + v.slice(-4);
+  const IBAN_PRUEBA = 'ES2130580412501001197731';
+  const leeImp = v => {
+    v = (v || '').trim().replace(/[\s€]/g, '');
+    if(!v) return NaN;
+    if(/^\d{1,3}(\.\d{3})+(,\d*)?$/.test(v)) v = v.replace(/\./g, '');
+    v = v.replace(',', '.');
+    return /^\d+(\.\d*)?$/.test(v) ? +v : NaN;
+  };
+  const fmtImp = n => n.toLocaleString('es-ES', {minimumFractionDigits:2, maximumFractionDigits:2});
+
+  botonRetirar.addEventListener('click', () => {
+    if(!A.verificado(ses)){
+      A.dialogo(`<div class="dialogo-cuerpo col g16" style="padding-top:24px">
+        <span class="insignia insignia-avisa" style="align-self:flex-start">Identidad en revisión</span>
+        <h2 class="h2">Podrás retirar en cuanto verifiquemos tu identidad</h2>
+        <p class="sec">Para enviar dinero a un banco necesitamos saber que la cuenta es tuya. Estamos revisando tu documento: suele tardar menos de 2 horas.</p>
+        <a class="btn btn-bloque" href="cuenta.html#verificacion">Ver el estado de mi verificación</a>
+      </div>`);
+      return;
+    }
+    abreRetirada();
+  });
+
+  function abreRetirada(){
+    const datos = {imp:'', iban:'', tit:ses.n};
+    let capaR = null;
+    const hoja = () => $('#pg-mon-hoja', capaR);
+    const pon = html => { const h = hoja(); h.innerHTML = html; h.classList.remove('pg-mon-entra'); void h.offsetWidth; h.classList.add('pg-mon-entra'); const dl = h.closest('.dialogo'); if(dl) dl.scrollTop = 0 };
+    const err = (id, t) => { const p = $('#' + id, capaR); if(p){ p.textContent = t; p.hidden = !t } };
+
+    const paso1 = () => `
+      <div class="progreso" aria-hidden="true"><span class="activo"></span><span></span></div>
+      <div class="col g4"><h2 class="h2" id="pg-mon-h-t">Retirar a tu cuenta</h2><p class="sm sec">Disponible: <b class="num">${A.eur(M.saldo)}</b></p></div>
+      <form class="col g16" id="pg-mon-f1" novalidate>
+        <div class="campo">
+          <label for="pg-mon-imp">Importe</label>
+          <div class="pg-mon-imp-ent"><input class="ent" id="pg-mon-imp" type="text" inputmode="decimal" autocomplete="off" placeholder="0,00" value="${esc(datos.imp)}" aria-describedby="pg-mon-imp-err"><span aria-hidden="true">€</span></div>
+          <p class="error" id="pg-mon-imp-err" hidden></p>
+          <div class="chips pg-mon-chips" role="group" aria-label="Importes rápidos">
+            ${[50, 100].map(n => `<button type="button" class="chip" data-imp="${n}" aria-pressed="false" ${n > M.saldo ? 'disabled' : ''}>${n} €</button>`).join('')}
+            <button type="button" class="chip" data-imp="todo" aria-pressed="false">Todo · ${A.eur(M.saldo)}</button>
+          </div>
+        </div>
+        <div class="campo">
+          <label for="pg-mon-iban">IBAN de tu cuenta</label>
+          <div class="pg-mon-ent" id="pg-mon-iban-c"><input class="ent num" id="pg-mon-iban" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="ES00 0000 0000 0000 0000 0000" maxlength="42" value="${esc(ibanGrupos(datos.iban))}" aria-describedby="pg-mon-iban-err pg-mon-iban-ay"><span class="pg-mon-vale">${A.icono('check',18)}</span></div>
+          <p class="error" id="pg-mon-iban-err" hidden></p>
+          <p class="ayuda" id="pg-mon-iban-ay">Cuenta en euros de la zona SEPA. ¿Solo quieres probar? <button type="button" class="pg-mon-enl" id="pg-mon-iban-prueba">Usa un IBAN de prueba</button></p>
+        </div>
+        <div class="campo">
+          <label for="pg-mon-tit">Titular de la cuenta</label>
+          <div class="pg-mon-ent" id="pg-mon-tit-c"><input class="ent" id="pg-mon-tit" type="text" autocomplete="off" spellcheck="false" value="${esc(datos.tit)}" aria-describedby="pg-mon-tit-err pg-mon-tit-ay"><span class="pg-mon-vale">${A.icono('check',18)}</span></div>
+          <p class="error" id="pg-mon-tit-err" hidden></p>
+          <p class="ayuda" id="pg-mon-tit-ay">Tiene que ser <b>${esc(ses.n)}</b>, el nombre de tu documento verificado. Por ley solo podemos enviar tu dinero a una cuenta a tu nombre: así nadie puede desviar tus cobros a otra persona.</p>
+        </div>
+        <div class="pg-mon-plazo">${ic('reloj',18)}<span>Llega <b>${plazoTxt}</b> (1 a 2 días laborables). Sin comisiones.</span></div>
+        <button class="btn btn-g btn-bloque" type="submit">Continuar</button>
+      </form>`;
+
+    const reglas = {
+      imp(){
+        const raw = $('#pg-mon-imp', capaR).value, n = leeImp(raw);
+        if(!raw.trim()) return 'Escribe cuánto quieres retirar';
+        if(isNaN(n)) return 'Escribe solo el importe, por ejemplo 50,00';
+        if(Math.abs(n * 100 - Math.round(n * 100)) > 1e-6) return 'Como mucho, dos decimales';
+        if(n < 1) return 'El mínimo es 1,00 €';
+        if(n > M.saldo + 1e-9) return 'Solo tienes ' + A.eur(M.saldo) + ' disponibles';
+        return '';
+      },
+      iban(){
+        const v = ibanLimpio($('#pg-mon-iban', capaR).value);
+        if(!v) return 'Escribe el IBAN de tu cuenta';
+        if(!/^[A-Z]{2}/.test(v)) return 'Empieza por las dos letras del país, por ejemplo ES';
+        if(v.startsWith('ES') && v.length !== 24) return 'Un IBAN español tiene 24 caracteres: ES y 22 cifras';
+        if(!A.ibanValido(v)) return 'Este IBAN no es correcto. Revisa las cifras';
+        return '';
+      },
+      tit(){
+        const v = $('#pg-mon-tit', capaR).value;
+        if(!v.trim()) return 'Escribe el titular de la cuenta';
+        if(norm(v) !== norm(ses.n)) return 'No coincide con tu nombre verificado (' + ses.n + ')';
+        return '';
+      }
+    };
+    const tocado = {};
+    const revisa = (k, mostrar) => {
+      const m = reglas[k](), inp = $('#pg-mon-' + k, capaR), caja = $('#pg-mon-' + k + '-c', capaR);
+      if(caja) caja.classList.toggle('vale', !m);
+      if(mostrar || tocado[k]){ tocado[k] = true; inp.setAttribute('aria-invalid', m ? 'true' : 'false'); err('pg-mon-' + k + '-err', m) }
+      return m;
+    };
+
+    function engancha1(){
+      const imp = $('#pg-mon-imp', capaR), iban = $('#pg-mon-iban', capaR), tit = $('#pg-mon-tit', capaR);
+      imp.addEventListener('input', () => { imp.value = imp.value.replace(/[^\d.,]/g, ''); revisa('imp') });
+      imp.addEventListener('blur', () => { if(!imp.value.trim()) return; const n = leeImp(imp.value); if(!isNaN(n) && !revisa('imp', true)) imp.value = fmtImp(n); });
+      $$('[data-imp]', capaR).forEach(b => b.addEventListener('click', () => {
+        const n = b.dataset.imp === 'todo' ? M.saldo : +b.dataset.imp;
+        imp.value = fmtImp(n); revisa('imp', true);
+        $$('[data-imp]', capaR).forEach(x => x.setAttribute('aria-pressed', x === b));
+      }));
+      iban.addEventListener('input', () => {
+        const pos = iban.selectionStart || 0, antes = ibanLimpio(iban.value.slice(0, pos)).length;
+        const f = ibanGrupos(ibanLimpio(iban.value)); iban.value = f;
+        let i = 0, n = 0; while(i < f.length && n < antes){ if(f[i] !== ' ') n++; i++ }
+        try{ iban.setSelectionRange(i, i) }catch(e){}
+        revisa('iban');
+      });
+      iban.addEventListener('blur', () => { if(iban.value.trim()) revisa('iban', true) });
+      $('#pg-mon-iban-prueba', capaR).addEventListener('click', () => { iban.value = ibanGrupos(IBAN_PRUEBA); revisa('iban', true); tit.focus() });
+      tit.addEventListener('input', () => revisa('tit'));
+      tit.addEventListener('blur', () => revisa('tit', true));
+      ['imp','iban','tit'].forEach(k => revisa(k, !!tocado[k]));
+      $('#pg-mon-f1', capaR).addEventListener('submit', e => {
+        e.preventDefault();
+        const malos = ['imp','iban','tit'].filter(k => revisa(k, true));
+        if(malos.length){ $('#pg-mon-' + malos[0], capaR).focus(); return }
+        datos.imp = imp.value; datos.iban = ibanLimpio(iban.value); datos.tit = ses.n;
+        pon(paso2()); engancha2();
+      });
+    }
+
+    const paso2 = () => {
+      const n = r2(leeImp(datos.imp));
+      return `
+      <div class="progreso" aria-hidden="true"><span class="hecho"></span><span class="activo"></span></div>
+      <h2 class="h2" id="pg-mon-h-t">Revisa y confirma</h2>
+      <div class="pg-mon-conf"><span class="etiqueta">Vas a retirar</span><p class="cifra">${A.eur(n)}</p></div>
+      <dl class="pg-mon-dl">
+        <div><dt>A la cuenta</dt><dd>${ibanOculto(datos.iban)}</dd></div>
+        <div><dt>Titular</dt><dd>${esc(datos.tit)}</dd></div>
+        <div><dt>Llega</dt><dd>${plazoTxt.charAt(0).toUpperCase() + plazoTxt.slice(1)}</dd></div>
+        <div><dt>Comisión</dt><dd>${A.eur(0)}</dd></div>
+        <div><dt>Te quedará</dt><dd>${A.eur(r2(M.saldo - n))}</dd></div>
+      </dl>
+      <p class="aviso">${A.icono('escudo',18)}<span>Es una prueba: no se mueve dinero real y el IBAN no sale de esta página.</span></p>
+      <button class="btn btn-g btn-bloque" type="button" id="pg-mon-confirmar">Confirmar retirada</button>
+      <button class="btn btn-sec btn-bloque" type="button" id="pg-mon-atras">Cambiar datos</button>`;
+    };
+    function engancha2(){
+      $('#pg-mon-confirmar', capaR).focus({preventScroll:true});
+      $('#pg-mon-atras', capaR).addEventListener('click', () => { pon(paso1()); engancha1(); $('#pg-mon-imp', capaR).focus() });
+      $('#pg-mon-confirmar', capaR).addEventListener('click', () => {
+        const n = r2(leeImp(datos.imp));
+        if(!(n >= 1 && n <= M.saldo + 1e-9)) return;
+        const antes = M.saldo;
+        M.saldo = r2(M.saldo - n);
+        const mv = {f:A.HOY, c:'Retirada a ' + datos.iban.slice(0, 4) + ' ···· ' + datos.iban.slice(-4), i:-n, llega:fCorta(L2)};
+        M.movimientos.unshift(mv);
+        A.cerrarDialogo();
+        animaSaldo(antes, M.saldo);
+        const caja = $('#pg-mon-delta-caja');
+        caja.innerHTML = `<span class="pg-mon-delta">−${A.eur(n)}</span>`;
+        const dl = caja.firstChild; dl.addEventListener('animationend', () => dl.remove()); if(quieto) setTimeout(() => dl.remove(), 2800);
+        if(filtro === 'cobro'){ filtro = 'todo'; $$('[data-filtro]').forEach(x => x.setAttribute('aria-pressed', x.dataset.filtro === 'todo')) }
+        pintaMovs(mv);
+        estadoBoton();
+        A.avisa('Retirada en camino: llega como tarde el ' + fCorta(L2));
+      });
+    }
+
+    A.dialogo(`<div class="dialogo-cuerpo pg-mon-hoja" id="pg-mon-hoja">${paso1()}</div>`, {ancho:460, alAbrir:capa => { capaR = capa; capa.setAttribute('aria-labelledby', 'pg-mon-h-t'); engancha1() }});
+  }
+
+  /* ---------- sin sesión ---------- */
+  function pintaAcceso(){
+    main.innerHTML = `<div class="contenedor estrecho pg-mon-acceso">
+      <span class="pg-mon-acceso-ico">${ic('cartera',34)}</span>
+      <h1 class="h1">Tu monedero aparece al crear tu cuenta</h1>
+      <p class="entradilla">Aquí verás lo que cobras por tus servicios y podrás pasarlo a tu banco cuando quieras, sin comisiones.</p>
+      <ul class="pg-mon-pasos">
+        <li><span class="pg-mon-p-ico">${A.icono('escudo',17)}</span><span><b>Cobros protegidos</b>El cliente paga al contratar y tú cobras cuando confirma que el servicio se ha hecho.</span></li>
+        <li><span class="pg-mon-p-ico">${ic('banco',17)}</span><span><b>A tu banco en 1 o 2 días</b>Retiras cuando quieras, a una cuenta a tu nombre.</span></li>
+        <li><span class="pg-mon-p-ico">${ic('persona',17)}</span><span><b>Solo mayores de 18 verificados</b>Te pediremos DNI, NIE o pasaporte y un selfie. Nunca publicamos el número de tu documento: solo lo ve el equipo de verificación.</span></li>
+      </ul>
+      <div class="pg-mon-acc"><a class="btn btn-g" href="registro.html">Crear cuenta</a><a class="btn btn-g btn-sec" href="entrar.html">Ya tengo cuenta</a></div>
+      <a class="enlace sm" href="como-funciona.html#pago">Cómo funciona el Pago protegido</a>
+    </div>`;
+  }
+};
+</script>
+<footer class="pie">
+  <div class="contenedor">
+    <div class="pie-cols">
+      <div class="col g12">
+        <a class="logo" href="index.html" aria-label="Apaño, inicio">apa<span class="n">ñ</span>o<span class="punto">.</span></a>
+        <p class="sm sec" style="max-width:34ch">Servicios entre personas de verdad. Todo el que publica o contrata es mayor de edad y ha presentado su documento de identidad.</p>
+        <div class="fila g8">
+          <span class="insignia insignia-ok">Solo +18 verificados</span>
+          <span class="insignia">Pago protegido</span>
+        </div>
+      </div>
+      <div><h4>Usar Apaño</h4><div class="pie-enl">
+        <a href="buscar.html">Buscar servicios</a><a href="subir.html">Subir un anuncio</a><a href="destacar.html">Destacar un anuncio</a><a href="pro.html">Apaño Pro</a><a href="como-funciona.html">Cómo funciona</a><a href="como-funciona.html#pago">Pago protegido</a>
+      </div></div>
+      <div><h4>Tu cuenta</h4><div class="pie-enl">
+        <a href="registro.html">Crear cuenta</a><a href="entrar.html">Entrar</a><a href="cuenta.html#verificacion">Verificar mi identidad</a><a href="servicios.html">Mis servicios</a><a href="monedero.html">Monedero</a>
+      </div></div>
+      <div><h4>Confianza</h4><div class="pie-enl">
+        <a href="como-funciona.html#verificacion">Por qué pedimos el DNI</a><a href="ayuda.html#seguridad">Consejos de seguridad</a><a href="ayuda.html#reportar">Reportar a alguien</a><a href="ayuda.html">Centro de ayuda</a>
+      </div></div>
+      <div><h4>Legal</h4><div class="pie-enl">
+        <a href="legal.html#condiciones">Condiciones de uso</a><a href="legal.html#privacidad">Privacidad</a><a href="legal.html#identidad">Tratamiento del DNI</a><a href="legal.html#cookies">Cookies</a>
+      </div></div>
+    </div>
+    <div class="pie-legal">
+      <span>Apaño es una maqueta de demostración: las personas, los anuncios y los importes son inventados y no se cobra nada.</span>
+      <span>Hecho en Palma · 2026</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,774 @@
+<!-- titulo: Anuncio | desc: Ficha de un servicio en Apaño: precio, anunciante verificado, qué incluye, zona aproximada y Pago protegido. -->
+<style>
+/* ---------- ficha de anuncio ---------- */
+.pg-an-env{ padding-top:18px }
+.pg-an-migas{ display:flex; align-items:center; flex-wrap:wrap; gap:4px 6px; margin-bottom:16px; font-size:var(--t-xs); color:var(--tinta-3) }
+.pg-an-migas a{ color:var(--tinta-2); font-weight:600; border-radius:6px; transition:color .15s }
+.pg-an-migas a:hover{ color:var(--marca) }
+.pg-an-migas svg{ opacity:.55 }
+.pg-an-rejilla{ row-gap:20px }
+@media (min-width:961px){
+  .pg-an-rejilla{ column-gap:44px; row-gap:0 }
+  .pg-an-galeria{ grid-column:1; grid-row:1 }
+  .pg-an-lateral{ grid-column:2; grid-row:1 / span 2; align-self:stretch }
+  .pg-an-cuerpo{ grid-column:1; grid-row:2; padding-top:14px }
+}
+.pg-an-esq{ aspect-ratio:3/2; border-radius:var(--r-xl) }
+
+/* galería */
+.pg-an-gal{ position:relative; border-radius:var(--r-xl); overflow:hidden; background:var(--sup-2); isolation:isolate }
+.pg-an-pista{ display:grid; grid-auto-flow:column; grid-auto-columns:100%; aspect-ratio:3/2; overflow-x:auto; overflow-y:hidden;
+  scroll-snap-type:x mandatory; overscroll-behavior-x:contain; scrollbar-width:none; outline:none }
+.pg-an-pista::-webkit-scrollbar{ display:none }
+.pg-an-pista:focus-visible{ box-shadow:inset 0 0 0 3px var(--marca) }
+.pg-an-diapo{ position:relative; overflow:hidden; scroll-snap-align:start; scroll-snap-stop:always }
+.pg-an-diapo>.portada,.pg-an-diapo>img,.pg-an-mini>.portada,.pg-an-mini>img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover }
+.pg-an-detalle>.portada{ transform:scale(1.6); transform-origin:50% 42% }
+.pg-an-gris .pg-an-pista,.pg-an-gris+.pg-an-minis{ filter:grayscale(.75) }
+.pg-an-gal-btn{ width:42px; height:42px; border-radius:50%; border:0; display:grid; place-items:center; color:var(--tinta);
+  background:color-mix(in srgb,var(--fondo) 92%,transparent); box-shadow:var(--sombra-1); backdrop-filter:blur(8px);
+  transition:transform .18s var(--ease), color .18s, background .18s }
+.pg-an-gal-btn:hover{ transform:scale(1.07); background:var(--fondo) }
+.pg-an-gal-btn:active{ transform:scale(.9) }
+.pg-an-gal-acc{ position:absolute; z-index:2; top:14px; right:14px; display:flex; gap:8px }
+.pg-an-fav[aria-pressed="true"]{ color:var(--mal) }
+.pg-an-fav[aria-pressed="true"] svg{ fill:currentColor; animation:latido .4s var(--ease) }
+.pg-an-volver{ display:none; position:absolute; z-index:2; top:14px; left:14px }
+.pg-an-flecha{ position:absolute; z-index:2; top:50%; translate:0 -50%; width:46px; height:46px; border-radius:50%; border:0; display:grid; place-items:center;
+  color:var(--tinta); background:color-mix(in srgb,var(--fondo) 94%,transparent); box-shadow:var(--sombra-2);
+  transition:opacity .22s, visibility .22s, transform .18s var(--ease) }
+.pg-an-flecha:hover{ transform:scale(1.07) }
+.pg-an-flecha:active{ transform:scale(.92) }
+.pg-an-flecha[disabled]{ opacity:0; visibility:hidden }
+.pg-an-ant{ left:16px } .pg-an-sig{ right:16px }
+.pg-an-contador{ position:absolute; z-index:2; right:14px; bottom:14px; height:28px; padding:0 11px; border-radius:99px; display:inline-flex; align-items:center;
+  background:color-mix(in srgb,var(--tinta) 74%,transparent); color:var(--fondo); font-size:var(--t-xs); font-weight:600; letter-spacing:.03em;
+  font-variant-numeric:tabular-nums; backdrop-filter:blur(8px) }
+.pg-an-puntos{ display:none; position:absolute; z-index:2; left:50%; bottom:22px; translate:-50% 0; gap:6px }
+.pg-an-puntos i{ width:6px; height:6px; border-radius:99px; background:color-mix(in srgb,var(--fondo) 62%,transparent); transition:width .3s var(--ease), background .3s }
+.pg-an-puntos i.on{ width:18px; background:var(--fondo) }
+.pg-an-minis{ display:flex; gap:10px; margin-top:12px }
+.pg-an-mini{ position:relative; width:84px; aspect-ratio:1; padding:0; border:0; border-radius:var(--r); overflow:hidden; background:var(--sup-2);
+  opacity:.6; transition:opacity .2s, box-shadow .2s, transform .15s var(--ease) }
+.pg-an-mini:hover{ opacity:1 }
+.pg-an-mini:active{ transform:scale(.95) }
+.pg-an-mini[aria-current="true"]{ opacity:1; box-shadow:0 0 0 2px var(--fondo), 0 0 0 4px var(--marca) }
+
+/* lateral: precio, título y acciones */
+.pg-an-lateral>.pegajoso{ display:flex; flex-direction:column; gap:14px }
+.pg-an-resumen{ padding:24px }
+.pg-an-precio{ font:700 2.5rem/1 var(--display); letter-spacing:-.045em; font-variant-numeric:tabular-nums }
+.pg-an-precio small{ font:500 var(--t-md) var(--texto); color:var(--tinta-3); letter-spacing:0 }
+.pg-an-titulo{ font-size:1.5rem; line-height:1.14; letter-spacing:-.025em; margin-top:10px }
+.pg-an-insignias{ display:flex; flex-wrap:wrap; gap:6px; margin-top:14px }
+.pg-an-insignias svg{ flex:0 0 auto }
+.pg-an-meta{ display:flex; flex-wrap:wrap; gap:6px 14px; margin-top:14px; font-size:var(--t-xs); color:var(--tinta-3) }
+.pg-an-meta>span{ display:inline-flex; align-items:center; gap:5px }
+.pg-an-acciones{ display:grid; gap:10px; margin-top:20px }
+.pg-an-garantia{ display:flex; align-items:flex-start; gap:8px; margin-top:14px; font-size:var(--t-xs); line-height:1.45; color:var(--tinta-2) }
+.pg-an-garantia svg{ flex:0 0 auto; color:var(--ok) }
+.pg-an-garantia a{ color:var(--marca); font-weight:600 }
+.pg-an-aviso{ align-items:flex-start }
+
+/* dueño: acciones y destacado */
+.pg-an-aviso-env:empty{ display:none }
+.pg-an-dueno{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px }
+.pg-an-dueno .btn{ padding:0 14px }
+.pg-an-sol{ color:var(--sol) }
+.pg-an-boost{ padding:16px 20px }
+.pg-an-boost-t{ display:flex; align-items:center; gap:7px; font-size:var(--t-base); letter-spacing:-.01em }
+.pg-an-boost-barra{ height:6px; margin-top:12px; border-radius:99px; background:var(--sup-2); overflow:hidden }
+.pg-an-boost-barra i{ display:block; height:100%; border-radius:inherit; background:var(--sol); transform-origin:left; animation:pg-an-crece .9s var(--ease) both }
+.pg-an-boost-cifras{ margin:14px 0 12px }
+.pg-an-multi{ color:var(--ok) }
+.pg-an-impulso{ display:flex; align-items:center; gap:12px; padding:14px 16px; background:var(--sol-sup); border-color:transparent;
+  transition:box-shadow .2s, transform .15s var(--ease) }
+.pg-an-impulso:hover{ box-shadow:var(--sombra-1) }
+.pg-an-impulso:active{ transform:scale(.98) }
+.pg-an-impulso>svg{ color:var(--tinta-3); flex:0 0 auto }
+.pg-an-impulso-ico{ flex:0 0 auto; width:40px; height:40px; border-radius:12px; display:grid; place-items:center; background:var(--sol); color:var(--sol-tinta) }
+
+/* tarjeta del anunciante */
+.pg-an-anun{ padding:18px 20px 16px }
+.pg-an-anun-cab{ display:flex; align-items:center; gap:14px; margin:-6px; padding:6px; border-radius:var(--r); transition:background .18s }
+.pg-an-anun-cab:hover{ background:var(--sup) }
+.pg-an-anun-cab>svg{ color:var(--tinta-3); flex:0 0 auto }
+.pg-an-anun-nombre{ font:700 var(--t-lg)/1.1 var(--display); letter-spacing:-.025em }
+.pg-an-verif{ display:flex; align-items:center; gap:8px; margin-top:14px; padding:9px 12px; border-radius:var(--r); background:var(--ok-sup); color:var(--ok);
+  font-size:var(--t-sm); font-weight:650 }
+.pg-an-verif.pend{ background:var(--avisa-sup); color:var(--avisa) }
+.pg-an-datos{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); margin:16px 0 14px }
+.pg-an-datos>div{ display:flex; flex-direction:column; gap:3px; padding:0 10px; border-left:1px solid var(--linea); min-width:0 }
+.pg-an-datos>div:first-child{ padding-left:0; border-left:0 }
+.pg-an-datos dt{ order:2; font-size:var(--t-xs); color:var(--tinta-3); line-height:1.3 }
+.pg-an-datos dd{ margin:0; display:flex; align-items:center; gap:4px; font:700 var(--t-lg)/1.1 var(--display); letter-spacing:-.025em; white-space:nowrap }
+.pg-an-datos dd .estrellas{ vertical-align:0 }
+.pg-an-anun-pie{ display:flex; justify-content:space-between; align-items:center; gap:10px; padding-top:12px; border-top:1px solid var(--linea); font-size:var(--t-sm) }
+
+/* cuerpo */
+.pg-an-cuerpo{ min-width:0 }
+.pg-an-sec{ padding-block:28px; border-top:1px solid var(--linea) }
+.pg-an-sec:first-child{ border-top:0; padding-top:12px }
+.pg-an-sec>h2,.pg-an-sec>.cabecera-seccion{ margin-bottom:14px }
+.pg-an-sec .cabecera-seccion{ align-items:center }
+.pg-an-entr{ margin:-8px 0 16px; font-size:var(--t-sm); color:var(--tinta-2) }
+.pg-an-desc{ font-size:var(--t-md); line-height:1.65; max-width:64ch }
+.pg-an-ficha{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; margin:20px 0 0 }
+.pg-an-ficha>div{ min-width:0; padding:12px 14px; border-radius:var(--r); background:var(--sup) }
+.pg-an-ficha dt{ font-size:var(--t-xs); font-weight:600; color:var(--tinta-3) }
+.pg-an-ficha dd{ margin:3px 0 0; font-size:var(--t-sm); font-weight:650; overflow-wrap:anywhere }
+.pg-an-ficha a{ color:var(--marca) } .pg-an-ficha a:hover{ text-decoration:underline; text-underline-offset:3px }
+.pg-an-incluye{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px 24px }
+.pg-an-incluye li{ display:flex; align-items:flex-start; gap:12px; line-height:1.45 }
+.pg-an-check{ flex:0 0 auto; width:24px; height:24px; margin-top:-1px; border-radius:50%; display:grid; place-items:center; background:var(--ok-sup); color:var(--ok) }
+.pg-an-dos{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px }
+.pg-an-tile{ display:flex; align-items:flex-start; gap:14px; padding:16px; border:1px solid var(--linea); border-radius:var(--r-l) }
+.pg-an-tile-ico{ flex:0 0 auto; width:44px; height:44px; border-radius:14px; display:grid; place-items:center; background:var(--marca-sup); color:var(--marca-tinta) }
+.pg-an-tile strong{ display:block; font-size:var(--t-base); line-height:1.3 }
+.pg-an-tile p{ margin-top:3px; font-size:var(--t-sm); color:var(--tinta-2); line-height:1.45 }
+.pg-an-tile .etiqueta{ display:block; margin-bottom:3px }
+
+/* mapa esquemático */
+.pg-an-mapa{ position:relative; aspect-ratio:2/1; border-radius:var(--r-l); overflow:hidden; background:var(--sup-2); border:1px solid var(--linea) }
+.pg-an-mapa>svg{ position:absolute; inset:0; width:100%; height:100% }
+.pg-an-mapa .m-tierra{ fill:var(--sup-2) }
+.pg-an-mapa .m-calle{ fill:none; stroke:var(--fondo); stroke-width:4.5; stroke-linecap:round }
+.pg-an-mapa .m-borde{ fill:none; stroke:var(--linea-2); stroke-width:14; stroke-linecap:round }
+.pg-an-mapa .m-avenida{ fill:none; stroke:var(--fondo); stroke-width:10; stroke-linecap:round }
+.pg-an-mapa .m-parque{ fill:var(--ok-sup) }
+.pg-an-mapa .m-mar{ fill:color-mix(in srgb,var(--marca-sup) 70%,var(--sup)) }
+.pg-an-mapa .m-costa{ fill:none; stroke:var(--marca-borde); stroke-width:1.5 }
+.pg-an-mapa .m-halo{ fill:var(--marca); fill-opacity:.07 }
+.pg-an-mapa .m-zona{ fill:var(--marca); fill-opacity:.14; stroke:var(--marca); stroke-width:2; stroke-dasharray:7 6 }
+.pg-an-mapa-chip{ position:absolute; z-index:1; left:12px; top:12px; max-width:calc(100% - 24px); display:inline-flex; align-items:center; gap:6px; height:32px; padding:0 12px 0 9px;
+  border-radius:99px; background:var(--fondo); box-shadow:var(--sombra-1); font-size:var(--t-xs); font-weight:650 }
+.pg-an-mapa-chip svg{ color:var(--marca); flex:0 0 auto }
+.pg-an-mapa-chip span{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+.pg-an-mapa-dist{ position:absolute; z-index:1; right:12px; bottom:12px; height:28px; padding:0 11px; border-radius:99px; display:inline-flex; align-items:center;
+  background:color-mix(in srgb,var(--tinta) 78%,transparent); color:var(--fondo); font-size:var(--t-xs); font-weight:600 }
+.pg-an-privado{ display:flex; align-items:flex-start; gap:10px; margin-top:12px; font-size:var(--t-sm); color:var(--tinta-2); line-height:1.5 }
+.pg-an-privado svg{ flex:0 0 auto; color:var(--marca); margin-top:1px }
+
+/* pago protegido */
+.pg-an-pago{ padding:24px; border-radius:var(--r-xl); border:1px solid var(--marca-borde); background:linear-gradient(165deg,var(--marca-sup) 0%,var(--fondo) 78%) }
+.pg-an-pago-cab{ display:flex; align-items:center; gap:14px }
+.pg-an-pago-ico{ flex:0 0 auto; width:50px; height:50px; border-radius:16px; display:grid; place-items:center; background:var(--marca); color:var(--fondo); box-shadow:0 10px 22px -12px var(--marca) }
+.pg-an-pasos{ list-style:none; margin:22px 0 0; padding:0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px }
+.pg-an-pasos li{ position:relative; display:flex; flex-direction:column; gap:3px; font-size:var(--t-sm); line-height:1.45; color:var(--tinta-2) }
+.pg-an-pasos strong{ color:var(--tinta); font-size:var(--t-base) }
+.pg-an-paso-ico{ position:relative; z-index:1; width:38px; height:38px; margin-bottom:8px; border-radius:50%; display:grid; place-items:center;
+  background:var(--fondo); color:var(--marca); box-shadow:inset 0 0 0 1.5px var(--marca-borde) }
+.pg-an-pasos li:last-child .pg-an-paso-ico{ background:var(--ok); color:var(--fondo); box-shadow:none }
+.pg-an-pasos li:not(:last-child)::after{ content:""; position:absolute; top:19px; left:48px; right:-10px; height:2px;
+  background:repeating-linear-gradient(90deg,var(--marca-borde) 0 6px,transparent 6px 11px) }
+.pg-an-pago-pie{ display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); gap:16px; margin-top:24px; align-items:stretch }
+.pg-an-recibo{ display:flex; flex-direction:column; gap:9px; padding:16px 18px; border-radius:var(--r-l); background:var(--fondo); box-shadow:var(--sombra-1); font-size:var(--t-sm) }
+.pg-an-recibo .fila{ flex-wrap:nowrap; gap:12px }
+.pg-an-recibo .num{ white-space:nowrap }
+.pg-an-total{ padding-top:10px; margin-top:2px; border-top:1.5px dashed var(--linea-2); font-weight:700; font-size:var(--t-md) }
+.pg-an-nunca{ display:flex; flex-direction:column; gap:8px; padding:16px 18px; border-radius:var(--r-l); background:var(--mal-sup); color:var(--tinta-2); font-size:var(--t-sm); line-height:1.5 }
+.pg-an-nunca strong{ color:var(--mal); display:flex; align-items:center; gap:7px }
+
+/* reseñas */
+.pg-an-notas{ display:grid; grid-template-columns:auto minmax(0,1fr); align-items:center; gap:28px; padding:18px 22px; border-radius:var(--r-l); background:var(--sup) }
+.pg-an-media{ display:flex; flex-direction:column; align-items:center; gap:6px; padding-right:28px; border-right:1px solid var(--linea-2) }
+.pg-an-media .cifra{ font-size:3rem; line-height:.95 }
+.pg-an-barras{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:7px }
+.pg-an-barras li{ display:grid; grid-template-columns:26px minmax(0,1fr) 34px; align-items:center; gap:10px; font-size:var(--t-xs); color:var(--tinta-2) }
+.pg-an-barras li>span:first-child{ display:inline-flex; align-items:center; gap:3px; font-weight:600 }
+.pg-an-barras li>span:first-child svg{ color:var(--sol) }
+.pg-an-barras .num{ text-align:right; color:var(--tinta-3) }
+.pg-an-pista-nota{ height:7px; border-radius:99px; background:var(--sup-3); overflow:hidden }
+.pg-an-pista-nota i{ display:block; height:100%; border-radius:inherit; background:var(--tinta); transform-origin:left; animation:pg-an-crece .9s var(--ease) both }
+@keyframes pg-an-crece{ from{ transform:scaleX(0) } }
+.pg-an-resenas{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-top:14px }
+.pg-an-res{ display:flex; flex-direction:column; gap:10px; padding:16px 18px; border:1px solid var(--linea); border-radius:var(--r-l) }
+.pg-an-res-cab{ display:flex; align-items:center; gap:10px }
+.pg-an-res p{ font-size:var(--t-sm); line-height:1.55 }
+.pg-an-res a{ color:var(--tinta-3) } .pg-an-res a:hover{ color:var(--marca) }
+.pg-an-vacio{ padding:22px; border-radius:var(--r-l); background:var(--sup); color:var(--tinta-2); font-size:var(--t-sm); text-align:center }
+
+/* pie de la ficha y reporte */
+.pg-an-pie{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px; padding:16px 0 0; border-top:1px solid var(--linea) }
+.pg-an-reportar{ display:inline-flex; align-items:center; gap:8px; height:38px; margin-right:-10px; padding:0 14px; border:0; border-radius:99px; background:transparent;
+  color:var(--tinta-2); font-size:var(--t-sm); font-weight:600; transition:background .18s, color .18s, transform .15s var(--ease) }
+.pg-an-reportar:hover{ background:var(--mal-sup); color:var(--mal) }
+.pg-an-reportar:active{ transform:scale(.96) }
+.pg-an-reportar[disabled]{ cursor:default; color:var(--ok); background:var(--ok-sup) }
+.pg-an-motivos{ border:0; margin:0; padding:0; min-width:0; display:flex; flex-direction:column; gap:8px }
+.pg-an-motivos legend{ padding:0; margin-bottom:8px; font-size:var(--t-sm); font-weight:600 }
+.pg-an-motivos .opcion{ padding:12px 14px; gap:11px }
+.pg-an-motivos .opcion span{ display:flex; flex-direction:column; gap:1px; font-size:var(--t-sm); font-weight:600; line-height:1.35 }
+.pg-an-motivos .opcion small{ font-size:var(--t-xs); font-weight:500; color:var(--tinta-3) }
+.pg-an-motivos[aria-invalid="true"] .opcion{ border-color:var(--mal) }
+.pg-an-ok{ width:68px; height:68px; border-radius:22px; display:grid; place-items:center; background:var(--ok-sup); color:var(--ok); animation:dialogo-entra .4s var(--ease) both }
+
+/* carriles */
+.pg-an-carril-sec{ padding-top:40px }
+.pg-an-carril-sec .cabecera-seccion{ align-items:center }
+.pg-an-carril-sec h2{ display:flex; align-items:center; gap:10px }
+.pg-an-carril-sec .cabecera-seccion>a{ white-space:nowrap }
+@media (max-width:999px){ .pg-an-carril-sec .carril{ grid-auto-columns:minmax(156px,44%) } }
+@media (min-width:600px) and (max-width:999px){ .pg-an-carril-sec .carril{ grid-auto-columns:minmax(180px,30%) } }
+
+/* barra fija inferior (móvil) */
+.pg-an-barra{ display:none }
+.pg-an-barra-precio{ font:700 1.375rem/1.1 var(--display); letter-spacing:-.035em; white-space:nowrap; font-variant-numeric:tabular-nums }
+.pg-an-barra-precio small{ font:500 var(--t-xs) var(--texto); color:var(--tinta-3); letter-spacing:0 }
+
+@media (max-width:960px){
+  .pg-an-resumen{ padding:2px 0 0; border:0; background:none }
+}
+@media (max-width:860px){
+  .pg-an-acciones{ display:none }
+  .pg-an-barra{ position:fixed; z-index:65; left:0; right:0; bottom:calc(var(--barra) + env(safe-area-inset-bottom,0px)); display:flex; align-items:center; gap:10px;
+    padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));
+    background:color-mix(in srgb,var(--fondo) 95%,transparent); backdrop-filter:blur(16px) saturate(1.8); border-top:1px solid var(--linea);
+    animation:pg-an-barra-entra .45s var(--ease) both }
+  .pg-an-barra .btn{ padding:0 17px }
+  .pg-an-barra-dueno{ gap:8px }
+  .pg-an-barra-dueno .btn{ flex:1; min-width:0; gap:6px; padding:0 8px; font-size:var(--t-sm) }
+  body:has(.pg-an-barra){ padding-bottom:calc(var(--barra) + 68px + env(safe-area-inset-bottom,0px)) }
+  body:has(.pg-an-barra) .avisador{ bottom:calc(var(--barra) + 84px + env(safe-area-inset-bottom,0px)) }
+}
+@keyframes pg-an-barra-entra{ from{ transform:translateY(100%); opacity:0 } }
+@media (max-width:759px){
+  .pg-an-env{ padding-top:0 }
+  .pg-an-migas{ display:none }
+  .pg-an-galeria{ margin-inline:-16px }
+  .pg-an-gal{ border-radius:0 }
+  .pg-an-pista{ aspect-ratio:1/1; max-height:60vh }
+  .pg-an-esq{ aspect-ratio:1/1; border-radius:0 }
+  .pg-an-minis,.pg-an-flecha{ display:none }
+  .pg-an-puntos{ display:flex }
+  .pg-an-volver{ display:grid }
+  .pg-an-precio{ font-size:2.125rem }
+  .pg-an-titulo{ font-size:1.3125rem }
+  .pg-an-ficha{ grid-template-columns:repeat(2,minmax(0,1fr)) }
+  .pg-an-pago{ padding:20px 18px }
+  .pg-an-pasos{ grid-template-columns:minmax(0,1fr); gap:16px }
+  .pg-an-pasos li{ padding-left:52px; min-height:38px }
+  .pg-an-paso-ico{ position:absolute; left:0; top:-2px; margin:0 }
+  .pg-an-pasos li:not(:last-child)::after{ top:40px; bottom:-14px; left:18px; right:auto; width:2px; height:auto;
+    background:repeating-linear-gradient(180deg,var(--marca-borde) 0 5px,transparent 5px 9px) }
+  .pg-an-pago-pie{ grid-template-columns:minmax(0,1fr) }
+  .pg-an-mapa{ aspect-ratio:4/3 }
+  .pg-an-carril-sec{ padding-top:32px }
+}
+@media (max-width:600px){
+  .pg-an-incluye,.pg-an-dos,.pg-an-resenas{ grid-template-columns:minmax(0,1fr) }
+  .pg-an-notas{ grid-template-columns:minmax(0,1fr); gap:16px; padding:18px }
+  .pg-an-media{ flex-direction:row; justify-content:center; gap:12px; padding:0 0 14px; border-right:0; border-bottom:1px solid var(--linea-2) }
+  .pg-an-media .cifra{ font-size:2.4rem }
+}
+</style>
+<main id="contenido" class="pg-an">
+  <div class="contenedor pg-an-env">
+    <nav class="pg-an-migas" id="pg-an-migas" aria-label="Estás en"></nav>
+    <div class="con-lateral pg-an-rejilla">
+      <section class="pg-an-galeria" id="pg-an-galeria" aria-label="Imágenes del servicio"><div class="esqueleto pg-an-esq"></div></section>
+      <aside class="pg-an-lateral" aria-label="Precio y anunciante"><div class="pegajoso" id="pg-an-lateral"></div></aside>
+      <div class="pg-an-cuerpo" id="pg-an-cuerpo"></div>
+    </div>
+  </div>
+  <section class="contenedor pg-an-carril-sec rev" id="pg-an-suyos" aria-labelledby="pg-an-suyos-t" hidden></section>
+  <section class="contenedor pg-an-carril-sec rev" id="pg-an-parecidos" aria-labelledby="pg-an-par-t" hidden></section>
+  <div class="pg-an-barra" id="pg-an-barra" role="region" aria-label="Contratar este servicio"></div>
+</main>
+<script>
+A.pagina = function(){
+  const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const a = A.anuncio(new URLSearchParams(location.search).get('id')) || A.anuncio('s1');
+  const u = A.usuario(a.u), cat = A.categoria(a.cat), s = A.sesion();
+  const mio = !!(s && s.id === u.id);
+  const pausaLocal = A.lee('pausaLocal', {});
+  let pausado = a.id in pausaLocal ? !!pausaLocal[a.id] : a.estado !== 'activo';
+  const verif = A.verificado(u);
+  const url = new URL('anuncio.html?id=' + a.id, location.href).href;
+  document.title = a.t + ' · Apaño';
+
+  /* iconos propios (trazo, currentColor) */
+  const P = {
+    atras:'M15 5l-7 7 7 7', sigue:'M9 5l7 7-7 7', mini:'M10 7l5 5-5 5',
+    compartir:'M12 3.5v11M7.5 8 12 3.5 16.5 8M6 12.5v7h12v-7',
+    ojo:'M2.5 12s3.4-6.5 9.5-6.5S21.5 12 21.5 12s-3.4 6.5-9.5 6.5S2.5 12 2.5 12zM12 14.8a2.8 2.8 0 1 0 0-5.6 2.8 2.8 0 0 0 0 5.6z',
+    reloj:'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 7.5V12l3 2',
+    calendario:'M4.5 6h15v14h-15zM4.5 10.5h15M8.5 3.5v4M15.5 3.5v4',
+    rayo:'M13 2.5 5 13.5h6l-1 8 8-11h-6z',
+    bandera:'M5.5 21V4M5.5 4.5h11.5l-2.2 4.2 2.2 4.3H5.5',
+    tarjeta:'M3 6h18v12H3zM3 10h18M7 15h4',
+    candado:'M6 10.5h12v10H6zM8.5 10.5V7.5a3.5 3.5 0 0 1 7 0v3',
+    pausa:'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM10 9v6M14 9v6',
+    aviso:'M12 3.5 2.5 20h19zM12 10v4.5M12 17.2v.1',
+    lapiz:'M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4', play:'M8 5.5v13l10.5-6.5z', pausaSola:'M9 5.5v13M15 5.5v13',
+    ojoNo:'M3 3l18 18M10.6 5.6c.5-.1.9-.1 1.4-.1 6.1 0 9.5 6.5 9.5 6.5a17 17 0 0 1-2.7 3.5M6.6 6.6C3.9 8.4 2.5 12 2.5 12s3.4 6.5 9.5 6.5c1.7 0 3.2-.5 4.5-1.2M9.9 9.9a3 3 0 0 0 4.2 4.2'
+  };
+  const ic = (d, t, w) => `<svg width="${t||18}" height="${t||18}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w||1.9}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
+  const estrella = (t, cls) => `<svg class="${cls||''}" width="${t}" height="${t}" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.4l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.8l-5.2 2.8 1-5.9L3.5 9.6l5.9-.8z"/></svg>`;
+  const dec = n => n.toLocaleString('es-ES',{minimumFractionDigits:1, maximumFractionDigits:1});
+  const may = t => t.charAt(0).toUpperCase() + t.slice(1);
+  const resp = t => t === '—' ? '—' : may(t.replace(/^en menos de /,'< ').replace(/^en /,''));
+  const km = x => A.usuario(x.u).km;
+
+  const MODOS = {
+    'A domicilio':          ['casa', 'Va a tu casa', 'Se desplaza hasta donde le digas dentro de su zona.'],
+    'En mi estudio':        ['ubicacion', 'En su estudio', 'Vas tú. Te da la dirección por el chat cuando contratas.'],
+    'En mi local':          ['ubicacion', 'En su local', 'Vas tú. Te da la dirección por el chat cuando contratas.'],
+    'En mi casa':           ['ubicacion', 'En su casa', 'Vas tú. Te da la dirección por el chat cuando contratas.'],
+    'Online':               ['tecnologia', 'Online', 'Por videollamada o en remoto, sin desplazamientos.'],
+    'Online o presencial':  ['tecnologia', 'Online o presencial', 'Tú eliges: en persona o por videollamada.'],
+    'A domicilio u online': ['casa', 'A domicilio u online', 'En tu casa o por videollamada, como prefieras.'],
+    'Al aire libre':        ['ubicacion', 'Al aire libre', 'En un punto de encuentro que acordáis por el chat.']
+  };
+  const modo = MODOS[a.modo] || ['casa', a.modo, ''];
+  const UNIDAD = {hora:'1 hora', servicio:'1 servicio', 'sesión':'1 sesión', clase:'1 clase', paseo:'1 paseo', 'día':'1 día', desde:'el precio de partida', 'm²':'1 m²', mes:'1 mes', foto:'1 foto'};
+
+  /* ---------- migas ---------- */
+  A.$('#pg-an-migas').innerHTML = `<a href="index.html">Inicio</a>${ic(P.mini,14)}<a href="buscar.html?cat=${cat.id}">${cat.n}</a>${ic(P.mini,14)}<span aria-current="page">${a.sub}</span>`;
+
+  /* ---------- galería: 4 composiciones de la misma portada ---------- */
+  const usados = new Set([A.hash(a.id) % 3]), variantes = [];
+  for(let k = 2; variantes.length < 3 && k < 60; k++){
+    const v = {...a, id: a.id + '-' + k}, h = A.hash(v.id) % 3;
+    if(!usados.has(h) || usados.size === 3){ usados.add(h); variantes.push(v) }
+  }
+  const invierte = html => html.replace(/--c1:([^;]+);--c2:([^;"]+)/, '--c1:$2;--c2:$1');
+  const diapos = [
+    {g: A.portada(a, {texto:true}), m: A.portada(a), cl:''},
+    {g: A.portada(variantes[0]), m: A.portada(variantes[0]), cl:''},
+    {g: invierte(A.portada(variantes[1])), m: invierte(A.portada(variantes[1])), cl:''},
+    {g: A.portada(variantes[2]), m: A.portada(variantes[2]), cl:'pg-an-detalle'}
+  ];
+  const n = diapos.length;
+  A.$('#pg-an-galeria').innerHTML = `
+    <div class="pg-an-gal ${pausado ? 'pg-an-gris' : ''}">
+      <div class="pg-an-pista" id="pg-an-pista" tabindex="0" role="region" aria-roledescription="carrusel" aria-label="Imágenes del anuncio: desliza o usa las flechas">
+        ${diapos.map((d,i) => `<div class="pg-an-diapo ${d.cl}" role="group" aria-roledescription="imagen" aria-label="${i+1} de ${n}">${d.g}</div>`).join('')}
+      </div>
+      <a class="pg-an-gal-btn pg-an-volver" id="pg-an-volver" href="index.html" aria-label="Volver">${ic(P.atras,20,2.1)}</a>
+      <div class="pg-an-gal-acc">
+        <button class="pg-an-gal-btn" type="button" data-copia="${url}" aria-label="Compartir: copiar el enlace del anuncio">${ic(P.compartir,19)}</button>
+        <button class="pg-an-gal-btn pg-an-fav" type="button" data-fav="${a.id}" aria-pressed="${A.esFav(a.id)}" aria-label="Guardar en favoritos">${A.icono('corazon',20)}</button>
+      </div>
+      <button class="pg-an-flecha pg-an-ant" type="button" aria-label="Imagen anterior" disabled>${ic(P.atras,20,2.2)}</button>
+      <button class="pg-an-flecha pg-an-sig" type="button" aria-label="Imagen siguiente">${ic(P.sigue,20,2.2)}</button>
+      <span class="pg-an-contador" aria-live="polite"><span id="pg-an-n">1</span>/${n}</span>
+      <div class="pg-an-puntos" aria-hidden="true">${diapos.map((d,i) => `<i class="${i ? '' : 'on'}"></i>`).join('')}</div>
+    </div>
+    <div class="pg-an-minis" role="group" aria-label="Miniaturas">
+      ${diapos.map((d,i) => `<button class="pg-an-mini ${d.cl}" type="button" aria-label="Ver imagen ${i+1} de ${n}" aria-current="${i === 0}">${d.m}</button>`).join('')}
+    </div>`;
+
+  /* ---------- lateral: precio, título, acciones y anunciante ---------- */
+  const boost = mio && A.BOOSTS ? A.BOOSTS.find(b => b.s === a.id && b.estado === 'activo') : null;
+  const dia = f => new Date(f + 'T12:00');
+  const quedan = boost ? Math.max(0, Math.round((dia(boost.hasta) - dia(A.HOY)) / 86400000)) : 0;
+  const insignias = () => [
+    boost ? `<span class="insignia insignia-sol">${estrella(12)}Destacado · ${quedan > 1 ? 'quedan ' + quedan + ' días' : quedan === 1 ? 'queda 1 día' : 'termina hoy'}</span>`
+          : (a.dest ? '<span class="insignia insignia-sol">Destacado</span>' : ''),
+    pausado ? `<span class="insignia insignia-avisa">${ic(P.pausa,13,2.1)}Pausado</span>`
+            : (a.urg ? `<span class="insignia insignia-tinta">${ic(P.rayo,12,2.2)}Disponible hoy</span>` : ''),
+    `<span class="insignia insignia-marca">${A.icono(modo[0],13)}${a.modo}</span>`
+  ].join('');
+  const aviso = () => mio
+    ? (pausado
+        ? `<div class="aviso aviso-avisa pg-an-aviso" role="status">${ic(P.pausa,18)}<div><b>Has pausado este anuncio.</b> No sale en las búsquedas y nadie puede contratarlo. Reactívalo cuando quieras.</div></div>`
+        : `<div class="aviso aviso-marca pg-an-aviso">${A.icono('persona',18)}<div><b>Este es tu anuncio.</b> Así lo ven los demás.</div></div>`)
+    : (pausado
+        ? `<div class="aviso aviso-avisa pg-an-aviso" role="status">${ic(P.pausa,18)}<div><b>Este anuncio está pausado.</b> ${u.corto} no acepta contrataciones ahora mismo${a.estado !== 'activo' ? ' (' + a.dispo.toLowerCase() + ')' : ''}. Guárdalo en favoritos para no perderlo.</div></div>`
+        : '');
+  const chat = (cls, icono) => pausado
+    ? `<button class="btn btn-sec ${cls}" type="button" disabled>${icono ? A.icono('buzon',19) : ''}Chatear</button>`
+    : `<a class="btn btn-sec ${cls}" href="chat.html?con=${u.id}&amp;s=${a.id}" data-exige="contactar">${icono ? A.icono('buzon',19) : ''}Chatear</a>`;
+  const contratar = cls => `<button class="btn ${cls}" type="button" data-contratar ${pausado ? 'disabled' : ''}>Contratar</button>`;
+  const pausaTxt = () => pausado ? `${ic(P.play,16,2)}Reactivar` : `${ic(P.pausaSola,16,2.3)}Pausar`;
+  const acciones = mio
+    ? `<a class="btn btn-sol btn-g btn-bloque" href="destacar.html?id=${a.id}">${estrella(18)}Destacar</a>
+       <div class="pg-an-dueno"><a class="btn btn-sec" href="subir.html?id=${a.id}" data-exige="publicar">${ic(P.lapiz,17)}Editar</a><button class="btn btn-sec" type="button" data-pausar>${pausaTxt()}</button></div>`
+    : contratar('btn-g btn-bloque') + chat('btn-g btn-bloque', true);
+  const favs0 = A.esFav(a.id);
+  const datosAnun = u.resenas
+    ? `<div><dt>${A.num(u.resenas)} reseñas</dt><dd>${dec(u.val)}${estrella(15,'pg-an-sol')}</dd></div>`
+    : `<div><dt>sin reseñas aún</dt><dd>Nuevo</dd></div>`;
+
+  // resumen del destacado (solo el dueño)
+  const tipoB = boost && A.DESTACADOS ? (A.DESTACADOS.find(d => d.id === boost.tipo) || {}).n : '';
+  const multi = boost && boost.antes && boost.antes.visitas ? boost.visitas / boost.antes.visitas : 0;
+  const gastado = boost ? Math.min(1, Math.max(0, (dia(A.HOY) - dia(boost.desde)) / Math.max(1, dia(boost.hasta) - dia(boost.desde)))) : 0;
+  const popular = A.DESTACADOS ? (A.DESTACADOS.find(d => d.popular) || A.DESTACADOS[0]) : null;
+  const minimo = A.DESTACADOS ? Math.min(...A.DESTACADOS.map(d => d.precio)) : 0;
+  const bloqueBoost = !mio ? '' : boost ? `
+    <section class="bloque pg-an-boost" aria-labelledby="pg-an-boost-t">
+      <div class="fila entre g8"><h2 class="pg-an-boost-t" id="pg-an-boost-t">${estrella(16,'pg-an-sol')}Tu destacado</h2><span class="xs ter">${tipoB ? tipoB + ' · ' : ''}hasta el ${A.fechaCorta(boost.hasta)}</span></div>
+      <div class="pg-an-boost-barra" role="progressbar" aria-label="Duración del destacado ya consumida" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(gastado * 100)}"><i style="width:${Math.round(gastado * 100)}%"></i></div>
+      <dl class="pg-an-datos pg-an-boost-cifras">
+        <div><dt>visitas</dt><dd>${A.num(boost.visitas)}</dd></div>
+        <div><dt>contactos</dt><dd>${A.num(boost.contactos)}</dd></div>
+        <div><dt>visitas frente a antes</dt><dd class="pg-an-multi">×${dec(multi)}</dd></div>
+      </dl>
+      <a class="enlace sm" href="destacar.html?id=${a.id}">Ver estadísticas del destacado</a>
+    </section>`
+    : (popular ? `<a class="bloque pg-an-impulso" href="destacar.html?id=${a.id}"><span class="pg-an-impulso-ico">${estrella(20)}</span><span class="col g4 crecer min0"><strong>Consigue más visitas</strong><span class="xs sec">${popular.n}: ${popular.multi} · desde ${A.eur(minimo)}</span></span>${ic(P.sigue,18)}</a>` : '');
+
+  A.$('#pg-an-lateral').innerHTML = `
+    <div class="pg-an-aviso-env" id="pg-an-aviso">${aviso()}</div>
+    <div class="bloque pg-an-resumen">
+      <div class="pg-an-precio">${A.precio(a)}</div>
+      <h1 class="pg-an-titulo">${a.t}</h1>
+      <div class="pg-an-insignias" id="pg-an-insignias">${insignias()}</div>
+      <div class="pg-an-meta">
+        <span>${ic(P.ojo,15)}${A.num(a.vistas)} vistas</span>
+        <span>${A.icono('corazon',14)}<span><span id="pg-an-favs">${A.num(a.favs)}</span> favoritos</span></span>
+        <span>${ic(P.reloj,14)}Publicado ${A.hace(a.fecha)}</span>
+      </div>
+      <div class="pg-an-acciones">${acciones}</div>
+      ${mio ? '' : `<p class="pg-an-garantia">${A.icono('escudo',16)}<span>Pagas con <a href="#pg-an-pago">Pago protegido</a>: ${u.corto} no cobra hasta que confirmes que el servicio está hecho.</span></p>`}
+    </div>
+    ${bloqueBoost}
+    <section class="bloque pg-an-anun" aria-label="Anunciante">
+      <a class="pg-an-anun-cab" href="perfil.html?id=${u.id}">
+        ${A.avatar(u,'avatar-g')}
+        <span class="col g4 crecer min0">
+          <span class="pg-an-anun-nombre">${u.corto}</span>
+          <span class="xs ter">${u.tipo === 'profesional' ? 'Profesional' : 'Particular'} · ${u.barrio}, ${u.ciudad}</span>
+        </span>
+        ${ic(P.sigue,18)}
+      </a>
+      ${verif ? `<p class="pg-an-verif">${A.icono('escudo',17)}Identidad verificada · mayor de edad</p>` : `<p class="pg-an-verif pend">${ic(P.reloj,17)}Identidad en revisión</p>`}
+      <dl class="pg-an-datos">
+        ${datosAnun}
+        <div><dt>servicios hechos</dt><dd>${A.num(u.hechos)}</dd></div>
+        <div><dt>tarda en responder</dt><dd>${resp(u.responde)}</dd></div>
+      </dl>
+      <div class="pg-an-anun-pie">
+        <span class="ter xs">En Apaño desde ${dia(u.alta).toLocaleDateString('es-ES',{month:'long', year:'numeric'})}</span>
+        <a class="enlace" href="perfil.html?id=${u.id}">Ver perfil</a>
+      </div>
+    </section>`;
+
+  /* ---------- cuerpo ---------- */
+  const desglose = (val, total) => {
+    if(!total) return [0,0,0,0,0];
+    const d = Math.max(0, 5 - val), c = {}; let resto = total;
+    [[4,.6],[3,.13],[2,.03],[1,.01]].forEach(([k,f]) => { c[k] = Math.round(total * f * d); resto -= c[k] });
+    c[5] = Math.max(0, resto);
+    return [5,4,3,2,1].map(k => c[k]);
+  };
+  const reparto = desglose(u.val, u.resenas);
+  const resenas = A.resenasDe(u.id).slice().sort((x,y) => y.f.localeCompare(x.f));
+  const calc = A.pedido.calcula({s:a.id, cantidad:1, extra:0});
+
+  const hayMapa = a.modo !== 'Online';
+  const ambito = /mallorca|isla|suroeste/i.test(a.zona) ? 'amplia' : 'normal';
+  const textoZona = /domicilio|aire libre/i.test(a.modo)
+    ? `Se mueve por esta zona. ${u.corto} está a ${A.km(u.km)} de ti.`
+    : `El servicio se hace en su ${modo[1].replace(/^En su /,'')}, dentro de esta zona. Está a ${A.km(u.km)} de ti.`;
+
+  A.$('#pg-an-cuerpo').innerHTML = `
+    <section class="pg-an-sec" aria-labelledby="pg-an-desc-t">
+      <h2 class="h3" id="pg-an-desc-t">Sobre este servicio</h2>
+      <p class="pg-an-desc">${a.desc}</p>
+      <dl class="pg-an-ficha">
+        <div><dt>Categoría</dt><dd><a href="buscar.html?cat=${cat.id}">${cat.n}</a></dd></div>
+        <div><dt>Tipo</dt><dd>${a.sub}</dd></div>
+        <div><dt>Precio</dt><dd>${A.precioTxt(a)}</dd></div>
+        <div><dt>Publicado</dt><dd>${A.fecha(a.fecha)}</dd></div>
+      </dl>
+    </section>
+
+    <section class="pg-an-sec" aria-labelledby="pg-an-inc-t">
+      <h2 class="h3" id="pg-an-inc-t">Qué incluye</h2>
+      <ul class="pg-an-incluye">${a.incluye.map(x => `<li><span class="pg-an-check">${A.icono('check',14,'stroke-width="2.6"')}</span><span>${x}</span></li>`).join('')}</ul>
+    </section>
+
+    <section class="pg-an-sec" aria-labelledby="pg-an-cuando-t">
+      <h2 class="h3" id="pg-an-cuando-t">Cuándo y cómo</h2>
+      <div class="pg-an-dos">
+        <div class="pg-an-tile"><span class="pg-an-tile-ico">${ic(P.calendario,21)}</span>
+          <div class="min0"><span class="etiqueta">Disponibilidad</span><strong>${a.dispo}</strong>
+          <p>${pausado ? 'Ahora mismo no acepta contrataciones.' : (a.urg ? 'Tiene hueco hoy mismo. ' : '') + 'Responde ' + u.responde + '.'}</p></div></div>
+        <div class="pg-an-tile"><span class="pg-an-tile-ico">${A.icono(modo[0],21)}</span>
+          <div class="min0"><span class="etiqueta">Modalidad</span><strong>${modo[1]}</strong><p>${modo[2]}</p></div></div>
+      </div>
+    </section>
+
+    <section class="pg-an-sec" aria-labelledby="pg-an-zona-t">
+      <h2 class="h3" id="pg-an-zona-t">Zona de servicio</h2>
+      ${hayMapa ? `
+      <p class="pg-an-entr">${textoZona}</p>
+      <div class="pg-an-mapa">
+        ${mapa(ambito)}
+        <span class="pg-an-mapa-chip">${A.icono('ubicacion',15)}<span>${a.zona}</span></span>
+        <span class="pg-an-mapa-dist">Zona aproximada</span>
+      </div>
+      <p class="pg-an-privado">${ic(P.ojoNo,18)}<span>El círculo es orientativo: Apaño nunca muestra la dirección exacta de nadie. La concretáis por el chat cuando contrates.</span></p>`
+      : `<div class="pg-an-tile"><span class="pg-an-tile-ico">${A.icono('tecnologia',21)}</span><div class="min0"><strong>Servicio online${/^online$/i.test(a.zona) ? '' : ' · ' + a.zona}</strong><p>Lo recibes estés donde estés. No hace falta compartir ninguna dirección.</p></div></div>`}
+    </section>
+
+    <section class="pg-an-sec" id="pg-an-pago" aria-labelledby="pg-an-pago-t">
+      <div class="pg-an-pago">
+        <div class="pg-an-pago-cab">
+          <span class="pg-an-pago-ico">${A.icono('escudo',24)}</span>
+          <div class="col g4"><h2 class="h3" id="pg-an-pago-t">Pago protegido</h2><p class="sm sec">Tu dinero está a salvo hasta que el servicio esté hecho.</p></div>
+        </div>
+        <ol class="pg-an-pasos">
+          <li><span class="pg-an-paso-ico">${ic(P.tarjeta,18)}</span><strong>Pagas en Apaño</strong><span>Con tarjeta y dentro de la app, nunca por Bizum ni en efectivo.</span></li>
+          <li><span class="pg-an-paso-ico">${ic(P.candado,18)}</span><strong>El dinero espera</strong><span>Lo retenemos. ${u.corto} ve que está pagado, pero aún no lo cobra.</span></li>
+          <li><span class="pg-an-paso-ico">${A.icono('check',18,'stroke-width="2.4"')}</span><strong>Se libera cuando confirmas</strong><span>Si algo sale mal, abrimos una mediación y puedes recuperarlo.</span></li>
+        </ol>
+        <div class="pg-an-pago-pie">
+          <div class="pg-an-recibo" aria-label="Ejemplo de importe">
+            <span class="etiqueta">Ejemplo con ${UNIDAD[a.unidad] || '1 servicio'}</span>
+            <div class="fila entre"><span>Precio del servicio</span><span class="num">${A.eur(calc.base)}</span></div>
+            <div class="fila entre"><span>Pago protegido <span class="ter">(5 % + 0,99 €)</span></span><span class="num">${A.eur(calc.prot)}</span></div>
+            <div class="fila entre pg-an-total"><span>Total</span><span class="num">${A.eur(calc.total)}</span></div>
+            <span class="ayuda">${a.unidad === 'desde' ? 'El precio final lo acordáis por el chat antes de pagar. ' : ''}En esta demostración los pagos son simulados: no se cobra nada.</span>
+          </div>
+          <div class="pg-an-nunca">
+            <strong>${ic(P.aviso,17,2)}Nunca pagues fuera de Apaño</strong>
+            <span>Si alguien te pide Bizum, transferencia o efectivo para saltarse la comisión, pierdes la protección. ${mio ? '' : 'Repórtalo y lo revisamos.'}</span>
+            <a class="enlace" href="como-funciona.html#pago">Cómo funciona el Pago protegido</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pg-an-sec" aria-labelledby="pg-an-res-t">
+      <div class="cabecera-seccion">
+        <h2 class="h3" id="pg-an-res-t">Reseñas de ${u.corto}</h2>
+        ${u.resenas ? `<a class="enlace sm" href="perfil.html?id=${u.id}#resenas">Ver todas</a>` : ''}
+      </div>
+      ${u.resenas ? `
+      <div class="pg-an-notas">
+        <div class="pg-an-media"><span class="cifra">${dec(u.val)}</span><span class="col g4" style="align-items:center">${A.estrellas(u.val,15)}<span class="xs ter">${A.num(u.resenas)} valoraciones</span></span></div>
+        <ul class="pg-an-barras" aria-label="Reparto de notas">
+          ${reparto.map((c,i) => `<li><span>${5-i}${estrella(11)}</span><span class="pg-an-pista-nota"><i style="width:${(c / u.resenas * 100).toFixed(1)}%"></i></span><span class="num">${c}</span></li>`).join('')}
+        </ul>
+      </div>
+      <div class="pg-an-resenas">
+        ${resenas.slice(0,4).map(r => { const de = A.usuario(r.de), sv = A.anuncio(r.s); return `
+          <article class="pg-an-res">
+            <div class="pg-an-res-cab">${A.avatar(de)}<div class="col crecer min0"><strong class="sm">${de.corto}</strong><span class="xs ter">${may(A.hace(r.f))}</span></div>${A.estrellas(r.nota,13)}<span class="solo-lector">${r.nota} de 5 estrellas</span></div>
+            <p>${r.t}</p>
+            ${sv ? `<a class="xs recorte recorte-1" href="anuncio.html?id=${sv.id}">${sv.t}</a>` : ''}
+          </article>` }).join('')}
+      </div>` : `<p class="pg-an-vacio">${u.corto} todavía no tiene reseñas. Las reseñas solo las pueden dejar personas que han contratado con Pago protegido.</p>`}
+    </section>
+
+    <div class="pg-an-pie">
+      <span class="xs ter">Referencia del anuncio: ${a.id.toUpperCase()}</span>
+      ${mio ? '' : `<button class="pg-an-reportar" type="button" id="pg-an-reportar">${ic(P.bandera,16)}Reportar este anuncio</button>`}
+    </div>`;
+
+  /* ---------- carriles ---------- */
+  const suyos = A.anunciosDe(u.id).filter(x => x.id !== a.id && x.estado === 'activo');
+  if(suyos.length){
+    const sec = A.$('#pg-an-suyos'); sec.hidden = false;
+    sec.innerHTML = `<div class="cabecera-seccion"><h2 class="h2" id="pg-an-suyos-t">${A.avatar(u,'avatar-p')}${mio ? 'Tus otros anuncios' : 'Más de ' + u.corto}</h2><a class="enlace sm" href="perfil.html?id=${u.id}">Ver perfil</a></div>
+      <div class="carril">${suyos.map(x => A.tarjeta(x)).join('')}</div>`;
+  }
+  const AFINES = {mascotas:['cuidados','recados'], hogar:['reparaciones','mudanzas','limpieza'], limpieza:['hogar','recados'], mudanzas:['hogar','recados'],
+    clases:['deporte','diseno'], belleza:['deporte','eventos'], eventos:['diseno','belleza'], tecnologia:['reparaciones','diseno'], motor:['reparaciones','hogar'],
+    jardin:['hogar','limpieza'], cuidados:['recados','limpieza'], diseno:['eventos','tecnologia'], recados:['cuidados','limpieza'], deporte:['belleza','clases'],
+    reparaciones:['hogar','tecnologia']};
+  const ya = new Set([a.id, ...suyos.map(x => x.id)]);
+  const misma = A.activos().filter(x => x.cat === a.cat && !ya.has(x.id)).sort((x,y) => km(x) - km(y));
+  const afines = A.activos().filter(x => (AFINES[a.cat] || []).includes(x.cat) && !ya.has(x.id) && x.u !== a.u).sort((x,y) => km(x) - km(y));
+  const parecidos = misma.concat(afines).slice(0, 5);
+  if(parecidos.length){
+    const sec = A.$('#pg-an-parecidos'); sec.hidden = false;
+    sec.innerHTML = `<div class="cabecera-seccion"><div class="col g4"><h2 class="h2" id="pg-an-par-t">Parecidos cerca de ti</h2><p class="sm ter">${misma.length ? cat.n : cat.n + ' y servicios afines'}, del más cercano al más lejano</p></div><a class="enlace sm" href="buscar.html?cat=${cat.id}">Ver más</a></div>
+      <div class="carril">${parecidos.map(x => A.tarjeta(x)).join('')}</div>`;
+  }
+
+  /* ---------- barra fija inferior (móvil) ---------- */
+  A.$('#pg-an-barra').classList.toggle('pg-an-barra-dueno', mio);
+  A.$('#pg-an-barra').innerHTML = mio
+    ? `<button class="btn btn-sec" type="button" data-pausar>${pausaTxt()}</button><a class="btn btn-sec" href="subir.html?id=${a.id}" data-exige="publicar">${ic(P.lapiz,16)}Editar</a><a class="btn btn-sol" href="destacar.html?id=${a.id}">${estrella(16)}Destacar</a>`
+    : `<div class="col crecer min0"><span class="pg-an-barra-precio">${A.precio(a)}</span><span class="xs ter recorte recorte-1">${pausado ? 'Anuncio pausado' : 'Con Pago protegido'}</span></div>${chat('')}${contratar('')}`;
+
+  /* ---------- comportamiento ---------- */
+  // Contratar: guarda el pedido, exige cuenta verificada y va al pago
+  A.$$('[data-contratar]').forEach(b => b.addEventListener('click', () => {
+    if(pausado) return;
+    A.pedido.guardar({s:a.id, cantidad:1, extra:0});
+    if(!A.exige('pagar')) return;
+    location.href = 'pago.html';
+  }));
+
+  // Pausar / Reactivar (solo el dueño; simulado y guardado en este navegador)
+  A.$$('[data-pausar]').forEach(b => b.addEventListener('click', () => {
+    pausado = !pausado;
+    const m = A.lee('pausaLocal', {}); m[a.id] = pausado; A.guarda('pausaLocal', m);
+    A.$$('[data-pausar]').forEach(x => x.innerHTML = pausaTxt());
+    A.$('.pg-an-gal').classList.toggle('pg-an-gris', pausado);
+    A.$('#pg-an-aviso').innerHTML = aviso();
+    A.$('#pg-an-insignias').innerHTML = insignias();
+    A.avisa(pausado ? 'Anuncio pausado: ya no sale en las búsquedas' : 'Anuncio reactivado: vuelve a estar visible');
+  }));
+
+  // contador de favoritos en vivo
+  document.addEventListener('click', e => {
+    if(!e.target.closest(`[data-fav="${a.id}"]`)) return;
+    A.$('#pg-an-favs').textContent = A.num(a.favs + (A.esFav(a.id) ? 1 : 0) - (favs0 ? 1 : 0));
+  });
+
+  // volver: si venimos de Apaño, atrás en el historial
+  A.$('#pg-an-volver').addEventListener('click', e => {
+    try{ if(document.referrer && new URL(document.referrer).origin === location.origin && history.length > 1){ e.preventDefault(); history.back() } }catch(err){}
+  });
+
+  // galería con scroll-snap, flechas, miniaturas, puntos y teclado
+  const pista = A.$('#pg-an-pista'), ant = A.$('.pg-an-ant'), sig = A.$('.pg-an-sig');
+  const minis = A.$$('.pg-an-mini'), puntos = A.$$('.pg-an-puntos i');
+  let actual = 0, programado = null;
+  const pinta = i => {
+    actual = i;
+    A.$('#pg-an-n').textContent = i + 1;
+    minis.forEach((b,j) => b.setAttribute('aria-current', j === i));
+    puntos.forEach((p,j) => p.classList.toggle('on', j === i));
+    ant.disabled = i === 0; sig.disabled = i === n - 1;
+  };
+  const ve = i => {
+    i = Math.max(0, Math.min(n - 1, i));
+    clearTimeout(programado); programado = setTimeout(() => programado = null, 600);
+    pista.scrollTo({left: i * pista.clientWidth, behavior: quieto ? 'auto' : 'smooth'});
+    pinta(i);
+  };
+  let cuadro;
+  pista.addEventListener('scroll', () => {
+    if(programado) return;
+    cancelAnimationFrame(cuadro);
+    cuadro = requestAnimationFrame(() => { const i = Math.round(pista.scrollLeft / pista.clientWidth); if(i !== actual) pinta(i) });
+  }, {passive:true});
+  ant.addEventListener('click', () => ve(actual - 1));
+  sig.addEventListener('click', () => ve(actual + 1));
+  minis.forEach((b,j) => b.addEventListener('click', () => ve(j)));
+  pista.addEventListener('keydown', e => {
+    if(e.key === 'ArrowRight'){ e.preventDefault(); ve(actual + 1) }
+    else if(e.key === 'ArrowLeft'){ e.preventDefault(); ve(actual - 1) }
+    else if(e.key === 'Home'){ e.preventDefault(); ve(0) }
+    else if(e.key === 'End'){ e.preventDefault(); ve(n - 1) }
+  });
+  addEventListener('resize', () => { pista.scrollLeft = actual * pista.clientWidth });
+
+  // lateral pegajoso: si no cabe en pantalla, se pega por abajo para que todo sea alcanzable
+  const lat = A.$('#pg-an-lateral'), cabecera = A.$('.cab');
+  const ajustaLateral = () => {
+    lat.style.top = '';
+    if(innerWidth <= 960) return;
+    const arriba = (cabecera ? cabecera.getBoundingClientRect().height : 68) + 18;
+    if(lat.offsetHeight > innerHeight - arriba - 18) lat.style.top = (innerHeight - lat.offsetHeight - 18) + 'px';
+  };
+  ajustaLateral(); addEventListener('resize', ajustaLateral);
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(ajustaLateral);
+
+  /* ---------- reportar ---------- */
+  const rep = A.$('#pg-an-reportar');
+  const marcaReportado = () => { rep.disabled = true; rep.innerHTML = `${A.icono('check',16,'stroke-width="2.4"')}Reportado · lo estamos revisando` };
+  if(rep){
+    if(A.lee('reportados', []).includes(a.id)) marcaReportado();
+    rep.addEventListener('click', reportar);
+  }
+  function reportar(){
+    const MOTIVOS = [
+      ['Pide pagar fuera de la app', 'Bizum, transferencia o efectivo para saltarse el Pago protegido.'],
+      ['Precio engañoso', 'El precio real no se parece al anunciado.'],
+      ['No es un servicio', 'Vende un producto, ofrece un empleo o es publicidad.'],
+      ['Contenido inapropiado', 'Ofensivo, sexual, violento o ilegal.'],
+      ['Sospecho que es menor de edad', 'Lo revisamos con prioridad.'],
+      ['Otro motivo', 'Cuéntanoslo en los detalles.']
+    ];
+    A.dialogo(`
+      <form class="dialogo-cuerpo col g16" id="pg-an-rep" novalidate style="padding-top:24px">
+        <div class="col g6" style="padding-right:44px">
+          <h2 class="h2">Reportar este anuncio</h2>
+          <p class="sm sec">${u.corto} no sabrá quién lo ha reportado. El equipo de moderación lo revisa en menos de 24 horas.</p>
+        </div>
+        <fieldset class="pg-an-motivos" id="pg-an-motivos" aria-describedby="pg-an-rep-err">
+          <legend>¿Qué ocurre?</legend>
+          ${MOTIVOS.map((m,i) => `<label class="opcion" for="pg-an-m${i}"><input type="radio" name="motivo" id="pg-an-m${i}" value="${m[0]}"><span>${m[0]}<small>${m[1]}</small></span></label>`).join('')}
+        </fieldset>
+        <p class="error" id="pg-an-rep-err" hidden>Elige un motivo para poder enviarlo.</p>
+        <div class="campo">
+          <label for="pg-an-rep-txt">Detalles <span class="ter" id="pg-an-rep-opc">(opcional)</span></label>
+          <textarea class="ent" id="pg-an-rep-txt" maxlength="500" placeholder="Por ejemplo: en el chat me pidió pagar por Bizum para ahorrarse la comisión." aria-describedby="pg-an-rep-ayuda"></textarea>
+          <p class="ayuda" id="pg-an-rep-ayuda">Si crees que alguien está en peligro, llama al 112.</p>
+        </div>
+        <button class="btn btn-g btn-bloque" type="submit">Enviar reporte</button>
+      </form>`, {ancho:520, alAbrir:(capa) => {
+        const f = A.$('#pg-an-rep', capa), grupo = A.$('#pg-an-motivos', capa), err = A.$('#pg-an-rep-err', capa), txt = A.$('#pg-an-rep-txt', capa);
+        const radios = A.$$('input[name="motivo"]', capa);
+        radios.forEach(r => r.addEventListener('change', () => {
+          grupo.removeAttribute('aria-invalid'); radios.forEach(x => x.removeAttribute('aria-invalid')); err.hidden = true;
+          const otro = r.value === 'Otro motivo';
+          A.$('#pg-an-rep-opc', capa).textContent = otro ? '(obligatorio)' : '(opcional)';
+          if(!otro){ txt.removeAttribute('aria-invalid') }
+        }));
+        txt.addEventListener('input', () => txt.removeAttribute('aria-invalid'));
+        f.addEventListener('submit', e => {
+          e.preventDefault();
+          const elegido = radios.find(r => r.checked);
+          if(!elegido){
+            grupo.setAttribute('aria-invalid','true'); radios.forEach(x => x.setAttribute('aria-invalid','true'));
+            err.textContent = 'Elige un motivo para poder enviarlo.'; err.hidden = false; radios[0].focus(); return;
+          }
+          if(elegido.value === 'Otro motivo' && txt.value.trim().length < 10){
+            txt.setAttribute('aria-invalid','true'); txt.setAttribute('aria-describedby','pg-an-rep-err pg-an-rep-ayuda');
+            err.textContent = 'Cuéntanos en unas palabras qué pasa (mínimo 10 caracteres).'; err.hidden = false; txt.focus(); return;
+          }
+          A.guarda('reportados', [...new Set([...A.lee('reportados', []), a.id])]);
+          const ref = 'RP-' + String(A.hash(a.id + elegido.value + Date.now()) % 900000 + 100000);
+          const menor = elegido.value === 'Sospecho que es menor de edad';
+          f.outerHTML = `<div class="dialogo-cuerpo col g16" style="padding-top:30px;text-align:center;align-items:center">
+            <span class="pg-an-ok">${A.icono('check',32,'stroke-width="2.6"')}</span>
+            <h2 class="h2">Gracias, lo revisamos</h2>
+            <p class="sec" style="max-width:38ch">${menor ? 'Los avisos de posibles menores van primero en la cola: el equipo comprobará el documento del anunciante hoy mismo.' : 'El equipo de moderación mirará este anuncio en menos de 24 horas.'} ${s ? 'Te contaremos el resultado en tu buzón.' : 'No tienes que hacer nada más.'}</p>
+            <span class="insignia">Referencia ${ref}</span>
+            <button class="btn btn-sec btn-bloque" type="button" data-cerrar>Cerrar</button>
+          </div>`;
+          const c = A.$('[data-cerrar].btn', capa); if(c) c.focus();
+          marcaReportado();
+        });
+      }});
+  }
+
+  /* ---------- mapa esquemático (SVG generado, sin dirección exacta) ---------- */
+  function mapa(ambito){
+    let sem = A.hash(a.id + '|' + a.zona) || 7;
+    const r = () => { sem = (sem + 0x6D2B79F5) | 0; let t = Math.imul(sem ^ (sem >>> 15), 1 | sem); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296 };
+    const W = 640, H = 320, f = v => Math.round(v);
+    const cx = f(300 + r() * 60), cy = f(132 + r() * 26);
+    // retícula de calles girada, saltándose algunas para que las manzanas varíen
+    const paso = 34 + f(r() * 12), giro = f((r() - .5) * 36);
+    let d = '';
+    for(let x = -360; x <= 1000; x += paso) if(r() > .16) d += `M${x} -360V680`;
+    for(let y = -360; y <= 680; y += f(paso * .82)) if(r() > .16) d += `M-360 ${y}H1000`;
+    // avenidas y ronda
+    const y1 = f(60 + r() * 70), y2 = f(150 + r() * 80), x1 = f(150 + r() * 120), x2 = f(380 + r() * 140);
+    const av = [
+      `M-20 ${y1} C 180 ${y1 + 40}, 420 ${y2 - 60}, 660 ${y2}`,
+      `M${x1} -20 C ${x1 + 30} 120, ${x1 - 40} 220, ${x1 + 10} 340`,
+      `M${x2} -20 C ${x2 - 50} 100, ${x2 + 30} 210, ${x2 - 20} 340`,
+      `M-20 ${f(H * .74)} Q ${cx} ${f(H * .5 - 150 - r() * 30)} 660 ${f(H * .7)}`
+    ];
+    // parques
+    const parques = [0,1,2].map(() => `<rect class="m-parque" x="${f(r() * 560)}" y="${f(r() * 200)}" width="${f(46 + r() * 60)}" height="${f(30 + r() * 40)}" rx="12" transform="rotate(${giro} 320 160)"/>`).join('');
+    // costa
+    const c0 = H - f(40 + r() * 16), c1 = H - f(58 + r() * 20), c2 = H - f(26 + r() * 16), c3 = H - f(46 + r() * 22);
+    const costa = `M-10 ${c0} C 120 ${c1}, 230 ${c2}, 340 ${c3} S 560 ${c1 - 8}, 650 ${c0 - 6}`;
+    const radio = ambito === 'amplia' ? 118 : 84;
+    return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Mapa esquemático de la zona de servicio: ${a.zona}. No muestra la dirección exacta.">
+      <rect class="m-tierra" width="${W}" height="${H}"/>
+      ${parques}
+      <g transform="rotate(${giro} 320 160)"><path class="m-calle" d="${d}"/></g>
+      ${av.map(p => `<path class="m-borde" d="${p}"/>`).join('')}
+      ${av.map(p => `<path class="m-avenida" d="${p}"/>`).join('')}
+      <path class="m-mar" d="${costa} L650 ${H + 10} L-10 ${H + 10}Z"/>
+      <path class="m-costa" d="${costa}"/>
+      <circle class="m-halo" cx="${cx}" cy="${cy}" r="${radio + 30}"/>
+      <circle class="m-zona" cx="${cx}" cy="${cy}" r="${radio}"/>
+    </svg>`;
+  }
+};
+</script>

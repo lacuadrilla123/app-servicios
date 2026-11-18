@@ -1,0 +1,1592 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Moderación · Apaño</title>
+<meta name="description" content="Panel del equipo de Apaño para verificar documentos de identidad, que ningún menor de 18 entre, y moderar usuarios, anuncios y reportes.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="base.css">
+<script src="datos.js"></script>
+<script src="app.js"></script>
+</head>
+<body>
+<a class="solo-lector" href="#contenido">Saltar al contenido</a>
+<header class="cab">
+  <div class="contenedor cab-fila">
+    <a class="logo" href="index.html" aria-label="Apaño, ir al inicio">apa<span class="n">ñ</span>o<span class="punto">.</span></a>
+    <form class="buscador escritorio" data-busqueda role="search" aria-label="Buscar servicios">
+      <svg class="ico" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M10.8 17.6a6.8 6.8 0 1 0 0-13.6 6.8 6.8 0 0 0 0 13.6zM20 20l-4.3-4.3"/></svg>
+      <label class="solo-lector" for="q-cab">Qué necesitas</label>
+      <input id="q-cab" name="q" type="search" placeholder="Busca un servicio: paseo de perros, electricista, clases…" autocomplete="off">
+      <button class="buscador-btn" type="submit">Buscar</button>
+    </form>
+    <div class="crecer solo-movil"></div>
+    <div class="cab-acc">
+      <a class="ico-btn solo-escritorio" href="favoritos.html" aria-label="Favoritos">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.3A4.2 4.2 0 0 1 12 7.7a4.2 4.2 0 0 1 7.5 2.5c0 5.7-7.5 10.3-7.5 10.3z"/></svg>
+      </a>
+      <a class="ico-btn" href="notificaciones.html" aria-label="Notificaciones" data-punto-notif>
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15zM10 20.5a2.2 2.2 0 0 0 4 0"/></svg>
+      </a>
+      <a class="ico-btn" href="chat.html" aria-label="Buzón de mensajes" data-punto-buzon>
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5h16v11H8.5L4 20z"/></svg>
+      </a>
+      <a class="btn btn-subir solo-escritorio" href="subir.html" data-exige="publicar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        Subir anuncio
+      </a>
+      <div class="fila g6" id="cuenta"></div>
+    </div>
+  </div>
+  <div class="contenedor cab-movil">
+    <form class="buscador" data-busqueda role="search" aria-label="Buscar servicios">
+      <svg class="ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M10.8 17.6a6.8 6.8 0 1 0 0-13.6 6.8 6.8 0 0 0 0 13.6zM20 20l-4.3-4.3"/></svg>
+      <label class="solo-lector" for="q-movil">Qué necesitas</label>
+      <input id="q-movil" name="q" type="search" placeholder="Buscar en Apaño" autocomplete="off">
+    </form>
+  </div>
+</header>
+<nav class="tabbar" aria-label="Navegación principal">
+  <a href="index.html"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11 12 4l8.5 7M6 9.4V20h12V9.4"/></svg>Inicio</a>
+  <a href="favoritos.html"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.3A4.2 4.2 0 0 1 12 7.7a4.2 4.2 0 0 1 7.5 2.5c0 5.7-7.5 10.3-7.5 10.3z"/></svg>Favoritos</a>
+  <a href="subir.html" data-exige="publicar" aria-label="Subir anuncio"><span class="mas"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></a>
+  <a href="chat.html" data-punto-buzon><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5h16v11H8.5L4 20z"/></svg>Buzón</a>
+  <a href="cuenta.html" id="tab-tu"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4.5 20.5c.8-3.6 3.8-5.5 7.5-5.5s6.7 1.9 7.5 5.5"/></svg>Tú</a>
+</nav>
+<style>
+.pg-adm{ --pg-adm-cab:var(--cab) }
+.pg-adm fieldset,.pg-adm-hoja fieldset{ border:0; margin:0; padding:0; min-width:0 }
+.pg-adm-mono{ font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace; font-variant-numeric:tabular-nums; letter-spacing:.04em }
+
+/* ---------- sin acceso ---------- */
+.pg-adm-sin{ display:grid; gap:36px; align-items:center; padding-block:36px 12px }
+@media (min-width:880px){ .pg-adm-sin{ grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); padding-block:84px 36px } }
+.pg-adm-sin .titular{ max-width:14ch }
+.pg-adm-sin-acc .btn{ flex:1 1 auto }
+@media (min-width:600px){ .pg-adm-sin-acc .btn{ flex:0 0 auto } }
+.pg-adm-sin-ilus{ position:relative; width:100%; max-width:420px; aspect-ratio:5/4; margin-inline:auto }
+.pg-adm-sin-ilus>.pg-adm-doc{ position:absolute; left:0; top:16%; width:74%; rotate:-7deg; box-shadow:inset 0 0 0 1px var(--linea-2), var(--sombra-3) }
+.pg-adm-sin-sel{ position:absolute; right:2%; top:2%; width:40%; aspect-ratio:3/4; rotate:6deg; display:flex; border-radius:12px; box-shadow:var(--sombra-3) }
+.pg-adm-sin-sel .pg-adm-doc{ flex:1; aspect-ratio:auto }
+.pg-adm-sin-candado{ position:absolute; left:50%; bottom:4%; translate:-50% 0; width:92px; height:92px; border-radius:30px; display:grid; place-items:center;
+  background:var(--tinta); color:var(--fondo); box-shadow:var(--sombra-3); border:4px solid var(--fondo) }
+.pg-adm-sin-candado::after{ content:"18"; position:absolute; right:-14px; top:-14px; width:38px; height:38px; border-radius:50%; display:grid; place-items:center;
+  background:var(--sol); color:var(--sol-tinta); font:800 .9rem/1 var(--display); letter-spacing:-.04em; border:3px solid var(--fondo) }
+
+/* ---------- cabecera del panel ---------- */
+.pg-adm-hero{ padding-block:22px 22px; background:radial-gradient(80% 140% at 0% 0%,var(--marca-sup) 0%,transparent 62%) }
+.pg-adm-hero-fila{ display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:14px 24px; margin-bottom:20px }
+.pg-adm-hero .h1{ font-size:clamp(2rem,4.6vw,2.75rem); letter-spacing:-.035em }
+.pg-adm-hero p.sec{ max-width:56ch }
+.pg-adm-yo{ display:inline-flex; align-items:center; gap:10px; padding:5px 14px 5px 5px; border-radius:999px; border:1px solid var(--linea); background:var(--fondo);
+  box-shadow:var(--sombra-1); text-align:left; color:var(--tinta-2); transition:box-shadow .2s, transform .15s var(--ease) }
+.pg-adm-yo:hover{ box-shadow:var(--sombra-2) } .pg-adm-yo:active{ transform:scale(.97) }
+.pg-adm-yo .avatar{ width:36px; height:36px }
+.pg-adm-yo b{ display:block; font-size:var(--t-sm); line-height:1.2; color:var(--tinta) } .pg-adm-yo small{ display:block; font-size:var(--t-xs); color:var(--tinta-3) }
+
+.pg-adm-cifras{ display:grid; gap:10px; grid-template-columns:repeat(2,minmax(0,1fr)) }
+@media (min-width:960px){ .pg-adm-cifras{ grid-template-columns:1.55fr repeat(4,minmax(0,1fr)); gap:12px } }
+.pg-adm-cifra{ position:relative; display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-end; gap:2px; min-width:0; min-height:122px; padding:14px;
+  border-radius:var(--r-l); border:1px solid var(--linea); background:var(--fondo); color:var(--tinta); text-align:left;
+  transition:transform .2s var(--ease), box-shadow .2s, border-color .2s }
+.pg-adm-cifra:hover{ transform:translateY(-2px); box-shadow:var(--sombra-2); border-color:transparent }
+.pg-adm-cifra:active{ transform:scale(.98) }
+.pg-adm-cifra-ico{ position:absolute; top:12px; right:12px; width:34px; height:34px; border-radius:11px; display:grid; place-items:center; background:var(--sup); color:var(--tinta-2) }
+.pg-adm-cifra-n{ display:inline-block; font-size:2.1rem; line-height:1; margin-bottom:5px; transform-origin:left bottom }
+.pg-adm-cifra-et{ font-size:var(--t-sm); font-weight:650; line-height:1.25 }
+.pg-adm-cifra-sub{ font-size:var(--t-xs); color:var(--tinta-3); line-height:1.35; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden }
+.pg-adm-cifra-prin{ grid-column:1/-1; min-height:156px; padding:18px; background:var(--marca); border-color:transparent; color:var(--fondo); box-shadow:0 16px 34px -20px var(--marca) }
+.pg-adm-cifra-prin:hover{ box-shadow:0 22px 40px -20px var(--marca) }
+.pg-adm-cifra-prin .pg-adm-cifra-n{ font-size:3.5rem }
+.pg-adm-cifra-prin .pg-adm-cifra-sub{ color:inherit; opacity:.8 }
+.pg-adm-cifra-prin .pg-adm-cifra-ico{ width:42px; height:42px; border-radius:13px; background:color-mix(in srgb,var(--fondo) 16%,transparent); color:inherit }
+.pg-adm-cifra-ir{ position:absolute; right:16px; bottom:16px; display:inline-flex; align-items:center; gap:6px; height:36px; padding:0 15px; border-radius:99px;
+  background:var(--fondo); color:var(--marca-tinta); font-size:var(--t-sm); font-weight:700; transition:gap .2s var(--ease) }
+.pg-adm-cifra-prin:hover .pg-adm-cifra-ir{ gap:10px }
+.pg-adm-cifra-menor{ background:var(--tinta); color:var(--fondo); border-color:transparent }
+.pg-adm-cifra-menor .pg-adm-cifra-sub{ color:inherit; opacity:.7 }
+.pg-adm-cifra-menor .pg-adm-cifra-ico{ background:var(--sol); color:var(--sol-tinta); font:800 .95rem/1 var(--display); letter-spacing:-.04em }
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) .pg-adm-cifra-menor .pg-adm-cifra-ico,:root:not([data-theme="light"]) .pg-adm-sin-candado::after{ color:var(--fondo) } }
+:root[data-theme="dark"] .pg-adm-cifra-menor .pg-adm-cifra-ico,:root[data-theme="dark"] .pg-adm-sin-candado::after{ color:var(--fondo) }
+@media (min-width:960px){ .pg-adm-cifra-prin{ grid-column:auto } .pg-adm-cifra{ min-height:156px; padding:18px } .pg-adm-cifra-ir{ position:static; margin-top:10px } }
+@keyframes pg-adm-bote{ 40%{ transform:scale(1.22) } }
+.pg-adm-cifra-n.bote{ animation:pg-adm-bote .5s var(--ease) }
+
+/* ---------- pestañas fijas ---------- */
+.pg-adm-pest{ position:sticky; top:calc(var(--pg-adm-cab) + env(safe-area-inset-top,0px)); z-index:50; border-bottom:1px solid var(--linea);
+  background:color-mix(in srgb,var(--fondo) 94%,transparent); backdrop-filter:saturate(1.6) blur(14px) }
+.pg-adm-pest .pestanas{ border-bottom:0; margin-bottom:-1px }
+.pg-adm-pest .pestana{ display:inline-flex; align-items:center; gap:7px; padding:15px 12px }
+.pg-adm-n{ display:inline-grid; place-items:center; min-width:20px; height:20px; padding:0 6px; border-radius:99px; background:var(--sup-2); color:var(--tinta-2);
+  font-size:.6875rem; font-weight:700; font-variant-numeric:tabular-nums; transition:background .2s, color .2s }
+.pestana[aria-selected="true"] .pg-adm-n{ background:var(--marca); color:var(--fondo) }
+.pg-adm-n.mal,.pestana[aria-selected="true"] .pg-adm-n.mal{ background:var(--mal); color:var(--fondo) }
+
+.pg-adm-panel{ padding-top:26px }
+.pg-adm-pcab{ display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:12px 20px; margin-bottom:18px }
+.pg-adm-pcab p{ max-width:64ch }
+.pg-adm-lat{ min-width:0 }
+.pg-adm-lat-b{ display:flex; flex-direction:column; gap:12px; padding:18px; border:1px solid var(--linea); border-radius:var(--r-l); background:var(--fondo) }
+.pg-adm-lat-b.sup{ background:var(--sup); border-color:transparent }
+.pg-adm-lat-b.bloque-marca{ background:var(--marca-sup); border-color:var(--marca-borde) }
+.pg-adm-lat-t{ font:650 var(--t-md)/1.2 var(--display); letter-spacing:-.02em }
+.pg-adm-salto{ display:none; align-items:center; gap:6px; height:34px; padding:0 13px; border-radius:99px; background:var(--mal-sup); color:var(--mal); font-size:var(--t-sm); font-weight:650 }
+@media (max-width:960px){ .pg-adm-salto{ display:inline-flex } }
+.pg-adm-vacio{ display:flex; flex-direction:column; align-items:center; text-align:center; gap:8px; padding:40px 20px; border:1.5px dashed var(--linea-2); border-radius:var(--r-xl); color:var(--tinta-2) }
+.pg-adm-vacio-ico{ width:56px; height:56px; border-radius:18px; display:grid; place-items:center; background:var(--ok-sup); color:var(--ok); margin-bottom:6px }
+
+/* ---------- ficha de identidad ---------- */
+.pg-adm-cola{ display:flex; flex-direction:column }
+.pg-adm-ficha{ position:relative; container-type:inline-size; margin-bottom:18px; border:1px solid var(--linea); border-radius:var(--r-xl); background:var(--fondo);
+  box-shadow:var(--sombra-1); overflow:hidden; animation:sube .35s var(--ease) both;
+  transition:opacity .3s var(--ease), transform .4s var(--ease), height .4s var(--ease), margin .4s var(--ease), border-width .4s }
+.pg-adm-ficha.menor{ border:2px solid var(--mal); box-shadow:0 0 0 4px var(--mal-sup) }
+.pg-adm-ficha.sale{ opacity:0; transform:translateX(28px) scale(.98); margin-bottom:0; border-width:0 }
+.pg-adm-banda{ display:flex; align-items:center; gap:9px; padding:10px 18px; background:var(--mal); color:var(--fondo); font-size:var(--t-sm); font-weight:700 }
+.pg-adm-ficha-cab{ display:flex; align-items:center; flex-wrap:wrap; gap:10px 12px; padding:16px 18px; border-bottom:1px solid var(--linea) }
+.pg-adm-ficha.menor .pg-adm-ficha-cab{ background:var(--mal-sup) }
+.pg-adm-ficha-cab .avatar{ width:46px; height:46px; font-size:1rem }
+.pg-adm-ficha-n{ font-size:var(--t-lg); line-height:1.15 }
+.pg-adm-meta{ font-size:var(--t-sm); color:var(--tinta-2); margin-top:3px }
+.pg-adm-ins{ display:flex; flex-wrap:wrap; gap:6px }
+@container (max-width:520px){ .pg-adm-ins{ width:100% } }
+.pg-adm-ficha-cuerpo{ display:grid; gap:18px; padding:18px }
+@container (min-width:640px){ .pg-adm-ficha-cuerpo{ grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); gap:26px; padding:20px 22px } }
+.pg-adm-ficha-acc{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; padding:14px 18px 18px; border-top:1px solid var(--linea); background:var(--sup) }
+.pg-adm-ficha-acc .btn{ min-width:0; padding:0 14px }
+.pg-adm-ficha-acc .pg-adm-aprobar,.pg-adm-ficha-acc .pg-adm-exp{ grid-column:1/-1 }
+.pg-adm-ficha.menor .pg-adm-ficha-acc .btn-peligro{ grid-column:1/-1; order:-2 }
+.pg-adm-ficha.menor .pg-adm-exp{ order:-1 }
+.pg-adm-ficha.menor .pg-adm-aprobar{ grid-column:auto }
+@container (min-width:640px){
+  .pg-adm-ficha-acc{ display:flex; flex-wrap:wrap; align-items:center; padding:14px 22px }
+  .pg-adm-ficha.menor .pg-adm-exp{ order:0 }
+}
+.pg-adm-btn-mal{ color:var(--mal) } .pg-adm-btn-mal:hover{ color:var(--mal); box-shadow:inset 0 0 0 1.5px var(--mal) }
+.pg-adm-exp{ display:flex; align-items:center; gap:7px; font-size:var(--t-sm); font-weight:650; color:var(--mal) }
+.pg-adm-sello{ position:absolute; inset:0; z-index:3; display:grid; place-items:center; background:color-mix(in srgb,var(--fondo) 72%,transparent);
+  backdrop-filter:blur(3px); opacity:0; transition:opacity .22s ease }
+.pg-adm-ficha.resuelta .pg-adm-sello,.pg-adm-auto.resuelta .pg-adm-sello{ opacity:1 }
+.pg-adm-sello>span{ display:inline-flex; align-items:center; gap:10px; height:56px; padding:0 24px; border-radius:99px; font:700 var(--t-lg)/1 var(--display);
+  background:var(--ok); color:var(--fondo); box-shadow:var(--sombra-3); transform:scale(.6) rotate(-6deg); transition:transform .45s var(--ease) }
+.resuelta .pg-adm-sello>span{ transform:none }
+.pg-adm-sello.mal>span{ background:var(--mal) } .pg-adm-sello.marca>span{ background:var(--marca) }
+
+/* imágenes de muestra dibujadas con CSS */
+.pg-adm-docs{ display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1fr); gap:10px 12px; align-content:start }
+.pg-adm-docs-g{ gap:14px 18px }
+.pg-adm-img{ display:flex; flex-direction:column; gap:6px; min-width:0; padding:0; border:0; background:none; color:inherit; text-align:left; border-radius:12px }
+button.pg-adm-img{ cursor:zoom-in }
+button.pg-adm-img:hover .pg-adm-doc{ box-shadow:inset 0 0 0 1px var(--linea-2), var(--sombra-2); transform:translateY(-2px) }
+button.pg-adm-img:active .pg-adm-doc{ transform:scale(.98) }
+.pg-adm-img-sel{ grid-column:2; grid-row:1 / span 2 }
+.pg-adm-img-et{ display:flex; align-items:center; justify-content:space-between; gap:6px; font-size:var(--t-xs); font-weight:650; color:var(--tinta-3) }
+.pg-adm-et-mal{ color:var(--mal) }
+.pg-adm-pc{ font-variant-numeric:tabular-nums; color:var(--ok) } .pg-adm-pc.avisa{ color:var(--avisa) } .pg-adm-pc.mal{ color:var(--mal) }
+.pg-adm-doc{ position:relative; display:block; container-type:inline-size; aspect-ratio:1.586; border-radius:10px; overflow:hidden;
+  background:linear-gradient(140deg,var(--sup) 0%,var(--sup-2) 100%); box-shadow:inset 0 0 0 1px var(--linea-2);
+  transition:transform .22s var(--ease), box-shadow .22s }
+.pg-adm-img-sel .pg-adm-doc{ aspect-ratio:auto; flex:1; min-height:110px }
+.pg-adm-doc>i{ position:absolute; display:block; height:5%; border-radius:99px; background:var(--linea-2) }
+.pg-adm-doc>i.f{ height:7%; background:var(--tinta-3); opacity:.7 }
+.pg-adm-doc>i.b{ background:color-mix(in srgb,var(--tinta-3) 35%,transparent) }
+.pg-adm-doc>i.r{ left:6%; width:88%; height:7%; border-radius:2px; background:var(--sup-3) }
+.pg-adm-d-banda{ position:absolute; left:0; right:0; top:0; height:20%; background:var(--tono,var(--marca-sup)) }
+.pg-adm-d-foto{ position:absolute; left:6%; top:27%; width:27%; height:63%; border-radius:7%; overflow:hidden; background:var(--sup-3); color:var(--tinta-3);
+  display:flex; align-items:flex-end; justify-content:center }
+.pg-adm-d-foto svg{ width:100%; height:92% }
+.pg-adm-doc-sel{ background:radial-gradient(120% 80% at 50% 18%,var(--marca-sup) 0%,var(--sup-2) 72%) }
+.pg-adm-doc-sel.oscura{ filter:brightness(.55) saturate(.6) }
+.pg-adm-d-sil{ position:absolute; left:6%; right:6%; bottom:0; height:84%; color:var(--tinta-3); display:flex; align-items:flex-end; justify-content:center }
+.pg-adm-d-sil svg{ width:100%; height:100% }
+.pg-adm-muestra{ position:absolute; left:50%; top:50%; translate:-50% -50%; rotate:-14deg; padding:.28em .55em .22em; border:2px solid currentColor; border-radius:.3em;
+  color:var(--mal); opacity:.6; font:800 clamp(9px,9.5cqw,30px)/1 var(--display); letter-spacing:.14em; white-space:nowrap; pointer-events:none }
+.pg-adm-medidor{ position:relative; display:block; height:5px; border-radius:9px; background:var(--sup-3) }
+.pg-adm-medidor::before{ content:""; position:absolute; left:0; top:0; bottom:0; width:var(--p); border-radius:9px; background:var(--ok) }
+.pg-adm-medidor.avisa::before{ background:var(--avisa) } .pg-adm-medidor.mal::before{ background:var(--mal) }
+.pg-adm-medidor i{ position:absolute; top:-3px; bottom:-3px; left:var(--u); width:2px; border-radius:2px; background:var(--tinta) }
+
+/* datos */
+.pg-adm-edad{ display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:center; gap:4px 14px; padding:12px 16px 12px 18px; border-radius:var(--r-l);
+  background:var(--ok-sup); color:var(--ok) }
+.pg-adm-edad.mal{ background:var(--mal-sup); color:var(--mal) }
+.pg-adm-edad-n{ font-size:3.6rem; line-height:.95 }
+.pg-adm-edad-u{ font-weight:700; font-size:var(--t-md); line-height:1.2 }
+.pg-adm-edad-s{ font-size:var(--t-xs); color:var(--tinta-2); margin-top:2px }
+.pg-adm-edad-ico{ width:40px; height:40px; border-radius:50%; display:grid; place-items:center; background:var(--fondo) }
+.pg-adm-dl{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px 16px; margin:0 }
+.pg-adm-dl>div{ min-width:0 } .pg-adm-dl .ancho{ grid-column:1/-1 }
+.pg-adm-dl dt{ font-size:var(--t-xs); font-weight:600; color:var(--tinta-3); margin-bottom:3px }
+.pg-adm-dl dd{ margin:0; font-weight:600; font-size:var(--t-sm) }
+.pg-adm-dl dd.pg-adm-mal{ color:var(--mal) }
+.pg-adm-docw{ display:inline-flex; align-items:center; flex-wrap:wrap; gap:8px }
+.pg-adm-docnum{ position:relative; display:inline-block; padding:4px 10px; border-radius:8px; background:var(--sup); font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  font-size:var(--t-base); font-weight:600; letter-spacing:.08em; font-variant-numeric:tabular-nums; transition:background .2s, color .2s }
+.pg-adm-docw.abierta .pg-adm-docnum{ background:var(--marca-sup); color:var(--marca-tinta) }
+.pg-adm-docw.abierta .pg-adm-docnum::after{ content:""; position:absolute; left:8px; right:8px; bottom:2px; height:2px; border-radius:2px; background:var(--marca);
+  transform-origin:left; animation:pg-adm-encoge 30s linear forwards }
+@keyframes pg-adm-encoge{ to{ transform:scaleX(0) } }
+.pg-adm-mostrar{ display:inline-flex; align-items:center; gap:5px; height:30px; padding:0 11px; border:0; border-radius:99px; background:var(--marca-sup); color:var(--marca-tinta);
+  font-size:var(--t-xs); font-weight:700; transition:background .18s, transform .15s var(--ease) }
+.pg-adm-mostrar:hover{ background:var(--marca-borde) } .pg-adm-mostrar:active{ transform:scale(.94) }
+.pg-adm-senales{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:9px }
+.pg-adm-senales li{ display:flex; align-items:flex-start; gap:10px; font-size:var(--t-sm); line-height:1.4; color:var(--tinta-2) }
+.pg-adm-senales li.mal{ color:var(--tinta); font-weight:600 }
+.pg-adm-sen-ico{ flex:0 0 auto; width:22px; height:22px; margin-top:-1px; border-radius:50%; display:grid; place-items:center; background:var(--ok-sup); color:var(--ok) }
+.avisa>.pg-adm-sen-ico{ background:var(--avisa-sup); color:var(--avisa) } .mal>.pg-adm-sen-ico{ background:var(--mal-sup); color:var(--mal) }
+
+/* lateral de identidades */
+.pg-adm-autos,.pg-adm-resl,.pg-adm-guia{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px }
+.pg-adm-auto{ position:relative; display:flex; flex-direction:column; gap:10px; padding:14px; border-radius:var(--r); background:var(--fondo); border:1px solid var(--linea); overflow:hidden;
+  transition:opacity .3s, transform .4s var(--ease), height .4s var(--ease), margin .4s, padding .4s }
+.pg-adm-auto.menor{ border:1.5px solid var(--mal); background:linear-gradient(var(--mal-sup),var(--mal-sup)) }
+.pg-adm-auto.sale{ opacity:0; transform:translateX(24px); padding-block:0 }
+.pg-adm-auto-edad{ display:flex; flex-direction:column; align-items:center; line-height:1; font-size:var(--t-xs); color:var(--mal); font-weight:600 }
+.pg-adm-auto-edad b{ font-size:1.6rem }
+.pg-adm-auto-mot{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px }
+.pg-adm-auto-mot li{ display:flex; gap:7px; align-items:flex-start; font-size:var(--t-xs); line-height:1.4; color:var(--tinta-2) }
+.pg-adm-auto-mot svg{ flex:0 0 auto; color:var(--mal); margin-top:1px }
+.pg-adm-auto-bloq{ display:flex; align-items:center; gap:6px; font-size:var(--t-xs); font-weight:650; color:var(--mal) }
+.pg-adm-resi{ display:flex; align-items:center; gap:10px; animation:sube .3s var(--ease) both }
+.pg-adm-resi-ico{ flex:0 0 auto; width:30px; height:30px; border-radius:10px; display:grid; place-items:center; background:var(--ok-sup); color:var(--ok) }
+.pg-adm-resi-ico.mal{ background:var(--mal-sup); color:var(--mal) } .pg-adm-resi-ico.marca{ background:var(--marca-sup); color:var(--marca-tinta) }
+.pg-adm-deshacer{ display:inline-flex; align-items:center; gap:5px; height:30px; padding:0 10px; border:0; border-radius:99px; background:var(--fondo); color:var(--tinta-2);
+  font-size:var(--t-xs); font-weight:650; box-shadow:inset 0 0 0 1px var(--linea-2); transition:color .15s, box-shadow .15s }
+.pg-adm-deshacer:hover{ color:var(--tinta); box-shadow:inset 0 0 0 1px var(--tinta-3) }
+.pg-adm-guia{ counter-reset:paso; gap:12px }
+.pg-adm-guia li{ position:relative; padding-left:34px; font-size:var(--t-sm); line-height:1.45; color:var(--marca-tinta) }
+.pg-adm-guia li::before{ counter-increment:paso; content:counter(paso); position:absolute; left:0; top:-1px; width:23px; height:23px; border-radius:50%; display:grid; place-items:center;
+  background:var(--fondo); color:var(--marca); font:700 .75rem/1 var(--display) }
+
+/* ---------- usuarios ---------- */
+.pg-adm-aviso{ margin-bottom:16px }
+.pg-adm-filtros{ display:grid; gap:10px; grid-template-columns:repeat(3,minmax(0,1fr)); margin-bottom:16px }
+.pg-adm-filtros .pg-adm-busca{ grid-column:1/-1 }
+@media (min-width:900px){ .pg-adm-filtros{ grid-template-columns:minmax(0,2fr) repeat(3,minmax(0,1fr)) } .pg-adm-filtros .pg-adm-busca{ grid-column:auto } }
+.pg-adm-fet{ font-size:var(--t-xs)!important; font-weight:600!important; color:var(--tinta-3)!important }
+.pg-adm-filtros .ent{ height:44px; font-size:var(--t-sm) }
+.pg-adm-filtros select.ent{ padding:0 30px 0 12px; background-position:right 11px center }
+.pg-adm-ent-ico{ position:relative }
+.pg-adm-ent-ico svg{ position:absolute; left:14px; top:50%; translate:0 -50%; color:var(--tinta-3); pointer-events:none }
+.pg-adm-ent-ico .ent{ padding-left:42px }
+table.pg-adm-tusu{ min-width:980px }
+.pg-adm-tusu td{ padding:11px 14px }
+.pg-adm-quien{ display:flex; align-items:center; gap:11px; min-width:0 }
+.pg-adm-quien b{ display:flex; align-items:center; gap:6px; font-weight:650 } .pg-adm-quien small,.pg-adm-sub{ display:block; color:var(--tinta-3); font-size:var(--t-xs) }
+.pg-adm-tusu tr.menor td{ background:var(--mal-sup) }
+.pg-adm-tusu tr.susp .pg-adm-quien,.pg-adm-tusu tr.susp td:not(.c-acc):not(.c-quien){ opacity:.55 }
+.pg-adm-acc-fila{ display:flex; align-items:center; gap:4px; justify-content:flex-end; flex-wrap:wrap }
+.pg-adm-mb{ width:36px; height:36px; box-shadow:inset 0 0 0 1px var(--linea) }
+.pg-adm-mb .txt{ display:none }
+.pg-adm-mb.mal:hover{ color:var(--mal); background:var(--mal-sup) }
+@keyframes pg-adm-flash{ from{ background:var(--sol-sup) } }
+.pg-adm-tusu tr.flash td{ animation:pg-adm-flash 1.4s ease-out }
+@media (max-width:760px){
+  .pg-adm-tusu-env{ border:0; border-radius:0; overflow:visible }
+  table.pg-adm-tusu{ min-width:0 }
+  .pg-adm-tusu thead{ display:none }
+  .pg-adm-tusu,.pg-adm-tusu tbody{ display:block }
+  .pg-adm-tusu tr{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px 12px; padding:14px; margin-bottom:10px; border:1px solid var(--linea); border-radius:var(--r-l) }
+  .pg-adm-tusu tr.menor{ border:2px solid var(--mal); background:var(--mal-sup) }
+  .pg-adm-tusu tr.menor td{ background:none }
+  .pg-adm-tusu td{ display:block; padding:0; border:0!important; font-size:var(--t-sm); text-align:left!important; min-width:0 }
+  .pg-adm-tusu td[data-et]::before{ content:attr(data-et); display:block; margin-bottom:2px; font-size:.6875rem; font-weight:650; color:var(--tinta-3); text-transform:uppercase; letter-spacing:.03em }
+  .pg-adm-tusu .c-quien,.pg-adm-tusu .c-acc{ grid-column:1/-1 }
+  .pg-adm-tusu .c-acc{ padding-top:10px; border-top:1px solid var(--linea)!important }
+  .pg-adm-acc-fila{ justify-content:flex-start; gap:6px }
+  .pg-adm-mb{ display:inline-flex; align-items:center; justify-content:center; width:auto; padding:0 12px; gap:6px; height:36px; font-size:var(--t-sm); font-weight:600 }
+  .pg-adm-mb .txt{ display:inline }
+}
+
+/* ---------- anuncios ---------- */
+.pg-adm-afil{ display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-bottom:18px }
+.pg-adm-afil .chips{ flex:1 1 420px; min-width:0 }
+.pg-adm-afil select.ent{ height:40px; width:auto; min-width:200px; font-size:var(--t-sm) }
+@media (max-width:600px){ .pg-adm-afil select.ent{ width:100% } .pg-adm-afil .campo{ flex:1 1 100% } }
+.pg-adm-chip-n{ font-variant-numeric:tabular-nums; opacity:.6; font-weight:700 }
+.chip[aria-pressed="true"] .pg-adm-chip-n{ opacity:.75 }
+.pg-adm-anu{ position:relative; display:flex; flex-direction:column; gap:10px; min-width:0; padding:8px 8px 12px; border-radius:calc(var(--r-l) + 6px); border:1px solid var(--linea);
+  background:var(--fondo); transition:opacity .3s, transform .35s var(--ease), border-color .2s, box-shadow .2s }
+.pg-adm-anu.revisar{ border-color:var(--sol); box-shadow:0 0 0 3px var(--sol-sup) }
+.pg-adm-anu.cambios{ border-color:var(--avisa) }
+.pg-adm-anu.oculto .tarjeta,.pg-adm-anu.eliminado .tarjeta{ opacity:.45; filter:grayscale(.85) }
+.pg-adm-anu.sale{ opacity:0; transform:scale(.92) }
+.pg-adm-anu.flash{ animation:pg-adm-flash-b 1.2s ease-out }
+@keyframes pg-adm-flash-b{ from{ background:var(--sol-sup) } }
+.pg-adm-anu-barra{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:6px; padding:0 2px }
+.pg-adm-anu-acc{ display:flex; gap:2px; padding:2px; border-radius:99px; background:var(--sup); margin-left:auto }
+.pg-adm-anu-acc button{ width:32px; height:32px; border:0; border-radius:99px; background:transparent; color:var(--tinta-2); display:grid; place-items:center;
+  transition:background .15s, color .15s, box-shadow .15s, transform .15s var(--ease) }
+.pg-adm-anu-acc button:hover{ background:var(--fondo); color:var(--tinta); box-shadow:var(--sombra-1) }
+.pg-adm-anu-acc button.mal:hover{ color:var(--mal) } .pg-adm-anu-acc button.ok:hover{ color:var(--ok) }
+.pg-adm-anu-acc button:active{ transform:scale(.88) }
+.pg-adm-anu-nota{ font-size:var(--t-xs); color:var(--tinta-3); line-height:1.4; padding:0 2px }
+@media (max-width:420px){ .pg-adm-anu-acc{ width:100%; justify-content:space-between } .pg-adm-anu-acc button{ flex:1 } }
+
+/* ---------- reportes ---------- */
+.pg-adm-reps{ display:flex; flex-direction:column; gap:12px }
+.pg-adm-rep{ display:grid; grid-template-columns:64px minmax(0,1fr); gap:6px 14px; padding:14px; border-radius:var(--r-l); border:1px solid var(--linea); background:var(--fondo);
+  transition:box-shadow .2s, border-color .2s; animation:sube .3s var(--ease) both }
+.pg-adm-rep:hover{ box-shadow:var(--sombra-2); border-color:transparent }
+.pg-adm-rep.menor{ border:2px solid var(--mal); background:var(--mal-sup) }
+.pg-adm-rep.cerrado{ background:var(--sup); border-color:transparent }
+.pg-adm-rep-img{ position:relative; width:64px; aspect-ratio:1; border-radius:14px; overflow:hidden; background:var(--sup-2) }
+.pg-adm-rep-img .portada{ position:absolute; inset:0 }
+.pg-adm-rep-t{ font:650 var(--t-md)/1.25 var(--display); letter-spacing:-.015em }
+.pg-adm-rep-acc{ grid-column:1/-1; display:flex; justify-content:flex-end }
+@media (min-width:760px){ .pg-adm-rep{ grid-template-columns:84px minmax(0,1fr) auto; align-items:center; padding:16px } .pg-adm-rep-img{ width:84px } .pg-adm-rep-acc{ grid-column:auto } }
+.pg-adm-cita{ margin:0; padding:14px 16px; border-left:3px solid var(--marca); border-radius:0 var(--r) var(--r) 0; background:var(--sup); font-size:var(--t-base); line-height:1.5 }
+.pg-adm-cita cite{ display:block; margin-top:6px; font-size:var(--t-xs); font-style:normal; color:var(--tinta-3) }
+.pg-adm-partes{ display:grid; gap:10px; grid-template-columns:1fr }
+@media (min-width:520px){ .pg-adm-partes{ grid-template-columns:1fr 1fr } }
+.pg-adm-parte{ display:flex; align-items:center; gap:12px; min-width:0; padding:10px; border-radius:var(--r); border:1px solid var(--linea); transition:border-color .15s }
+a.pg-adm-parte:hover{ border-color:var(--tinta-3) }
+.pg-adm-parte-img{ position:relative; flex:0 0 auto; width:48px; height:48px; border-radius:12px; overflow:hidden }
+.pg-adm-parte-img .portada{ position:absolute; inset:0 }
+
+/* ---------- registro ---------- */
+.pg-adm-log{ list-style:none; margin:0; padding:0 }
+.pg-adm-log-dia{ margin:22px 0 4px; font-size:var(--t-xs); font-weight:650; letter-spacing:.03em; text-transform:uppercase; color:var(--tinta-3) }
+.pg-adm-log-dia:first-child{ margin-top:0 }
+.pg-adm-log-it{ display:grid; grid-template-columns:44px 34px minmax(0,1fr); gap:12px; align-items:start; padding:12px 0; border-bottom:1px solid var(--linea) }
+.pg-adm-log-it time{ padding-top:7px; font-size:var(--t-sm); color:var(--tinta-3); font-variant-numeric:tabular-nums }
+.pg-adm-log-ico{ width:34px; height:34px; border-radius:11px; display:grid; place-items:center; background:var(--sup); color:var(--tinta-2) }
+.pg-adm-log-it.identidades .pg-adm-log-ico{ background:var(--marca-sup); color:var(--marca-tinta) }
+.pg-adm-log-it.usuarios .pg-adm-log-ico{ background:var(--ok-sup); color:var(--ok) }
+.pg-adm-log-it.anuncios .pg-adm-log-ico{ background:var(--sol-sup); color:var(--sol-tinta) }
+.pg-adm-log-it.reportes .pg-adm-log-ico{ background:var(--avisa-sup); color:var(--avisa) }
+.pg-adm-log-it.rojo .pg-adm-log-ico{ background:var(--mal-sup); color:var(--mal) }
+.pg-adm-log-it b{ font-size:var(--t-sm) } .pg-adm-log-it p{ font-size:var(--t-sm); color:var(--tinta-2); line-height:1.45; margin-top:1px; overflow-wrap:anywhere }
+.pg-adm-log-ses{ display:inline-flex; align-items:center; height:19px; padding:0 7px; margin-left:6px; border-radius:99px; background:var(--marca-sup); color:var(--marca-tinta); font-size:.6875rem; font-weight:700; vertical-align:1px }
+.pg-adm-log-it.nuevo{ animation:pg-adm-entra .6s var(--ease) both }
+@keyframes pg-adm-entra{ from{ opacity:0; transform:translateY(-8px); background:var(--marca-sup) } }
+
+/* ---------- equipo ---------- */
+.pg-adm-eq-t{ display:flex; flex-direction:column; gap:14px; padding:18px; border:1px solid var(--linea); border-radius:var(--r-l) }
+.pg-adm-eq-cif{ display:grid; grid-template-columns:1fr 1fr; gap:10px }
+.pg-adm-eq-cif>div{ display:flex; flex-direction:column; gap:2px; padding:10px 12px; border-radius:var(--r); background:var(--sup) }
+.pg-adm-eq-cif .cifra{ font-size:var(--t-xl); line-height:1 }
+.pg-adm-perm td:not(:first-child),.pg-adm-perm th:not(:first-child){ text-align:center; width:130px }
+.pg-adm-si{ color:var(--ok) } .pg-adm-no{ color:var(--tinta-3) }
+.pg-adm-inv-l{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px }
+.pg-adm-inv-l li{ display:flex; align-items:center; gap:10px; font-size:var(--t-sm); animation:sube .3s var(--ease) both }
+.pg-adm-inv-ico{ width:30px; height:30px; flex:0 0 auto; border-radius:10px; display:grid; place-items:center; background:var(--marca-sup); color:var(--marca-tinta) }
+
+/* ---------- ajustes ---------- */
+.pg-adm-aj-b{ display:grid; gap:14px; padding:20px; border:1px solid var(--linea); border-radius:var(--r-l); background:var(--fondo) }
+@media (min-width:760px){ .pg-adm-aj-b{ grid-template-columns:minmax(0,1fr) minmax(0,320px); gap:28px; align-items:start } }
+.pg-adm-aj-t{ font:650 var(--t-md)/1.25 var(--display); letter-spacing:-.015em }
+.pg-adm-bloq{ position:relative }
+.pg-adm-bloq .ent{ padding-right:44px; font-weight:700; color:var(--tinta); background:var(--sup); border-color:var(--linea); opacity:1; -webkit-text-fill-color:var(--tinta) }
+.pg-adm-bloq svg{ position:absolute; right:15px; top:50%; translate:0 -50%; color:var(--tinta-3) }
+.pg-adm-sw{ display:flex; flex-direction:column }
+.pg-adm-sw-f{ display:flex; align-items:center; gap:14px; padding:10px 0; border-bottom:1px solid var(--linea) }
+.pg-adm-sw-f:last-child{ border-bottom:0; padding-bottom:0 } .pg-adm-sw-f:first-child{ padding-top:0 }
+.pg-adm-sw-f>span{ flex:1 }
+.pg-adm-aj-v{ font-size:2.4rem; line-height:1; color:var(--marca) }
+.pg-adm-rango{ -webkit-appearance:none; appearance:none; width:100%; height:30px; margin:0; background:transparent; --v:64%; cursor:pointer }
+.pg-adm-rango::-webkit-slider-runnable-track{ height:8px; border-radius:99px; background:linear-gradient(90deg,var(--marca) var(--v),var(--sup-3) var(--v)) }
+.pg-adm-rango::-webkit-slider-thumb{ -webkit-appearance:none; width:26px; height:26px; margin-top:-9px; border-radius:50%; background:var(--fondo); border:2.5px solid var(--marca);
+  box-shadow:var(--sombra-1); transition:transform .15s var(--ease), box-shadow .15s }
+.pg-adm-rango:active::-webkit-slider-thumb{ transform:scale(1.14) }
+.pg-adm-rango:focus-visible{ outline:none } .pg-adm-rango:focus-visible::-webkit-slider-thumb{ box-shadow:0 0 0 5px var(--marca-sup) }
+.pg-adm-rango::-moz-range-track{ height:8px; border-radius:99px; background:var(--sup-3) }
+.pg-adm-rango::-moz-range-progress{ height:8px; border-radius:99px; background:var(--marca) }
+.pg-adm-rango::-moz-range-thumb{ width:22px; height:22px; border-radius:50%; background:var(--fondo); border:2.5px solid var(--marca) }
+.pg-adm-pol{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px }
+.pg-adm-pol li{ display:flex; gap:10px; align-items:flex-start; font-size:var(--t-sm); line-height:1.45; color:var(--marca-tinta) }
+.pg-adm-pol li svg{ flex:0 0 auto; margin-top:1px }
+.pg-adm-pol li.cambia{ animation:pg-adm-flash-b 1s ease-out; border-radius:6px }
+.pg-adm-aj-pie{ position:sticky; bottom:16px; z-index:5; display:flex; align-items:center; gap:10px; padding:10px 10px 10px 18px; border-radius:999px; border:1px solid var(--linea);
+  background:color-mix(in srgb,var(--fondo) 92%,transparent); backdrop-filter:blur(12px); box-shadow:var(--sombra-2) }
+.pg-adm-aj-pie>span{ flex:1; min-width:0 }
+.pg-adm-aj-pie.sucio{ border-color:var(--marca-borde) }
+@media (max-width:860px){
+  .pg-adm-aj-pie{ bottom:calc(var(--barra) + env(safe-area-inset-bottom,0px) + 10px) }
+  .pg-adm-aj-pie:not(.sucio){ visibility:hidden; opacity:0; transform:translateY(12px) }
+  .pg-adm-aj-pie{ transition:opacity .25s var(--ease), transform .3s var(--ease), visibility .25s }
+}
+
+/* ---------- hojas ---------- */
+.pg-adm-hoja{ padding-top:24px; padding-bottom:0 }
+.pg-adm-hoja-cab{ padding-right:40px }
+.pg-adm-hoja-acc{ position:sticky; bottom:0; z-index:2; display:flex; justify-content:flex-end; flex-wrap:wrap; gap:10px; margin:4px -20px 0;
+  padding:12px 20px calc(18px + env(safe-area-inset-bottom,0px)); background:var(--fondo); border-top:1px solid var(--linea) }
+@media (max-width:600px){ .pg-adm-hoja-acc{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.5fr) } .pg-adm-hoja-acc .btn{ width:100% } .pg-adm-hoja-acc>:only-child{ grid-column:1/-1 } }
+.pg-adm-opciones{ display:grid; gap:8px }
+@media (min-width:560px){ .pg-adm-opciones.dos{ grid-template-columns:repeat(2,minmax(0,1fr)) } .pg-adm-opciones.tres{ grid-template-columns:repeat(3,minmax(0,1fr)) } }
+.pg-adm-opciones .opcion{ padding:12px 14px }
+.pg-adm-opciones[aria-invalid="true"] .opcion{ border-color:var(--mal) }
+.pg-adm-op-menor:has(input:checked){ border-color:var(--mal); background:var(--mal-sup); box-shadow:0 0 0 1px var(--mal) }
+.pg-adm-op-menor input{ accent-color:var(--mal) }
+.pg-adm-leg{ font-size:var(--t-sm); font-weight:600; margin-bottom:8px; padding:0 }
+.capa .pg-adm-ficha{ margin:0; border:0; border-radius:0; box-shadow:none; overflow:visible; animation:none }
+.capa .pg-adm-ficha.menor{ box-shadow:none }
+.capa .pg-adm-ficha-cab,.capa .pg-adm-banda{ padding-right:60px }
+.capa .pg-adm-ficha-acc{ position:sticky; bottom:0; z-index:2; padding-bottom:calc(18px + env(safe-area-inset-bottom,0px)) }
+.pg-adm-uf-cif{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px }
+.pg-adm-uf-cif>div{ display:flex; flex-direction:column; gap:2px; padding:10px 8px; border-radius:var(--r); background:var(--sup); text-align:center; min-width:0 }
+.pg-adm-uf-cif .cifra{ font-size:var(--t-lg); line-height:1.1 }
+.pg-adm-uf-cif span:last-child{ font-size:.6875rem; color:var(--tinta-3); font-weight:600 }
+.pg-adm-uf-anu{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px }
+.pg-adm-uf-anu a{ display:flex; align-items:center; gap:10px; padding:6px; border-radius:var(--r); transition:background .15s }
+.pg-adm-uf-anu a:hover{ background:var(--sup) }
+.pg-adm-uf-anu .pg-adm-parte-img{ width:40px; height:40px; border-radius:10px }
+</style>
+<main id="contenido" class="pg-adm">
+  <div class="contenedor seccion col g16" aria-hidden="true">
+    <div class="esqueleto" style="height:40px;width:240px"></div>
+    <div class="rejilla r4"><div class="esqueleto" style="height:140px"></div><div class="esqueleto" style="height:140px"></div><div class="esqueleto" style="height:140px"></div><div class="esqueleto" style="height:140px"></div></div>
+    <div class="esqueleto" style="height:420px;border-radius:var(--r-xl)"></div>
+  </div>
+</main>
+<script>
+A.pagina = function(){
+  const $ = A.$, $$ = A.$$;
+  const raiz = $('#contenido');
+  const yo = A.sesion();
+  const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'})[c]);
+
+  /* ---------- iconos propios (trazo) ---------- */
+  const P = {
+    ojo:'M2.5 12s3.4-6.5 9.5-6.5 9.5 6.5 9.5 6.5-3.4 6.5-9.5 6.5S2.5 12 2.5 12zM12 14.7a2.7 2.7 0 1 0 0-5.4 2.7 2.7 0 0 0 0 5.4z',
+    ojoNo:'M4 4l16 16M9.9 5.8A9.6 9.6 0 0 1 12 5.5c6.1 0 9.5 6.5 9.5 6.5a16 16 0 0 1-2.6 3.4M6.3 7.3C3.9 9 2.5 12 2.5 12s3.4 6.5 9.5 6.5c1.7 0 3.2-.5 4.5-1.2M10 10.1a2.7 2.7 0 0 0 3.9 3.8',
+    lapiz:'M4 20h4.2L19.4 8.8a2.4 2.4 0 0 0-3.4-3.4L4.8 16.6zM14.5 7l3.4 3.4',
+    papelera:'M4.5 7h15M9.5 7V4.5h5V7M6.5 7l.9 13h9.2l.9-13M10 11v5.5M14 11v5.5',
+    camara:'M4 8h3.5L9 5.5h6L16.5 8H20v11H4zM12 16.4a3.1 3.1 0 1 0 0-6.2 3.1 3.1 0 0 0 0 6.2z',
+    bandera:'M5.5 21V4M5.5 4.5h12l-2.2 4 2.2 4h-12',
+    candado:'M6.5 11h11v9.5h-11zM8.7 11V8.2a3.3 3.3 0 0 1 6.6 0V11M12 14.5v2.5',
+    prohibido:'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM5.7 5.7l12.6 12.6',
+    reactivar:'M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 4.5v4h4',
+    carnet:'M3.5 5.5h17v13h-17zM8.8 11.6a1.9 1.9 0 1 0 0-3.8 1.9 1.9 0 0 0 0 3.8zM5.9 15.6c.5-1.5 1.6-2.3 2.9-2.3s2.4.8 2.9 2.3M14.5 9.5h3.5M14.5 13h2.5',
+    excl:'M12 6.5v7M12 17.4v.2',
+    rejilla:'M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z',
+    lista:'M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01',
+    ajustes:'M4 7h9M17 7h3M4 17h3M11 17h9M15 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM9 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z',
+    flecha:'M5 12h14M13 6l6 6-6 6',
+    abajo:'M6 9l6 6 6-6',
+    deshacer:'M9 14 4 9l5-5M4 9h10.5a5.5 5.5 0 0 1 0 11H11',
+    sobre:'M3.5 6h17v12h-17zM3.5 6.5 12 13l8.5-6.5',
+    rayo:'M13 3 5 13.5h6L10 21l8-10.5h-6z',
+    grupo:'M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.6-3.4 3.2-5.2 6.5-5.2s5.9 1.8 6.5 5.2M16 4.3a3.5 3.5 0 0 1 0 6.4M18.2 14.9c1.8.7 3 2.4 3.3 5.1',
+    menos:'M6 12h12',
+    reloj:'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 7.5V12l3 2'
+  };
+  const ic = (n, t, sw) => `<svg width="${t||18}" height="${t||18}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw||1.9}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${P[n] || ''}"/></svg>`;
+  const icA = (n, t) => A.icono(n, t || 18);
+
+  /* ---------- imágenes de muestra (genéricas, sin imitar ningún documento oficial) ---------- */
+  const sil = (largo, ovalo) => `<svg viewBox="0 0 40 44" preserveAspectRatio="xMidYMax meet" aria-hidden="true">${largo ? '<path d="M9 23.5C9 12.4 13.4 7.6 20 7.6s11 4.8 11 15.9V35H9z" fill="currentColor" opacity=".5"/>' : ''}<circle cx="20" cy="17.6" r="7.4" fill="currentColor"/><path d="M5 44c0-9.6 6.6-15.2 15-15.2S35 34.4 35 44z" fill="currentColor"/>${ovalo ? '<ellipse cx="20" cy="17.6" rx="11.2" ry="13.6" fill="none" stroke-width=".8" stroke-dasharray="1.8 1.5" style="stroke:var(--marca)"/>' : ''}</svg>`;
+  const raya = (x, y, w, c) => `<i${c ? ` class="${c}"` : ''} style="left:${x}%;top:${y}%;width:${w}%"></i>`;
+  const MUESTRA = '<span class="pg-adm-muestra">MUESTRA</span>';
+  const anverso = tono => `<span class="pg-adm-doc" style="--tono:${tono}"><span class="pg-adm-d-banda"></span>${raya(6,8,26,'b')}${raya(70,8,22,'b')}<span class="pg-adm-d-foto">${sil(false,false)}</span>${raya(40,30,40,'f')}${raya(40,44,50)}${raya(40,56,30)}${raya(40,68,44)}${raya(40,80,24)}${MUESTRA}</span>`;
+  const reverso = () => `<span class="pg-adm-doc">${raya(6,12,36)}${raya(6,23,52)}${raya(6,34,28)}${raya(58,12,34)}${raya(58,23,26)}${raya(58,34,20)}<i class="r" style="top:58%"></i><i class="r" style="top:70%"></i><i class="r" style="top:82%"></i>${MUESTRA}</span>`;
+  const selfie = (oscura, otra) => `<span class="pg-adm-doc pg-adm-doc-sel${oscura ? ' oscura' : ''}"><span class="pg-adm-d-sil">${sil(otra, true)}</span>${MUESTRA}</span>`;
+
+  /* ---------- sin acceso ---------- */
+  if(!A.puede('moderar')){
+    const quien = !yo ? 'Ahora mismo no has entrado con ninguna cuenta.'
+      : `Has entrado como <b>${esc(yo.n)}</b> (${A.verificado(yo) ? 'cuenta verificada' : 'DNI en revisión'}) y esta cuenta no es del equipo.`;
+    raiz.innerHTML = `<section class="contenedor pg-adm-sin">
+      <div class="col g16">
+        <span class="insignia insignia-tinta" style="align-self:flex-start">${ic('candado',13,2.2)} Zona del equipo</span>
+        <h1 class="titular">Esto es solo para el equipo de Apaño</h1>
+        <p class="entradilla">Aquí revisamos el documento de identidad de cada alta para que ningún menor de 18 entre en Apaño, y moderamos usuarios, anuncios y reportes. Por eso solo pueden entrar las personas de moderación y administración.</p>
+        <p class="sm sec">${quien}</p>
+        <div class="fila g10 pg-adm-sin-acc">
+          <button class="btn btn-g" type="button" id="pg-adm-perfil">${icA('persona',19)} Cambiar de perfil</button>
+          <a class="btn btn-sec btn-g" href="index.html">Volver al inicio</a>
+        </div>
+        <p class="ayuda">Demostración: en el menú de perfiles elige «Nuria P. · moderación» o «Óscar V. · administración».</p>
+      </div>
+      <div class="pg-adm-sin-ilus" aria-hidden="true">
+        ${anverso('var(--marca-sup)')}
+        <span class="pg-adm-sin-sel">${selfie(false,false)}</span>
+        <span class="pg-adm-sin-candado">${ic('candado',40,1.7)}</span>
+      </div>
+    </section>`;
+    $('#pg-adm-perfil').addEventListener('click', A.abreCuenta);
+    return;
+  }
+
+  const esAdmin = A.puede('admin');
+  const V = A.VERIFICACIONES;
+
+  /* ---------- estado de la sesión (sessionStorage: dura lo que la pestaña) ---------- */
+  const CLAVE = 'apano.moderacion';
+  let E = {};
+  try{ E = JSON.parse(sessionStorage.getItem(CLAVE)) || {} }catch(e){ E = {} }
+  ['ver','usu','anu','rep'].forEach(k => { E[k] = E[k] || {} });
+  E.log = E.log || []; E.inv = E.inv || [];
+  const AJ0 = {edad:18, docs:{DNI:true, NIE:true, Pasaporte:true}, umbral:85, bloqueo:'24', retencion:'30'};
+  E.aj = Object.assign({}, AJ0, E.aj || {}, {edad:18});
+  E.aj.docs = Object.assign({}, AJ0.docs, E.aj.docs || {});
+  const guarda = () => { try{ sessionStorage.setItem(CLAVE, JSON.stringify(E)) }catch(e){} };
+
+  /* ---------- utilidades de tiempo y texto ---------- */
+  const dos = n => String(n).padStart(2, '0');
+  const ahora = () => { const d = new Date(); return A.HOY + ' ' + dos(d.getHours()) + ':' + dos(d.getMinutes()) };
+  const minutos = s => { const t = s.replace('T', ' '); const [Y,M,D] = t.slice(0,10).split('-').map(Number); const [h,m] = (t.slice(11,16) || '12:00').split(':').map(Number); return Date.UTC(Y, M-1, D, h, m) / 60000 };
+  const haceTxt = s => { const d = minutos(ahora()) - minutos(s); if(d < 1) return 'ahora mismo'; if(d < 60) return `hace ${Math.round(d)} min`; if(d < 1440) return `hace ${Math.floor(d/60)} h`; const n = Math.floor(d/1440); return n === 1 ? 'hace 1 día' : `hace ${n} días` };
+  const diaTxt = f => { const d = Math.round((minutos(A.HOY) - minutos(f.slice(0,10))) / 1440); return d === 0 ? 'Hoy' : d === 1 ? 'Ayer' : A.fechaCorta(f.slice(0,10)) };
+  const envioTxt = s => { const d = diaTxt(s); return (d === 'Hoy' || d === 'Ayer' ? d.toLowerCase() : 'el ' + d) + ' a las ' + s.slice(11,16) };
+  const masca = n => n ? n.slice(0,2) + '•'.repeat(Math.max(1, n.length - 4)) + n.slice(-2) : '—';
+  const mascaTxt = t => String(t).replace(/\b([XYZ]\d{7}[A-Z]|\d{8}[A-Z])\b/g, masca);
+  const pila = s => String(s).split(' ')[0];
+  const normal = s => String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  const fechaLarga = (() => { const t = new Date(A.HOY + 'T12:00').toLocaleDateString('es-ES', {weekday:'long', day:'numeric', month:'long'}); return t.charAt(0).toUpperCase() + t.slice(1) })();
+  const mesTxt = new Date(A.HOY + 'T12:00').toLocaleDateString('es-ES', {month:'long'});
+  const BLOQUEO = {'24':'24 horas', '72':'72 horas', '168':'7 días'};
+  const RETEN = {'0':'en cuanto se resuelve la solicitud', '30':'a los 30 días', '90':'a los 90 días'};
+  const bloqueoTxt = () => BLOQUEO[E.aj.bloqueo] || '24 horas';
+
+  /* ---------- registro ---------- */
+  const nuevos = new Set();
+  const tipoDe = x => x.tipo || (/identidad|dispositivo|rechazo autom|documento/i.test(x.acc) ? 'identidades' : /mediaci|reporte/i.test(x.acc) ? 'reportes' : /anuncio/i.test(x.acc) ? 'anuncios' : 'otros');
+  const todosLog = () => [...E.log, ...A.ACTIVIDAD.map(x => Object.assign({}, x, {tipo:tipoDe(x)}))].sort((a, b) => a.h < b.h ? 1 : a.h > b.h ? -1 : 0);
+  const registra = (acc, tipo) => {
+    const it = {h:ahora(), quien:yo.n, acc, tipo, s:1, id:Date.now() + '-' + Math.random().toString(36).slice(2,7)};
+    E.log.unshift(it); nuevos.add(it.id); guarda();
+    pintaRegistro(); if(esAdmin) pintaEquipo();
+  };
+
+  /* ---------- identidades: derivados ---------- */
+  const RX_PC = /coincidencia(?: facial)? (\d+)\s*%/i;
+  const estV = v => (E.ver[v.id] && E.ver[v.id].estado) || v.estado;
+  const edadV = v => A.edad(v.nac);
+  const menorV = v => edadV(v) < 18;
+  const caducado = v => v.cad < A.HOY;
+  const coinc = v => { for(const s of v.senales){ const m = s.m.match(RX_PC); if(m) return +m[1] } return null };
+  const cuentaDe = v => A.USUARIOS.find(u => u.docNum === v.num);
+  const pseudo = v => cuentaDe(v) || {n:v.n, av:A.CATEGORIAS[A.hash(v.id) % A.CATEGORIAS.length].c2};
+  const senales = v => {
+    const ss = v.senales.map(s => { const m = s.m.match(RX_PC); if(!m) return s; const p = +m[1]; return {t: p >= E.aj.umbral ? 'ok' : p >= 60 ? 'avisa' : 'mal', m:s.m} });
+    if(!E.aj.docs[v.doc]) ss.push({t:'mal', m:`Ahora mismo no admitimos ${v.doc === 'Pasaporte' ? 'el pasaporte' : 'el ' + v.doc} como documento`});
+    return ss;
+  };
+  const sugerido = v => { const pc = coinc(v); return menorV(v) ? 'menor' : caducado(v) ? 'caducado' : (pc !== null && pc < 60) ? 'cara' : '' };
+  const TONO_DOC = {DNI:'var(--marca-sup)', NIE:'var(--ok-sup)', Pasaporte:'var(--sol-sup)'};
+
+  /* ---------- usuarios, anuncios y reportes: derivados ---------- */
+  const estU = u => (E.usu[u.id] && E.usu[u.id].estado) || u.estado;
+  const estA = a => (E.anu[a.id] && E.anu[a.id].estado) || a.estado;
+  const estR = r => (E.rep[r.id] && E.rep[r.id].estado) || r.estado;
+  const abiertoR = r => ['abierto', 'mediacion'].includes(estR(r));
+  const menorR = r => /menor/i.test(r.motivo);
+  const hace48 = (() => { const d = new Date(A.HOY + 'T12:00:00Z'); d.setUTCDate(d.getUTCDate() - 1); return d.toISOString().slice(0,10) })();
+  const repAbiertoDe = sid => A.REPORTES.some(r => r.s === sid && abiertoR(r));
+  const porRevisar = a => !(E.anu[a.id] && E.anu[a.id].rev) && estA(a) === 'activo' && (a.fecha >= hace48 || repAbiertoDe(a.id));
+  const TIPO = {particular:'Particular', profesional:'Profesional', interno:'Equipo'};
+  const ROL = {usuario:'Usuario', moderador:'Moderación', admin:'Administración'};
+  const insEstado = st => ({
+    verificado:'<span class="insignia insignia-ok">Verificado</span>', pendiente:'<span class="insignia insignia-avisa">Pendiente</span>',
+    reverificar:'<span class="insignia insignia-avisa">Reverificando</span>', suspendido:'<span class="insignia insignia-mal">Suspendido</span>',
+    rechazado:'<span class="insignia insignia-mal">Alta rechazada</span>'})[st] || `<span class="insignia">${esc(st)}</span>`;
+  const insR = st => ({abierto:'<span class="insignia insignia-avisa">Abierto</span>', mediacion:'<span class="insignia insignia-marca">En mediación</span>',
+    resuelto:'<span class="insignia insignia-ok">Resuelto</span>', descartado:'<span class="insignia">Descartado</span>'})[st] || '';
+
+  /* ---------- cifras de cabecera ---------- */
+  const menoresMes = () => {
+    const mes = A.HOY.slice(0,7), ids = new Set();
+    V.forEach(v => { if(v.f.startsWith(mes) && menorV(v) && (v.estado === 'rechazado-auto' || estV(v) === 'rechazado')) ids.add(v.id) });
+    Object.keys(E.ver).forEach(id => { if(E.ver[id].estado === 'rechazado' && E.ver[id].motivo === 'menor') ids.add(id) });
+    return ids.size + A.ACTIVIDAD.filter(x => x.h.startsWith(mes) && /bloque[oó] el dispositivo/i.test(x.acc)).length;
+  };
+  const cifras = () => {
+    const pend = V.filter(v => estV(v) === 'pendiente').sort((a, b) => a.f < b.f ? -1 : 1);
+    const autoHoy = V.filter(v => v.estado === 'rechazado-auto' && v.f.startsWith(A.HOY));
+    const anu = A.ANUNCIOS.filter(porRevisar), reps = A.REPORTES.filter(r => estR(r) === 'abierto');
+    return [
+      {k:'identidades', n:pend.length, et:'Altas por verificar', sub: pend.length ? `La más antigua llegó ${haceTxt(pend[0].f)}` : 'Cola al día', cls:'prin', ico:ic('carnet',22)},
+      {k:'identidades', ancla:'pg-adm-autos', n:autoHoy.length, et:'Rechazos automáticos hoy', sub: autoHoy.length ? autoHoy.map(v => `${pila(v.n)}, ${edadV(v)} años`).join(' · ') : 'Ninguno por ahora', ico:ic('rayo',18)},
+      {k:'anuncios', n:anu.length, et:'Anuncios por revisar', sub:'Nuevos en 48 h o con reporte', ico:ic('rejilla',18)},
+      {k:'reportes', n:reps.length, et:'Reportes abiertos', sub: reps.length ? reps.map(r => r.motivo).join(' · ') : 'Todo resuelto', ico:ic('bandera',18)},
+      {k:'registro', filtro:'identidades', n:menoresMes(), et:'Menores bloqueados', sub:`En ${mesTxt}. Ninguno ha llegado a entrar`, cls:'menor', ico:'18'}
+    ];
+  };
+  const tile = (c, i) => `<button type="button" class="pg-adm-cifra${c.cls ? ' pg-adm-cifra-' + c.cls : ''}" data-cifra="${i}" data-pg="ir" data-tab="${c.k}"${c.ancla ? ` data-ancla="${c.ancla}"` : ''}${c.filtro ? ` data-filtro="${c.filtro}"` : ''}>
+      <span class="pg-adm-cifra-ico" aria-hidden="true">${c.ico}</span>
+      <span class="pg-adm-cifra-n cifra" data-cuenta="${c.n}">${c.n}</span>
+      <span class="pg-adm-cifra-et">${c.et}</span>
+      <span class="pg-adm-cifra-sub">${esc(c.sub)}</span>
+      ${c.cls === 'prin' ? `<span class="pg-adm-cifra-ir">Revisar ${ic('flecha',15,2.2)}</span>` : ''}
+    </button>`;
+
+  /* ---------- pestañas ---------- */
+  const TABS = [
+    {id:'identidades', t:'Identidades', n:1}, {id:'usuarios', t:'Usuarios'}, {id:'anuncios', t:'Anuncios', n:1},
+    {id:'reportes', t:'Reportes', n:1}, {id:'registro', t:'Registro'}
+  ].concat(esAdmin ? [{id:'equipo', t:'Equipo'}, {id:'ajustes', t:'Ajustes'}] : []);
+
+  /* ======================================================================
+     IDENTIDADES
+     ====================================================================== */
+  const docWrap = (tipo, id, num) => `<span class="pg-adm-docw"><span class="pg-adm-docnum">${masca(num)}</span><button type="button" class="pg-adm-mostrar" data-pg="mostrar" data-tipo="${tipo}" data-id="${id}" aria-pressed="false" title="Al mostrarlo queda constancia en el registro">${ic('ojo',14,2.1)}<span>Mostrar</span></button></span>`;
+  const listaSen = ss => `<ul class="pg-adm-senales">${ss.map(s => `<li class="${s.t}"><span class="pg-adm-sen-ico">${s.t === 'ok' ? icA('check',13) : s.t === 'avisa' ? ic('excl',13,2.8) : icA('cerrar',12)}</span><span><span class="solo-lector">${s.t === 'ok' ? 'Correcto: ' : s.t === 'avisa' ? 'Aviso: ' : 'Problema: '}</span>${esc(s.m)}</span></li>`).join('')}</ul>`;
+  const docs = (v, estatico) => {
+    const pc = coinc(v), txt = v.senales.map(s => s.m).join(' ');
+    const cl = pc === null ? '' : pc >= E.aj.umbral ? 'ok' : pc >= 60 ? 'avisa' : 'mal';
+    const tag = estatico ? 'div' : 'button';
+    const at = cara => estatico ? '' : ` type="button" data-pg="ver-docs" data-id="${v.id}" aria-label="Ampliar ${cara} de ${esc(v.n)}"`;
+    return `<div class="pg-adm-docs${estatico ? ' pg-adm-docs-g' : ''}">
+      <${tag} class="pg-adm-img"${at('el anverso del documento')}>${anverso(TONO_DOC[v.doc] || 'var(--sup-3)')}<span class="pg-adm-img-et"><span>Anverso</span>${caducado(v) ? '<span class="pg-adm-et-mal">Caducado</span>' : ''}</span></${tag}>
+      <${tag} class="pg-adm-img"${at('el reverso del documento')}>${reverso()}<span class="pg-adm-img-et"><span>Reverso</span></span></${tag}>
+      <${tag} class="pg-adm-img pg-adm-img-sel"${at('la selfie')}>${selfie(/poca luz/i.test(txt), pc !== null && pc < 60)}<span class="pg-adm-img-et"><span>Selfie</span>${pc !== null ? `<span class="pg-adm-pc ${cl}">${pc} %</span>` : ''}</span>${pc !== null ? `<span class="pg-adm-medidor ${cl}" style="--p:${pc}%;--u:${E.aj.umbral}%" title="Coincidencia ${pc} %, umbral ${E.aj.umbral} %"><i></i></span>` : ''}</${tag}>
+    </div>`;
+  };
+  const ficha = (v, modo) => {
+    const ed = edadV(v), menor = ed < 18, cad = caducado(v), ss = senales(v), pc = coinc(v), auto = modo === 'auto';
+    const reparos = cad || ss.some(s => s.t === 'mal');
+    const bajo = pc !== null && pc < E.aj.umbral;
+    const c18 = (+v.nac.slice(0,4) + 18) + v.nac.slice(4);
+    const ins = [
+      menor ? `<span class="insignia insignia-mal">${ic('candado',12,2.4)} Menor de edad</span>` : '',
+      cad ? '<span class="insignia insignia-mal">Documento caducado</span>' : '',
+      bajo ? `<span class="insignia ${pc < 60 ? 'insignia-mal' : 'insignia-avisa'}">Cara ${pc} %</span>` : '',
+      auto ? '<span class="insignia insignia-tinta">Rechazo automático</span>' : '',
+      !menor && !reparos && !bajo ? `<span class="insignia insignia-ok">${icA('check',12)} Todo en orden</span>` : ''
+    ].join('');
+    const aprobar = menor
+      ? `<button class="btn pg-adm-aprobar" type="button" disabled aria-describedby="pg-adm-x-${v.id}">${ic('candado',17)} Aprobar</button><p class="pg-adm-exp" id="pg-adm-x-${v.id}">${ic('candado',15,2.2)} No se puede aprobar a un menor de edad</p>`
+      : `<button class="btn pg-adm-aprobar" type="button" data-pg="aprobar" data-id="${v.id}">${icA('check',18)} ${auto ? 'Anular el rechazo y aprobar…' : reparos ? 'Aprobar…' : 'Aprobar'}</button>`;
+    return `<article class="pg-adm-ficha${menor ? ' menor' : ''}" id="pg-adm-${auto ? 'd' : 'f'}-${v.id}" aria-labelledby="pg-adm-fn-${v.id}">
+      ${menor ? `<div class="pg-adm-banda">${ic('candado',16,2.2)}<span>Menor de edad, ${ed} años. No puede entrar en Apaño.</span></div>` : ''}
+      <header class="pg-adm-ficha-cab">
+        ${A.avatar(pseudo(v))}
+        <div class="crecer min0">
+          <h3 class="pg-adm-ficha-n" id="pg-adm-fn-${v.id}">${esc(v.n)}</h3>
+          <p class="pg-adm-meta">${esc(v.ciudad)} · ${v.doc} · enviada ${envioTxt(v.f)} <span class="ter">(${haceTxt(v.f)})</span></p>
+        </div>
+        <div class="pg-adm-ins">${ins}</div>
+      </header>
+      <div class="pg-adm-ficha-cuerpo">
+        ${docs(v, auto)}
+        <div class="col g16 min0">
+          <div class="pg-adm-edad${menor ? ' mal' : ''}">
+            <span class="pg-adm-edad-n cifra" aria-label="${ed} años">${ed}</span>
+            <span class="col min0"><span class="pg-adm-edad-u">años · ${menor ? 'menor de edad' : 'mayor de edad'}</span><span class="pg-adm-edad-s">${menor ? 'Cumplirá 18 el ' : 'Cumplió 18 el '}${A.fecha(c18)}</span></span>
+            <span class="pg-adm-edad-ico">${menor ? ic('candado',20,2.1) : icA('check',20)}</span>
+          </div>
+          <dl class="pg-adm-dl">
+            <div class="ancho"><dt>Número de ${v.doc}</dt><dd>${docWrap('v', v.id, v.num)}</dd></div>
+            <div><dt>Nacimiento</dt><dd>${A.fecha(v.nac)}</dd></div>
+            <div><dt>Caducidad</dt><dd class="${cad ? 'pg-adm-mal' : ''}">${A.fecha(v.cad)}${cad ? ' · caducado' : ''}</dd></div>
+          </dl>
+          <div class="col g8"><h4 class="etiqueta">Comprobaciones automáticas</h4>${listaSen(ss)}</div>
+        </div>
+      </div>
+      <footer class="pg-adm-ficha-acc">
+        ${aprobar}
+        <button class="btn btn-sec" type="button" data-pg="foto" data-id="${v.id}">${ic('camara',17)} Pedir otra foto</button>
+        <button class="btn ${menor ? 'btn-peligro' : 'btn-sec pg-adm-btn-mal'}" type="button" data-pg="rechazar" data-id="${v.id}">${icA('cerrar',17)} ${auto ? 'Confirmar rechazo' : 'Rechazar'}</button>
+      </footer>
+    </article>`;
+  };
+  const autoItem = v => {
+    const ed = edadV(v), mal = v.senales.filter(s => s.t === 'mal');
+    return `<li class="pg-adm-auto${ed < 18 ? ' menor' : ''}" id="pg-adm-a-${v.id}">
+      <div class="fila g10">${A.avatar(pseudo(v), 'avatar-p')}<div class="crecer min0 col"><b class="sm">${esc(v.n)}</b><span class="xs ter">${esc(v.ciudad)} · ${envioTxt(v.f)}</span></div><span class="pg-adm-auto-edad" aria-label="${ed} años"><b class="cifra">${ed}</b>años</span></div>
+      <ul class="pg-adm-auto-mot">${mal.map(s => `<li>${icA('cerrar',12)}<span>${esc(s.m)}</span></li>`).join('')}</ul>
+      ${ed < 18 ? `<p class="pg-adm-auto-bloq">${ic('candado',13,2.2)} Dispositivo bloqueado ${bloqueoTxt()}</p>` : ''}
+      <button class="btn btn-sec btn-p btn-bloque" type="button" data-pg="revisar-auto" data-id="${v.id}">Revisar la ficha</button>
+    </li>`;
+  };
+  const EST_V = {aprobado:['Aprobada','ok'], rechazado:['Rechazada','mal'], 'otra-foto':['Foto pedida','marca']};
+  const resItem = v => {
+    const r = E.ver[v.id], e = EST_V[r.estado] || ['Resuelta','ok'];
+    const icono = r.estado === 'aprobado' ? icA('check',15) : r.estado === 'rechazado' ? icA('cerrar',14) : ic('camara',15);
+    return `<li class="pg-adm-resi"><span class="pg-adm-resi-ico ${e[1]}">${icono}</span><div class="crecer min0 col"><b class="sm">${esc(v.n)}</b><span class="xs ter">${e[0]} a las ${r.h.slice(11)} · ${esc(pila(r.por))}</span></div><button class="pg-adm-deshacer" type="button" data-pg="devolver" data-id="${v.id}" aria-label="Deshacer y devolver a la cola la solicitud de ${esc(v.n)}">${ic('deshacer',14)}Deshacer</button></li>`;
+  };
+  const panelIdentidades = () => `
+    <div class="con-lateral">
+      <div class="min0">
+        <div class="pg-adm-pcab">
+          <div class="col g6"><h2 class="h2">Cola de identidades</h2><p class="sm sec">Por orden de llegada; las de menores, arriba del todo. Comprueba la edad, la caducidad y que la cara cuadra. El número del documento sale enmascarado: si lo muestras, queda en el registro.</p></div>
+          <a class="pg-adm-salto" href="#pg-adm-autos" data-pg="ir-autos">${ic('rayo',15)}<span id="pg-adm-autos-n2"></span></a>
+        </div>
+        <div class="pg-adm-cola" id="pg-adm-cola"></div>
+      </div>
+      <aside class="col g16 pg-adm-lat" aria-label="Más sobre identidades">
+        <section class="pg-adm-lat-b" id="pg-adm-autos" aria-labelledby="pg-adm-autos-t">
+          <div class="fila entre g8"><h3 class="pg-adm-lat-t" id="pg-adm-autos-t">Rechazadas automáticamente</h3><span class="insignia insignia-mal" id="pg-adm-autos-n">0</span></div>
+          <p class="xs sec">El sistema las ha parado antes de llegar a la cola. Repásalas por si hubiera un error y confirma el rechazo.</p>
+          <ul class="pg-adm-autos" id="pg-adm-autos-l"></ul>
+        </section>
+        <section class="pg-adm-lat-b sup" id="pg-adm-res" aria-labelledby="pg-adm-res-t" hidden>
+          <div class="fila entre g8"><h3 class="pg-adm-lat-t" id="pg-adm-res-t">Resueltas en esta sesión</h3><span class="insignia" id="pg-adm-res-n">0</span></div>
+          <ul class="pg-adm-resl" id="pg-adm-res-l"></ul>
+        </section>
+        <section class="pg-adm-lat-b bloque-marca" aria-labelledby="pg-adm-guia-t">
+          <h3 class="pg-adm-lat-t" id="pg-adm-guia-t" style="color:var(--marca-tinta)">Antes de aprobar</h3>
+          <ol class="pg-adm-guia">
+            <li>Tiene <b>18 años o más</b>. Si no, se rechaza: no hay excepciones.</li>
+            <li>El documento está <b>en vigor</b> y es DNI, NIE o pasaporte.</li>
+            <li>La selfie es la misma persona: coincidencia del <b id="pg-adm-guia-u">${E.aj.umbral} %</b> o más.</li>
+            <li>Nada tapado, recortado ni retocado.</li>
+          </ol>
+        </section>
+      </aside>
+    </div>`;
+  const pintaCola = () => {
+    const pend = V.filter(v => estV(v) === 'pendiente').sort((a, b) => (menorV(b) - menorV(a)) || (a.f < b.f ? -1 : 1));
+    $('#pg-adm-cola').innerHTML = pend.length ? pend.map(v => ficha(v, 'cola')).join('')
+      : `<div class="pg-adm-vacio"><span class="pg-adm-vacio-ico">${icA('check',28)}</span><h3 class="h3">Cola al día</h3><p class="sm sec" style="max-width:40ch">No queda ninguna alta por revisar. Las nuevas aparecerán aquí por orden de llegada.</p></div>`;
+    const au = V.filter(v => estV(v) === 'rechazado-auto');
+    $('#pg-adm-autos-l').innerHTML = au.length ? au.map(autoItem).join('') : '<li class="sm ter">No queda ninguna por repasar.</li>';
+    $('#pg-adm-autos-n').textContent = au.length; $('#pg-adm-autos-n2').textContent = au.length === 1 ? '1 rechazo automático' : `${au.length} rechazos automáticos`;
+    $('.pg-adm-salto').style.visibility = au.length ? '' : 'hidden';
+    const res = V.filter(v => E.ver[v.id]).sort((a, b) => E.ver[a.id].h < E.ver[b.id].h ? 1 : -1);
+    $('#pg-adm-res').hidden = !res.length;
+    $('#pg-adm-res-n').textContent = res.length;
+    $('#pg-adm-res-l').innerHTML = res.map(resItem).join('');
+    const g = $('#pg-adm-guia-u'); if(g) g.textContent = E.aj.umbral + ' %';
+  };
+
+  /* salida animada de una ficha */
+  const sale = (el, sello, cb) => {
+    if(!el){ cb(); return }
+    if(sello) el.insertAdjacentHTML('beforeend', `<div class="pg-adm-sello ${sello.tono}" aria-hidden="true"><span>${sello.ico}${sello.t}</span></div>`);
+    requestAnimationFrame(() => el.classList.add('resuelta'));
+    setTimeout(() => {
+      el.style.height = el.offsetHeight + 'px'; el.style.overflow = 'hidden';
+      void el.offsetHeight;
+      el.classList.add('sale'); el.style.height = '0px';
+      setTimeout(cb, quieto ? 0 : 420);
+    }, quieto ? 0 : (sello ? 700 : 0));
+  };
+  const resolverV = (v, r, texto, sello) => {
+    const u = cuentaDe(v);
+    r.por = yo.n; r.h = ahora();
+    if(u){ r.prevU = E.usu[u.id] || null; E.usu[u.id] = {estado: r.estado === 'aprobado' ? 'verificado' : r.estado === 'rechazado' ? 'rechazado' : 'pendiente'} }
+    E.ver[v.id] = r; guarda();
+    registra(texto, 'identidades');
+    sale($('#pg-adm-f-' + v.id) || $('#pg-adm-a-' + v.id), sello, () => { pintaCola(); pintaUsuarios(); pintaCifras() });
+  };
+
+  /* mostrar el número completo (deja constancia) */
+  const relojes = {};
+  const tapaDoc = (b, num) => { const w = b.closest('.pg-adm-docw'); w.classList.remove('abierta'); w.querySelector('.pg-adm-docnum').textContent = masca(num); b.setAttribute('aria-pressed', 'false'); b.innerHTML = ic('ojo',14,2.1) + '<span>Mostrar</span>' };
+  const alternaDoc = b => {
+    const k = b.dataset.tipo + ':' + b.dataset.id;
+    const p = b.dataset.tipo === 'u' ? A.usuario(b.dataset.id) : V.find(v => v.id === b.dataset.id);
+    const num = b.dataset.tipo === 'u' ? p.docNum : p.num;
+    clearTimeout(relojes[k]);
+    if(b.getAttribute('aria-pressed') === 'true'){ tapaDoc(b, num); return }
+    const w = b.closest('.pg-adm-docw');
+    w.querySelector('.pg-adm-docnum').textContent = num;
+    w.classList.remove('abierta'); void w.offsetWidth; w.classList.add('abierta');
+    b.setAttribute('aria-pressed', 'true'); b.innerHTML = ic('ojoNo',14,2.1) + '<span>Ocultar</span>';
+    registra(`Vio el número de documento de ${p.n}`, 'identidades');
+    relojes[k] = setTimeout(() => { if(document.contains(b)) tapaDoc(b, num) }, 30000);
+  };
+
+  const verDocs = v => A.dialogo(`<div class="dialogo-cuerpo col g16" style="padding-top:24px">
+      <div class="col g4 pg-adm-hoja-cab"><span class="etiqueta">Documento de ${esc(v.n)}</span><h2 class="h2">${v.doc} <span class="pg-adm-mono">${masca(v.num)}</span></h2></div>
+      ${docs(v, true)}
+      <p class="aviso">${icA('escudo',18)}<span>Imágenes de <b>muestra</b>. En la app real verías las fotos que ha enviado la persona. Solo las ve el equipo de verificación y nunca se publican.</span></p>
+    </div>`, {ancho:720});
+
+  const fichaAuto = v => A.dialogo(ficha(v, 'auto'), {ancho:900});
+
+  const aprobar = v => {
+    if(menorV(v)){ A.avisa('No se puede aprobar a un menor de edad', 'mal'); return }
+    const probs = [];
+    if(caducado(v)) probs.push(`El documento caducó el ${A.fecha(v.cad)}`);
+    senales(v).filter(s => s.t === 'mal' && !/caducad/i.test(s.m)).forEach(s => probs.push(s.m));
+    const auto = v.estado === 'rechazado-auto';
+    const hazlo = () => {
+      resolverV(v, {estado:'aprobado'}, `Aprobó la identidad de ${v.n} (${v.doc} ${masca(v.num)})${probs.length ? ' con reparos: ' + probs[0].charAt(0).toLowerCase() + probs[0].slice(1) : ''}`, {t:'Aprobada', tono:'ok', ico:icA('check',22)});
+      A.avisa(`Identidad de ${pila(v.n)} aprobada`);
+    };
+    if(!probs.length && !auto){ hazlo(); return }
+    A.dialogo(`<form class="dialogo-cuerpo col g16 pg-adm-hoja" novalidate>
+      <div class="col g8 pg-adm-hoja-cab">
+        <span class="insignia insignia-avisa" style="align-self:flex-start">${ic('excl',13,2.8)} Aprobación con reparos</span>
+        <h2 class="h2">${caducado(v) ? `¿Aprobar a ${esc(pila(v.n))} con el documento caducado?` : auto ? `¿Anular el rechazo de ${esc(pila(v.n))}?` : `¿Aprobar a ${esc(pila(v.n))} pese a las alertas?`}</h2>
+        <p class="sm sec">Hazlo solo si lo has comprobado a mano. Quedará en el registro con tu nombre.</p>
+      </div>
+      ${probs.length ? listaSen(probs.map(m => ({t:'mal', m}))) : ''}
+      <label class="casilla" for="pg-adm-conf"><input type="checkbox" id="pg-adm-conf" aria-describedby="pg-adm-conf-e"><span>He revisado el documento y la selfie, y confirmo que ${esc(pila(v.n))} es mayor de edad y es quien dice ser.</span></label>
+      <p class="error" id="pg-adm-conf-e" hidden>Marca la casilla para poder aprobar.</p>
+      <div class="pg-adm-hoja-acc"><button type="button" class="btn btn-sec" data-cerrar>Cancelar</button><button type="submit" class="btn">${icA('check',18)} Aprobar igualmente</button></div>
+    </form>`, {ancho:520, alAbrir:(capa, cerrar) => {
+      const f = $('form', capa), c = $('#pg-adm-conf', capa);
+      c.addEventListener('change', () => { if(c.checked){ c.removeAttribute('aria-invalid'); $('#pg-adm-conf-e', capa).hidden = true } });
+      f.addEventListener('submit', e => {
+        e.preventDefault();
+        if(!c.checked){ c.setAttribute('aria-invalid', 'true'); $('#pg-adm-conf-e', capa).hidden = false; c.focus(); return }
+        cerrar(); hazlo();
+      });
+    }});
+  };
+
+  const MOTIVOS_V = [
+    ['ilegible', 'Documento ilegible', 'Borroso, cortado o con reflejos'],
+    ['caducado', 'Documento caducado', 'La fecha de validez ya ha pasado'],
+    ['cara', 'La cara no coincide', 'La selfie no es la persona del documento'],
+    ['manipulado', 'Documento manipulado', 'Datos tapados, editados o fotocopia'],
+    ['menor', 'Menor de edad', 'Tiene menos de 18 años'],
+    ['otro', 'Otro motivo', 'Explícalo en la nota']
+  ];
+  const rechazar = v => {
+    const sug = sugerido(v), auto = v.estado === 'rechazado-auto', nom = pila(v.n);
+    A.dialogo(`<form class="dialogo-cuerpo col g16 pg-adm-hoja" novalidate>
+      <div class="col g6 pg-adm-hoja-cab">
+        <span class="etiqueta">${auto ? 'Confirmar rechazo automático' : 'Rechazar identidad'}</span>
+        <h2 class="h2">¿Por qué rechazas a ${esc(nom)}?</h2>
+        <p class="sm sec">Le explicaremos el motivo para que sepa qué hacer. Queda en el registro con tu nombre.</p>
+      </div>
+      <fieldset class="pg-adm-opciones dos" role="radiogroup" aria-describedby="pg-adm-m-e">
+        <legend class="solo-lector">Motivo del rechazo (obligatorio)</legend>
+        ${MOTIVOS_V.map(([k, t, d]) => `<label class="opcion${k === 'menor' ? ' pg-adm-op-menor' : ''}" for="pg-adm-m-${k}"><input type="radio" name="motivo" id="pg-adm-m-${k}" value="${k}"${auto && sug === k ? ' checked' : ''}><span class="col g2 min0"><span class="negrita fila g6">${t}${sug === k ? '<span class="insignia insignia-marca">Sugerido</span>' : ''}</span><span class="ayuda">${d}</span></span></label>`).join('')}
+      </fieldset>
+      <p class="error" id="pg-adm-m-e" hidden>Elige un motivo.</p>
+      <div class="aviso aviso-mal" id="pg-adm-m-av" hidden>${ic('candado',18,2.1)}<span><b>Menor de edad.</b> Bloquearemos su dispositivo ${bloqueoTxt()} y no podrá volver a intentarlo con este documento. Las imágenes se borran ${RETEN[E.aj.retencion]}.</span></div>
+      <div class="campo"><label for="pg-adm-m-nota">Nota para el registro <span class="ter" id="pg-adm-m-op">(opcional)</span></label><textarea class="ent" id="pg-adm-m-nota" rows="3" placeholder="Qué has visto. No escribas el número del documento." aria-describedby="pg-adm-m-ne"></textarea><p class="error" id="pg-adm-m-ne" hidden>Explica el motivo en la nota.</p></div>
+      <div class="pg-adm-hoja-acc"><button type="button" class="btn btn-sec" data-cerrar>Cancelar</button><button type="submit" class="btn btn-peligro">${icA('cerrar',17)} ${auto ? 'Confirmar rechazo' : 'Rechazar identidad'}</button></div>
+    </form>`, {ancho:600, alAbrir:(capa, cerrar) => {
+      const f = $('form', capa), grupo = $('fieldset', capa), err = $('#pg-adm-m-e', capa), nota = $('#pg-adm-m-nota', capa), ne = $('#pg-adm-m-ne', capa);
+      const sel = () => (f.querySelector('input[name="motivo"]:checked') || {}).value;
+      const cambia = () => { const m = sel(); $('#pg-adm-m-av', capa).hidden = m !== 'menor'; $('#pg-adm-m-op', capa).textContent = m === 'otro' ? '(obligatoria)' : '(opcional)'; if(m){ err.hidden = true; grupo.removeAttribute('aria-invalid') } };
+      f.addEventListener('change', cambia); cambia();
+      f.addEventListener('submit', e => {
+        e.preventDefault();
+        const m = sel(), n = nota.value.trim();
+        ne.hidden = true; nota.removeAttribute('aria-invalid');
+        if(!m){ err.textContent = 'Elige un motivo.'; err.hidden = false; grupo.setAttribute('aria-invalid', 'true'); f.querySelector('input[name="motivo"]').focus(); return }
+        if(m === 'menor' && !menorV(v)){ err.textContent = `Según el documento tiene ${edadV(v)} años. Si crees que no es suyo, elige «La cara no coincide» o «Documento manipulado».`; err.hidden = false; grupo.setAttribute('aria-invalid', 'true'); return }
+        if(m === 'otro' && n.length < 4){ ne.hidden = false; nota.setAttribute('aria-invalid', 'true'); nota.focus(); return }
+        cerrar();
+        const t = MOTIVOS_V.find(x => x[0] === m)[1];
+        resolverV(v, {estado:'rechazado', motivo:m, nota:n}, `${auto ? 'Confirmó el rechazo automático de' : 'Rechazó la identidad de'} ${v.n}: ${t.toLowerCase()}${n ? ` («${n}»)` : ''}`, {t:'Rechazada', tono:'mal', ico:icA('cerrar',20)});
+        if(m === 'menor') registra(`Bloqueó el dispositivo de ${v.n} durante ${bloqueoTxt()}: intento de alta de un menor de edad`, 'identidades');
+        A.avisa(m === 'menor' ? `${nom} no entra: menor de edad` : `Identidad de ${nom} rechazada`);
+      });
+    }});
+  };
+
+  const FOTOS = {anverso:'anverso del documento', reverso:'reverso del documento', selfie:'selfie'};
+  const otraFoto = v => {
+    const txt = v.senales.map(s => s.m).join(' '), cad = caducado(v), nom = pila(v.n);
+    const pre = {anverso: cad || /ilegible|borros/i.test(txt), reverso: cad, selfie: /luz|coincid/i.test(txt)};
+    if(!pre.anverso && !pre.reverso && !pre.selfie) pre.anverso = true;
+    const msg = cad ? `Hola, ${nom}. Tu ${v.doc} caducó el ${A.fecha(v.cad)}. Para verificar tu cuenta, sube las dos caras de un documento en vigor (DNI, NIE o pasaporte). Solo lo verá el equipo de verificación.`
+      : pre.selfie ? `Hola, ${nom}. No hemos podido comparar bien tu selfie con la foto del documento. Repítela de frente, con buena luz y sin gafas de sol ni gorra. Solo la verá el equipo de verificación.`
+      : `Hola, ${nom}. La foto de tu documento no se lee bien. Repítela entera, sin reflejos y con buena luz. Solo la verá el equipo de verificación.`;
+    A.dialogo(`<form class="dialogo-cuerpo col g16 pg-adm-hoja" novalidate>
+      <div class="col g6 pg-adm-hoja-cab"><span class="etiqueta">Pedir otra foto</span><h2 class="h2">¿Qué tiene que repetir ${esc(nom)}?</h2><p class="sm sec">La solicitud sale de la cola hasta que suba las fotos nuevas.</p></div>
+      <fieldset class="pg-adm-opciones tres" aria-describedby="pg-adm-fo-e">
+        <legend class="solo-lector">Fotos que tiene que repetir</legend>
+        ${Object.keys(FOTOS).map(k => `<label class="opcion" for="pg-adm-fo-${k}"><input type="checkbox" name="que" id="pg-adm-fo-${k}" value="${k}"${pre[k] ? ' checked' : ''}><span class="negrita">${FOTOS[k].charAt(0).toUpperCase() + FOTOS[k].slice(1)}</span></label>`).join('')}
+      </fieldset>
+      <p class="error" id="pg-adm-fo-e" hidden>Marca al menos una foto.</p>
+      <div class="campo"><label for="pg-adm-fo-msg">Mensaje para ${esc(nom)}</label><textarea class="ent" id="pg-adm-fo-msg" rows="5" aria-describedby="pg-adm-fo-ay">${esc(msg)}</textarea><p class="ayuda" id="pg-adm-fo-ay">Le llegaría por correo y como aviso en la app. En esta demostración no se envía nada.</p></div>
+      <div class="pg-adm-hoja-acc"><button type="button" class="btn btn-sec" data-cerrar>Cancelar</button><button type="submit" class="btn">${ic('camara',17)} Pedir la foto</button></div>
+    </form>`, {ancho:600, alAbrir:(capa, cerrar) => {
+      const f = $('form', capa), grupo = $('fieldset', capa), msgEl = $('#pg-adm-fo-msg', capa);
+      f.addEventListener('change', () => { if(f.querySelector('input[name="que"]:checked')){ $('#pg-adm-fo-e', capa).hidden = true; grupo.removeAttribute('aria-invalid') } });
+      f.addEventListener('submit', e => {
+        e.preventDefault();
+        const que = $$('input[name="que"]:checked', f).map(i => i.value);
+        if(!que.length){ $('#pg-adm-fo-e', capa).hidden = false; grupo.setAttribute('aria-invalid', 'true'); f.querySelector('input[name="que"]').focus(); return }
+        if(msgEl.value.trim().length < 10){ msgEl.setAttribute('aria-invalid', 'true'); msgEl.focus(); return }
+        cerrar();
+        resolverV(v, {estado:'otra-foto', que}, `Pidió a ${v.n} una foto nueva: ${que.map(q => FOTOS[q]).join(', ')}`, {t:'Foto pedida', tono:'marca', ico:ic('camara',20)});
+        A.avisa(`Petición preparada para ${nom}`);
+      });
+    }});
+  };
+
+  const devolver = v => {
+    const r = E.ver[v.id]; if(!r) return;
+    const u = cuentaDe(v);
+    if(u){ if(r.prevU) E.usu[u.id] = r.prevU; else delete E.usu[u.id] }
+    delete E.ver[v.id]; guarda();
+    registra(`Devolvió a ${v.estado === 'rechazado-auto' ? 'rechazadas automáticamente' : 'la cola'} la solicitud de ${v.n}`, 'identidades');
+    pintaCola(); pintaUsuarios(); pintaCifras();
+    A.avisa(`${pila(v.n)} vuelve a la cola`);
+  };
+
+  /* ======================================================================
+     USUARIOS
+     ====================================================================== */
+  const fU = {q:'', e:'', t:'', r:''};
+  const accU = (u, enHoja) => {
+    const st = estU(u);
+    if(u.id === yo.id) return '<span class="xs ter">Es tu cuenta</span>';
+    if(u.tipo === 'interno' && !esAdmin) return '<span class="xs ter">Solo administración</span>';
+    const b = (acc, icono, t, lab, cls) => enHoja
+      ? `<button type="button" class="btn btn-sec${cls === 'mal' ? ' pg-adm-btn-mal' : ''}" data-pg="${acc}" data-id="${u.id}">${icono} ${t}</button>`
+      : `<button type="button" class="ico-btn pg-adm-mb${cls ? ' ' + cls : ''}" data-pg="${acc}" data-id="${u.id}" aria-label="${lab} a ${esc(u.n)}" title="${lab}">${icono}<span class="txt">${t}</span></button>`;
+    let h = '';
+    if(st === 'suspendido') h += b('u-reactivar', ic('reactivar',17), 'Reactivar', 'Reactivar la cuenta');
+    else if(st !== 'rechazado') h += b('u-suspender', ic('prohibido',17), 'Suspender', 'Suspender la cuenta', 'mal');
+    if(st === 'verificado') h += b('u-reverificar', ic('carnet',17), 'Reverificar', 'Pedir que verifique otra vez su identidad');
+    return h;
+  };
+  const filaU = u => {
+    const ed = A.edad(u.nac), menor = ed < 18, st = estU(u);
+    return `<tr class="${menor ? 'menor' : ''}${st === 'suspendido' ? ' susp' : ''}" id="pg-adm-u-${u.id}">
+      <td class="c-quien"><div class="pg-adm-quien">${A.avatar(u)}<div class="min0"><b>${esc(u.n)}${u.id === yo.id ? ' <span class="insignia insignia-marca">Tú</span>' : ''}</b><small>${TIPO[u.tipo]} · ${ROL[u.rol]}</small></div></div></td>
+      <td data-et="Ciudad">${esc(u.ciudad)}<span class="pg-adm-sub">${esc(u.barrio)}</span></td>
+      <td data-et="Edad" class="der num">${menor ? `<span class="insignia insignia-mal">${ed} · menor</span>` : ed}</td>
+      <td data-et="Documento"><span class="pg-adm-mono sm">${u.doc} ${masca(u.docNum)}</span></td>
+      <td data-et="Estado">${insEstado(st)}</td>
+      <td data-et="Valoración">${u.resenas ? `<span class="fila g4" style="flex-wrap:nowrap"><span class="estrellas">${icA('estrella',13).replace('fill="none"', 'fill="currentColor"')}</span><b class="num">${u.val.toLocaleString('es-ES', {minimumFractionDigits:1})}</b><span class="ter num">(${u.resenas})</span></span>` : '<span class="ter">Sin reseñas</span>'}</td>
+      <td data-et="Alta">${A.fecha(u.alta)}</td>
+      <td class="c-acc"><div class="pg-adm-acc-fila"><button type="button" class="btn btn-sec btn-p" data-pg="u-ficha" data-id="${u.id}">Ver ficha</button>${accU(u)}</div></td>
+    </tr>`;
+  };
+  const panelUsuarios = () => `
+    <div class="pg-adm-pcab"><div class="col g6"><h2 class="h2">Usuarios</h2><p class="sm sec">Cada cuenta con su edad según el documento. Cualquier menor aparecería en rojo y arriba del todo.</p></div><span class="sm ter" id="pg-adm-u-n" aria-live="polite"></span></div>
+    <div id="pg-adm-u-aviso" class="pg-adm-aviso"></div>
+    <form class="pg-adm-filtros" id="pg-adm-u-f" role="search" aria-label="Filtrar usuarios">
+      <div class="campo pg-adm-busca"><label class="pg-adm-fet" for="pg-adm-u-q">Buscar</label><div class="pg-adm-ent-ico">${icA('lupa',18)}<input class="ent" id="pg-adm-u-q" type="search" placeholder="Nombre, ciudad o barrio" autocomplete="off"></div></div>
+      <div class="campo"><label class="pg-adm-fet" for="pg-adm-u-e">Estado</label><select class="ent" id="pg-adm-u-e"><option value="">Todos</option><option value="verificado">Verificado</option><option value="pendiente">Pendiente</option><option value="suspendido">Suspendido</option><option value="rechazado">Rechazado</option></select></div>
+      <div class="campo"><label class="pg-adm-fet" for="pg-adm-u-t">Tipo</label><select class="ent" id="pg-adm-u-t"><option value="">Todos</option><option value="particular">Particular</option><option value="profesional">Profesional</option><option value="interno">Equipo</option></select></div>
+      <div class="campo"><label class="pg-adm-fet" for="pg-adm-u-r">Rol</label><select class="ent" id="pg-adm-u-r"><option value="">Todos</option><option value="usuario">Usuario</option><option value="moderador">Moderación</option><option value="admin">Administración</option></select></div>
+    </form>
+    <div class="tabla-env pg-adm-tusu-env"><table class="tabla pg-adm-tusu"><caption class="solo-lector">Usuarios de Apaño</caption><thead><tr><th scope="col">Persona</th><th scope="col">Ciudad</th><th scope="col" class="der">Edad</th><th scope="col">Documento</th><th scope="col">Estado</th><th scope="col">Valoración</th><th scope="col">Alta</th><th scope="col"><span class="solo-lector">Acciones</span></th></tr></thead><tbody id="pg-adm-u-tb"></tbody></table></div>
+    <div class="pg-adm-vacio" id="pg-adm-u-vacio" hidden><h3 class="h3">Nadie con esos filtros</h3><p class="sm sec">Prueba con otra búsqueda o quita algún filtro.</p><button type="button" class="btn btn-sec btn-p" data-pg="u-limpia">Quitar filtros</button></div>`;
+  const pintaUsuarios = () => {
+    const q = normal(fU.q.trim());
+    const l = A.USUARIOS.filter(u => {
+      const st = estU(u), stF = st === 'reverificar' ? 'pendiente' : st;
+      return (!fU.e || stF === fU.e) && (!fU.t || u.tipo === fU.t) && (!fU.r || u.rol === fU.r) && (!q || normal(`${u.n} ${u.ciudad} ${u.barrio}`).includes(q));
+    }).sort((a, b) => ((A.edad(b.nac) < 18) - (A.edad(a.nac) < 18)) || (a.alta < b.alta ? 1 : a.alta > b.alta ? -1 : 0));
+    $('#pg-adm-u-tb').innerHTML = l.map(filaU).join('');
+    $('#pg-adm-u-vacio').hidden = !!l.length;
+    $('.pg-adm-tusu-env').hidden = !l.length;
+    $('#pg-adm-u-n').textContent = l.length === A.USUARIOS.length ? `${l.length} cuentas` : `${l.length} de ${A.USUARIOS.length} cuentas`;
+    const menores = A.USUARIOS.filter(u => A.edad(u.nac) < 18 && estU(u) !== 'suspendido');
+    $('#pg-adm-u-aviso').innerHTML = menores.length
+      ? `<div class="aviso aviso-mal">${ic('candado',18,2.1)}<span><b>${menores.length === 1 ? 'Hay una cuenta' : `Hay ${menores.length} cuentas`} de menores de edad.</b> Suspéndelas ahora y pide que verifiquen de nuevo su identidad.</span></div>`
+      : `<div class="aviso aviso-ok">${icA('check',18)}<span><b>Comprobado:</b> las ${A.USUARIOS.length} cuentas tienen 18 años o más según su documento.</span></div>`;
+  };
+  const marcaFila = id => { const f = $('#pg-adm-u-' + id); if(f){ f.classList.remove('flash'); void f.offsetWidth; f.classList.add('flash') } };
+
+  const fichaU = u => {
+    const st = estU(u), ed = A.edad(u.nac), anu = A.anunciosDe(u.id);
+    const hist = todosLog().filter(x => x.acc.includes(u.n) || x.acc.includes(u.corto)).slice(0, 4);
+    const VER = {email:'Correo', tel:'Móvil', dni:'Documento', selfie:'Selfie'};
+    A.dialogo(`<div class="dialogo-cuerpo col g16 pg-adm-hoja">
+      <div class="fila g16 pg-adm-hoja-cab" style="flex-wrap:nowrap">${A.avatar(u, 'avatar-g')}<div class="col g6 min0"><h2 class="h2">${esc(u.n)}</h2><div class="fila g6">${insEstado(st)}<span class="insignia">${TIPO[u.tipo]}</span>${u.rol !== 'usuario' ? `<span class="insignia insignia-tinta">${ROL[u.rol]}</span>` : ''}</div></div></div>
+      ${ed < 18 ? `<div class="aviso aviso-mal">${ic('candado',18,2.1)}<span><b>Menor de edad (${ed} años).</b> No puede tener cuenta en Apaño: suspéndela ya.</span></div>` : ''}
+      <div class="pg-adm-uf-cif">
+        <div><span class="cifra">${ed}</span><span>años</span></div>
+        <div><span class="cifra">${u.resenas ? u.val.toLocaleString('es-ES', {minimumFractionDigits:1}) : '—'}</span><span>valoración</span></div>
+        <div><span class="cifra">${u.hechos}</span><span>servicios</span></div>
+        <div><span class="cifra">${u.resenas}</span><span>reseñas</span></div>
+      </div>
+      <dl class="pg-adm-dl">
+        <div class="ancho"><dt>Número de ${u.doc}</dt><dd>${docWrap('u', u.id, u.docNum)}</dd></div>
+        <div><dt>Nacimiento</dt><dd>${A.fecha(u.nac)}</dd></div>
+        <div><dt>En Apaño desde</dt><dd>${A.fecha(u.alta)}</dd></div>
+        <div><dt>Zona</dt><dd>${esc(u.ciudad)} · ${esc(u.barrio)}</dd></div>
+        <div><dt>Responde</dt><dd>${esc(u.responde)}</dd></div>
+      </dl>
+      <div class="col g8"><span class="etiqueta">Verificaciones</span><div class="fila g6">${Object.keys(VER).map(k => `<span class="insignia ${u.ver[k] ? 'insignia-ok' : 'insignia-avisa'}">${u.ver[k] ? icA('check',12) : ic('reloj',12)}${VER[k]}</span>`).join('')}</div></div>
+      ${anu.length ? `<div class="col g6"><span class="etiqueta">Anuncios (${anu.length})</span><ul class="pg-adm-uf-anu">${anu.map(a => `<li><a href="anuncio.html?id=${a.id}"><span class="pg-adm-parte-img">${A.portada(a)}</span><span class="crecer min0 sm recorte recorte-1">${esc(a.t)}</span><span class="sm negrita" style="white-space:nowrap">${A.precio(a)}</span></a></li>`).join('')}</ul></div>` : ''}
+      ${hist.length ? `<div class="col g6"><span class="etiqueta">Últimos movimientos</span><ul class="pg-adm-auto-mot">${hist.map(x => `<li>${ic('reloj',12)}<span>${x.h.slice(8,10)}/${x.h.slice(5,7)} ${x.h.slice(11)} · ${esc(x.quien)}: ${esc(mascaTxt(x.acc))}</span></li>`).join('')}</ul></div>` : ''}
+      <div class="pg-adm-hoja-acc">${u.tipo !== 'interno' ? `<a class="btn btn-sec" href="perfil.html?id=${u.id}">Perfil público</a>` : ''}${accU(u, true)}</div>
+    </div>`, {ancho:580});
+  };
+
+  const MOTIVOS_U = [['pagos', 'Pide pagos fuera de la app'], ['trato', 'Trato inadecuado o acoso'], ['menor', 'Sospecha de que es menor de edad'], ['suplanta', 'Suplanta a otra persona'], ['enganoso', 'Anuncios engañosos o spam'], ['otro', 'Otro motivo']];
+  const suspender = u => {
+    const anu = A.anunciosDe(u.id).filter(a => !['eliminado', 'oculto'].includes(estA(a)));
+    A.dialogo(`<form class="dialogo-cuerpo col g16 pg-adm-hoja" novalidate>
+      <div class="col g6 pg-adm-hoja-cab"><span class="etiqueta">Suspender cuenta</span><h2 class="h2">¿Suspender a ${esc(u.n)}?</h2><p class="sm sec">No podrá escribir, publicar ni cobrar hasta que alguien del equipo la reactive. El dinero retenido con Pago protegido sigue retenido.</p></div>
+      <div class="campo"><label for="pg-adm-s-m">Motivo</label><select class="ent" id="pg-adm-s-m" aria-describedby="pg-adm-s-me"><option value="">Elige un motivo</option>${MOTIVOS_U.map(([k, t]) => `<option value="${k}">${t}</option>`).join('')}</select><p class="error" id="pg-adm-s-me" hidden>Elige un motivo.</p></div>
+      <div class="aviso aviso-mal" id="pg-adm-s-menor" hidden>${ic('candado',18,2.1)}<span>Además le pediremos que vuelva a verificar su identidad con el documento y una selfie.</span></div>
+      <div class="campo"><label for="pg-adm-s-n">Nota para el registro <span class="ter" id="pg-adm-s-op">(opcional)</span></label><textarea class="ent" id="pg-adm-s-n" rows="3" aria-describedby="pg-adm-s-ne"></textarea><p class="error" id="pg-adm-s-ne" hidden>Explica el motivo en la nota.</p></div>
+      ${anu.length ? `<label class="casilla" for="pg-adm-s-o"><input type="checkbox" id="pg-adm-s-o" checked><span>Ocultar también ${anu.length === 1 ? 'su anuncio activo' : `sus ${anu.length} anuncios activos`}</span></label>` : ''}
+      <div class="pg-adm-hoja-acc"><button type="button" class="btn btn-sec" data-cerrar>Cancelar</button><button type="submit" class="btn btn-peligro">${ic('prohibido',17)} Suspender cuenta</button></div>
+    </form>`, {ancho:540, alAbrir:(capa, cerrar) => {
+      const f = $('form', capa), sm = $('#pg-adm-s-m', capa), nota = $('#pg-adm-s-n', capa);
+      sm.addEventListener('change', () => { $('#pg-adm-s-menor', capa).hidden = sm.value !== 'menor'; $('#pg-adm-s-op', capa).textContent = sm.value === 'otro' ? '(obligatoria)' : '(opcional)'; if(sm.value){ sm.removeAttribute('aria-invalid'); $('#pg-adm-s-me', capa).hidden = true } });
+      f.addEventListener('submit', e => {
+        e.preventDefault();
+        const m = sm.value, n = nota.value.trim();
+        if(!m){ sm.setAttribute('aria-invalid', 'true'); $('#pg-adm-s-me', capa).hidden = false; sm.focus(); return }
+        if(m === 'otro' && n.length < 4){ nota.setAttribute('aria-invalid', 'true'); $('#pg-adm-s-ne', capa).hidden = false; nota.focus(); return }
+        const oc = $('#pg-adm-s-o', capa), ocultar = !!(oc && oc.checked);
+        cerrar();
+        E.usu[u.id] = {estado:'suspendido', motivo:m, prev:estU(u), reverif: m === 'menor'};
+        if(ocultar) anu.forEach(a => { E.anu[a.id] = Object.assign({}, E.anu[a.id], {estado:'oculto', rev:true, porSusp:true}) });
+        guarda();
+        registra(`Suspendió la cuenta de ${u.n}: ${MOTIVOS_U.find(x => x[0] === m)[1].toLowerCase()}${n ? ` («${n}»)` : ''}`, 'usuarios');
+        if(ocultar && anu.length) registra(`Ocultó ${anu.length === 1 ? 'el anuncio' : `los ${anu.length} anuncios`} de ${u.corto} por la suspensión`, 'anuncios');
+        if(m === 'menor') registra(`Pidió a ${u.n} que verifique otra vez su identidad por sospecha de minoría de edad`, 'usuarios');
+        pintaUsuarios(); pintaAnuncios(); pintaCifras(); marcaFila(u.id);
+        A.avisa(`Cuenta de ${u.corto} suspendida`);
+      });
+    }});
+  };
+  const reactivar = u => {
+    const ocultos = A.anunciosDe(u.id).filter(a => E.anu[a.id] && E.anu[a.id].porSusp && estA(a) === 'oculto');
+    const s = E.usu[u.id] || {};
+    A.dialogo(`<form class="dialogo-cuerpo col g16 pg-adm-hoja" novalidate>
+      <div class="col g6 pg-adm-hoja-cab"><span class="etiqueta">Reactivar cuenta</span><h2 class="h2">¿Reactivar a ${esc(u.n)}?</h2><p class="sm sec">${s.reverif ? 'Volverá a entrar, pero no podrá escribir, publicar ni cobrar hasta que verifique otra vez su identidad.' : 'Volverá a poder usar Apaño con normalidad.'}</p></div>
+      ${ocultos.length ? `<label class="casilla" for="pg-adm-r-o"><input type="checkbox" id="pg-adm-r-o" checked><span>Volver a mostrar ${ocultos.length === 1 ? 'el anuncio ocultado' : `los ${ocultos.length} anuncios ocultados`} por la suspensión</span></label>` : ''}
+      <div class="campo"><label for="pg-adm-ra-n">Nota para el registro <span class="ter">(opcional)</span></label><textarea class="ent" id="pg-adm-ra-n" rows="2"></textarea></div>
+      <div class="pg-adm-hoja-acc"><button type="button" class="btn btn-sec" data-cerrar>Cancelar</button><button type="submit" class="btn">${ic('reactivar',17)} Reactivar cuenta</button></div>
+    </form>`, {ancho:500, alAbrir:(capa, cerrar) => {
+      $('form', capa).addEventListener('submit', e => {
+        e.preventDefault();
+        const oc = $('#pg-adm-r-o', capa), n = $('#pg-adm-ra-n', capa).value.trim();
+        cerrar();
+        E.usu[u.id] = {estado: s.reverif ? 'reverificar' : (s.prev && s.prev !== 'suspendido' ? s.prev : u.estado)};
+        if(oc && oc.checked) ocultos.forEach(a => { E.anu[a.id] = Object.assign({}, E.anu[a.id], {estado:a.estado, porSusp:false}) });
+        guarda();
+        registra(`Reactivó la cuenta de ${u.n}${n ? ` («${n}»)` : ''}`, 'usuarios');
+        pintaUsuarios(); pintaAnuncios(); pintaCifras(); marcaFila(u.id);
+        A.avisa(`Cuenta de ${u.corto} reactivada`);
+      });
+    }});
+  };
+  const MOTIVOS_RV = ['Reporte de posible menor de edad', 'Los datos no cuadran con el documento', 'El documento caduca pronto', 'Revisión aleatoria'];
+  const reverificar = u => A.dialogo(`<form class="dialogo-cuerpo col g16 pg-adm-hoja" novalidate>
+      <div class="col g6 pg-adm-hoja-cab"><span class="etiqueta">Pedir reverificación</span><h2 class="h2">¿Pedir a ${esc(pila(u.n))} que verifique otra vez su identidad?</h2><p class="sm sec">Hasta que suba el documento y una selfie nuevos, su cuenta queda pendiente: podrá mirar anuncios, pero no escribir, publicar ni cobrar.</p></div>
+      <div class="campo"><label for="pg-adm-rv-m">Motivo</label><select class="ent" id="pg-adm-rv-m">${MOTIVOS_RV.map(m => `<option>${m}</option>`).join('')}</select></div>
+      <div class="pg-adm-hoja-acc"><button type="button" class="btn btn-sec" data-cerrar>Cancelar</button><button type="submit" class="btn">${ic('carnet',17)} Pedir reverificación</button></div>
+    </form>`, {ancho:500, alAbrir:(capa, cerrar) => {
+      $('form', capa).addEventListener('submit', e => {
+        e.preventDefault();
+        const m = $('#pg-adm-rv-m', capa).value;
+        cerrar();
+        E.usu[u.id] = {estado:'reverificar', prev:estU(u)}; guarda();
+        registra(`Pidió a ${u.n} que verifique otra vez su identidad: ${m.toLowerCase()}`, 'usuarios');
+        pintaUsuarios(); marcaFila(u.id);
+        A.avisa(`Reverificación pedida a ${u.corto}`);
+      });
+    }});
+
+  /* ======================================================================
+     ANUNCIOS
+     ====================================================================== */
+  const fA = {est:'todos', cat:''};
+  const EST_A = [['todos', 'Todos'], ['revisar', 'Por revisar'], ['activo', 'Activos'], ['pausado', 'Pausados'], ['oculto', 'Ocultos'], ['cambios', 'Con cambios pedidos'], ['eliminado', 'Eliminados']];
+  const pasaA = (a, est) => { const st = estA(a); return est === 'todos' ? st !== 'eliminado' : est === 'revisar' ? porRevisar(a) : st === est };
+  const itemA = a => {
+    const st = estA(a), rev = porRevisar(a), reps = A.REPORTES.filter(r => r.s === a.id && abiertoR(r)).length, d = E.anu[a.id] || {};
+    const ins = st === 'eliminado' ? '<span class="insignia insignia-mal">Eliminado</span>' : st === 'oculto' ? `<span class="insignia insignia-tinta">${ic('ojoNo',12,2.2)} Oculto</span>`
+      : st === 'cambios' ? '<span class="insignia insignia-avisa">Cambios pedidos</span>' : st === 'pausado' ? '<span class="insignia">Pausado</span>'
+      : rev ? '<span class="insignia insignia-sol">Por revisar</span>' : '<span class="insignia insignia-ok">Activo</span>';
+    const b = (acc, icono, et, cls) => `<button type="button" class="${cls || ''}" data-pg="${acc}" data-id="${a.id}" aria-label="${et}: ${esc(a.t)}" title="${et}">${icono}</button>`;
+    const bot = st === 'eliminado' ? b('a-restaurar', ic('deshacer',17), 'Restaurar')
+      : (rev ? b('a-revisado', icA('check',17), 'Dar por revisado', 'ok') : '')
+        + (st === 'oculto' ? b('a-mostrar', ic('ojo',17), 'Volver a mostrar') : b('a-ocultar', ic('ojoNo',17), 'Ocultar'))
+        + b('a-cambios', ic('lapiz',17), 'Pedir cambios') + b('a-eliminar', ic('papelera',17), 'Eliminar', 'mal');
+    const nota = d.nota ? `<p class="pg-adm-anu-nota">${esc(d.nota)}</p>` : reps ? `<p class="pg-adm-anu-nota" style="color:var(--mal)">${reps === 1 ? 'Tiene un reporte abierto' : `Tiene ${reps} reportes abiertos`}</p>` : '';
+    return `<div class="pg-adm-anu ${st}${rev ? ' revisar' : ''}" id="pg-adm-an-${a.id}">
+      <div class="pg-adm-anu-barra">${ins}<div class="pg-adm-anu-acc" role="group" aria-label="Moderar este anuncio">${bot}</div></div>
+      ${A.tarjeta(a)}
+      ${nota}
+    </div>`;
+  };
+  const panelAnuncios = () => `
+    <div class="pg-adm-pcab"><div class="col g6"><h2 class="h2">Anuncios</h2><p class="sm sec">Primero los nuevos y los reportados. Ocultar se deshace con un toque; eliminar se puede restaurar desde «Eliminados».</p></div></div>
+    <div class="pg-adm-afil">
+      <div class="chips" id="pg-adm-a-est" role="group" aria-label="Filtrar por estado">${EST_A.map(([k, t]) => `<button class="chip" type="button" data-est="${k}" aria-pressed="${k === fA.est}">${t} <span class="pg-adm-chip-n">0</span></button>`).join('')}</div>
+      <div class="campo"><label class="solo-lector" for="pg-adm-a-cat">Categoría</label><select class="ent" id="pg-adm-a-cat"><option value="">Todas las categorías</option>${A.CATEGORIAS.map(c => `<option value="${c.id}">${c.n}</option>`).join('')}</select></div>
+    </div>
+    <div class="anuncios" id="pg-adm-a-lista"></div>
+    <div class="pg-adm-vacio" id="pg-adm-a-vacio" hidden><span class="pg-adm-vacio-ico">${icA('check',28)}</span><h3 class="h3">Nada por aquí</h3><p class="sm sec">No hay anuncios con este filtro.</p></div>`;
+  const pintaChipsA = () => $$('#pg-adm-a-est .chip').forEach(c => {
+    c.setAttribute('aria-pressed', c.dataset.est === fA.est);
+    c.querySelector('.pg-adm-chip-n').textContent = A.ANUNCIOS.filter(a => (!fA.cat || a.cat === fA.cat) && pasaA(a, c.dataset.est)).length;
+  });
+  const pintaAnuncios = () => {
+    const l = A.ANUNCIOS.filter(a => (!fA.cat || a.cat === fA.cat) && pasaA(a, fA.est)).sort((a, b) => (porRevisar(b) - porRevisar(a)) || (a.fecha < b.fecha ? 1 : a.fecha > b.fecha ? -1 : 0));
+    $('#pg-adm-a-lista').innerHTML = l.map(itemA).join('');
+    $('#pg-adm-a-vacio').hidden = !!l.length;
+    pintaChipsA();
+  };
+  const repintaA = a => {
+    const el = $('#pg-adm-an-' + a.id);
+    if(el && pasaA(a, fA.est) && (!fA.cat || a.cat === fA.cat)){
+      el.outerHTML = itemA(a);
+      const n = $('#pg-adm-an-' + a.id); if(n) n.classList.add('flash');
+      pintaChipsA();
+    } else if(el){
+      el.classList.add('sale'); setTimeout(pintaAnuncios, quieto ? 0 : 320);
+    } else pintaAnuncios();
+    pintaCifras();
+  };
+  const miniA = a => { const u = A.usuario(a.u); return `<div class="pg-adm-parte"><span class="pg-adm-parte-img">${A.portada(a)}</span><span class="col min0"><span class="sm negrita recorte">${esc(a.t)}</span><span class="xs ter">${esc(u.n)} · ${A.precioTxt(a)}</span></span></div>` };
+  const CAMBIOS = [['titulo', 'El título o la descripción confunden'], ['precio', 'El precio no está claro o no es el real'], ['contacto', 'Hay teléfonos, correos o pagos fuera de la app en el texto'], ['categoria', 'Está en una categoría equivocada'], ['portada', 'La imagen no corresponde al servicio']];
+  const pedirCambios = a => {
+    const u = A.usuario(a.u);
+    const base = r => `Hola, ${pila(u.n)}. Hemos revisado tu anuncio «${a.t}». Para que siga publicado, cámbialo así: ${r.length ? r.map(x => CAMBIOS.find(c => c[0] === x)[1].toLowerCase()).join('; ') + '.' : '…'}`;
+    A.dialogo(`<form class="dialogo-cuerpo col g16 pg-adm-hoja" novalidate>
+      <div class="col g6 pg-adm-hoja-cab"><span class="etiqueta">Pedir cambios</span><h2 class="h2">¿Qué tiene que cambiar?</h2></div>
+      ${miniA(a)}
+      <fieldset class="col g10" aria-describedby="pg-adm-c-e"><legend class="pg-adm-leg">Marca lo que hay que cambiar</legend>
+        ${CAMBIOS.map(([k, t]) => `<label class="casilla" for="pg-adm-c-${k}"><input type="checkbox" name="cambio" id="pg-adm-c-${k}" value="${k}"><span>${t}</span></label>`).join('')}
+      </fieldset>
+      <p class="error" id="pg-adm-c-e" hidden>Marca al menos una cosa.</p>
+      <div class="campo"><label for="pg-adm-c-msg">Mensaje para ${esc(pila(u.n))}</label><textarea class="ent" id="pg-adm-c-msg" rows="4">${esc(base([]))}</textarea><p class="ayuda">El anuncio sigue visible mientras tanto. En esta demostración no se envía nada.</p></div>
+      <div class="pg-adm-hoja-acc"><button type="button" class="btn btn-sec" data-cerrar>Cancelar</button><button type="submit" class="btn">${ic('lapiz',17)} Pedir cambios</button></div>
+    </form>`, {ancho:560, alAbrir:(capa, cerrar) => {
+      const f = $('form', capa), msg = $('#pg-adm-c-msg', capa); let tocado = false;
+      const marcadas = () => $$('input[name="cambio"]:checked', f).map(i => i.value);
+      msg.addEventListener('input', () => { tocado = true });
+      f.addEventListener('change', e => { if(e.target.name !== 'cambio') return; if(!tocado) msg.value = base(marcadas()); if(marcadas().length) $('#pg-adm-c-e', capa).hidden = true });
+      f.addEventListener('submit', e => {
+        e.preventDefault();
+        const r = marcadas();
+        if(!r.length){ $('#pg-adm-c-e', capa).hidden = false; f.querySelector('input[name="cambio"]').focus(); return }
+        cerrar();
+        const txt = r.map(x => CAMBIOS.find(c => c[0] === x)[1].toLowerCase());
+        E.anu[a.id] = Object.assign({}, E.anu[a.id], {estado:'cambios', rev:true, nota:'Pedido: ' + txt.join('; ')}); guarda();
+        registra(`Pidió cambios en el anuncio «${a.t}» de ${u.corto}: ${txt.join('; ')}`, 'anuncios');
+        repintaA(a); A.avisa(`Cambios pedidos a ${u.corto}`);
+      });
+    }});
+  };
+  const MOTIVOS_A = [['prohibido', 'Servicio no permitido en Apaño'], ['fraude', 'Fraude o engaño'], ['duplicado', 'Anuncio duplicado'], ['ofensivo', 'Contenido ofensivo'], ['menor', 'Lo ha publicado un menor de edad'], ['otro', 'Otro motivo']];
+  const eliminar = a => {
+    const u = A.usuario(a.u);
+    A.dialogo(`<form class="dialogo-cuerpo col g16 pg-adm-hoja" novalidate>
+      <div class="col g6 pg-adm-hoja-cab"><span class="etiqueta">Eliminar anuncio</span><h2 class="h2">¿Eliminar este anuncio?</h2><p class="sm sec">Deja de verse al momento y avisamos a ${esc(u.corto)} del motivo. Puedes restaurarlo desde «Eliminados» durante 30 días.</p></div>
+      ${miniA(a)}
+      <div class="campo"><label for="pg-adm-e-m">Motivo</label><select class="ent" id="pg-adm-e-m" aria-describedby="pg-adm-e-me"><option value="">Elige un motivo</option>${MOTIVOS_A.map(([k, t]) => `<option value="${k}">${t}</option>`).join('')}</select><p class="error" id="pg-adm-e-me" hidden>Elige un motivo.</p></div>
+      <div class="campo"><label for="pg-adm-e-n">Nota para el registro <span class="ter">(opcional)</span></label><textarea class="ent" id="pg-adm-e-n" rows="2"></textarea></div>
+      <div class="pg-adm-hoja-acc"><button type="button" class="btn btn-sec" data-cerrar>Cancelar</button><button type="submit" class="btn btn-peligro">${ic('papelera',17)} Eliminar anuncio</button></div>
+    </form>`, {ancho:520, alAbrir:(capa, cerrar) => {
+      const sm = $('#pg-adm-e-m', capa);
+      sm.addEventListener('change', () => { if(sm.value){ sm.removeAttribute('aria-invalid'); $('#pg-adm-e-me', capa).hidden = true } });
+      $('form', capa).addEventListener('submit', e => {
+        e.preventDefault();
+        if(!sm.value){ sm.setAttribute('aria-invalid', 'true'); $('#pg-adm-e-me', capa).hidden = false; sm.focus(); return }
+        const n = $('#pg-adm-e-n', capa).value.trim(), t = MOTIVOS_A.find(x => x[0] === sm.value)[1];
+        cerrar();
+        E.anu[a.id] = Object.assign({}, E.anu[a.id], {estado:'eliminado', rev:true, nota:'Eliminado: ' + t.toLowerCase()}); guarda();
+        registra(`Eliminó el anuncio «${a.t}» de ${u.corto}: ${t.toLowerCase()}${n ? ` («${n}»)` : ''}`, 'anuncios');
+        repintaA(a); A.avisa('Anuncio eliminado');
+      });
+    }});
+  };
+
+  /* ======================================================================
+     REPORTES
+     ====================================================================== */
+  const fR = {f:'todos'};
+  const itemR = r => {
+    const a = A.anuncio(r.s), an = a && A.usuario(a.u), q = A.usuario(r.quien), st = estR(r), menor = menorR(r), d = E.rep[r.id];
+    return `<article class="pg-adm-rep${menor ? ' menor' : ''}${abiertoR(r) ? '' : ' cerrado'}" id="pg-adm-r-${r.id}" aria-labelledby="pg-adm-rt-${r.id}">
+      <div class="pg-adm-rep-img">${a ? A.portada(a) : ''}</div>
+      <div class="col g4 min0">
+        <div class="fila g6">${insR(st)}${menor ? `<span class="insignia insignia-mal">${ic('candado',12,2.4)} Posible menor</span>` : ''}<span class="xs ter">${A.hace(r.f)}</span></div>
+        <h3 class="pg-adm-rep-t" id="pg-adm-rt-${r.id}">${esc(r.motivo)}</h3>
+        <p class="sm sec recorte">${esc(d && d.res ? d.res : r.det)}</p>
+        <p class="xs ter recorte recorte-1">${a ? `«${esc(a.t)}» de ${esc(an.corto)}` : 'Anuncio retirado'} · lo reporta ${esc(q.corto)}</p>
+      </div>
+      <div class="pg-adm-rep-acc"><button class="btn ${abiertoR(r) ? '' : 'btn-sec '}btn-p" type="button" data-pg="r-ver" data-id="${r.id}">${abiertoR(r) ? 'Resolver' : 'Ver detalle'}</button></div>
+    </article>`;
+  };
+  const panelReportes = () => `
+    <div class="pg-adm-pcab"><div class="col g6"><h2 class="h2">Reportes</h2><p class="sm sec">Lo que nos cuentan quienes usan Apaño. Los de «sospecho que es menor de edad» van siempre primero y en rojo.</p></div>
+      <div class="seg" role="group" aria-label="Filtrar reportes" id="pg-adm-r-f"><button type="button" data-rf="todos" aria-pressed="true">Todos</button><button type="button" data-rf="abiertos" aria-pressed="false">Pendientes</button><button type="button" data-rf="cerrados" aria-pressed="false">Cerrados</button></div></div>
+    <div class="pg-adm-reps" id="pg-adm-r-l"></div>`;
+  const pintaReportes = () => {
+    const l = A.REPORTES.filter(r => fR.f === 'todos' || (fR.f === 'abiertos') === abiertoR(r))
+      .sort((a, b) => (menorR(b) - menorR(a)) || (abiertoR(b) - abiertoR(a)) || (a.f < b.f ? 1 : -1));
+    $('#pg-adm-r-l').innerHTML = l.length ? l.map(itemR).join('') : `<div class="pg-adm-vacio"><span class="pg-adm-vacio-ico">${icA('check',28)}</span><h3 class="h3">Ningún reporte aquí</h3><p class="sm sec">Cuando alguien reporte un anuncio o una persona, aparecerá en esta lista.</p></div>`;
+    $$('#pg-adm-r-f button').forEach(b => b.setAttribute('aria-pressed', b.dataset.rf === fR.f));
+  };
+  const verReporte = r => {
+    const a = A.anuncio(r.s), an = A.usuario(a.u), q = A.usuario(r.quien), st = estR(r), menor = menorR(r), d = E.rep[r.id], abierto = abiertoR(r);
+    const decisiones = [['razon', `Dar la razón a ${q.corto}`, 'El anunciante ha incumplido las normas.']]
+      .concat(st === 'mediacion' ? [] : [['mediar', 'Mediar', 'Abres una conversación a tres en el chat para que lleguen a un acuerdo.']])
+      .concat([['descartar', 'Descartar', `No hay incumplimiento. Le explicamos a ${q.corto} por qué.`]]);
+    A.dialogo(`<form class="dialogo-cuerpo col g16 pg-adm-hoja" novalidate>
+      <div class="col g8 pg-adm-hoja-cab"><div class="fila g6">${insR(st)}${menor ? `<span class="insignia insignia-mal">${ic('candado',12,2.4)} Posible menor de edad</span>` : ''}</div><h2 class="h2">${esc(r.motivo)}</h2><p class="sm ter">Reporte de ${esc(q.n)} · ${A.fecha(r.f)}</p></div>
+      ${menor ? `<div class="aviso aviso-mal">${ic('candado',18,2.1)}<span><b>Va antes que todo lo demás.</b> Si hay indicios, pide que verifique otra vez su identidad: mientras tanto no podrá escribir, publicar ni cobrar.</span></div>` : ''}
+      <blockquote class="pg-adm-cita">${esc(r.det)}<cite>${esc(q.corto)}, ${A.fechaCorta(r.f)}</cite></blockquote>
+      <div class="pg-adm-partes">
+        <a class="pg-adm-parte" href="anuncio.html?id=${a.id}"><span class="pg-adm-parte-img">${A.portada(a)}</span><span class="col min0"><span class="xs ter">Anuncio</span><span class="sm negrita recorte">${esc(a.t)}</span></span></a>
+        <div class="pg-adm-parte">${A.avatar(an)}<span class="col min0"><span class="xs ter">Anunciante</span><span class="sm negrita">${esc(an.n)}</span><span class="xs sec">${an.val.toLocaleString('es-ES', {minimumFractionDigits:1})} de valoración · ${an.resenas} reseñas</span></span></div>
+      </div>
+      ${abierto ? `
+        ${d && d.res ? `<div class="aviso aviso-marca">${icA('escudo',18)}<span>${esc(d.res)}</span></div>` : ''}
+        <fieldset class="pg-adm-opciones" role="radiogroup" aria-describedby="pg-adm-rd-e"><legend class="pg-adm-leg">¿Qué decides?</legend>
+          ${decisiones.map(([k, t, x]) => `<label class="opcion" for="pg-adm-rd-${k}"><input type="radio" name="dec" id="pg-adm-rd-${k}" value="${k}"><span class="col g2"><span class="negrita">${esc(t)}</span><span class="ayuda">${esc(x)}</span></span></label>`).join('')}
+        </fieldset>
+        <p class="error" id="pg-adm-rd-e" hidden>Elige qué haces con el reporte.</p>
+        <div class="col g10" id="pg-adm-rd-x" hidden>
+          <label class="casilla" for="pg-adm-rx-o"><input type="checkbox" id="pg-adm-rx-o" checked><span>Ocultar el anuncio</span></label>
+          <label class="casilla" for="pg-adm-rx-a"><input type="checkbox" id="pg-adm-rx-a" checked><span>Enviar un aviso a ${esc(an.corto)}</span></label>
+          <label class="casilla" for="pg-adm-rx-s"><input type="checkbox" id="pg-adm-rx-s"><span>Suspender la cuenta de ${esc(an.corto)}</span></label>
+          ${menor ? `<label class="casilla" for="pg-adm-rx-v"><input type="checkbox" id="pg-adm-rx-v" checked><span>Pedir que verifique otra vez su identidad</span></label>` : ''}
+        </div>
+        <div class="campo"><label for="pg-adm-rd-n">Nota para el registro <span class="ter" id="pg-adm-rd-op">(opcional)</span></label><textarea class="ent" id="pg-adm-rd-n" rows="3" aria-describedby="pg-adm-rd-ne"></textarea><p class="error" id="pg-adm-rd-ne" hidden>Explica por qué lo descartas.</p></div>
+        <div class="pg-adm-hoja-acc"><button type="button" class="btn btn-sec" data-cerrar>Cancelar</button><button type="submit" class="btn">Confirmar decisión</button></div>`
+      : `<div class="aviso ${st === 'descartado' ? '' : 'aviso-ok'}">${icA('check',18)}<span><b>${st === 'descartado' ? 'Descartado.' : 'Resuelto.'}</b> ${esc(d && d.res ? d.res : 'Cerrado por el equipo. El detalle está en la descripción del reporte.')}</span></div>
+         <div class="pg-adm-hoja-acc"><button type="button" class="btn btn-sec" data-cerrar>Cerrar</button></div>`}
+    </form>`, {ancho:620, alAbrir:(capa, cerrar) => {
+      const f = $('form', capa); if(!abierto) return;
+      const grupo = $('fieldset', capa), nota = $('#pg-adm-rd-n', capa);
+      const dec = () => (f.querySelector('input[name="dec"]:checked') || {}).value;
+      f.addEventListener('change', () => { const x = dec(); $('#pg-adm-rd-x', capa).hidden = x !== 'razon'; $('#pg-adm-rd-op', capa).textContent = x === 'descartar' ? '(obligatoria)' : '(opcional)'; if(x){ $('#pg-adm-rd-e', capa).hidden = true; grupo.removeAttribute('aria-invalid') } });
+      f.addEventListener('submit', e => {
+        e.preventDefault();
+        const x = dec(), n = nota.value.trim();
+        if(!x){ $('#pg-adm-rd-e', capa).hidden = false; grupo.setAttribute('aria-invalid', 'true'); f.querySelector('input[name="dec"]').focus(); return }
+        if(x === 'descartar' && n.length < 4){ $('#pg-adm-rd-ne', capa).hidden = false; nota.setAttribute('aria-invalid', 'true'); nota.focus(); return }
+        cerrar();
+        if(x === 'razon'){
+          const hechos = [];
+          if($('#pg-adm-rx-o', capa).checked){ E.anu[a.id] = Object.assign({}, E.anu[a.id], {estado:'oculto', rev:true}); hechos.push('anuncio oculto') }
+          if($('#pg-adm-rx-a', capa).checked) hechos.push(`aviso a ${an.corto}`);
+          if($('#pg-adm-rx-s', capa).checked){ E.usu[an.id] = {estado:'suspendido', motivo:'reporte', prev:estU(an), reverif:menor}; hechos.push('cuenta suspendida') }
+          const rv = $('#pg-adm-rx-v', capa);
+          if(rv && rv.checked){ if(estU(an) !== 'suspendido') E.usu[an.id] = {estado:'reverificar', prev:estU(an)}; else E.usu[an.id].reverif = true; hechos.push('reverificación de identidad') }
+          const fr = `Se dio la razón a ${q.corto}${hechos.length ? ': ' + hechos.join(', ') : ''}`;
+          E.rep[r.id] = {estado:'resuelto', res:fr + (/\.$/.test(fr) ? '' : '.') + (n ? ' ' + n : '')};
+          registra(`Dio la razón a ${q.corto} en el reporte «${r.motivo}»${hechos.length ? ': ' + hechos.join(', ') : ''}`, 'reportes');
+          A.avisa('Reporte resuelto');
+        } else if(x === 'mediar'){
+          E.rep[r.id] = {estado:'mediacion', res:`Mediación abierta entre ${q.corto} y ${an.corto}${/\.$/.test(an.corto) ? '' : '.'}${n ? ' ' + n : ''}`};
+          registra(`Abrió mediación entre ${q.corto} y ${an.corto} por el reporte «${r.motivo}»`, 'reportes');
+          A.avisa('Mediación abierta');
+        } else {
+          E.rep[r.id] = {estado:'descartado', res:`Descartado: ${n}`};
+          registra(`Descartó el reporte «${r.motivo}» de ${q.corto} («${n}»)`, 'reportes');
+          A.avisa('Reporte descartado');
+        }
+        guarda(); pintaReportes(); pintaAnuncios(); pintaUsuarios(); pintaCifras();
+        const el = $('#pg-adm-r-' + r.id); if(el){ el.style.animation = 'none'; void el.offsetWidth; el.style.animation = '' }
+      });
+    }});
+  };
+
+  /* ======================================================================
+     REGISTRO
+     ====================================================================== */
+  const fL = {f:'todo'};
+  const FILTROS_L = [['todo', 'Todo'], ['sesion', 'Esta sesión'], ['identidades', 'Identidades'], ['usuarios', 'Usuarios'], ['anuncios', 'Anuncios'], ['reportes', 'Reportes']].concat(esAdmin ? [['ajustes', 'Ajustes y equipo']] : []);
+  const ICO_L = {identidades:'carnet', usuarios:'grupo', anuncios:'rejilla', reportes:'bandera', ajustes:'ajustes', otros:'lista'};
+  const panelRegistro = () => `
+    <div class="pg-adm-pcab"><div class="col g6"><h2 class="h2">Registro</h2><p class="sm sec">Todo lo que hace el equipo, con hora y autor. Los números de documento aparecen siempre enmascarados.</p></div>
+      <button type="button" class="btn btn-sec btn-p" id="pg-adm-log-reset" data-pg="reset" hidden>${ic('deshacer',15)} Empezar de cero</button></div>
+    <div class="chips" id="pg-adm-log-f" role="group" aria-label="Filtrar el registro" style="margin-bottom:16px">${FILTROS_L.map(([k, t]) => `<button class="chip" type="button" data-lf="${k}" aria-pressed="${k === fL.f}">${t} <span class="pg-adm-chip-n">0</span></button>`).join('')}</div>
+    <ol class="pg-adm-log" id="pg-adm-log" aria-live="polite"></ol>`;
+  const pasaL = (x, f) => f === 'todo' || (f === 'sesion' ? !!x.s : f === 'ajustes' ? ['ajustes', 'equipo'].includes(x.tipo) : x.tipo === f);
+  const pintaRegistro = () => {
+    const todo = todosLog(), l = todo.filter(x => pasaL(x, fL.f));
+    let dia = '', h = '';
+    l.forEach(x => {
+      const d = x.h.slice(0,10);
+      if(d !== dia){ dia = d; const t = diaTxt(d); h += `<li class="pg-adm-log-dia">${t === 'Hoy' || t === 'Ayer' ? t + ' · ' + A.fecha(d) : A.fecha(d)}</li>` }
+      const rojo = /menor|17 años|dispositivo/i.test(x.acc);
+      h += `<li class="pg-adm-log-it ${x.tipo}${rojo ? ' rojo' : ''}${nuevos.has(x.id) ? ' nuevo' : ''}">
+        <time datetime="${x.h.replace(' ', 'T')}">${x.h.slice(11,16)}</time>
+        <span class="pg-adm-log-ico">${ic(ICO_L[x.tipo] || 'lista', 17)}</span>
+        <div class="min0"><b>${esc(x.quien)}</b>${x.s ? '<span class="pg-adm-log-ses">esta sesión</span>' : ''}<p>${esc(mascaTxt(x.acc))}</p></div>
+      </li>`;
+    });
+    $('#pg-adm-log').innerHTML = h || '<li class="pg-adm-vacio"><h3 class="h3">Nada con este filtro</h3><p class="sm sec">Lo que hagas en esta sesión aparecerá aquí al momento.</p></li>';
+    nuevos.clear();
+    $('#pg-adm-log-reset').hidden = !E.log.length;
+    $$('#pg-adm-log-f .chip').forEach(c => { c.setAttribute('aria-pressed', c.dataset.lf === fL.f); c.querySelector('.pg-adm-chip-n').textContent = todo.filter(x => pasaL(x, c.dataset.lf)).length });
+  };
+
+  /* ======================================================================
+     EQUIPO (solo administración)
+     ====================================================================== */
+  const PERMISOS = [['Revisar identidades y ver documentos', 1, 1], ['Suspender y reactivar cuentas de usuarios', 1, 1], ['Moderar anuncios', 1, 1], ['Resolver reportes', 1, 1], ['Actuar sobre cuentas del equipo', 0, 1], ['Cambiar los ajustes de verificación', 0, 1], ['Invitar y gestionar el equipo', 0, 1]];
+  const panelEquipo = () => `
+    <div class="pg-adm-pcab"><div class="col g6"><h2 class="h2">Equipo</h2><p class="sm sec">Quién puede entrar en este panel y qué puede hacer. El equipo también es mayor de edad y tiene su identidad verificada.</p></div></div>
+    <div class="con-lateral">
+      <div class="col g16 min0">
+        <div class="rejilla r2" id="pg-adm-eq"></div>
+        <div class="tabla-env"><table class="tabla pg-adm-perm"><caption class="solo-lector">Permisos por rol</caption><thead><tr><th scope="col">Permiso</th><th scope="col">Moderación</th><th scope="col">Administración</th></tr></thead>
+          <tbody>${PERMISOS.map(([t, m, a]) => `<tr><td>${t}</td>${[m, a].map(x => `<td>${x ? `<span class="pg-adm-si">${icA('check',17)}<span class="solo-lector">Sí</span></span>` : `<span class="pg-adm-no">${ic('menos',17)}<span class="solo-lector">No</span></span>`}</td>`).join('')}</tr>`).join('')}</tbody></table></div>
+      </div>
+      <aside class="col g16">
+        <form class="pg-adm-lat-b" id="pg-adm-inv" novalidate>
+          <h3 class="pg-adm-lat-t">Invitar a alguien</h3>
+          <div class="campo"><label for="pg-adm-inv-e">Correo</label><input class="ent" id="pg-adm-inv-e" type="email" placeholder="nombre@apano.example" autocomplete="off" aria-describedby="pg-adm-inv-err"><p class="error" id="pg-adm-inv-err" hidden>Escribe un correo válido.</p></div>
+          <div class="campo"><label for="pg-adm-inv-r">Rol</label><select class="ent" id="pg-adm-inv-r"><option value="moderador">Moderación</option><option value="admin">Administración</option></select></div>
+          <button class="btn btn-bloque" type="submit">${ic('sobre',17)} Preparar invitación</button>
+          <p class="ayuda">Antes de entrar tendrá que verificar su identidad como cualquier otra cuenta. En esta demostración no se envía nada.</p>
+          <ul class="pg-adm-inv-l" id="pg-adm-inv-l"></ul>
+        </form>
+      </aside>
+    </div>`;
+  const pintaEquipo = () => {
+    const c = $('#pg-adm-eq'); if(!c) return;
+    const log = todosLog();
+    c.innerHTML = A.USUARIOS.filter(u => u.tipo === 'interno').map(u => {
+      const mias = log.filter(x => x.quien === u.n), hoy = mias.filter(x => x.h.startsWith(A.HOY)).length, ult = mias[0];
+      return `<div class="pg-adm-eq-t">
+        <div class="fila g12" style="flex-wrap:nowrap">${A.avatar(u, 'avatar-g')}<div class="col g6 min0"><b class="md">${esc(u.n)}${u.id === yo.id ? ' <span class="insignia insignia-marca">Tú</span>' : ''}</b><span class="insignia ${u.rol === 'admin' ? 'insignia-tinta' : ''}" style="align-self:flex-start">${ROL[u.rol]}</span></div></div>
+        <div class="pg-adm-eq-cif"><div><span class="cifra">${hoy}</span><span class="xs ter">acciones hoy</span></div><div><span class="cifra">${u.alta.slice(0,4)}</span><span class="xs ter">en el equipo desde</span></div></div>
+        <p class="xs sec">${ult ? `Lo último, a las ${ult.h.slice(11)}: ${esc(mascaTxt(ult.acc))}` : 'Sin actividad registrada.'}</p>
+      </div>`;
+    }).join('');
+    $('#pg-adm-inv-l').innerHTML = E.inv.map(i => `<li><span class="pg-adm-inv-ico">${ic('sobre',15)}</span><span class="crecer min0 recorte recorte-1">${esc(i.e)}</span><span class="insignia">${ROL[i.r]}</span></li>`).join('');
+  };
+
+  /* ======================================================================
+     AJUSTES (solo administración)
+     ====================================================================== */
+  const DOCS = [['DNI', 'DNI', 'Documento nacional de identidad en vigor'], ['NIE', 'NIE', 'Personas extranjeras residentes en España'], ['Pasaporte', 'Pasaporte', 'De cualquier país, en vigor']];
+  let T = JSON.parse(JSON.stringify(E.aj));
+  const panelAjustes = () => `
+    <div class="pg-adm-pcab"><div class="col g6"><h2 class="h2">Ajustes de verificación</h2><p class="sm sec">Las reglas que aplica el sistema antes de que una alta llegue a la cola. Cada cambio queda en el registro.</p></div></div>
+    <form class="con-lateral" id="pg-adm-aj" novalidate>
+      <div class="col g12 min0">
+        <section class="pg-adm-aj-b" aria-labelledby="pg-adm-aj-t1">
+          <div class="col g6"><h3 class="pg-adm-aj-t" id="pg-adm-aj-t1">Edad mínima</h3><p class="sm sec">Nadie por debajo puede darse de alta, publicar, contratar ni cobrar.</p></div>
+          <div class="col g8">
+            <label class="solo-lector" for="pg-adm-aj-edad">Edad mínima en años (bloqueada)</label>
+            <div class="pg-adm-bloq"><input class="ent" id="pg-adm-aj-edad" value="18 años" disabled aria-describedby="pg-adm-aj-edad-n">${ic('candado',18,2.1)}</div>
+            <p class="ayuda" id="pg-adm-aj-edad-n"><b>Nota legal.</b> En España la mayoría de edad se alcanza a los 18 años (art. 12 de la Constitución) y las condiciones de uso de Apaño exigen ser mayor de edad, sin excepciones ni permisos de padres o tutores. Por eso no se puede cambiar desde aquí.</p>
+          </div>
+        </section>
+        <section class="pg-adm-aj-b" aria-labelledby="pg-adm-aj-t2">
+          <div class="col g6"><h3 class="pg-adm-aj-t" id="pg-adm-aj-t2">Documentos admitidos</h3><p class="sm sec">Con qué se puede verificar la identidad. Tiene que quedar al menos uno activo.</p></div>
+          <div class="pg-adm-sw">${DOCS.map(([k, t, d]) => `<div class="pg-adm-sw-f"><span class="col min0"><span class="negrita" id="pg-adm-sw-${k}">${t}</span><span class="xs ter">${d}</span></span><button type="button" class="interruptor" role="switch" aria-checked="${T.docs[k]}" aria-labelledby="pg-adm-sw-${k}" data-doc="${k}"></button></div>`).join('')}</div>
+        </section>
+        <section class="pg-adm-aj-b" aria-labelledby="pg-adm-aj-t3">
+          <div class="col g6"><h3 class="pg-adm-aj-t" id="pg-adm-aj-t3"><label for="pg-adm-aj-u">Umbral de coincidencia facial</label></h3><p class="sm sec">Por debajo, la selfie sale en ámbar (o en rojo si baja del 60 %) y aprobar pide confirmación.</p></div>
+          <div class="col g10">
+            <output class="cifra pg-adm-aj-v" for="pg-adm-aj-u" id="pg-adm-aj-uv">${T.umbral} %</output>
+            <input type="range" class="pg-adm-rango" id="pg-adm-aj-u" min="60" max="99" step="1" value="${T.umbral}" aria-describedby="pg-adm-aj-uc">
+            <div class="fila entre xs ter"><span>60 % · más permisivo</span><span>99 % · más estricto</span></div>
+            <p class="ayuda" id="pg-adm-aj-uc"></p>
+          </div>
+        </section>
+        <section class="pg-adm-aj-b" aria-labelledby="pg-adm-aj-t4">
+          <div class="col g6"><h3 class="pg-adm-aj-t" id="pg-adm-aj-t4"><label for="pg-adm-aj-b">Bloqueo tras un intento de menor</label></h3><p class="sm sec">Cuánto tiempo bloqueamos el dispositivo desde el que un menor intenta darse de alta.</p></div>
+          <select class="ent" id="pg-adm-aj-b">${Object.keys(BLOQUEO).map(k => `<option value="${k}"${T.bloqueo === k ? ' selected' : ''}>${BLOQUEO[k]}</option>`).join('')}</select>
+        </section>
+        <section class="pg-adm-aj-b" aria-labelledby="pg-adm-aj-t5">
+          <div class="col g6"><h3 class="pg-adm-aj-t" id="pg-adm-aj-t5"><label for="pg-adm-aj-r">Retención de imágenes del documento</label></h3><p class="sm sec">Cuándo borramos las fotos del documento y la selfie. Guardamos solo el resultado de la verificación; el número nunca se publica y solo lo ve el equipo de verificación.</p></div>
+          <select class="ent" id="pg-adm-aj-r">${Object.keys(RETEN).map(k => `<option value="${k}"${T.retencion === k ? ' selected' : ''}>${k === '0' ? 'Al resolver la solicitud' : 'A los ' + k + ' días'}</option>`).join('')}</select>
+        </section>
+        <div class="pg-adm-aj-pie" id="pg-adm-aj-pie"><span class="sm sec" id="pg-adm-aj-est" aria-live="polite">Sin cambios</span><button type="button" class="btn btn-sec btn-p" id="pg-adm-aj-des" disabled>Descartar</button><button type="submit" class="btn btn-p" id="pg-adm-aj-g" disabled>Guardar</button></div>
+      </div>
+      <aside class="pg-adm-lat-b bloque-marca pegajoso" aria-labelledby="pg-adm-pol-t">
+        <span class="etiqueta" id="pg-adm-pol-t" style="color:var(--marca-tinta)">Política activa</span>
+        <ul class="pg-adm-pol" id="pg-adm-pol"></ul>
+      </aside>
+    </form>`;
+  const politica = t => [
+    ['candado', `Solo <b>mayores de 18</b>. Sin excepciones.`],
+    ['carnet', `Documentos: <b>${DOCS.filter(d => t.docs[d[0]]).map(d => d[1]).join(', ').replace(/, ([^,]*)$/, ' y $1')}</b>.`],
+    ['ojo', `Selfie con coincidencia del <b>${t.umbral} %</b> o más.`],
+    ['prohibido', `Intento de un menor: dispositivo bloqueado <b>${BLOQUEO[t.bloqueo]}</b>.`],
+    ['papelera', `Imágenes del documento: se borran <b>${RETEN[t.retencion]}</b>.`]
+  ];
+  const cambiosAj = () => {
+    const c = [];
+    DOCS.forEach(([k, t]) => { if(T.docs[k] !== E.aj.docs[k]) c.push(`${T.docs[k] ? 'Activó' : 'Desactivó'} el ${t} como documento admitido`) });
+    if(T.umbral !== E.aj.umbral) c.push(`Cambió el umbral de coincidencia facial del ${E.aj.umbral} % al ${T.umbral} %`);
+    if(T.bloqueo !== E.aj.bloqueo) c.push(`Cambió el bloqueo tras un intento de menor de ${BLOQUEO[E.aj.bloqueo]} a ${BLOQUEO[T.bloqueo]}`);
+    if(T.retencion !== E.aj.retencion) c.push(`Cambió la retención de imágenes de documentos: ahora se borran ${RETEN[T.retencion]}`);
+    return c;
+  };
+  const pintaAjustes = cambiado => {
+    const r = $('#pg-adm-aj-u'); if(!r) return;
+    r.value = T.umbral; r.style.setProperty('--v', ((T.umbral - 60) / 39 * 100) + '%');
+    $('#pg-adm-aj-uv').textContent = T.umbral + ' %';
+    const con = V.filter(v => estV(v) === 'pendiente' && coinc(v) !== null), bajo = con.filter(v => coinc(v) < T.umbral).length;
+    $('#pg-adm-aj-uc').textContent = con.length ? `Con este umbral, ${bajo} de ${con.length} selfies en cola ${bajo === 1 ? 'queda' : 'quedan'} por debajo` : 'No hay selfies en cola ahora mismo';
+    $$('#pg-adm-aj .interruptor').forEach(s => s.setAttribute('aria-checked', !!T.docs[s.dataset.doc]));
+    $('#pg-adm-aj-b').value = T.bloqueo; $('#pg-adm-aj-r').value = T.retencion;
+    $('#pg-adm-pol').innerHTML = politica(T).map(([i, t], n) => `<li${cambiado === n ? ' class="cambia"' : ''}>${ic(i, 16)}<span>${t}</span></li>`).join('');
+    const c = cambiosAj().length;
+    $('#pg-adm-aj-est').textContent = c ? (c === 1 ? '1 cambio sin guardar' : `${c} cambios sin guardar`) : 'Sin cambios';
+    $('#pg-adm-aj-pie').classList.toggle('sucio', !!c);
+    $('#pg-adm-aj-g').disabled = !c; $('#pg-adm-aj-des').disabled = !c;
+  };
+  const enlazaAjustes = () => {
+    const f = $('#pg-adm-aj'); if(!f) return;
+    f.addEventListener('click', e => {
+      const s = e.target.closest('.interruptor[data-doc]'); if(!s) return;
+      const k = s.dataset.doc;
+      if(T.docs[k] && Object.values(T.docs).filter(Boolean).length === 1){ A.avisa('Tiene que quedar al menos un documento admitido', 'mal'); return }
+      T.docs[k] = !T.docs[k]; pintaAjustes(1);
+    });
+    $('#pg-adm-aj-u').addEventListener('input', e => { T.umbral = +e.target.value; pintaAjustes(2) });
+    $('#pg-adm-aj-b').addEventListener('change', e => { T.bloqueo = e.target.value; pintaAjustes(3) });
+    $('#pg-adm-aj-r').addEventListener('change', e => { T.retencion = e.target.value; pintaAjustes(4) });
+    $('#pg-adm-aj-des').addEventListener('click', () => { T = JSON.parse(JSON.stringify(E.aj)); pintaAjustes(); A.avisa('Cambios descartados') });
+    f.addEventListener('submit', e => {
+      e.preventDefault();
+      const c = cambiosAj(); if(!c.length) return;
+      E.aj = JSON.parse(JSON.stringify(T)); E.aj.edad = 18; guarda();
+      c.forEach(x => registra(x, 'ajustes'));
+      pintaAjustes(); pintaCola();
+      A.avisa(c.length === 1 ? 'Ajuste guardado' : `${c.length} ajustes guardados`);
+    });
+    pintaAjustes();
+  };
+
+  /* ======================================================================
+     MONTAJE
+     ====================================================================== */
+  const pintaCifras = () => {
+    cifras().forEach((c, i) => {
+      const el = $(`[data-cifra="${i}"]`); if(!el) return;
+      const n = el.querySelector('.pg-adm-cifra-n');
+      if(n.textContent !== String(c.n)){ n.textContent = c.n; n.dataset.cuenta = c.n; n.classList.remove('bote'); void n.offsetWidth; n.classList.add('bote') }
+      el.querySelector('.pg-adm-cifra-sub').textContent = c.sub;
+    });
+    const fija = (id, n, mal) => { const b = $(`.pg-adm-n[data-n="${id}"]`); if(!b) return; b.textContent = n; b.hidden = !n; b.classList.toggle('mal', !!mal) };
+    fija('identidades', V.filter(v => estV(v) === 'pendiente').length, V.some(v => estV(v) === 'pendiente' && menorV(v)));
+    fija('anuncios', A.ANUNCIOS.filter(porRevisar).length);
+    fija('reportes', A.REPORTES.filter(r => estR(r) === 'abierto').length, A.REPORTES.some(r => estR(r) === 'abierto' && menorR(r)));
+    dispatchEvent(new Event('resize'));
+  };
+  const irA = (tab, ancla) => {
+    const b = $(`.pestana[aria-controls="${tab}"]`);
+    if(b && b.getAttribute('aria-selected') !== 'true') b.click();
+    requestAnimationFrame(() => {
+      const cab = ($('.cab') || {}).offsetHeight || 0, pest = $('.pg-adm-pest');
+      const el = ancla ? $('#' + ancla) : pest; if(!el) return;
+      const extra = ancla ? pest.offsetHeight + 14 : 0;
+      scrollTo({top: Math.max(0, el.getBoundingClientRect().top + scrollY - cab - extra), behavior: quieto ? 'auto' : 'smooth'});
+    });
+  };
+
+  raiz.innerHTML = `
+    <section class="pg-adm-hero" aria-labelledby="pg-adm-h1"><div class="contenedor">
+      <div class="pg-adm-hero-fila">
+        <div class="col g6 min0"><span class="etiqueta">Confianza y seguridad · ${fechaLarga}</span><h1 class="h1" id="pg-adm-h1">Moderación</h1><p class="sec">Hola, ${esc(pila(yo.n))}. Aquí se decide quién entra: nadie menor de 18 pasa a Apaño, y lo que se publica tiene que ser de fiar.</p></div>
+        <button class="pg-adm-yo" type="button" id="pg-adm-yo" aria-haspopup="dialog">${A.avatar(yo)}<span><b>${esc(yo.n)}</b><small>${esAdmin ? 'Administración' : 'Moderación'} · cambiar perfil</small></span>${ic('abajo',16)}</button>
+      </div>
+      <div class="pg-adm-cifras" role="group" aria-label="Resumen de hoy">${cifras().map(tile).join('')}</div>
+    </div></section>
+    <div class="pg-adm-pest"><div class="contenedor"><div class="pestanas" data-pestanas role="tablist" aria-label="Secciones de moderación">${TABS.map((t, i) => `<button class="pestana" type="button" role="tab" id="pg-adm-t-${t.id}" aria-controls="${t.id}" aria-selected="${i === 0}">${t.t}${t.n ? `<span class="pg-adm-n" data-n="${t.id}" hidden>0</span>` : ''}</button>`).join('')}</div></div></div>
+    <div class="contenedor pg-adm-paneles">
+      <section class="pg-adm-panel" id="identidades" role="tabpanel" aria-labelledby="pg-adm-t-identidades">${panelIdentidades()}</section>
+      <section class="pg-adm-panel" id="usuarios" role="tabpanel" aria-labelledby="pg-adm-t-usuarios" hidden>${panelUsuarios()}</section>
+      <section class="pg-adm-panel" id="anuncios" role="tabpanel" aria-labelledby="pg-adm-t-anuncios" hidden>${panelAnuncios()}</section>
+      <section class="pg-adm-panel" id="reportes" role="tabpanel" aria-labelledby="pg-adm-t-reportes" hidden>${panelReportes()}</section>
+      <section class="pg-adm-panel" id="registro" role="tabpanel" aria-labelledby="pg-adm-t-registro" hidden>${panelRegistro()}</section>
+      ${esAdmin ? `<section class="pg-adm-panel" id="equipo" role="tabpanel" aria-labelledby="pg-adm-t-equipo" hidden>${panelEquipo()}</section>
+      <section class="pg-adm-panel" id="ajustes" role="tabpanel" aria-labelledby="pg-adm-t-ajustes" hidden>${panelAjustes()}</section>` : ''}
+    </div>`;
+
+  pintaCola(); pintaUsuarios(); pintaAnuncios(); pintaReportes(); pintaRegistro();
+  if(esAdmin){ pintaEquipo(); enlazaAjustes() }
+  pintaCifras();
+
+  /* altura real de la cabecera (en móvil lleva el buscador debajo) para fijar las pestañas justo debajo */
+  const ajustaCab = () => { const c = $('.cab'); if(c) raiz.style.setProperty('--pg-adm-cab', c.offsetHeight + 'px') };
+  ajustaCab(); addEventListener('resize', ajustaCab);
+
+  /* en móvil la tira de pestañas se desliza para que la activa quede a la vista */
+  const tira = $('.pg-adm-pest .pestanas');
+  const centra = b => { if(b) tira.scrollTo({left: Math.max(0, b.offsetLeft - (tira.clientWidth - b.offsetWidth) / 2), behavior: quieto ? 'auto' : 'smooth'}) };
+  tira.addEventListener('click', e => centra(e.target.closest('.pestana')));
+  requestAnimationFrame(() => centra(tira.querySelector('.pestana[aria-selected="true"]')));
+
+  /* ---------- eventos ---------- */
+  $('#pg-adm-yo').addEventListener('click', A.abreCuenta);
+  const fu = $('#pg-adm-u-f');
+  fu.addEventListener('submit', e => e.preventDefault());
+  fu.addEventListener('input', () => { fU.q = $('#pg-adm-u-q').value; fU.e = $('#pg-adm-u-e').value; fU.t = $('#pg-adm-u-t').value; fU.r = $('#pg-adm-u-r').value; pintaUsuarios() });
+  $('#pg-adm-a-est').addEventListener('click', e => { const c = e.target.closest('[data-est]'); if(!c) return; fA.est = c.dataset.est; pintaAnuncios() });
+  $('#pg-adm-a-cat').addEventListener('change', e => { fA.cat = e.target.value; pintaAnuncios() });
+  $('#pg-adm-r-f').addEventListener('click', e => { const c = e.target.closest('[data-rf]'); if(!c) return; fR.f = c.dataset.rf; pintaReportes() });
+  $('#pg-adm-log-f').addEventListener('click', e => { const c = e.target.closest('[data-lf]'); if(!c) return; fL.f = c.dataset.lf; pintaRegistro() });
+  const inv = $('#pg-adm-inv');
+  if(inv) inv.addEventListener('submit', e => {
+    e.preventDefault();
+    const em = $('#pg-adm-inv-e'), r = $('#pg-adm-inv-r').value, v = em.value.trim();
+    if(!A.emailValido(v)){ em.setAttribute('aria-invalid', 'true'); $('#pg-adm-inv-err').hidden = false; em.focus(); return }
+    em.removeAttribute('aria-invalid'); $('#pg-adm-inv-err').hidden = true;
+    E.inv.unshift({e:v, r}); guarda(); em.value = '';
+    registra(`Preparó una invitación a ${v} para ${ROL[r].toLowerCase()}`, 'equipo');
+    A.avisa('Invitación preparada (en la demo no se envía)');
+  });
+
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-pg]'); if(!b) return;
+    const id = b.dataset.id, acc = b.dataset.pg;
+    const v = V.find(x => x.id === id), u = A.usuario(id), a = A.anuncio(id), r = A.REPORTES.find(x => x.id === id);
+    if(acc !== 'mostrar' && b.closest('.capa') && !b.closest('form')) A.cerrarDialogo();
+    switch(acc){
+      case 'ir': if(b.dataset.filtro){ fL.f = b.dataset.filtro; pintaRegistro() } irA(b.dataset.tab, b.dataset.ancla); break;
+      case 'ir-autos': e.preventDefault(); irA('identidades', 'pg-adm-autos'); break;
+      case 'mostrar': alternaDoc(b); break;
+      case 'ver-docs': if(v) verDocs(v); break;
+      case 'aprobar': if(v) aprobar(v); break;
+      case 'rechazar': if(v) rechazar(v); break;
+      case 'foto': if(v) otraFoto(v); break;
+      case 'revisar-auto': if(v) fichaAuto(v); break;
+      case 'devolver': if(v) devolver(v); break;
+      case 'u-ficha': if(u) fichaU(u); break;
+      case 'u-suspender': if(u) suspender(u); break;
+      case 'u-reactivar': if(u) reactivar(u); break;
+      case 'u-reverificar': if(u) reverificar(u); break;
+      case 'u-limpia': fU.q = fU.e = fU.t = fU.r = ''; fu.reset(); pintaUsuarios(); break;
+      case 'a-revisado':
+        if(!a) break;
+        E.anu[a.id] = Object.assign({}, E.anu[a.id], {rev:true}); guarda();
+        registra(`Revisó el anuncio «${a.t}» de ${A.usuario(a.u).corto}: todo en orden`, 'anuncios'); repintaA(a); A.avisa('Anuncio revisado'); break;
+      case 'a-ocultar':
+        if(!a) break;
+        E.anu[a.id] = Object.assign({}, E.anu[a.id], {estado:'oculto', rev:true}); guarda();
+        registra(`Ocultó el anuncio «${a.t}» de ${A.usuario(a.u).corto}`, 'anuncios'); repintaA(a); A.avisa('Anuncio oculto. Puedes volver a mostrarlo'); break;
+      case 'a-mostrar':
+        if(!a) break;
+        E.anu[a.id] = Object.assign({}, E.anu[a.id], {estado:a.estado, porSusp:false, nota:''}); guarda();
+        registra(`Volvió a mostrar el anuncio «${a.t}» de ${A.usuario(a.u).corto}`, 'anuncios'); repintaA(a); A.avisa('Anuncio visible otra vez'); break;
+      case 'a-restaurar':
+        if(!a) break;
+        E.anu[a.id] = Object.assign({}, E.anu[a.id], {estado:a.estado, nota:''}); guarda();
+        registra(`Restauró el anuncio «${a.t}» de ${A.usuario(a.u).corto}`, 'anuncios'); repintaA(a); A.avisa('Anuncio restaurado'); break;
+      case 'a-cambios': if(a) pedirCambios(a); break;
+      case 'a-eliminar': if(a) eliminar(a); break;
+      case 'r-ver': if(r) verReporte(r); break;
+      case 'reset':
+        A.dialogo(`<div class="dialogo-cuerpo col g16 pg-adm-hoja"><div class="col g6 pg-adm-hoja-cab"><span class="etiqueta">Demostración</span><h2 class="h2">¿Empezar de cero?</h2><p class="sm sec">Se deshace todo lo que has hecho en esta sesión: la cola, las cuentas, los anuncios, los reportes y los ajustes vuelven a como estaban. El registro original no se toca.</p></div>
+          <div class="pg-adm-hoja-acc"><button type="button" class="btn btn-sec" data-cerrar>Cancelar</button><button type="button" class="btn btn-peligro" id="pg-adm-reset-si">${ic('deshacer',17)} Empezar de cero</button></div></div>`,
+          {ancho:480, alAbrir:capa => $('#pg-adm-reset-si', capa).addEventListener('click', () => { try{ sessionStorage.removeItem(CLAVE) }catch(err){} location.reload() })});
+        break;
+    }
+  });
+};
+</script>
+<footer class="pie">
+  <div class="contenedor">
+    <div class="pie-cols">
+      <div class="col g12">
+        <a class="logo" href="index.html" aria-label="Apaño, inicio">apa<span class="n">ñ</span>o<span class="punto">.</span></a>
+        <p class="sm sec" style="max-width:34ch">Servicios entre personas de verdad. Todo el que publica o contrata es mayor de edad y ha presentado su documento de identidad.</p>
+        <div class="fila g8">
+          <span class="insignia insignia-ok">Solo +18 verificados</span>
+          <span class="insignia">Pago protegido</span>
+        </div>
+      </div>
+      <div><h4>Usar Apaño</h4><div class="pie-enl">
+        <a href="buscar.html">Buscar servicios</a><a href="subir.html">Subir un anuncio</a><a href="destacar.html">Destacar un anuncio</a><a href="pro.html">Apaño Pro</a><a href="como-funciona.html">Cómo funciona</a><a href="como-funciona.html#pago">Pago protegido</a>
+      </div></div>
+      <div><h4>Tu cuenta</h4><div class="pie-enl">
+        <a href="registro.html">Crear cuenta</a><a href="entrar.html">Entrar</a><a href="cuenta.html#verificacion">Verificar mi identidad</a><a href="servicios.html">Mis servicios</a><a href="monedero.html">Monedero</a>
+      </div></div>
+      <div><h4>Confianza</h4><div class="pie-enl">
+        <a href="como-funciona.html#verificacion">Por qué pedimos el DNI</a><a href="ayuda.html#seguridad">Consejos de seguridad</a><a href="ayuda.html#reportar">Reportar a alguien</a><a href="ayuda.html">Centro de ayuda</a>
+      </div></div>
+      <div><h4>Legal</h4><div class="pie-enl">
+        <a href="legal.html#condiciones">Condiciones de uso</a><a href="legal.html#privacidad">Privacidad</a><a href="legal.html#identidad">Tratamiento del DNI</a><a href="legal.html#cookies">Cookies</a>
+      </div></div>
+    </div>
+    <div class="pie-legal">
+      <span>Apaño es una maqueta de demostración: las personas, los anuncios y los importes son inventados y no se cobra nada.</span>
+      <span>Hecho en Palma · 2026</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

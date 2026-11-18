@@ -1,0 +1,5 @@
+node_modules/
+# Copia local que genera montar.mjs (index.html ya es la versión para abrir fuera de Claude)
+vista-index.html
+Thumbs.db
+.DS_Store

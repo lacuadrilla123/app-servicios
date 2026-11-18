@@ -1,0 +1,622 @@
+<!-- titulo: Legal | desc: Condiciones de uso, privacidad, tratamiento del documento de identidad y la imagen facial, y cookies de Apaño. -->
+<style>
+/* ===== Legal ===== */
+.pg-lg-ceja{ font-size:var(--t-xs); font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--marca) }
+.pg-lg-heroe{ background:radial-gradient(60% 100% at 100% 0%, color-mix(in srgb,var(--marca) 12%,transparent) 0%, transparent 70%), var(--sup) }
+.pg-lg-heroe-in{ display:flex; flex-direction:column; gap:10px; padding-block:28px 24px }
+@media (min-width:760px){ .pg-lg-heroe-in{ padding-block:48px 32px } }
+.pg-lg-meta{ display:flex; flex-wrap:wrap; gap:6px 14px; font-size:var(--t-sm); color:var(--tinta-2) }
+.pg-lg-meta span{ display:inline-flex; align-items:center; gap:6px }
+.pg-lg-borrador{ margin-top:10px; align-items:flex-start; border:1px solid color-mix(in srgb,var(--avisa) 30%,transparent) }
+.pg-lg-borrador b{ display:block; margin-bottom:2px }
+
+/* barra de pestañas pegajosa */
+.pg-lg-barra{ position:sticky; top:calc(var(--pg-lg-cab, 68px) + env(safe-area-inset-top,0px)); z-index:50;
+  background:color-mix(in srgb,var(--fondo) 94%,transparent); backdrop-filter:saturate(1.8) blur(14px); border-bottom:1px solid var(--linea) }
+.pg-lg-barra .pestanas{ border-bottom:0 }
+.pg-lg-barra .pestana{ padding:14px 12px }
+.pg-lg-barra .pestana:active{ transform:scale(.97) }
+.pg-lg-corto{ display:none }
+@media (max-width:600px){ .pg-lg-barra .pestana{ padding:13px 9px } .pg-lg-largo{ display:none } .pg-lg-corto{ display:inline } }
+
+/* cuerpo con índice */
+.pg-lg-cuerpo{ padding-block:24px 8px }
+.pg-lg-panel{ scroll-margin-top:calc(var(--pg-lg-cab, 68px) + 70px) }
+.pg-lg-rej{ display:grid; gap:18px }
+@media (min-width:960px){ .pg-lg-rej{ grid-template-columns:220px minmax(0,1fr); gap:56px; padding-top:16px } }
+.pg-lg-indice details{ border-radius:var(--r-l); background:var(--sup); padding:0 16px }
+.pg-lg-indice summary{ list-style:none; display:flex; align-items:center; justify-content:space-between; gap:10px; padding:14px 0; cursor:pointer; font-weight:650; font-size:var(--t-sm) }
+.pg-lg-indice summary::-webkit-details-marker{ display:none }
+.pg-lg-indice summary::after{ content:""; width:8px; height:8px; border-right:2px solid var(--tinta-3); border-bottom:2px solid var(--tinta-3); transform:rotate(45deg) translateY(-2px); transition:transform .3s var(--ease) }
+.pg-lg-indice details[open] summary::after{ transform:rotate(-135deg) }
+.pg-lg-indice ol{ list-style:none; margin:0; padding:0 0 12px; display:flex; flex-direction:column; gap:2px }
+.pg-lg-indice a{ display:grid; grid-template-columns:22px minmax(0,1fr); gap:6px; padding:7px 10px; border-radius:var(--r-s); font-size:var(--t-sm); color:var(--tinta-2); line-height:1.35;
+  transition:background .15s, color .15s }
+.pg-lg-indice a:hover{ background:var(--sup-2); color:var(--tinta) }
+.pg-lg-indice a .num{ color:var(--tinta-3); font-weight:600 }
+.pg-lg-indice a[aria-current="true"]{ background:var(--marca-sup); color:var(--marca-tinta); font-weight:600 }
+.pg-lg-indice a[aria-current="true"] .num{ color:var(--marca) }
+@media (min-width:960px){
+  .pg-lg-indice{ position:sticky; top:calc(var(--pg-lg-cab, 68px) + 72px); max-height:calc(100vh - var(--pg-lg-cab, 68px) - 96px); overflow-y:auto; scrollbar-width:thin }
+  .pg-lg-indice details{ background:none; padding:0 }
+  .pg-lg-indice summary{ pointer-events:none; padding:0 0 10px 10px; font-size:var(--t-xs); text-transform:uppercase; letter-spacing:.06em; color:var(--tinta-3) }
+  .pg-lg-indice summary::after{ display:none }
+}
+
+/* texto legal */
+.pg-lg-texto{ counter-reset:art; min-width:0; max-width:720px }
+.pg-lg-texto>h2{ margin-bottom:16px }
+.pg-lg-corto-box{ padding:18px 20px; border-radius:var(--r-l); background:var(--marca-sup); border:1px solid var(--marca-borde); margin-bottom:12px }
+.pg-lg-corto-box .etiqueta{ color:var(--marca-tinta); display:block; margin-bottom:10px }
+.pg-lg-corto-box ul{ list-style:none; margin:0; padding:0; display:grid; gap:8px }
+.pg-lg-corto-box li{ display:grid; grid-template-columns:20px minmax(0,1fr); gap:8px; font-size:var(--t-sm); color:var(--tinta); line-height:1.45 }
+.pg-lg-corto-box li svg{ color:var(--marca); margin-top:1px }
+.pg-lg-art{ counter-increment:art; padding-top:26px; scroll-margin-top:calc(var(--pg-lg-cab, 68px) + 70px) }
+.pg-lg-art+.pg-lg-art{ border-top:1px solid var(--linea); margin-top:26px }
+.pg-lg-art h3{ display:flex; align-items:baseline; gap:12px; font-size:var(--t-lg); margin-bottom:12px }
+.pg-lg-art h3::before{ content:counter(art); flex:0 0 auto; min-width:30px; height:30px; padding:0 8px; border-radius:10px; display:inline-grid; place-items:center; transform:translateY(-3px);
+  background:var(--sup-2); color:var(--tinta-2); font:700 var(--t-sm)/1 var(--texto); font-variant-numeric:tabular-nums }
+.pg-lg-art>p{ color:var(--tinta-2); margin-bottom:12px; max-width:68ch }
+.pg-lg-art p b, .pg-lg-sub b{ color:var(--tinta); font-weight:650 }
+.pg-lg-sub{ list-style:none; margin:0; padding:0; counter-reset:sub; display:flex; flex-direction:column; gap:10px }
+.pg-lg-sub>li{ counter-increment:sub; display:grid; grid-template-columns:42px minmax(0,1fr); gap:6px; color:var(--tinta-2); line-height:1.6 }
+.pg-lg-sub>li::before{ content:counter(art) "." counter(sub); color:var(--tinta-3); font-weight:600; font-size:var(--t-sm); font-variant-numeric:tabular-nums; padding-top:1px }
+.pg-lg-art a:not(.btn){ color:var(--marca); font-weight:600 }
+.pg-lg-art a:not(.btn):hover{ text-decoration:underline; text-underline-offset:3px }
+.pg-lg-art.clave{ padding:22px 20px; margin-top:26px; border-radius:var(--r-l); background:var(--sup); border:1.5px solid var(--marca-borde) }
+.pg-lg-art.clave+.pg-lg-art{ border-top:0 }
+.pg-lg-art.clave h3::before{ background:var(--marca); color:var(--fondo) }
+.pg-lg-art.clave .insignia{ margin-bottom:10px }
+.pg-lg-pendiente{ padding:0 5px; border-radius:5px; background:var(--avisa-sup); color:var(--avisa); font-weight:600; font-size:.92em; white-space:nowrap }
+.pg-lg-tabla{ margin:4px 0 14px }
+.pg-lg-tabla table.tabla{ min-width:0 }
+.pg-lg-tabla .tabla td{ vertical-align:top; color:var(--tinta-2); line-height:1.5 }
+.pg-lg-tabla .tabla td:first-child{ color:var(--tinta); font-weight:600 }
+.pg-lg-tabla.ancha table.tabla{ min-width:600px }
+@media (max-width:600px){ .pg-lg-tabla .tabla th, .pg-lg-tabla .tabla td{ padding:11px 12px } .pg-lg-sub>li{ grid-template-columns:34px minmax(0,1fr) } .pg-lg-art.clave{ padding:20px 16px } }
+.pg-lg-codigo{ font:600 var(--t-xs)/1.4 ui-monospace,SFMono-Regular,Menlo,monospace; padding:2px 6px; border-radius:6px; background:var(--sup-2); color:var(--tinta); white-space:nowrap }
+
+/* preferencias de cookies */
+.pg-lg-prefs{ border-radius:var(--r-xl); border:1px solid var(--linea); background:var(--fondo); box-shadow:var(--sombra-2); overflow:hidden; margin:6px 0 10px }
+.pg-lg-prefs-cab{ display:flex; align-items:center; gap:14px; padding:18px 20px; background:var(--sup); border-bottom:1px solid var(--linea) }
+.pg-lg-prefs-ico{ flex:0 0 auto; width:44px; height:44px; border-radius:14px; display:grid; place-items:center; background:var(--marca); color:var(--fondo) }
+.pg-lg-prefs-cab h3{ font-size:var(--t-md) }
+.pg-lg-prefs-cab .crecer{ display:flex; flex-direction:column; gap:3px }
+.pg-lg-estado{ font-size:var(--t-xs); color:var(--tinta-3) }
+.pg-lg-fila{ display:grid; grid-template-columns:minmax(0,1fr) auto; gap:4px 16px; align-items:center; padding:16px 20px; border-bottom:1px solid var(--linea); transition:background .2s }
+.pg-lg-fila:hover{ background:color-mix(in srgb,var(--sup) 60%,transparent) }
+.pg-lg-fila b{ font-size:var(--t-base) }
+.pg-lg-fila p{ grid-column:1; font-size:var(--t-sm); color:var(--tinta-2) }
+.pg-lg-fila>.interruptor, .pg-lg-fila>.insignia{ grid-row:1 / span 2; grid-column:2 }
+.pg-lg-fila .interruptor:active::after{ width:26px }
+.pg-lg-fila .interruptor[aria-checked="true"]:active::after{ transform:translateX(14px) }
+.pg-lg-prefs-pie{ display:flex; flex-wrap:wrap; gap:10px; padding:16px 20px }
+.pg-lg-prefs-pie .btn{ flex:1 1 auto }
+@media (min-width:600px){ .pg-lg-prefs-pie .btn{ flex:0 0 auto } .pg-lg-prefs-pie .btn:last-child{ margin-left:auto } }
+.pg-lg-cambio{ animation:sube .3s var(--ease) both }
+
+/* dudas */
+.pg-lg-dudas{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px 24px; margin-top:40px; padding:22px 24px; border-radius:var(--r-xl); background:var(--sup) }
+.pg-lg-dudas p{ font-size:var(--t-sm); color:var(--tinta-2); max-width:56ch }
+.pg-lg-dudas b{ color:var(--tinta); display:block; font-size:var(--t-md); margin-bottom:2px }
+@media (max-width:520px){ .pg-lg-dudas .btn{ flex:1 1 100% } }
+</style>
+<main id="contenido">
+  <section class="pg-lg-heroe" aria-labelledby="lg-t">
+    <div class="contenedor medio pg-lg-heroe-in">
+      <span class="pg-lg-ceja">Legal</span>
+      <h1 class="h1" id="lg-t">Condiciones, privacidad y cookies</h1>
+      <div class="pg-lg-meta"><span>Última actualización: <b id="lg-fecha">17 nov 2026</b></span><span>Versión 0.9 · borrador</span></div>
+      <div class="aviso aviso-avisa pg-lg-borrador" role="note">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4 2.8 20h18.4zM12 10v4.5M12 17.4h.01"/></svg>
+        <div><b>Ejemplo de estructura para la maqueta.</b>Estos textos muestran cómo se organizaría la información legal de Apaño. No son asesoramiento jurídico: un profesional debe revisarlos y adaptarlos antes de usarlos. Lo que va <span class="pg-lg-pendiente">entre corchetes</span> está por completar.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="pg-lg-barra">
+    <div class="contenedor medio">
+      <div class="pestanas" data-pestanas role="tablist" aria-label="Textos legales">
+        <button class="pestana" type="button" role="tab" id="lg-tab-condiciones" aria-controls="condiciones" aria-selected="true">Condiciones</button>
+        <button class="pestana" type="button" role="tab" id="lg-tab-privacidad" aria-controls="privacidad" aria-selected="false">Privacidad</button>
+        <button class="pestana" type="button" role="tab" id="lg-tab-identidad" aria-controls="identidad" aria-selected="false"><span class="pg-lg-largo">Documento e imagen facial</span><span class="pg-lg-corto">Tu DNI</span></button>
+        <button class="pestana" type="button" role="tab" id="lg-tab-cookies" aria-controls="cookies" aria-selected="false">Cookies</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="contenedor medio pg-lg-cuerpo" id="lg-cuerpo">
+
+    <!-- ===================== CONDICIONES ===================== -->
+    <div class="pg-lg-panel" id="condiciones" role="tabpanel" aria-labelledby="lg-tab-condiciones">
+      <div class="pg-lg-rej">
+        <nav class="pg-lg-indice" aria-label="Índice de las condiciones"><details><summary>En esta sección</summary><ol></ol></details></nav>
+        <div class="pg-lg-texto">
+          <h2 class="h2">Condiciones de uso</h2>
+          <div class="pg-lg-corto-box">
+            <span class="etiqueta">En corto</span>
+            <ul data-lista-ok>
+              <li>Apaño es solo para mayores de 18 con la identidad verificada.</li>
+              <li>Apaño pone en contacto a las personas; el servicio lo presta quien lo anuncia.</li>
+              <li>Se paga siempre dentro de la app, con Pago protegido: <span data-comision>5 % + 0,99 € por pedido</span>.</li>
+              <li>Si algo va mal, mediamos. Si el profesional no se presenta, te devolvemos todo.</li>
+            </ul>
+          </div>
+
+          <section class="pg-lg-art" id="cd-quienes">
+            <h3>Quiénes somos y qué es Apaño</h3>
+            <p>Apaño es una plataforma que pone en contacto a personas que ofrecen servicios («anunciantes») con personas que los necesitan («clientes»). La gestiona <span class="pg-lg-pendiente">[razón social]</span>, con NIF <span class="pg-lg-pendiente">[—]</span> y domicilio en <span class="pg-lg-pendiente">[dirección]</span>, Palma (Illes Balears).</p>
+            <ol class="pg-lg-sub">
+              <li><span>Apaño no presta los servicios anunciados. Cada servicio es un acuerdo directo entre cliente y anunciante.</span></li>
+              <li><span>Apaño sí presta el servicio de intermediación: la plataforma, la verificación de identidad, el Pago protegido y la mediación en disputas.</span></li>
+              <li><span>Al crear una cuenta aceptas estas condiciones y la <a href="#privacidad" data-a-pestana>política de privacidad</a>.</span></li>
+            </ol>
+          </section>
+
+          <section class="pg-lg-art clave" id="cd-edad">
+            <span class="insignia insignia-marca">Importante</span>
+            <h3>Requisito de edad e identidad</h3>
+            <p>Apaño es un servicio <b>exclusivo para personas mayores de 18 años</b> con la identidad verificada.</p>
+            <ol class="pg-lg-sub">
+              <li><span><b>Solo pueden usar Apaño personas de 18 años o más.</b> No hay excepciones, tampoco con autorización de madres, padres o tutores.</span></li>
+              <li><span>Para escribir, publicar o pagar es obligatorio verificar la identidad con DNI, NIE o pasaporte en vigor y un selfie. Sin verificar solo se pueden ver anuncios y guardar favoritos.</span></li>
+              <li><span>Si el documento indica que la persona es menor de edad, el alta se rechaza y el acceso desde ese dispositivo se bloquea durante 24 horas.</span></li>
+              <li><span><b>Falsear la edad o la identidad supone el cierre inmediato y definitivo de la cuenta.</b> Esto incluye usar el documento de otra persona, manipular imágenes o mentir sobre la fecha de nacimiento. Los servicios en curso se cancelan con reembolso a los clientes y, cuando proceda, se informa a las autoridades.</span></li>
+              <li><span>Si hay indicios de que una cuenta la usa una persona menor de edad, podemos suspenderla de forma preventiva y pedir una nueva verificación.</span></li>
+              <li><span>El número del documento no se muestra nunca a otros usuarios. Cómo tratamos el documento y la imagen facial se explica en <a href="#identidad" data-a-pestana>su propio apartado</a>.</span></li>
+            </ol>
+          </section>
+
+          <section class="pg-lg-art" id="cd-cuenta">
+            <h3>Tu cuenta</h3>
+            <ol class="pg-lg-sub">
+              <li><span>Una persona, una cuenta. La cuenta es personal y no se puede ceder ni vender.</span></li>
+              <li><span>Tienes que dar datos verdaderos y mantenerlos al día, incluido el documento cuando caduque.</span></li>
+              <li><span>Eres responsable de guardar tu contraseña y de lo que se haga desde tu cuenta.</span></li>
+              <li><span>Puedes borrar tu cuenta cuando quieras desde <a href="cuenta.html#privacidad">Mi cuenta › Privacidad</a>, una vez terminados los servicios en curso.</span></li>
+            </ol>
+          </section>
+
+          <section class="pg-lg-art" id="cd-anuncios">
+            <h3>Anuncios</h3>
+            <ol class="pg-lg-sub">
+              <li><span>Quien anuncia es responsable de que el anuncio sea verdadero: qué incluye, precio, zona y disponibilidad.</span></li>
+              <li><span>Si el servicio exige una titulación, habilitación o seguro (por ejemplo, instalaciones eléctricas o de gas, o servicios sanitarios), hay que tenerlos en regla y acreditarlos si te lo pedimos.</span></li>
+              <li><span>Si ofreces servicios de forma habitual, eres responsable de tus obligaciones fiscales y laborales.</span></li>
+              <li><span>Podemos retirar los anuncios que incumplan estas condiciones y te diremos por qué.</span></li>
+            </ol>
+          </section>
+
+          <section class="pg-lg-art" id="cd-pagos">
+            <h3>Pagos y comisión</h3>
+            <ol class="pg-lg-sub">
+              <li><span>Todos los servicios contactados en Apaño se pagan dentro de la app con el Pago protegido. Los pagos los procesa <span class="pg-lg-pendiente">[entidad de pago autorizada]</span>; Apaño no guarda los datos completos de tu tarjeta.</span></li>
+              <li><span><b>Comisión del Pago protegido:</b> quien contrata paga el 5 % del precio del servicio más 0,99 € por pedido, y la ve siempre antes de pagar. <span data-ejemplo-comision></span></span></li>
+              <li><span>El anunciante cobra el precio íntegro del servicio. Publicar es gratis; <span data-extras>los destacados y la suscripción Apaño Pro son opcionales</span>.</span></li>
+              <li><span>El importe queda retenido hasta que el cliente confirma el servicio. Si no lo confirma ni abre una incidencia en las 72 horas siguientes a la fecha del servicio, se libera automáticamente.</span></li>
+              <li><span>El anunciante recibe el dinero en su monedero y puede retirarlo sin coste, a partir de 10 €, a una cuenta bancaria a su nombre.</span></li>
+              <li><span>Cancelaciones: con más de 24 horas de antelación, reembolso íntegro. Con menos de 24 horas, el anunciante puede quedarse el 50 % del precio como compensación. Si cancela el anunciante, el cliente recupera el 100 %.</span></li>
+              <li><span>En esta maqueta todos los pagos son simulados: no se cobra nada.</span></li>
+            </ol>
+          </section>
+
+          <section class="pg-lg-art" id="cd-prohibido">
+            <h3>Lo que no se puede hacer</h3>
+            <p>Además de lo que prohíbe la ley, en Apaño no está permitido:</p>
+            <ol class="pg-lg-sub">
+              <li><span><b>Pagar o pedir pagos fuera de la app</b> (en efectivo, por transferencia o por cualquier otro medio) por servicios contactados a través de Apaño.</span></li>
+              <li><span>Ofrecer o contratar <b>servicios ilegales</b> o que sirvan para cometer actividades ilegales.</span></li>
+              <li><span>Ofrecer <b>servicios que requieren titulación o habilitación sin tenerla</b>.</span></li>
+              <li><span>Ofrecer o pedir <b>servicios sexuales</b> o de contenido sexual, de forma explícita o encubierta.</span></li>
+              <li><span>Ofrecer <b>servicios dirigidos a menores sin su madre, padre o tutor</b>: es la persona adulta quien contrata, paga y trata con el anunciante.</span></li>
+              <li><span>Pedir o enviar documentos de identidad, contraseñas o códigos de verificación por el chat.</span></li>
+              <li><span>Suplantar a otra persona, tener varias cuentas o publicar reseñas falsas.</span></li>
+              <li><span>Acosar, discriminar o amenazar a otras personas.</span></li>
+            </ol>
+          </section>
+
+          <section class="pg-lg-art" id="cd-resenas">
+            <h3>Reseñas</h3>
+            <ol class="pg-lg-sub">
+              <li><span>Solo puede valorar quien ha contratado y pagado el servicio a través de Apaño.</span></li>
+              <li><span>Las reseñas deben ser honestas y hablar del servicio. Retiramos las que contengan insultos, datos personales o información falsa.</span></li>
+            </ol>
+          </section>
+
+          <section class="pg-lg-art" id="cd-disputas">
+            <h3>Resolución de disputas</h3>
+            <ol class="pg-lg-sub">
+              <li><span>Si el servicio no se presta o no es lo acordado, el cliente debe abrir una incidencia desde el pedido <b>antes de confirmarlo</b>.</span></li>
+              <li><span>La otra parte tiene 48 horas para responder y proponer una solución: repetir el servicio, un descuento o el reembolso.</span></li>
+              <li><span>Si no hay acuerdo, el equipo de mediación de Apaño revisa el chat, las fotos y los datos del pedido y decide en un máximo de 7 días si libera el pago o lo reembolsa, total o parcialmente.</span></li>
+              <li><span>Si el anunciante no se presenta, el cliente recibe el reembolso completo, comisión incluida.</span></li>
+              <li><span>La mediación de Apaño no impide acudir a los servicios de consumo, a la resolución alternativa de litigios ni a los tribunales.</span></li>
+            </ol>
+          </section>
+
+          <section class="pg-lg-art" id="cd-cierre">
+            <h3>Suspensión y cierre de cuentas</h3>
+            <ol class="pg-lg-sub">
+              <li><span>Podemos suspender o cerrar una cuenta que incumpla estas condiciones. Te diremos el motivo, salvo que la ley o la seguridad de otras personas lo impidan.</span></li>
+              <li><span>Puedes recurrir la decisión escribiendo a ayuda@apano.example en los 14 días siguientes.</span></li>
+            </ol>
+          </section>
+
+          <section class="pg-lg-art" id="cd-responsabilidad">
+            <h3>Responsabilidad</h3>
+            <ol class="pg-lg-sub">
+              <li><span>Apaño responde de su servicio de intermediación. La calidad y la ejecución de cada servicio son responsabilidad de quien lo presta.</span></li>
+              <li><span>Nada de estas condiciones limita los derechos que te reconoce la normativa de consumidores y usuarios.</span></li>
+            </ol>
+          </section>
+
+          <section class="pg-lg-art" id="cd-cambios">
+            <h3>Cambios y ley aplicable</h3>
+            <ol class="pg-lg-sub">
+              <li><span>Si cambiamos algo importante, te avisaremos con 15 días de antelación por correo y en la app.</span></li>
+              <li><span>Estas condiciones se rigen por la ley española. Si eres consumidor, puedes reclamar ante los juzgados de tu domicilio.</span></li>
+            </ol>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== PRIVACIDAD ===================== -->
+    <div class="pg-lg-panel" id="privacidad" role="tabpanel" aria-labelledby="lg-tab-privacidad" hidden>
+      <div class="pg-lg-rej">
+        <nav class="pg-lg-indice" aria-label="Índice de la política de privacidad"><details><summary>En esta sección</summary><ol></ol></details></nav>
+        <div class="pg-lg-texto">
+          <h2 class="h2">Política de privacidad</h2>
+          <div class="pg-lg-corto-box">
+            <span class="etiqueta">En corto</span>
+            <ul data-lista-ok>
+              <li>Usamos tus datos para que Apaño funcione, para los pagos y para que sea un sitio seguro.</li>
+              <li>No vendemos tus datos ni los usamos para publicidad de terceros.</li>
+              <li>Tu documento y tu imagen facial tienen reglas propias, más estrictas.</li>
+              <li>Puedes pedir una copia, corregirlos o borrarlos cuando quieras.</li>
+            </ul>
+          </div>
+
+          <section class="pg-lg-art" id="pv-responsable">
+            <h3>Responsable del tratamiento</h3>
+            <p><span class="pg-lg-pendiente">[Razón social]</span>, con NIF <span class="pg-lg-pendiente">[—]</span> y domicilio en <span class="pg-lg-pendiente">[dirección]</span>, Palma. Delegado de protección de datos: <b>dpd@apano.example</b>.</p>
+          </section>
+
+          <section class="pg-lg-art" id="pv-datos">
+            <h3>Qué datos tratamos</h3>
+            <div class="tabla-env pg-lg-tabla">
+              <table class="tabla">
+                <thead><tr><th scope="col">Tipo</th><th scope="col">Ejemplos</th></tr></thead>
+                <tbody>
+                  <tr><td>Cuenta</td><td>Nombre, correo, móvil y contraseña cifrada.</td></tr>
+                  <tr><td>Identidad</td><td>Documento, fecha de nacimiento y selfie. Ver <a href="#identidad" data-a-pestana>Documento e imagen facial</a>.</td></tr>
+                  <tr><td>Perfil y anuncios</td><td>Foto, descripción, barrio, precios y disponibilidad.</td></tr>
+                  <tr><td>Pagos</td><td>Importes, IBAN para cobrar y últimos dígitos de la tarjeta.</td></tr>
+                  <tr><td>Mensajes</td><td>Lo que escribes en el chat de Apaño.</td></tr>
+                  <tr><td>Uso y seguridad</td><td>Dispositivo, dirección IP y registros de acceso.</td></tr>
+                  <tr><td>Ubicación</td><td>Solo el barrio o el código postal. Nunca la ubicación exacta sin tu permiso.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="pg-lg-art" id="pv-finalidad">
+            <h3>Para qué y con qué base jurídica</h3>
+            <div class="tabla-env pg-lg-tabla">
+              <table class="tabla">
+                <thead><tr><th scope="col">Para qué</th><th scope="col">Base jurídica (RGPD)</th></tr></thead>
+                <tbody>
+                  <tr><td>Gestionar tu cuenta, tus anuncios y el chat</td><td>Ejecución del contrato (art. 6.1.b)</td></tr>
+                  <tr><td>Pagos, cobros y facturas</td><td>Ejecución del contrato y obligaciones legales (art. 6.1.b y 6.1.c)</td></tr>
+                  <tr><td>Verificar tu edad y tu identidad</td><td>Ver <a href="#identidad" data-a-pestana>su apartado</a></td></tr>
+                  <tr><td>Prevenir el fraude y proteger a los usuarios</td><td>Interés legítimo (art. 6.1.f)</td></tr>
+                  <tr><td>Mediar en disputas y atender reportes</td><td>Ejecución del contrato e interés legítimo</td></tr>
+                  <tr><td>Enviarte novedades y ofertas</td><td>Consentimiento (art. 6.1.a), que puedes retirar</td></tr>
+                  <tr><td>Atender requerimientos de autoridades</td><td>Obligación legal (art. 6.1.c)</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="pg-lg-art" id="pv-quien">
+            <h3>Con quién los compartimos</h3>
+            <ol class="pg-lg-sub">
+              <li><span>Con la otra persona del servicio: tu nombre y la inicial del apellido, tu foto, tu valoración y tu barrio. Nunca tu documento ni su número.</span></li>
+              <li><span>Con proveedores que trabajan por encargo nuestro (encargados del tratamiento): alojamiento, entidad de pago, verificación de identidad y envío de correos. Todos firman un contrato que les impide usar tus datos para otros fines.</span></li>
+              <li><span>Con autoridades, cuando una ley nos obliga.</span></li>
+              <li><span>No vendemos tus datos ni los cedemos con fines publicitarios.</span></li>
+              <li><span>Si algún proveedor trata datos fuera del Espacio Económico Europeo, lo hará con garantías adecuadas <span class="pg-lg-pendiente">[detallar]</span>.</span></li>
+            </ol>
+          </section>
+
+          <section class="pg-lg-art" id="pv-plazos">
+            <h3>Cuánto tiempo los guardamos</h3>
+            <ol class="pg-lg-sub">
+              <li><span>Mientras tengas la cuenta abierta.</span></li>
+              <li><span>Después, bloqueados durante el tiempo en que puedan exigirse responsabilidades (por ejemplo, <span class="pg-lg-pendiente">[plazo]</span> para los datos de pagos por obligaciones fiscales) y, pasado ese tiempo, se borran.</span></li>
+              <li><span>El documento de identidad y la imagen facial tienen plazos más cortos, que verás en <a href="#identidad" data-a-pestana>su apartado</a>.</span></li>
+            </ol>
+          </section>
+
+          <section class="pg-lg-art" id="pv-derechos">
+            <h3>Tus derechos</h3>
+            <ol class="pg-lg-sub">
+              <li><span>Puedes acceder a tus datos, rectificarlos, suprimirlos, oponerte o limitar su tratamiento, pedir la portabilidad y retirar tu consentimiento cuando quieras.</span></li>
+              <li><span>Hazlo desde <a href="cuenta.html#privacidad">Mi cuenta › Privacidad</a> o escribiendo a dpd@apano.example. Respondemos en un mes como máximo.</span></li>
+              <li><span>Si crees que no hemos atendido bien tu solicitud, puedes reclamar ante la <b>Agencia Española de Protección de Datos (AEPD)</b>.</span></li>
+            </ol>
+          </section>
+
+          <section class="pg-lg-art" id="pv-menores">
+            <h3>Menores de edad</h3>
+            <p>Apaño no es para menores y no tratamos sus datos de forma intencionada. Si detectamos que una cuenta pertenece a un menor, la cerramos y borramos sus datos, salvo el registro mínimo necesario para impedir un nuevo intento de alta <span class="pg-lg-pendiente">[a valorar]</span>.</p>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== DOCUMENTO E IMAGEN ===================== -->
+    <div class="pg-lg-panel" id="identidad" role="tabpanel" aria-labelledby="lg-tab-identidad" hidden>
+      <div class="pg-lg-rej">
+        <nav class="pg-lg-indice" aria-label="Índice del tratamiento del documento"><details><summary>En esta sección</summary><ol></ol></details></nav>
+        <div class="pg-lg-texto">
+          <h2 class="h2">Tratamiento del documento de identidad y la imagen facial</h2>
+          <div class="pg-lg-corto-box">
+            <span class="etiqueta">En corto</span>
+            <ul data-lista-ok>
+              <li>Lo usamos solo para comprobar que eres mayor de edad y quien dices ser, y para evitar el fraude.</li>
+              <li>Lo ven únicamente el equipo de verificación y nuestro proveedor de verificación.</li>
+              <li>Las imágenes se borran como mucho a los 30 días. El «mapa» de tu cara, al momento.</li>
+              <li>La comparación facial solo se hace con tu consentimiento explícito. Si no lo das, te verificamos a mano.</li>
+            </ul>
+          </div>
+
+          <section class="pg-lg-art" id="id-datos">
+            <h3>Qué datos tratamos</h3>
+            <ol class="pg-lg-sub">
+              <li><span>Las imágenes de tu DNI o NIE (por las dos caras) o de tu pasaporte.</span></li>
+              <li><span>Los datos que leemos del documento: nombre y apellidos, fecha de nacimiento, nacionalidad, tipo y número de documento y fecha de caducidad.</span></li>
+              <li><span>Un selfie o un vídeo corto (prueba de vida) y el resultado de compararlo con la foto del documento.</span></li>
+              <li><span>Señales técnicas de autenticidad: letra de control, vigencia e indicios de manipulación.</span></li>
+            </ol>
+          </section>
+
+          <section class="pg-lg-art" id="id-finalidad">
+            <h3>Para qué los usamos</h3>
+            <ol class="pg-lg-sub">
+              <li><span><b>Verificar tu identidad:</b> que eres quien dices ser.</span></li>
+              <li><span><b>Verificar tu mayoría de edad:</b> Apaño es solo para mayores de 18.</span></li>
+              <li><span><b>Prevenir el fraude:</b> suplantaciones, cuentas duplicadas y personas expulsadas que intentan volver.</span></li>
+              <li><span>No los usamos para publicidad, para hacer perfiles comerciales ni para ningún otro fin.</span></li>
+            </ol>
+          </section>
+
+          <section class="pg-lg-art clave" id="id-base">
+            <span class="insignia insignia-marca">Revisar con un profesional</span>
+            <h3>Base jurídica</h3>
+            <p>Este apartado tiene que concretarlo un profesional para el caso real. Como punto de partida:</p>
+            <ol class="pg-lg-sub">
+              <li><span>Comprobar la identidad y la edad es necesario para darte el servicio en las condiciones que aceptas (ejecución del contrato, art. 6.1.b RGPD) y responde al interés legítimo de Apaño y de sus usuarios en un entorno solo para adultos y sin fraude (art. 6.1.f). Cuando la normativa de pagos obligue a identificar a quien cobra, la base será una obligación legal (art. 6.1.c).</span></li>
+              <li><span><b>La imagen facial puede ser un dato biométrico</b> cuando se trata con medios técnicos para identificarte de forma unívoca, como en la comparación automática entre tu selfie y la foto del documento. Es una categoría especial de datos (art. 9 RGPD) y por eso <b>solo hacemos esa comparación con tu consentimiento explícito</b> (art. 9.2.a), que te pedimos aparte, con una casilla propia, antes del selfie.</span></li>
+              <li><span>Puedes no dar ese consentimiento. En ese caso, una persona del equipo comprueba tu documento y tu identidad por videollamada, sin comparación automática. Tarda más, pero el resultado es el mismo.</span></li>
+              <li><span>Puedes retirar el consentimiento cuando quieras. Retirarlo no afecta a la verificación ya hecha.</span></li>
+            </ol>
+          </section>
+
+          <section class="pg-lg-art" id="id-acceso">
+            <h3>Quién accede</h3>
+            <ol class="pg-lg-sub">
+              <li><span>El equipo de verificación de Apaño: personas concretas, con formación y deber de confidencialidad. Cada acceso queda registrado.</span></li>
+              <li><span>Nuestro proveedor de verificación de identidad, como <b>encargado del tratamiento</b> (art. 28 RGPD). Solo trata los datos siguiendo nuestras instrucciones, en servidores de la Unión Europea <span class="pg-lg-pendiente">[confirmar]</span>, y no puede usarlos para sus propios fines ni para entrenar sistemas.</span></li>
+              <li><span>Autoridades, solo si una ley o un juez lo exigen.</span></li>
+              <li><span><b>Nunca el resto de usuarios.</b> Solo ven el sello «Identidad verificada». En tu cuenta y en moderación, el número aparece enmascarado, por ejemplo <span class="pg-lg-codigo">43•••••6N</span>.</span></li>
+            </ol>
+          </section>
+
+          <section class="pg-lg-art" id="id-plazos">
+            <h3>Cuánto tiempo los guardamos</h3>
+            <div class="tabla-env pg-lg-tabla">
+              <table class="tabla">
+                <thead><tr><th scope="col">Dato</th><th scope="col">Plazo</th></tr></thead>
+                <tbody>
+                  <tr><td>Plantilla biométrica (el «mapa» de tu cara)</td><td>Se borra en cuanto termina la comparación. No se guarda.</td></tr>
+                  <tr><td>Imágenes del documento y selfie</td><td>Se borran al terminar la verificación y, como máximo, a los 30 días.</td></tr>
+                  <tr><td>Datos leídos del documento</td><td>Mientras tengas la cuenta. Al borrarla, bloqueados <span class="pg-lg-pendiente">[plazo legal]</span> y después se eliminan.</td></tr>
+                  <tr><td>Resultado de la verificación</td><td>Fecha, si se aprobó o no y el motivo: mientras tengas la cuenta y <span class="pg-lg-pendiente">[plazo]</span> después, para prevenir el fraude.</td></tr>
+                  <tr><td>Intentos de alta de menores</td><td>Las imágenes se borran en 24 horas. Queda un registro del rechazo, sin imágenes, y una marca en el dispositivo durante 24 horas.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="pg-lg-art" id="id-seguridad">
+            <h3>Cómo lo protegemos</h3>
+            <ol class="pg-lg-sub">
+              <li><span>Cifrado en tránsito y en reposo, y separación del resto de datos de la cuenta.</span></li>
+              <li><span>Acceso por funciones: solo quien verifica puede ver las imágenes, y queda registrado.</span></li>
+              <li><span>Evaluación de impacto en protección de datos por el uso de datos biométricos <span class="pg-lg-pendiente">[pendiente antes del lanzamiento]</span>.</span></li>
+            </ol>
+          </section>
+
+          <section class="pg-lg-art" id="id-derechos">
+            <h3>Tus derechos y la AEPD</h3>
+            <ol class="pg-lg-sub">
+              <li><span>Puedes acceder a estos datos, rectificarlos, suprimirlos, oponerte, limitar su tratamiento y pedir su portabilidad, además de retirar el consentimiento de la comparación facial.</span></li>
+              <li><span>Hazlo desde <a href="cuenta.html#privacidad">Mi cuenta › Privacidad</a> o escribiendo a dpd@apano.example.</span></li>
+              <li><span>Si no estás conforme con nuestra respuesta, puedes presentar una reclamación ante la <b>Agencia Española de Protección de Datos (AEPD)</b>, en su sede electrónica.</span></li>
+            </ol>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== COOKIES ===================== -->
+    <div class="pg-lg-panel" id="cookies" role="tabpanel" aria-labelledby="lg-tab-cookies" hidden>
+      <div class="pg-lg-rej">
+        <nav class="pg-lg-indice" aria-label="Índice de la política de cookies"><details><summary>En esta sección</summary><ol></ol></details></nav>
+        <div class="pg-lg-texto">
+          <h2 class="h2">Cookies y almacenamiento</h2>
+          <div class="pg-lg-corto-box">
+            <span class="etiqueta">En corto</span>
+            <ul data-lista-ok>
+              <li>Usamos lo mínimo: lo necesario para que la app funcione y, solo si nos dejas, algo de medición.</li>
+              <li>Las opcionales vienen apagadas. Las cambias aquí cuando quieras.</li>
+            </ul>
+          </div>
+
+          <section class="pg-lg-art" id="ck-preferencias">
+            <h3>Tus preferencias</h3>
+            <div class="pg-lg-prefs" id="lg-prefs">
+              <div class="pg-lg-prefs-cab">
+                <span class="pg-lg-prefs-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10M16 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg></span>
+                <div class="crecer"><h4 class="h3" style="font-size:var(--t-md)">Elige qué permites</h4><span class="pg-lg-estado" id="lg-estado" aria-live="polite"></span></div>
+              </div>
+              <div class="pg-lg-fila">
+                <b id="lg-ck-nec">Necesarias</b>
+                <p>Mantienen tu sesión, la confirmación de edad, tus favoritos y la seguridad. Sin ellas Apaño no funciona.</p>
+                <span class="insignia insignia-ok">Siempre activas</span>
+              </div>
+              <div class="pg-lg-fila">
+                <b id="lg-ck-pref-t">Preferencias</b>
+                <p id="lg-ck-pref-d">Recuerdan el tema claro u oscuro y tus filtros de búsqueda.</p>
+                <button class="interruptor" type="button" role="switch" aria-checked="false" data-ck="pref" aria-labelledby="lg-ck-pref-t" aria-describedby="lg-ck-pref-d"></button>
+              </div>
+              <div class="pg-lg-fila">
+                <b id="lg-ck-med-t">Medición</b>
+                <p id="lg-ck-med-d">Nos dicen qué pantallas se usan y dónde se atasca la gente, con datos agregados.</p>
+                <button class="interruptor" type="button" role="switch" aria-checked="false" data-ck="med" aria-labelledby="lg-ck-med-t" aria-describedby="lg-ck-med-d"></button>
+              </div>
+              <div class="pg-lg-fila">
+                <b id="lg-ck-pub-t">Publicidad</b>
+                <p id="lg-ck-pub-d">Miden si nuestras campañas en otras webs funcionan. Apaño no enseña anuncios de terceros.</p>
+                <button class="interruptor" type="button" role="switch" aria-checked="false" data-ck="pub" aria-labelledby="lg-ck-pub-t" aria-describedby="lg-ck-pub-d"></button>
+              </div>
+              <div class="pg-lg-prefs-pie">
+                <button class="btn btn-sec" type="button" id="lg-ck-no">Rechazar opcionales</button>
+                <button class="btn btn-sec" type="button" id="lg-ck-si">Aceptar todas</button>
+                <button class="btn" type="button" id="lg-ck-guarda">Guardar preferencias</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="pg-lg-art" id="ck-que">
+            <h3>Qué son</h3>
+            <p>Las cookies y las tecnologías parecidas, como el almacenamiento local del navegador, guardan pequeños datos en tu dispositivo para recordar cosas entre una visita y otra. En esta maqueta solo se usa el almacenamiento local; las de medición y publicidad aparecen como ejemplo y no se activan.</p>
+          </section>
+
+          <section class="pg-lg-art" id="ck-lista">
+            <h3>Lista de cookies</h3>
+            <div class="tabla-env pg-lg-tabla ancha">
+              <table class="tabla">
+                <thead><tr><th scope="col">Nombre</th><th scope="col">Para qué</th><th scope="col">Tipo</th><th scope="col">Duración</th></tr></thead>
+                <tbody>
+                  <tr><td><span class="pg-lg-codigo">apano.mayor</span></td><td>Recuerda que has confirmado tener 18 años o más.</td><td><span class="insignia insignia-ok">Necesaria</span></td><td>Hasta que la borres</td></tr>
+                  <tr><td><span class="pg-lg-codigo">apano.menor</span></td><td>Bloquea el acceso si indicas que eres menor.</td><td><span class="insignia insignia-ok">Necesaria</span></td><td>24 horas</td></tr>
+                  <tr><td><span class="pg-lg-codigo">apano.perfil</span></td><td>Mantiene tu sesión iniciada.</td><td><span class="insignia insignia-ok">Necesaria</span></td><td>Hasta cerrar sesión</td></tr>
+                  <tr><td><span class="pg-lg-codigo">apano.favs</span></td><td>Guarda tus favoritos aunque no tengas cuenta.</td><td><span class="insignia insignia-ok">Necesaria</span></td><td>Hasta que la borres</td></tr>
+                  <tr><td><span class="pg-lg-codigo">apano.cookies</span></td><td>Recuerda lo que eliges en este panel.</td><td><span class="insignia insignia-ok">Necesaria</span></td><td>12 meses</td></tr>
+                  <tr><td><span class="pg-lg-codigo">apano.tema</span></td><td>Recuerda si prefieres el tema claro u oscuro.</td><td><span class="insignia insignia-marca">Preferencias</span></td><td>Hasta que la borres</td></tr>
+                  <tr><td><span class="pg-lg-codigo">_apano_med</span></td><td>Medición agregada del uso. Ejemplo: no se usa en la maqueta.</td><td><span class="insignia">Medición</span></td><td>13 meses</td></tr>
+                  <tr><td><span class="pg-lg-codigo">_apano_pub</span></td><td>Medir campañas en otras webs. Ejemplo: no se usa en la maqueta.</td><td><span class="insignia">Publicidad</span></td><td>90 días</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="pg-lg-art" id="ck-borrar">
+            <h3>Cómo borrarlas</h3>
+            <p>Además de usar el panel de arriba, puedes borrar las cookies y los datos de sitios desde los ajustes de privacidad de tu navegador. Si borras las necesarias, te volveremos a preguntar la edad y tendrás que entrar de nuevo.</p>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <div class="pg-lg-dudas">
+      <p><b>¿Dudas sobre estos textos?</b>Escribe a dpd@apano.example para cualquier cosa sobre tus datos, o a ayuda@apano.example para lo demás.</p>
+      <a class="btn btn-sec" href="ayuda.html">Ir al centro de ayuda</a>
+    </div>
+  </div>
+</main>
+<script>
+A.pagina = function(){
+  const $ = A.$, $$ = A.$$;
+  const OK = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>';
+
+  // altura real de la cabecera para la barra de pestañas pegajosa
+  const fijaAlto = () => { const c = $('.cab'); document.documentElement.style.setProperty('--pg-lg-cab', (c ? c.offsetHeight : 68) + 'px') };
+  fijaAlto(); addEventListener('resize', fijaAlto);
+  // cuando cargan las fuentes cambian los anchos: recoloca el subrayado de la pestaña y la barra
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(() => dispatchEvent(new Event('resize')));
+
+  // fecha y cifras desde los datos
+  $('#lg-fecha').textContent = A.fecha(A.HOY);
+  $$('[data-lista-ok] li').forEach(li => { li.innerHTML = OK + '<span>' + li.innerHTML + '</span>' });
+  const ej = A.pedido.calcula({s:'s1', cantidad:2, extra:0});
+  $$('[data-ejemplo-comision]').forEach(el => el.textContent = `Ejemplo: en un servicio de ${A.eur(ej.base)}, la comisión es de ${A.eur(ej.prot)} y el total, ${A.eur(ej.total)}.`);
+  if(A.DESTACADOS && A.DESTACADOS.length && A.PRO){
+    const dMin = Math.min(...A.DESTACADOS.map(d => d.precio));
+    $$('[data-extras]').forEach(el => el.innerHTML = `los <a href="destacar.html">destacados</a> (desde ${A.eur(dMin)}) y <a href="pro.html">Apaño Pro</a> (${A.eur(A.PRO.precioMes)} al mes o ${A.eur0(A.PRO.precioAnio)} al año) son opcionales y se pueden cancelar cuando quieras`);
+  }
+
+  // índice de cada pestaña, generado a partir de sus apartados
+  $$('.pg-lg-panel').forEach(p => {
+    const arts = $$('.pg-lg-art', p);
+    p.querySelector('.pg-lg-indice ol').innerHTML = arts.map((a, i) => `<li><a href="#${a.id}"><span class="num">${i + 1}</span><span>${a.querySelector('h3').textContent}</span></a></li>`).join('');
+  });
+  const mq = matchMedia('(min-width: 960px)');
+  const abreIndices = () => $$('.pg-lg-indice details').forEach(d => d.open = mq.matches);
+  abreIndices(); mq.addEventListener ? mq.addEventListener('change', abreIndices) : mq.addListener(abreIndices);
+
+  const barra = $('.pg-lg-barra'), cuerpo = $('#lg-cuerpo');
+  const alArranque = () => { const y = cuerpo.getBoundingClientRect().top + scrollY - barra.offsetHeight - ($('.cab') ? $('.cab').offsetHeight : 68) - 4; if(scrollY > y) scrollTo({top:y, behavior:'smooth'}) };
+  $$('.pg-lg-barra .pestana').forEach(b => b.addEventListener('click', alArranque));
+
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href^="#"]'); if(!a || !a.closest('.pg-lg-cuerpo')) return;
+    const id = a.getAttribute('href').slice(1);
+    const tab = $(`.pg-lg-barra .pestana[aria-controls="${CSS.escape(id)}"]`);
+    if(tab){ e.preventDefault(); tab.click(); return }
+    const dest = document.getElementById(id); if(!dest) return;
+    e.preventDefault();
+    dest.scrollIntoView({behavior:'smooth', block:'start'});
+    const d = a.closest('details'); if(d && !mq.matches) d.open = false;
+  });
+
+  // índice: marca el apartado que estás leyendo
+  let pendiente = false;
+  const espia = () => {
+    pendiente = false;
+    const p = $('.pg-lg-panel:not([hidden])'); if(!p) return;
+    const lim = barra.getBoundingClientRect().bottom + 90;
+    let act = null; $$('.pg-lg-art', p).forEach(a => { if(a.getBoundingClientRect().top < lim) act = a });
+    $$('.pg-lg-indice a', p).forEach(x => x.setAttribute('aria-current', String(!!act && x.getAttribute('href') === '#' + act.id)));
+  };
+  addEventListener('scroll', () => { if(!pendiente){ pendiente = true; requestAnimationFrame(espia) } }, {passive:true});
+  $$('.pg-lg-barra .pestana').forEach(b => b.addEventListener('click', () => setTimeout(espia, 60)));
+  espia();
+
+  // panel de preferencias de cookies (se recuerda con A.guarda)
+  const CLAVES = ['pref', 'med', 'pub'];
+  const sw = Object.fromEntries(CLAVES.map(k => [k, $(`[data-ck="${k}"]`)]));
+  const estado = $('#lg-estado');
+  const lee = () => A.lee('cookies', null);
+  const pon = v => CLAVES.forEach(k => sw[k].setAttribute('aria-checked', String(!!(v && v[k]))));
+  const actual = () => Object.fromEntries(CLAVES.map(k => [k, sw[k].getAttribute('aria-checked') === 'true']));
+  const pintaEstado = sucio => {
+    const g = lee();
+    estado.innerHTML = sucio ? '<span class="insignia insignia-avisa pg-lg-cambio">Cambios sin guardar</span>'
+      : g && g.f ? `Guardado el ${A.fecha(g.f)} a las ${A.hora(g.f)} · ${CLAVES.filter(k => g[k]).length ? 'Opcionales: ' + CLAVES.filter(k => g[k]).map(k => ({pref:'preferencias', med:'medición', pub:'publicidad'})[k]).join(', ') : 'Solo las necesarias'}`
+      : 'Aún no has elegido: solo usamos las necesarias.';
+  };
+  const guarda = (v, msg) => { A.guarda('cookies', Object.assign({}, v, {f:new Date().toISOString()})); pon(v); pintaEstado(false); A.avisa(msg) };
+  pon(lee()); pintaEstado(false);
+  CLAVES.forEach(k => sw[k].addEventListener('click', () => {
+    sw[k].setAttribute('aria-checked', String(sw[k].getAttribute('aria-checked') !== 'true'));
+    const g = lee() || {pref:false, med:false, pub:false};
+    pintaEstado(CLAVES.some(c => !!g[c] !== actual()[c]));
+  }));
+  $('#lg-ck-guarda').addEventListener('click', () => guarda(actual(), 'Preferencias guardadas'));
+  $('#lg-ck-no').addEventListener('click', () => guarda({pref:false, med:false, pub:false}, 'Solo usaremos las necesarias'));
+  $('#lg-ck-si').addEventListener('click', () => guarda({pref:true, med:true, pub:true}, 'Has aceptado todas'));
+};
+</script>

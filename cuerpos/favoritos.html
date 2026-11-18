@@ -1,0 +1,346 @@
+<!-- titulo: Favoritos | desc: Los anuncios y los perfiles que has guardado en Apaño para decidir con calma. -->
+<style>
+.pg-favs-cab{ display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:10px 24px; padding-top:22px }
+@media (min-width:760px){ .pg-favs-cab{ padding-top:38px } }
+.pg-favs-cab p{ margin-top:6px }
+.pg-favs-ok{ display:inline-flex; align-items:center; gap:7px; font-size:var(--t-sm); font-weight:600; color:var(--ok) }
+.pg-favs-ok svg{ flex:0 0 auto }
+.pg-favs-aviso{ margin-top:18px; flex-wrap:wrap; align-items:center }
+.pg-favs-aviso>svg{ align-self:flex-start; margin-top:2px }
+.pg-favs-aviso>div{ flex:1 1 260px }
+.pg-favs-aviso small{ display:block; margin-top:4px; font-size:var(--t-xs); opacity:.85 }
+@media (max-width:600px){ .pg-favs-aviso .btn{ width:100% } }
+
+/* pestañas */
+.pg-favs-pest{ margin-top:20px }
+.pg-favs .pestana{ display:inline-flex; align-items:center; gap:8px; padding:14px 16px; font-size:var(--t-base) }
+.pg-favs-num{ display:inline-grid; place-items:center; min-width:22px; height:22px; padding:0 7px; border-radius:99px; background:var(--sup-2);
+  color:var(--tinta-2); font-size:var(--t-xs); font-weight:700; font-variant-numeric:tabular-nums; transition:background .2s, color .2s }
+.pestana[aria-selected="true"] .pg-favs-num{ background:var(--marca); color:var(--fondo) }
+
+/* barra del panel */
+.pg-favs-barra{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px 16px; padding:18px 0 16px }
+.pg-favs-barra p{ font-size:var(--t-sm); color:var(--tinta-2) }
+.pg-favs-barra b{ color:var(--tinta) }
+.pg-favs-orden{ position:relative; display:inline-flex; align-items:center }
+.pg-favs-orden select{ -webkit-appearance:none; appearance:none; height:38px; padding:0 34px 0 36px; border-radius:999px; border:1.5px solid var(--linea-2);
+  background:var(--fondo); font-size:var(--t-sm); font-weight:600; color:var(--tinta); cursor:pointer; transition:border-color .18s, box-shadow .18s }
+.pg-favs-orden select:hover{ border-color:var(--tinta-3) }
+.pg-favs-orden select:focus-visible{ outline:none; border-color:var(--marca); box-shadow:0 0 0 4px var(--marca-sup) }
+.pg-favs-orden svg{ position:absolute; pointer-events:none; color:var(--tinta-2) }
+.pg-favs-orden .pg-i-ord{ left:13px } .pg-favs-orden .pg-i-chev{ right:12px }
+
+/* fichas guardadas */
+/* el corazón de A.tarjeta queda bajo la capa de a.cubre por el isolation de .tarjeta-img: lo liberamos aquí */
+.pg-favs .tarjeta-img{ isolation:auto }
+.pg-favs-pausada .tarjeta-img>.portada{ filter:grayscale(1); opacity:.45 }
+.pg-favs-pausada .tarjeta-precio,.pg-favs-pausada .tarjeta-titulo{ color:var(--tinta-3) }
+.pg-favs-nota{ display:flex; gap:6px; align-items:flex-start; margin-top:4px; padding:7px 9px; border-radius:var(--r-s); background:var(--avisa-sup);
+  color:var(--avisa); font-size:var(--t-xs); font-weight:600; line-height:1.35 }
+.pg-favs-nota svg{ flex:0 0 auto; margin-top:1px }
+.pg-favs-sale{ opacity:0; transform:scale(.9); pointer-events:none; transition:opacity .26s ease, transform .3s var(--ease) }
+
+/* perfiles seguidos */
+.pg-favs-perfiles{ display:grid; gap:16px; grid-template-columns:minmax(0,1fr) }
+@media (min-width:700px){ .pg-favs-perfiles{ grid-template-columns:repeat(2,minmax(0,1fr)) } }
+@media (min-width:1080px){ .pg-favs-perfiles{ grid-template-columns:repeat(3,minmax(0,1fr)) } }
+.pg-favs-perfil{ display:flex; flex-direction:column; gap:16px; padding:20px; border-radius:var(--r-xl); background:var(--fondo); border:1px solid var(--linea);
+  box-shadow:var(--sombra-1); transition:box-shadow .25s var(--ease), transform .25s var(--ease), opacity .26s ease }
+.pg-favs-perfil:hover{ box-shadow:var(--sombra-2); transform:translateY(-2px) }
+.pg-favs-perfil.pg-favs-sale{ opacity:0; transform:scale(.94) }
+.pg-favs-perfil-top{ display:flex; align-items:center; gap:14px; min-width:0 }
+.pg-favs-perfil-n{ font-size:var(--t-lg); letter-spacing:-.02em }
+.pg-favs-perfil-n a:hover{ color:var(--marca) }
+.pg-favs-val{ display:flex; align-items:center; flex-wrap:wrap; gap:6px; font-size:var(--t-sm) }
+.pg-favs-val b{ font-weight:700 }
+.pg-favs-sitio{ font-size:var(--t-xs); color:var(--tinta-3) }
+.pg-favs-datos{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); margin:0; padding:12px 0; border-block:1px solid var(--linea) }
+.pg-favs-datos>div{ display:flex; flex-direction:column-reverse; justify-content:flex-end; align-items:center; gap:2px; text-align:center; padding:0 6px }
+.pg-favs-datos>div+div{ border-left:1px solid var(--linea) }
+.pg-favs-datos dt{ font-size:var(--t-xs); color:var(--tinta-3); line-height:1.3 }
+.pg-favs-datos dd{ margin:0; font:700 var(--t-lg)/1.15 var(--display); letter-spacing:-.02em; font-variant-numeric:tabular-nums }
+.pg-favs-responde{ display:flex; align-items:center; gap:7px; font-size:var(--t-sm); color:var(--tinta-2) }
+.pg-favs-responde svg{ color:var(--ok); flex:0 0 auto }
+.pg-favs-minis{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px }
+.pg-favs-mini{ position:relative; display:block; aspect-ratio:1/1; border-radius:var(--r); overflow:hidden; background:var(--sup-2); isolation:isolate }
+.pg-favs-mini>.portada{ position:absolute; inset:0; width:100%; height:100%; transition:transform .45s var(--ease) }
+.pg-favs-mini:hover>.portada{ transform:scale(1.06) }
+.pg-favs-mini-p{ position:absolute; left:6px; bottom:6px; z-index:1; padding:2px 7px; border-radius:99px; background:var(--fondo); color:var(--tinta);
+  font-size:.6875rem; font-weight:700; box-shadow:var(--sombra-1); white-space:nowrap; max-width:calc(100% - 12px); overflow:hidden; text-overflow:ellipsis }
+.pg-favs-perfil-acc{ display:flex; gap:8px; margin-top:auto }
+.pg-favs-perfil-acc .btn{ flex:1 }
+
+/* vacíos */
+.pg-favs-vacio{ display:flex; flex-direction:column; align-items:center; text-align:center; gap:12px; max-width:520px; margin:0 auto; padding:30px 0 20px }
+.pg-favs-vacio p{ color:var(--tinta-2); max-width:42ch }
+.pg-favs-vacio .btn{ margin-top:8px }
+.pg-favs-ilu{ width:190px; height:140px; margin-bottom:4px; animation:sube .5s var(--ease) both }
+.pg-favs-ilu .i-fondo{ fill:var(--marca-sup) }
+.pg-favs-ilu .i-carta{ fill:var(--fondo); stroke:var(--linea-2); stroke-width:2; stroke-dasharray:6 6 }
+.pg-favs-ilu .i-hueco{ fill:var(--sup-2) } .pg-favs-ilu .i-raya{ fill:var(--sup-3) }
+.pg-favs-ilu .i-corazon{ fill:var(--mal); transform-origin:142px 92px; animation:latido .7s .35s var(--ease) both }
+.pg-favs-ilu .i-chispa{ fill:var(--sol) }
+.pg-favs-ilu .i-av1{ fill:var(--marca) } .pg-favs-ilu .i-av2{ fill:var(--sup-3) }
+.pg-favs-ilu .i-cara{ fill:var(--fondo) }
+.pg-favs-ilu .i-mas{ fill:var(--ok) } .pg-favs-ilu .i-mas-t{ stroke:var(--fondo); stroke-width:3.4; stroke-linecap:round }
+
+/* ideas */
+.pg-favs-ideas{ margin-top:44px }
+.pg-favs-ideas .enlace{ display:inline-flex; align-items:center; gap:3px; font-size:var(--t-sm); white-space:nowrap }
+</style>
+<main id="contenido" class="pg-favs">
+  <div class="contenedor">
+    <header class="pg-favs-cab">
+      <div>
+        <h1 class="h1">Favoritos</h1>
+        <p class="sec">Lo que has guardado para decidir con calma.</p>
+      </div>
+      <p class="pg-favs-ok" id="pg-favs-ok" hidden></p>
+    </header>
+    <div id="pg-favs-sync"></div>
+
+    <div class="pestanas pg-favs-pest" data-pestanas role="tablist" aria-label="Tipo de favorito">
+      <button class="pestana" type="button" role="tab" id="pg-favs-t-anuncios" aria-controls="anuncios" aria-selected="true">Anuncios <span class="pg-favs-num" id="pg-favs-n-anuncios">0</span></button>
+      <button class="pestana" type="button" role="tab" id="pg-favs-t-perfiles" aria-controls="perfiles" aria-selected="false">Perfiles <span class="pg-favs-num" id="pg-favs-n-perfiles">0</span></button>
+    </div>
+
+    <div id="anuncios" role="tabpanel" aria-labelledby="pg-favs-t-anuncios">
+      <div class="pg-favs-barra" id="pg-favs-barra-a">
+        <p id="pg-favs-cuenta" aria-live="polite"></p>
+        <div class="pg-favs-orden">
+          <label class="solo-lector" for="pg-favs-orden">Ordenar favoritos</label>
+          <svg class="pg-i-ord" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4v16M3.5 16.5 7 20l3.5-3.5M17 20V4M13.5 7.5 17 4l3.5 3.5"/></svg>
+          <select id="pg-favs-orden">
+            <option value="recientes">Más recientes</option>
+            <option value="barato">Precio más bajo</option>
+            <option value="caro">Precio más alto</option>
+            <option value="cerca">Más cerca</option>
+          </select>
+          <svg class="pg-i-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+      </div>
+      <div class="anuncios anchos" id="pg-favs-lista"></div>
+      <div id="pg-favs-vacio-a" hidden>
+        <div class="pg-favs-vacio">
+          <svg class="pg-favs-ilu" viewBox="0 0 190 140" aria-hidden="true">
+            <circle class="i-fondo" cx="95" cy="74" r="62"/>
+            <rect class="i-carta" x="46" y="24" width="84" height="100" rx="16"/>
+            <rect class="i-hueco" x="56" y="34" width="64" height="48" rx="10"/>
+            <rect class="i-raya" x="56" y="92" width="40" height="8" rx="4"/>
+            <rect class="i-raya" x="56" y="106" width="58" height="7" rx="3.5"/>
+            <path class="i-corazon" d="M142 116s-24-14.6-24-32.4a13.4 13.4 0 0 1 24-8.1 13.4 13.4 0 0 1 24 8.1c0 17.8-24 32.4-24 32.4z"/>
+            <path class="i-chispa" d="M30 34l3 7 7 3-7 3-3 7-3-7-7-3 7-3zM168 26l2.2 5 5 2.2-5 2.2-2.2 5-2.2-5-5-2.2 5-2.2z"/>
+          </svg>
+          <h2 class="h2">Aún no has guardado ningún anuncio</h2>
+          <p>Toca el corazón de cualquier anuncio y lo tendrás aquí para compararlo o contratarlo más tarde.</p>
+          <a class="btn btn-g" href="buscar.html">Buscar servicios</a>
+        </div>
+      </div>
+
+      <section class="pg-favs-ideas" id="pg-favs-ideas" aria-labelledby="pg-favs-ideas-t" hidden>
+        <div class="cabecera-seccion">
+          <h2 class="h2" id="pg-favs-ideas-t">Parecido a lo que guardas</h2>
+          <a class="enlace" id="pg-favs-ideas-enl" href="buscar.html">Ver más<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a>
+        </div>
+        <div class="carril" id="pg-favs-ideas-l"></div>
+      </section>
+    </div>
+
+    <div id="perfiles" role="tabpanel" aria-labelledby="pg-favs-t-perfiles" hidden>
+      <div class="pg-favs-barra" id="pg-favs-barra-p">
+        <p id="pg-favs-cuenta-p" aria-live="polite"></p>
+      </div>
+      <div class="pg-favs-perfiles" id="pg-favs-perfiles"></div>
+      <div id="pg-favs-vacio-p" hidden>
+        <div class="pg-favs-vacio">
+          <svg class="pg-favs-ilu" viewBox="0 0 190 140" aria-hidden="true">
+            <circle class="i-fondo" cx="95" cy="72" r="62"/>
+            <circle class="i-av2" cx="118" cy="64" r="28"/>
+            <circle class="i-av1" cx="76" cy="76" r="32"/>
+            <circle class="i-cara" cx="76" cy="68" r="10"/>
+            <path class="i-cara" d="M58 98c3-9 10-13 18-13s15 4 18 13a32 32 0 0 1-36 0z"/>
+            <circle class="i-mas" cx="140" cy="102" r="15"/>
+            <path class="i-mas-t" d="M140 95v14M133 102h14"/>
+            <path class="i-chispa" d="M34 30l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/>
+          </svg>
+          <h2 class="h2">No sigues a nadie todavía</h2>
+          <p>Sigue a quien te haya hecho un buen apaño y verás antes sus anuncios nuevos. Todos tienen la identidad verificada.</p>
+          <a class="btn btn-g" href="buscar.html">Descubrir anunciantes</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<script>
+A.pagina = function(){
+  const $ = A.$, $$ = A.$$;
+  const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const SIGUE_DEF = ['u3', 'u4'];
+  const EASE = 'cubic-bezier(.2,.8,.2,1)';
+  const CHECK = A.icono('check', 16, 'stroke-width="2.6"');
+  const RELOJ = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>';
+  const PAUSA = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M9 6v12M15 6v12"/></svg>';
+  const NUBE = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 18.5h10.2a4 4 0 0 0 .5-7.96A6 6 0 0 0 6.2 9.4 4.6 4.6 0 0 0 7 18.5z"/><path d="m9.5 13.6 1.9 1.9 3.4-3.6"/></svg>';
+
+  const grid = $('#pg-favs-lista'), lPerfiles = $('#pg-favs-perfiles'), sel = $('#pg-favs-orden');
+  const favs = () => A.favs().filter(id => A.anuncio(id));
+  const siguiendo = () => A.lee('siguiendo', SIGUE_DEF).filter(id => A.usuario(id));
+  const idAnuncio = el => { const b = el.querySelector('[data-fav]'); return b ? b.dataset.fav : '' };
+  const idPerfil = el => el.dataset.uid;
+  let orden = 'recientes';
+
+  /* Repinta un listado animando lo que se mueve (FLIP) y lo que entra */
+  function conFlip(cont, selector, idDe, pinta, entra){
+    const antes = new Map();
+    if(!quieto) $$(selector, cont).forEach(el => { if(!el.classList.contains('pg-favs-sale')) antes.set(idDe(el), el.getBoundingClientRect()) });
+    pinta();
+    if(quieto) return;
+    $$(selector, cont).forEach(el => {
+      const r0 = antes.get(idDe(el)), r1 = el.getBoundingClientRect();
+      if(r0){ const dx = r0.left - r1.left, dy = r0.top - r1.top; if(dx || dy) el.animate([{transform:`translate(${dx}px,${dy}px)`}, {transform:'none'}], {duration:420, easing:EASE}) }
+      else if(entra) el.animate([{opacity:0, transform:'scale(.92)'}, {opacity:1, transform:'none'}], {duration:360, easing:EASE});
+    });
+  }
+
+  /* ---------- aviso de sincronización ---------- */
+  function pintaSync(){
+    const s = A.sesion(), c = $('#pg-favs-sync'), ok = $('#pg-favs-ok');
+    if(!s){
+      c.innerHTML = `<div class="aviso aviso-marca pg-favs-aviso">${NUBE}<div><b>Tus favoritos se guardan en este navegador.</b> Con una cuenta verificada se sincronizan en el móvil y el ordenador.
+        <small>Darse de alta es gratis: solo pedimos tener 18 años o más y verificar tu DNI, NIE o pasaporte. El documento solo lo ve nuestro equipo de verificación y su número nunca se publica.</small></div>
+        <a class="btn btn-p" href="registro.html">Crear cuenta</a></div>`;
+    } else if(!A.verificado(s)){
+      c.innerHTML = `<div class="aviso aviso-avisa pg-favs-aviso">${NUBE}<div><b>De momento se guardan solo en este navegador.</b> En cuanto revisemos tu documento, tus favoritos se sincronizarán con tu cuenta.</div>
+        <a class="btn btn-sec btn-p" href="cuenta.html#verificacion">Ver mi verificación</a></div>`;
+    } else {
+      ok.innerHTML = `${CHECK}Sincronizados con tu cuenta`;
+      ok.hidden = false;
+    }
+  }
+
+  /* ---------- anuncios guardados ---------- */
+  function ordena(l, ids){
+    const km = a => A.usuario(a.u).km;
+    const f = {
+      recientes: (a, b) => ids.indexOf(b.id) - ids.indexOf(a.id),
+      barato: (a, b) => a.precio - b.precio || ids.indexOf(b.id) - ids.indexOf(a.id),
+      caro: (a, b) => b.precio - a.precio || ids.indexOf(b.id) - ids.indexOf(a.id),
+      cerca: (a, b) => km(a) - km(b)
+    }[orden];
+    return l.slice().sort(f);
+  }
+  function pintaAnuncios(flip){
+    const ids = favs();
+    conFlip(grid, '.tarjeta', idAnuncio, () => {
+      grid.innerHTML = ordena(ids.map(A.anuncio), ids).map(a => A.tarjeta(a, {clase: a.estado === 'pausado' ? 'pg-favs-pausada' : ''})).join('');
+      $$('.pg-favs-pausada', grid).forEach(t => {
+        $('.tarjeta-sello', t).insertAdjacentHTML('afterbegin', '<span class="insignia insignia-avisa">Pausado</span>');
+        const col = t.querySelector(':scope > .col');
+        if(col) col.insertAdjacentHTML('beforeend', `<p class="pg-favs-nota">${PAUSA}Ahora no se puede contratar.</p>`);
+      });
+    }, flip);
+    const n = ids.length, np = ids.filter(id => A.anuncio(id).estado === 'pausado').length;
+    grid.hidden = !n;
+    $('#pg-favs-vacio-a').hidden = !!n;
+    $('#pg-favs-barra-a').hidden = !n;
+    $('#pg-favs-cuenta').innerHTML = `<b class="num">${n}</b> ${n === 1 ? 'anuncio guardado' : 'anuncios guardados'}${np ? ` · ${np} ${np === 1 ? 'pausado' : 'pausados'}` : ''}`;
+    $('#pg-favs-n-anuncios').textContent = n;
+    dispatchEvent(new Event('resize'));
+  }
+  function pintaIdeas(){
+    const ids = favs(), cats = [...new Set(ids.map(id => A.anuncio(id).cat))];
+    const pop = (a, b) => (b.dest - a.dest) || (b.favs - a.favs);
+    const libres = A.activos().filter(a => !ids.includes(a.id));
+    const cerca = libres.filter(a => cats.includes(a.cat)).sort(pop);
+    const l = cerca.concat(libres.filter(a => !cats.includes(a.cat)).sort((a, b) => b.favs - a.favs)).slice(0, 5);
+    if(!l.length) return;
+    $('#pg-favs-ideas-t').textContent = cerca.length ? 'Parecido a lo que guardas' : 'Lo más guardado en Apaño';
+    $('#pg-favs-ideas-enl').href = cerca.length ? 'buscar.html?cat=' + cerca[0].cat : 'buscar.html';
+    $('#pg-favs-ideas-l').innerHTML = l.map(a => A.tarjeta(a)).join('');
+    $('#pg-favs-ideas').hidden = false;
+  }
+
+  /* ---------- perfiles seguidos ---------- */
+  function tarjetaPerfil(u){
+    const ads = A.anunciosDe(u.id).filter(a => a.estado === 'activo');
+    const tipo = u.tipo === 'profesional' ? '<span class="insignia insignia-marca">Profesional</span>' : '<span class="insignia">Particular</span>';
+    const ver = A.verificado(u) ? '<span class="insignia insignia-ok">Identidad verificada</span>' : '';
+    const val = u.resenas
+      ? `${A.estrellas(u.val, 14)}<b class="num">${u.val.toLocaleString('es-ES', {minimumFractionDigits:1})}</b><span class="ter">· ${A.num(u.resenas)} reseñas</span>`
+      : '<span class="ter">Sin reseñas todavía</span>';
+    return `<article class="pg-favs-perfil" data-uid="${u.id}">
+      <div class="pg-favs-perfil-top">
+        ${A.avatar(u, 'avatar-g')}
+        <div class="col g4 min0 crecer">
+          <h3 class="pg-favs-perfil-n recorte recorte-1"><a href="perfil.html?id=${u.id}">${u.n}</a></h3>
+          <div class="pg-favs-val">${val}</div>
+          <p class="pg-favs-sitio">${u.barrio}, ${u.ciudad} · a ${A.km(u.km)}</p>
+        </div>
+      </div>
+      <div class="fila g6">${tipo}${ver}</div>
+      <dl class="pg-favs-datos">
+        <div><dt>servicios hechos</dt><dd>${A.num(u.hechos)}</dd></div>
+        <div><dt>reseñas</dt><dd>${A.num(u.resenas)}</dd></div>
+        <div><dt>${ads.length === 1 ? 'anuncio activo' : 'anuncios activos'}</dt><dd>${ads.length}</dd></div>
+      </dl>
+      <p class="pg-favs-responde">${RELOJ}Responde ${u.responde}</p>
+      ${ads.length ? `<div class="pg-favs-minis">${ads.slice(0, 3).map(a => `<a class="pg-favs-mini" href="anuncio.html?id=${a.id}" aria-label="${a.t}, ${A.precioTxt(a)}">${A.portada(a)}<span class="pg-favs-mini-p">${A.precioTxt(a)}</span></a>`).join('')}</div>` : ''}
+      <div class="pg-favs-perfil-acc">
+        <a class="btn btn-suave btn-p" href="perfil.html?id=${u.id}">Ver perfil</a>
+        <button type="button" class="btn btn-sec btn-p" data-deja="${u.id}" aria-label="Dejar de seguir a ${u.n}">Dejar de seguir</button>
+      </div>
+    </article>`;
+  }
+  function pintaPerfiles(flip){
+    const ids = siguiendo();
+    conFlip(lPerfiles, '.pg-favs-perfil', idPerfil, () => { lPerfiles.innerHTML = ids.map(id => tarjetaPerfil(A.usuario(id))).join('') }, flip);
+    const n = ids.length;
+    lPerfiles.hidden = !n;
+    $('#pg-favs-vacio-p').hidden = !!n;
+    $('#pg-favs-barra-p').hidden = !n;
+    $('#pg-favs-cuenta-p').innerHTML = `Sigues a <b class="num">${n}</b> ${n === 1 ? 'persona' : 'personas'}`;
+    $('#pg-favs-n-perfiles').textContent = n;
+    dispatchEvent(new Event('resize'));
+  }
+
+  /* ---------- eventos ---------- */
+  // app.js ya guarda el cambio de favorito (en fase de captura); aquí solo se repinta
+  $('#anuncios').addEventListener('click', e => {
+    const b = e.target.closest('[data-fav]'); if(!b) return;
+    const quedan = new Set(favs());
+    const tarjetas = $$('.tarjeta', grid);
+    const salen = tarjetas.filter(t => !quedan.has(idAnuncio(t)));
+    const enGrid = grid.contains(b), idx = enGrid ? tarjetas.indexOf(b.closest('.tarjeta')) : -1;
+    const acaba = () => {
+      pintaAnuncios(true);
+      if(idx < 0 || !enGrid) return;
+      const ts = $$('.tarjeta', grid), t = ts[Math.min(idx, ts.length - 1)];
+      const f = t ? $('[data-fav]', t) : $('#pg-favs-t-anuncios');
+      if(f) f.focus({preventScroll:true});
+    };
+    if(salen.length && !quieto){ salen.forEach(t => t.classList.add('pg-favs-sale')); setTimeout(acaba, 280) }
+    else acaba();
+  });
+  lPerfiles.addEventListener('click', e => {
+    const b = e.target.closest('[data-deja]'); if(!b) return;
+    const id = b.dataset.deja, u = A.usuario(id), card = b.closest('.pg-favs-perfil');
+    const idx = $$('.pg-favs-perfil', lPerfiles).indexOf(card);
+    A.guarda('siguiendo', A.lee('siguiendo', SIGUE_DEF).filter(x => x !== id));
+    A.avisa(`Has dejado de seguir a ${u.corto}`);
+    const acaba = () => {
+      pintaPerfiles(true);
+      const cs = $$('.pg-favs-perfil', lPerfiles), c = cs[Math.min(idx, cs.length - 1)];
+      const f = c ? $('[data-deja]', c) : $('#pg-favs-t-perfiles');
+      if(f) f.focus({preventScroll:true});
+    };
+    if(quieto) acaba(); else { card.classList.add('pg-favs-sale'); setTimeout(acaba, 280) }
+  });
+  sel.addEventListener('change', () => { orden = sel.value; pintaAnuncios(true) });
+
+  /* ---------- arranque ---------- */
+  pintaSync();
+  pintaAnuncios(false);
+  pintaPerfiles(false);
+  pintaIdeas();
+};
+</script>

@@ -1,0 +1,819 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Apaño Pro · Apaño</title>
+<meta name="description" content="La suscripción para profesionales: 4 destacados al mes, sello Pro, estadísticas de cada anuncio y facturas con tu NIF.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="base.css">
+<script src="datos.js"></script>
+<script src="app.js"></script>
+</head>
+<body>
+<a class="solo-lector" href="#contenido">Saltar al contenido</a>
+<header class="cab">
+  <div class="contenedor cab-fila">
+    <a class="logo" href="index.html" aria-label="Apaño, ir al inicio">apa<span class="n">ñ</span>o<span class="punto">.</span></a>
+    <form class="buscador escritorio" data-busqueda role="search" aria-label="Buscar servicios">
+      <svg class="ico" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M10.8 17.6a6.8 6.8 0 1 0 0-13.6 6.8 6.8 0 0 0 0 13.6zM20 20l-4.3-4.3"/></svg>
+      <label class="solo-lector" for="q-cab">Qué necesitas</label>
+      <input id="q-cab" name="q" type="search" placeholder="Busca un servicio: paseo de perros, electricista, clases…" autocomplete="off">
+      <button class="buscador-btn" type="submit">Buscar</button>
+    </form>
+    <div class="crecer solo-movil"></div>
+    <div class="cab-acc">
+      <a class="ico-btn solo-escritorio" href="favoritos.html" aria-label="Favoritos">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.3A4.2 4.2 0 0 1 12 7.7a4.2 4.2 0 0 1 7.5 2.5c0 5.7-7.5 10.3-7.5 10.3z"/></svg>
+      </a>
+      <a class="ico-btn" href="notificaciones.html" aria-label="Notificaciones" data-punto-notif>
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15zM10 20.5a2.2 2.2 0 0 0 4 0"/></svg>
+      </a>
+      <a class="ico-btn" href="chat.html" aria-label="Buzón de mensajes" data-punto-buzon>
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5h16v11H8.5L4 20z"/></svg>
+      </a>
+      <a class="btn btn-subir solo-escritorio" href="subir.html" data-exige="publicar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        Subir anuncio
+      </a>
+      <div class="fila g6" id="cuenta"></div>
+    </div>
+  </div>
+  <div class="contenedor cab-movil">
+    <form class="buscador" data-busqueda role="search" aria-label="Buscar servicios">
+      <svg class="ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M10.8 17.6a6.8 6.8 0 1 0 0-13.6 6.8 6.8 0 0 0 0 13.6zM20 20l-4.3-4.3"/></svg>
+      <label class="solo-lector" for="q-movil">Qué necesitas</label>
+      <input id="q-movil" name="q" type="search" placeholder="Buscar en Apaño" autocomplete="off">
+    </form>
+  </div>
+</header>
+<nav class="tabbar" aria-label="Navegación principal">
+  <a href="index.html"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11 12 4l8.5 7M6 9.4V20h12V9.4"/></svg>Inicio</a>
+  <a href="favoritos.html"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.3A4.2 4.2 0 0 1 12 7.7a4.2 4.2 0 0 1 7.5 2.5c0 5.7-7.5 10.3-7.5 10.3z"/></svg>Favoritos</a>
+  <a href="subir.html" data-exige="publicar" aria-label="Subir anuncio"><span class="mas"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></a>
+  <a href="chat.html" data-punto-buzon><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5h16v11H8.5L4 20z"/></svg>Buzón</a>
+  <a href="cuenta.html" id="tab-tu"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4.5 20.5c.8-3.6 3.8-5.5 7.5-5.5s6.7 1.9 7.5 5.5"/></svg>Tú</a>
+</nav>
+<style>
+/* ---------- colores propios en función del tema ---------- */
+.pg-pro,.pg-pro-dlg{ --pg-negro:var(--tinta); --pg-sobre-negro:var(--fondo); --pg-sobre-sol:var(--sol-tinta) }
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) :is(.pg-pro,.pg-pro-dlg){ --pg-negro:var(--sup-2); --pg-sobre-negro:var(--tinta); --pg-sobre-sol:var(--fondo) } }
+:root[data-theme="dark"] :is(.pg-pro,.pg-pro-dlg){ --pg-negro:var(--sup-2); --pg-sobre-negro:var(--tinta); --pg-sobre-sol:var(--fondo) }
+:is(.pg-pro,.pg-pro-dlg) .btn-sol,:is(.pg-pro,.pg-pro-dlg) .insignia-sol{ color:var(--pg-sobre-sol) }
+
+/* ---------- sello Pro ---------- */
+.pg-pro-roseta{ display:block; flex:0 0 auto; overflow:visible }
+.pg-pro-roseta .r-borde{ fill:var(--sol) }
+.pg-pro-roseta .r-disco{ fill:var(--pg-negro); stroke:var(--sol); stroke-width:1.6; stroke-dasharray:.1 3.2; stroke-linecap:round }
+.pg-pro-roseta .r-tilde{ fill:var(--sol) }
+.pg-pro-roseta .r-check{ fill:none; stroke:var(--sol); stroke-width:9; stroke-linecap:round; stroke-linejoin:round }
+.pg-pro-roseta text{ fill:var(--sol); font:800 27px/1 var(--display); letter-spacing:-1.2px }
+.pg-pro-gira{ transition:transform .6s var(--ease) }
+.pg-pro-heroe:hover .pg-pro-gira{ transform:rotate(-14deg) scale(1.04) }
+.pg-pro-chapa{ display:inline-flex; align-items:center; gap:5px; height:22px; padding:0 8px 0 4px; border-radius:99px; background:var(--pg-negro); color:var(--sol);
+  font:800 11px/1 var(--display); letter-spacing:.06em; white-space:nowrap; vertical-align:middle }
+.pg-pro-av{ position:relative; display:inline-block; flex:0 0 auto }
+.pg-pro-av-sello{ position:absolute; right:-10px; top:-10px; filter:drop-shadow(0 4px 8px color-mix(in srgb,var(--tinta) 30%,transparent)) }
+.pg-pro-av-sello.pop{ animation:pg-pro-pop .7s .25s var(--ease) both }
+@keyframes pg-pro-pop{ 0%{ transform:scale(0) rotate(-90deg) } 70%{ transform:scale(1.15) rotate(8deg) } 100%{ transform:none } }
+
+/* ---------- cabecera de venta ---------- */
+.pg-pro-heroe{ position:relative; overflow:hidden; isolation:isolate; display:grid; gap:30px; grid-template-columns:minmax(0,1fr); align-items:center;
+  margin-top:16px; padding:28px 20px 30px; border-radius:var(--r-xl); color:var(--pg-sobre-negro);
+  background:radial-gradient(70% 90% at 100% 0%,color-mix(in srgb,var(--marca) 55%,transparent) 0%,transparent 70%),
+    radial-gradient(55% 60% at 0% 100%,color-mix(in srgb,var(--sol) 20%,transparent) 0%,transparent 70%),var(--pg-negro) }
+@media (min-width:920px){ .pg-pro-heroe{ grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr); padding:52px 56px; gap:40px } }
+.pg-pro-heroe .sec2{ color:color-mix(in srgb,var(--pg-sobre-negro) 72%,transparent) }
+.pg-pro-marca{ display:flex; align-items:center; gap:14px }
+.pg-pro-marca b{ font:800 1.1rem/1.1 var(--display); letter-spacing:-.02em }
+.pg-pro-marca span{ font-size:var(--t-sm) }
+.pg-pro-heroe h1{ font-size:clamp(2.2rem,6vw,3.6rem); letter-spacing:-.04em; line-height:.98; max-width:12ch }
+.pg-pro-heroe h1 em{ font-style:normal; color:var(--sol) }
+.pg-pro-heroe .seg{ background:color-mix(in srgb,var(--pg-sobre-negro) 14%,transparent) }
+.pg-pro-heroe .seg button{ color:color-mix(in srgb,var(--pg-sobre-negro) 80%,transparent) }
+.pg-pro-heroe .seg button[aria-pressed="true"]{ background:var(--pg-sobre-negro); color:var(--pg-negro) }
+.pg-pro-ahorro{ display:inline-grid; place-items:center; height:18px; padding:0 6px; margin-left:4px; border-radius:99px; background:var(--sol); color:var(--pg-sobre-sol);
+  font-size:10.5px; font-weight:750 }
+.pg-pro-precio{ display:flex; flex-direction:column; gap:4px }
+.pg-pro-precio .cifra{ font-size:clamp(2.6rem,7vw,3.4rem); line-height:1 }
+.pg-pro-precio small{ font-size:var(--t-md); font-weight:600; margin-left:4px }
+.pg-pro-cifra{ display:flex; align-items:baseline }
+.pg-pro-cifra .cifra.cambia{ animation:pg-pro-cambia .4s var(--ease) }
+@keyframes pg-pro-cambia{ from{ opacity:0; transform:translateY(8px) } }
+.pg-pro-fantasma{ background:transparent; color:inherit; box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--pg-sobre-negro) 40%,transparent) }
+.pg-pro-fantasma:hover{ background:color-mix(in srgb,var(--pg-sobre-negro) 10%,transparent); box-shadow:inset 0 0 0 1.5px var(--pg-sobre-negro) }
+.pg-pro-escena{ position:relative; display:grid; place-items:center; min-height:330px }
+.pg-pro-perfil{ position:relative; width:min(330px,100%); display:flex; flex-direction:column; gap:14px; padding:20px; border-radius:var(--r-xl);
+  background:var(--fondo); color:var(--tinta); box-shadow:var(--sombra-3); transform:rotate(-2deg); transition:transform .5s var(--ease); animation:pg-pro-entra .8s var(--ease) both }
+.pg-pro-heroe:hover .pg-pro-perfil{ transform:rotate(0) translateY(-4px) }
+@keyframes pg-pro-entra{ from{ opacity:0; transform:rotate(-2deg) translateY(30px) } }
+.pg-pro-perfil-n{ font:700 1.125rem/1.15 var(--display); letter-spacing:-.02em }
+.pg-pro-perfil-datos{ display:flex; flex-wrap:wrap; gap:6px 12px; font-size:var(--t-xs); color:var(--tinta-2); font-weight:600 }
+.pg-pro-perfil-datos span{ display:inline-flex; align-items:center; gap:4px }
+.pg-pro-minis{ display:grid; grid-template-columns:1fr 1fr; gap:10px }
+.pg-pro-minis>span{ position:relative; aspect-ratio:4/3; border-radius:var(--r); overflow:hidden }
+.pg-pro-minis>span>.portada{ position:absolute; inset:0 }
+.pg-pro-minis .insignia{ position:absolute; left:6px; top:6px; z-index:2; height:20px; font-size:10px; padding:0 7px }
+.pg-pro-fichas{ display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 14px; border-radius:var(--r); background:var(--sup); font-size:var(--t-xs); font-weight:650 }
+.pg-pro-fichas i{ display:inline-flex; gap:4px }
+.pg-pro-fichas i span{ width:22px; height:22px; border-radius:7px; display:grid; place-items:center; background:var(--sol); color:var(--pg-sobre-sol) }
+.pg-pro-fichas i span.usado{ background:var(--sup-3); color:var(--tinta-3) }
+.pg-pro-flota{ position:absolute; z-index:2; display:inline-flex; align-items:center; gap:7px; height:36px; padding:0 14px; border-radius:99px; background:var(--fondo); color:var(--tinta);
+  font-size:var(--t-sm); font-weight:700; box-shadow:var(--sombra-2); white-space:nowrap; animation:sube .6s var(--ease) both }
+.pg-pro-flota.f1{ right:calc(50% - 205px); top:4px; animation-delay:.35s } .pg-pro-flota.f1 svg{ color:var(--ok) }
+.pg-pro-flota.f2{ left:calc(50% - 200px); top:58%; animation-delay:.5s } .pg-pro-flota.f2 svg{ color:var(--marca) }
+@media (max-width:919px){ .pg-pro-escena{ min-height:330px } .pg-pro-flota.f1{ right:-4px } .pg-pro-flota.f2{ left:-4px } }
+
+/* ---------- qué incluye ---------- */
+.pg-pro-inc{ display:grid; gap:12px; grid-template-columns:minmax(0,1fr) }
+@media (min-width:640px){ .pg-pro-inc{ grid-template-columns:repeat(2,minmax(0,1fr)) } }
+@media (min-width:1040px){ .pg-pro-inc{ grid-template-columns:repeat(4,minmax(0,1fr)) } }
+.pg-pro-inc>div{ display:flex; flex-direction:column; gap:10px; padding:20px; border-radius:var(--r-l); background:var(--sup); transition:transform .25s var(--ease), background .2s }
+.pg-pro-inc>div:hover{ transform:translateY(-2px); background:var(--sup-2) }
+.pg-pro-inc b{ font:700 1.0625rem/1.25 var(--display); letter-spacing:-.015em }
+.pg-pro-inc p{ font-size:var(--t-sm); color:var(--tinta-2) }
+.pg-pro-inc-ico{ width:42px; height:42px; border-radius:13px; display:grid; place-items:center; background:var(--fondo); color:var(--marca); box-shadow:var(--sombra-1) }
+.pg-pro-inc>.grande{ background:var(--sol-sup); position:relative; overflow:hidden }
+.pg-pro-inc>.grande:hover{ background:var(--sol-sup) }
+.pg-pro-inc>.grande .pg-pro-inc-ico{ background:var(--sol); color:var(--pg-sobre-sol) }
+@media (min-width:640px){ .pg-pro-inc>.grande{ grid-column:span 2 } }
+.pg-pro-estrellas{ display:flex; gap:8px; margin-top:auto; padding-top:6px }
+.pg-pro-estrellas span{ width:46px; height:46px; border-radius:14px; display:grid; place-items:center; background:var(--sol); color:var(--pg-sobre-sol); box-shadow:var(--sombra-1);
+  animation:pg-pro-salta .5s var(--ease) both }
+.pg-pro-estrellas span:nth-child(2){ animation-delay:.08s } .pg-pro-estrellas span:nth-child(3){ animation-delay:.16s } .pg-pro-estrellas span:nth-child(4){ animation-delay:.24s }
+@keyframes pg-pro-salta{ from{ transform:scale(.6); opacity:0 } }
+
+/* ---------- comparativa ---------- */
+.pg-pro-tabla-env{ border-radius:var(--r-xl) }
+table.pg-pro-tabla{ min-width:0; table-layout:fixed }
+.pg-pro-tabla th,.pg-pro-tabla td{ padding:14px 14px; vertical-align:middle }
+.pg-pro-tabla thead th{ font-size:var(--t-sm); color:var(--tinta); background:var(--fondo); padding-top:18px; padding-bottom:14px }
+.pg-pro-tabla tbody th{ font-weight:600; color:var(--tinta); background:none; border-bottom:1px solid var(--linea); white-space:normal; font-size:var(--t-sm) }
+.pg-pro-tabla tr:last-child th{ border-bottom:0 }
+.pg-pro-tabla .c-pro{ background:color-mix(in srgb,var(--marca-sup) 70%,transparent); color:var(--marca-tinta); font-weight:600 }
+.pg-pro-tabla thead .c-pro{ background:var(--marca-sup) }
+.pg-pro-tabla .c-par{ color:var(--tinta-2) }
+.pg-pro-tabla col.c1{ width:36% }
+.pg-pro-si,.pg-pro-no{ width:24px; height:24px; border-radius:50%; display:inline-grid; place-items:center; vertical-align:middle }
+.pg-pro-si{ background:var(--ok); color:var(--fondo) }
+.pg-pro-no{ background:var(--sup-2); color:var(--tinta-3) }
+.pg-pro-celda{ display:flex; align-items:center; gap:8px }
+@media (max-width:599px){ .pg-pro-tabla th,.pg-pro-tabla td{ padding:12px 10px; font-size:var(--t-xs) } .pg-pro-tabla col.c1{ width:34% } .pg-pro-celda{ flex-direction:column; align-items:flex-start; gap:4px } }
+
+/* ---------- calculadora ---------- */
+.pg-pro-calc{ display:grid; gap:24px; grid-template-columns:minmax(0,1fr); padding:22px; border-radius:var(--r-xl); border:1px solid var(--linea); background:var(--fondo); box-shadow:var(--sombra-1) }
+@media (min-width:880px){ .pg-pro-calc{ grid-template-columns:minmax(0,1fr) minmax(0,1.05fr); padding:36px; gap:40px } }
+.pg-pro-rango{ position:relative; display:flex; flex-direction:column; gap:10px }
+.pg-pro-rango input{ -webkit-appearance:none; appearance:none; width:100%; height:32px; background:transparent; margin:0; cursor:pointer }
+.pg-pro-rango input::-webkit-slider-runnable-track{ height:8px; border-radius:99px; background:linear-gradient(90deg,var(--marca) var(--pct,40%),var(--sup-3) var(--pct,40%)) }
+.pg-pro-rango input::-moz-range-track{ height:8px; border-radius:99px; background:var(--sup-3) }
+.pg-pro-rango input::-moz-range-progress{ height:8px; border-radius:99px; background:var(--marca) }
+.pg-pro-rango input::-webkit-slider-thumb{ -webkit-appearance:none; width:28px; height:28px; margin-top:-10px; border-radius:50%; background:var(--fondo); border:3px solid var(--marca);
+  box-shadow:var(--sombra-2); transition:transform .15s var(--ease) }
+.pg-pro-rango input::-moz-range-thumb{ width:22px; height:22px; border-radius:50%; background:var(--fondo); border:3px solid var(--marca); box-shadow:var(--sombra-2) }
+.pg-pro-rango input:active::-webkit-slider-thumb{ transform:scale(1.15) }
+.pg-pro-rango input:focus-visible{ outline:2.5px solid var(--marca); outline-offset:4px; border-radius:99px }
+.pg-pro-marcas{ display:flex; justify-content:space-between; padding:0 9px; font-size:var(--t-xs); color:var(--tinta-3); font-variant-numeric:tabular-nums }
+.pg-pro-n{ display:flex; align-items:baseline; gap:10px }
+.pg-pro-n output{ font:800 3.2rem/1 var(--display); letter-spacing:-.04em; color:var(--marca); font-variant-numeric:tabular-nums; min-width:1.2ch }
+.pg-pro-barras{ display:flex; flex-direction:column; gap:16px }
+.pg-pro-barra-f{ display:flex; flex-direction:column; gap:7px }
+.pg-pro-barra-f>div:first-child{ display:flex; justify-content:space-between; align-items:baseline; gap:10px; font-size:var(--t-sm); font-weight:600 }
+.pg-pro-barra-f .cifra{ font-size:1.5rem }
+.pg-pro-pista{ height:16px; border-radius:99px; background:var(--sup-2); overflow:hidden }
+.pg-pro-pista i{ display:block; height:100%; border-radius:99px; background:var(--tinta-3); transition:width .45s var(--ease) }
+.pg-pro-pista i.pro{ background:linear-gradient(90deg,var(--marca),var(--marca-2)) }
+.pg-pro-pista i.incl{ background:repeating-linear-gradient(-45deg,var(--sol) 0 6px,color-mix(in srgb,var(--sol) 70%,var(--fondo)) 6px 12px) }
+.pg-pro-veredicto{ display:flex; gap:12px; align-items:flex-start; padding:16px; border-radius:var(--r-l); background:var(--sup); font-size:var(--t-sm); color:var(--tinta-2); line-height:1.5 }
+.pg-pro-veredicto b{ color:var(--tinta) }
+.pg-pro-veredicto.bien{ background:var(--ok-sup) }
+.pg-pro-veredicto svg{ flex:0 0 auto; color:var(--marca); margin-top:1px }
+
+/* ---------- testimonios ---------- */
+.pg-pro-testis{ display:grid; gap:14px; grid-template-columns:minmax(0,1fr) }
+@media (min-width:820px){ .pg-pro-testis{ grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px } }
+.pg-pro-testi{ margin:0; display:flex; flex-direction:column; gap:18px; padding:24px; border-radius:var(--r-xl); background:var(--sup) }
+.pg-pro-testi blockquote{ margin:0; font:600 clamp(1.1rem,2vw,1.3rem)/1.4 var(--display); letter-spacing:-.015em; color:var(--tinta); text-wrap:pretty }
+.pg-pro-testi figcaption{ display:flex; align-items:center; gap:14px; margin-top:auto }
+.pg-pro-testi-datos{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px }
+.pg-pro-testi-datos div{ display:flex; flex-direction:column; gap:2px; padding:12px; border-radius:var(--r); background:var(--fondo) }
+.pg-pro-testi-datos .cifra{ font-size:1.3rem; line-height:1.1 }
+.pg-pro-testi-datos span:last-child{ font-size:var(--t-xs); color:var(--tinta-2); line-height:1.3 }
+
+/* ---------- requisitos ---------- */
+.pg-pro-req{ display:grid; gap:12px; grid-template-columns:minmax(0,1fr) }
+@media (min-width:820px){ .pg-pro-req{ grid-template-columns:repeat(3,minmax(0,1fr)) } }
+.pg-pro-req>div{ display:flex; flex-direction:column; gap:10px; padding:20px; border-radius:var(--r-l); border:1px solid var(--linea) }
+.pg-pro-req b{ font:700 1.0625rem/1.2 var(--display) }
+.pg-pro-req p{ font-size:var(--t-sm); color:var(--tinta-2) }
+
+/* ---------- mi suscripción ---------- */
+.pg-pro-sub{ display:flex; flex-direction:column; gap:20px; margin-top:16px }
+.pg-pro-sub-cab{ position:relative; overflow:hidden; isolation:isolate; display:flex; align-items:center; gap:22px; flex-wrap:wrap; padding:26px 22px; border-radius:var(--r-xl); color:var(--pg-sobre-negro);
+  background:radial-gradient(70% 120% at 100% 0%,color-mix(in srgb,var(--marca) 50%,transparent) 0%,transparent 70%),var(--pg-negro) }
+@media (min-width:760px){ .pg-pro-sub-cab{ padding:34px 40px } }
+.pg-pro-sub-cab .sec2{ color:color-mix(in srgb,var(--pg-sobre-negro) 72%,transparent) }
+.pg-pro-sub-cab h1{ font-size:clamp(1.8rem,4.5vw,2.6rem); letter-spacing:-.035em }
+.pg-pro-sub-cab .avatar{ box-shadow:0 0 0 4px var(--pg-negro) }
+.pg-pro-sub-deco{ position:absolute; z-index:-1; right:-34px; top:50%; translate:0 -50%; rotate:14deg; opacity:.95 }
+@media (max-width:759px){ .pg-pro-sub-deco{ display:none } }
+.pg-pro-tiles{ display:grid; gap:12px; grid-template-columns:minmax(0,1fr) }
+@media (min-width:760px){ .pg-pro-tiles{ grid-template-columns:repeat(3,minmax(0,1fr)) } }
+.pg-pro-tile{ display:flex; flex-direction:column; gap:8px; padding:18px; border-radius:var(--r-l); background:var(--sup) }
+.pg-pro-tile .cifra{ font-size:1.6rem; line-height:1.1 }
+.pg-pro-tile .btn{ margin-top:auto; align-self:flex-start }
+.pg-pro-tokens{ display:flex; gap:6px }
+.pg-pro-tokens span{ width:34px; height:34px; border-radius:11px; display:grid; place-items:center; background:var(--sol); color:var(--pg-sobre-sol) }
+.pg-pro-tokens span.usado{ background:var(--sup-3); color:var(--tinta-3) }
+.pg-pro-uso{ height:8px; border-radius:99px; background:var(--sup-3); overflow:hidden }
+.pg-pro-uso i{ display:block; height:100%; border-radius:99px; background:var(--marca) }
+.pg-pro-acc{ display:flex; flex-wrap:wrap; gap:10px }
+.pg-pro-cancelar{ color:var(--mal) }
+
+/* ---------- barra fija en móvil ---------- */
+.pg-pro-barra{ display:none }
+@media (max-width:860px){
+  .pg-pro-barra{ position:fixed; z-index:65; left:0; right:0; bottom:calc(var(--barra) + env(safe-area-inset-bottom,0px)); display:flex; align-items:center; gap:12px;
+    padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));
+    background:color-mix(in srgb,var(--fondo) 95%,transparent); backdrop-filter:blur(16px) saturate(1.8); border-top:1px solid var(--linea);
+    transform:translateY(130%); transition:transform .4s var(--ease) }
+  .pg-pro-barra.ver{ transform:none }
+  .pg-pro-barra[hidden]{ display:none }
+  .pg-pro-barra .btn{ flex:1; min-width:0 }
+  .pg-pro-barra-t{ display:flex; flex-direction:column; line-height:1.15 }
+  .pg-pro-barra-t .cifra{ font-size:1.25rem }
+  .pg-pro-barra-t small{ font-size:var(--t-xs); color:var(--tinta-3) }
+  body:has(.pg-pro-barra.ver) .avisador{ bottom:calc(var(--barra) + 86px + env(safe-area-inset-bottom,0px)) }
+}
+
+/* ---------- hoja de pago ---------- */
+.pg-pro-dlg .h2{ padding-right:36px }
+.pg-pro-dlg .seg{ display:flex }
+.pg-pro-dlg .seg button{ flex:1; height:auto; padding:9px 10px; display:flex; flex-direction:column; align-items:center; gap:1px; line-height:1.2 }
+.pg-pro-dlg .seg button small{ font-size:var(--t-xs); font-weight:500; color:var(--tinta-3) }
+.pg-pro-mets{ display:flex; flex-direction:column; gap:8px; border:0; margin:0; padding:0; min-width:0 }
+.pg-pro-mets .opcion{ align-items:center; padding:12px 14px }
+.pg-pro-mets .opcion input{ margin-top:0 }
+.pg-pro-mets .opcion b{ display:block; font-size:var(--t-sm) }
+.pg-pro-mets .opcion span span{ font-size:var(--t-xs); color:var(--tinta-2) }
+.pg-pro-form{ display:grid; gap:10px; grid-template-columns:repeat(2,minmax(0,1fr)); padding:14px; border-radius:var(--r-l); background:var(--sup); animation:sube .3s var(--ease) both }
+.pg-pro-form .ancho{ grid-column:1/-1 }
+.pg-pro-form .ent{ height:46px }
+.pg-pro-num{ position:relative }
+.pg-pro-num .ent{ padding-right:92px; font-variant-numeric:tabular-nums }
+.pg-pro-num span{ position:absolute; right:12px; top:50%; translate:0 -50%; font-size:var(--t-xs); font-weight:700; color:var(--tinta-2) }
+.pg-pro-filas{ display:flex; flex-direction:column; gap:7px; margin:0 }
+.pg-pro-filas>div{ display:flex; justify-content:space-between; gap:12px; font-size:var(--t-sm) }
+.pg-pro-filas dt{ color:var(--tinta-2) } .pg-pro-filas dd{ margin:0; font-weight:600; font-variant-numeric:tabular-nums }
+.pg-pro-filas .total{ padding-top:8px; border-top:1px solid var(--linea); font-size:var(--t-md) }
+.pg-pro-filas .total dd{ font:700 1.35rem/1 var(--display) }
+.pg-pro-proc{ height:8px; border-radius:99px; background:var(--sup-2); overflow:hidden }
+.pg-pro-proc i{ display:block; height:100%; border-radius:99px; background:var(--marca); transform-origin:left; transform:scaleX(.04); transition:transform .6s var(--ease) }
+.pg-pro-pasos{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:12px }
+.pg-pro-pasos li{ display:flex; align-items:center; gap:10px; font-size:var(--t-sm); font-weight:600; color:var(--tinta-3); transition:color .3s }
+.pg-pro-pasos li i{ width:22px; height:22px; border-radius:50%; display:grid; place-items:center; border:2px solid var(--linea-2); color:var(--fondo); transition:all .3s var(--ease) }
+.pg-pro-pasos li i svg{ transform:scale(0); transition:transform .3s var(--ease) }
+.pg-pro-pasos li.en{ color:var(--tinta) } .pg-pro-pasos li.en i{ border-color:var(--marca) }
+.pg-pro-pasos li.ok{ color:var(--tinta) } .pg-pro-pasos li.ok i{ background:var(--ok); border-color:var(--ok) } .pg-pro-pasos li.ok i svg{ transform:scale(1) }
+.pg-pro-exito{ display:flex; flex-direction:column; align-items:center; text-align:center; gap:14px; padding-top:8px }
+.pg-pro-exito .avatar{ animation:pg-pro-salta .5s var(--ease) both }
+.pg-pro-exito-t{ animation:sube .5s .45s var(--ease) both }
+</style>
+
+<main id="contenido" class="pg-pro">
+  <div class="contenedor" id="pg-pro-cabeza">
+    <div class="esqueleto" style="height:420px;margin-top:16px;border-radius:var(--r-xl)"></div>
+  </div>
+
+  <section class="contenedor seccion" id="pg-pro-inc" aria-labelledby="pg-pro-inc-t">
+    <div class="cabecera-seccion"><div class="col g6"><h2 class="h1" id="pg-pro-inc-t" data-pg-inc-t>Todo lo que incluye</h2>
+      <p class="sec">Pensado para quien vive de sus servicios: más visibilidad y menos gestiones.</p></div></div>
+    <div class="pg-pro-inc" id="pg-pro-inc-lista"></div>
+  </section>
+
+  <section class="contenedor seccion" data-pg-venta aria-labelledby="pg-pro-comp-t" style="padding-top:8px">
+    <div class="cabecera-seccion"><div class="col g6"><h2 class="h1" id="pg-pro-comp-t">Particular o Pro</h2>
+      <p class="sec">Publicar y contratar es gratis para todo el mundo. Pro es para quien publica mucho.</p></div></div>
+    <div class="tabla-env pg-pro-tabla-env" id="pg-pro-tabla"></div>
+  </section>
+
+  <section class="contenedor seccion" data-pg-venta aria-labelledby="pg-pro-calc-t" style="padding-top:8px">
+    <div class="pg-pro-calc">
+      <div class="col g20">
+        <div class="col g8"><span class="insignia insignia-sol" style="align-self:flex-start">Calculadora</span>
+          <h2 class="h1" id="pg-pro-calc-t">¿Te sale a cuenta?</h2>
+          <p class="sec">Compara lo que pagas por destacar tus anuncios con y sin Pro.</p></div>
+        <div class="pg-pro-rango">
+          <label class="negrita" for="pg-pro-rango">¿Cuántos destacados de 7 días compras al mes?</label>
+          <div class="pg-pro-n"><output for="pg-pro-rango" id="pg-pro-n">4</output><span class="sec" id="pg-pro-n-t">destacados al mes</span></div>
+          <input type="range" id="pg-pro-rango" min="0" max="10" step="1" value="4" aria-describedby="pg-pro-veredicto">
+          <div class="pg-pro-marcas" aria-hidden="true"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span></div>
+        </div>
+      </div>
+      <div class="col g20" aria-live="polite">
+        <div class="pg-pro-barras" id="pg-pro-barras"></div>
+        <div class="pg-pro-veredicto" id="pg-pro-veredicto"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contenedor seccion" data-pg-venta aria-labelledby="pg-pro-testi-t" style="padding-top:8px">
+    <div class="cabecera-seccion"><div class="col g6"><h2 class="h1" id="pg-pro-testi-t">Ya son Pro</h2>
+      <p class="sec">Dos profesionales de Palma que trabajan con Apaño todos los días.</p></div></div>
+    <div class="pg-pro-testis" id="pg-pro-testis"></div>
+  </section>
+
+  <section class="contenedor seccion" aria-labelledby="pg-pro-req-t" style="padding-top:8px">
+    <div class="cabecera-seccion"><div class="col g6"><h2 class="h1" id="pg-pro-req-t">Qué necesitas</h2>
+      <p class="sec">Pocas cosas, y todas pensadas para que quien te contrata esté tranquilo.</p></div></div>
+    <div class="pg-pro-req" id="pg-pro-req"></div>
+  </section>
+
+  <section class="contenedor estrecho seccion" aria-labelledby="pg-pro-faq-t">
+    <h2 class="h2" id="pg-pro-faq-t" style="margin-bottom:6px">Preguntas sobre Pro</h2>
+    <details class="acordeon"><summary>¿Los destacados que no uso se acumulan?</summary>
+      <div class="acordeon-cuerpo">No. Tienes 4 destacados de 7 días cada mes y se renuevan en la fecha de tu suscripción. Los que no uses ese mes se pierden, así que úsalos en los anuncios que más te interesen.</div></details>
+    <details class="acordeon"><summary>¿Qué pasa con mis anuncios si cancelo?</summary>
+      <div class="acordeon-cuerpo">Sigues siendo Pro hasta el final del periodo que has pagado. Después, si tienes más de 10 anuncios activos, pausamos los que sobren (no se borra ninguno) y tú eliges cuáles quieres mantener.</div></details>
+    <details class="acordeon"><summary>¿Puedo pasar de mensual a anual?</summary>
+      <div class="acordeon-cuerpo">Sí, desde esta misma página. El cambio se aplica en tu próxima renovación, así que no pagas dos veces el mismo mes.</div></details>
+    <details class="acordeon"><summary>¿Necesito ser autónomo?</summary>
+      <div class="acordeon-cuerpo">No. Pro es para cualquiera que publique mucho. Solo si quieres que tus facturas lleven NIF tendrás que darlo; si eres autónomo o tienes empresa, usa el tuyo.</div></details>
+  </section>
+
+  <div class="pg-pro-barra" id="pg-pro-barra" data-pg-venta>
+    <div class="pg-pro-barra-t"><span class="cifra" data-pg-precio-corto>14,99 €</span><small data-pg-periodo>al mes</small></div>
+    <button class="btn btn-sol" type="button" data-hazte>Hazte Pro</button>
+  </div>
+</main>
+
+<script>
+A.pagina = function(){
+  const $ = A.$, $$ = A.$$;
+  const HOY = A.HOY, P = A.PRO, INCL = 4;
+  const main = $('#contenido');
+
+  /* ---------- utilidades ---------- */
+  const F = i => new Date(i + 'T12:00:00');
+  const iso = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  const masMeses = (i, n) => { const d = F(i); d.setMonth(d.getMonth() + n); return iso(d) };
+  const fl = i => F(i).toLocaleDateString('es-ES', {day:'numeric', month:'short', year:'numeric'}).replace('.', '');
+  const fc = i => F(i).toLocaleDateString('es-ES', {day:'numeric', month:'short'}).replace('.', '');
+  const r2 = n => Math.round(n * 100) / 100;
+  const dec = (n, d) => n.toLocaleString('es-ES', {minimumFractionDigits:d == null ? 1 : d, maximumFractionDigits:d == null ? 1 : d});
+  const desglose = t => { const b = r2(t / 1.21); return {base:b, iva:r2(t - b)} };
+  const svg = (d, t, w) => `<svg width="${t || 20}" height="${t || 20}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w || 1.9}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
+  const IC = {
+    estrella:'M12 3.4l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.8l-5.2 2.8 1-5.9L3.5 9.6l5.9-.8z',
+    insignia:'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM8.2 12.3l2.5 2.5 5-5.2',
+    rejilla:'M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z',
+    tendencia:'M3.5 16.5l5.5-5.5 4 4 7.5-7.5M15 7.5h5.5V13',
+    factura:'M6 3h9l4 4v14H6zM14.5 3v4.5H19M9 12h6M9 16h6',
+    reloj:'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 7.5V12l3 2',
+    cal:'M4.5 6.5h15v13h-15zM4.5 10.5h15M8.5 4v4M15.5 4v4',
+    tarjeta:'M3 6.5h18v11H3zM3 10h18M6.5 14.5h4'
+  };
+  const CHECK = A.icono('check', 13, 'stroke-width="3"');
+
+  /* ---------- datos ---------- */
+  const s = A.sesion();
+  const D7 = A.DESTACADOS.find(d => d.dias === 7) || {precio:3.99, multi:'×4 visitas de media'};
+  const MAX_PRO = +((P.incluye.join(' ').match(/(\d+) anuncios/) || [0, 50])[1]);
+  const esPro = () => !!A.lee('pro', false);
+  const usados = () => Math.max(0, Math.min(INCL, +A.lee('pro-usados', 1) || 0));
+  const planG = () => Object.assign({plan:'mes', desde:'2026-10-01', metodo:'Visa ···· 4242'}, A.lee('pro-plan', {}) || {});
+  const precio = p => p === 'anio' ? P.precioAnio : P.precioMes;
+  const mensual = p => p === 'anio' ? r2(P.precioAnio / 12) : P.precioMes;
+  const AHORRO = r2(P.precioMes * 12 - P.precioAnio);
+  const PCT = Math.round(AHORRO / (P.precioMes * 12) * 100);
+  const enmascara = n => n ? n.slice(0, 2) + '•'.repeat(Math.max(3, n.length - 4)) + n.slice(-2) : '';
+  const siguiente = (desde, paso) => { let d = desde; while(F(d) <= F(HOY)) d = masMeses(d, paso); return d };
+  const renovacion = pl => siguiente(pl.desde, pl.plan === 'anio' ? 12 : 1);
+  const reinicio = pl => siguiente(pl.desde, 1);
+  let plan = 'mes';
+
+  /* ---------- sello Pro: roseta amarilla con la tilde de la marca ---------- */
+  const ROSETA = 'M50 7A9.06 9.06 0 0 1 66.46 10.27A9.06 9.06 0 0 1 80.41 19.59A9.06 9.06 0 0 1 89.73 33.54A9.06 9.06 0 0 1 93 50A9.06 9.06 0 0 1 89.73 66.46A9.06 9.06 0 0 1 80.41 80.41A9.06 9.06 0 0 1 66.46 89.73A9.06 9.06 0 0 1 50 93A9.06 9.06 0 0 1 33.54 89.73A9.06 9.06 0 0 1 19.59 80.41A9.06 9.06 0 0 1 10.27 66.46A9.06 9.06 0 0 1 7 50A9.06 9.06 0 0 1 10.27 33.54A9.06 9.06 0 0 1 19.59 19.59A9.06 9.06 0 0 1 33.54 10.27A9.06 9.06 0 0 1 50 7Z';
+  const sello = (t, cls, liso) => `<svg class="pg-pro-roseta ${cls || ''}" width="${t}" height="${t}" viewBox="0 0 100 100" aria-hidden="true"><path class="r-borde" d="${ROSETA}"/>`
+    + (liso ? `<circle class="r-disco" cx="50" cy="50" r="27" style="stroke:none"/><path class="r-check" d="M38 51l8 8 17-18"/>`
+      : `<circle class="r-disco" cx="50" cy="50" r="32"/><rect class="r-tilde" x="39" y="29" width="22" height="5.5" rx="2.75"/><text x="50" y="64" text-anchor="middle">pro</text>`) + '</svg>';
+  const chapa = () => `<span class="pg-pro-chapa">${sello(15, '', true)}PRO</span>`;
+
+  /* ---------- cabecera de venta ---------- */
+  function heroe(){
+    const propio = !!(s && s.rol === 'usuario' && s.resenas > 0);
+    const u = propio ? s : A.usuario('u2');
+    const sus = A.anunciosDe(u.id).filter(a => a.estado === 'activo').slice(0, 2);
+    return `<section class="pg-pro-heroe" aria-labelledby="pg-pro-h1">
+      <div class="col g20 min0">
+        <div class="pg-pro-marca">${sello(58, 'pg-pro-gira')}<div class="col g2"><b>Apaño Pro</b><span class="sec2">Para profesionales y autónomos</span></div></div>
+        <h1 id="pg-pro-h1">Más clientes. <em>Menos papeleo.</em></h1>
+        <p class="sec2" style="font-size:var(--t-md);max-width:44ch">${INCL} destacados de 7 días cada mes, el sello Pro en tu perfil, estadísticas de cada anuncio y facturas con tu NIF. Sin permanencia.</p>
+        <div class="seg" role="group" aria-label="Forma de pago" data-pg-seg style="align-self:flex-start">
+          <button type="button" data-plan="mes" aria-pressed="true">Mensual</button>
+          <button type="button" data-plan="anio" aria-pressed="false">Anual<span class="pg-pro-ahorro">−${PCT} %</span></button>
+        </div>
+        <div class="pg-pro-precio" aria-live="polite" data-pg-precio></div>
+        <div class="fila g10"><button class="btn btn-sol btn-g" type="button" data-hazte id="pg-pro-cta">Hazte Pro</button>
+          <a class="btn btn-g pg-pro-fantasma" href="#pg-pro-inc">Qué incluye</a></div>
+      </div>
+      <div class="pg-pro-escena" aria-hidden="true">
+        <span class="pg-pro-flota f1">${svg(IC.factura, 17)}Factura con tu NIF</span>
+        <div class="pg-pro-perfil">
+          <span class="xs ter negrita">${propio ? 'Así se verá tu perfil' : 'Así se ve un perfil Pro'}</span>
+          <div class="fila g12" style="flex-wrap:nowrap">
+            <span class="pg-pro-av">${A.avatar(u, 'avatar-g')}<span class="pg-pro-av-sello">${sello(30)}</span></span>
+            <div class="col g4 min0"><span class="pg-pro-perfil-n">${u.n}</span><span class="fila g6">${chapa()}<span class="xs sec">${sus[0] ? sus[0].sub : u.barrio}</span></span></div>
+          </div>
+          <div class="pg-pro-perfil-datos"><span>${A.estrellas(u.val, 12)}${dec(u.val)} (${A.num(u.resenas)})</span><span>${A.num(u.hechos)} servicios</span><span>Responde ${u.responde}</span></div>
+          ${sus.length ? `<div class="pg-pro-minis">${sus.map(a => `<span>${A.portada(a)}<span class="insignia insignia-sol">Destacado</span></span>`).join('')}</div>` : ''}
+          <div class="pg-pro-fichas"><span>Destacados de este mes</span><i>${[0, 1, 2, 3].map(() => `<span>${svg(IC.estrella, 13, 2.2)}</span>`).join('')}</i></div>
+        </div>
+        <span class="pg-pro-flota f2">${svg(IC.tendencia, 17, 2.2)}${D7.multi.replace(' de media', '')}</span>
+      </div>
+    </section>`;
+  }
+
+  function pintaPrecio(anim){
+    const el = $('[data-pg-precio]');
+    if(el){
+      el.innerHTML = plan === 'anio'
+        ? `<div class="pg-pro-cifra"><span class="cifra ${anim ? 'cambia' : ''}">${A.eur0(P.precioAnio)}</span><small>/año</small></div><span class="sm sec2">Te sale a ${A.eur(mensual('anio'))} al mes: ahorras ${A.eur(AHORRO)} al año. IVA incluido.</span>`
+        : `<div class="pg-pro-cifra"><span class="cifra ${anim ? 'cambia' : ''}">${A.eur(P.precioMes)}</span><small>/mes</small></div><span class="sm sec2">IVA incluido · sin permanencia · cancelas cuando quieras</span>`;
+    }
+    $$('[data-pg-seg] button,[data-pg-seg2] button').forEach(b => b.setAttribute('aria-pressed', b.dataset.plan === plan));
+    $$('[data-pg-precio-corto]').forEach(e => e.textContent = plan === 'anio' ? A.eur0(P.precioAnio) : A.eur(P.precioMes));
+    $$('[data-pg-periodo]').forEach(e => e.textContent = plan === 'anio' ? 'al año, IVA incluido' : 'al mes, IVA incluido');
+    calcula();
+  }
+
+  /* ---------- qué incluye ---------- */
+  const ICS = [IC.estrella, IC.insignia, IC.rejilla, IC.tendencia, null, IC.factura, IC.reloj];
+  const DESC = [
+    `Valen ${A.eur(r2(INCL * D7.precio))} si los compras sueltos. Úsalos en el anuncio que quieras y en el momento que quieras.`,
+    'Quien busca ve de un vistazo que vives de esto y que tu identidad está verificada.',
+    `Publica cada servicio por separado para salir en más búsquedas. Como particular el límite es ${P.limitesParticular.anuncios}.`,
+    'Qué anuncio te trae clientes, cuál no, y en qué día de la semana te escriben más.',
+    'Contesta en un toque lo de siempre: precios, horarios o cómo llegar.',
+    'Se generan solas con el IVA desglosado, listas para tu gestoría.',
+    'Te atiende una persona del equipo de Apaño, también en fin de semana.'
+  ];
+  function incluye(){
+    $('#pg-pro-inc-lista').innerHTML = P.incluye.map((x, k) => k === 0
+      ? `<div class="grande"><span class="pg-pro-inc-ico">${svg(IC.estrella, 22)}</span><b>${x}</b><p>${DESC[0]}</p>
+          <div class="pg-pro-estrellas" aria-hidden="true">${[0, 1, 2, 3].map(() => `<span>${svg(IC.estrella, 20, 2)}</span>`).join('')}</div></div>`
+      : `<div><span class="pg-pro-inc-ico">${ICS[k] ? svg(ICS[k], 21) : A.icono('buzon', 21)}</span><b>${x}</b><p>${DESC[k] || ''}</p></div>`).join('');
+  }
+
+  /* ---------- comparativa ---------- */
+  function tabla(){
+    const SI = `<span class="pg-pro-si">${CHECK}</span><span class="solo-lector">Sí</span>`;
+    const NO = `<span class="pg-pro-no">${A.icono('cerrar', 12, 'stroke-width="2.6"')}</span><span class="solo-lector">No</span>`;
+    const celda = (ic, t) => `<span class="pg-pro-celda">${ic}<span>${t}</span></span>`;
+    const filas = [
+      ['Anuncios activos', 'Hasta ' + P.limitesParticular.anuncios, 'Hasta ' + MAX_PRO],
+      ['Destacados incluidos', P.limitesParticular.destacadosIncluidos ? P.limitesParticular.destacadosIncluidos + ' al mes' : NO, celda(SI, INCL + ' de 7 días al mes')],
+      ['Sello Pro en perfil y anuncios', NO, SI],
+      ['Estadísticas', 'Solo las de tus destacados', celda(SI, 'De cada anuncio: vistas, contactos y conversión')],
+      ['Respuestas guardadas', NO, celda(SI, 'Y mensaje automático fuera de horario')],
+      ['Facturas con tu NIF', NO, celda(SI, 'Por cada servicio cobrado')],
+      ['Atención', 'Centro de ayuda', celda(SI, 'Prioritaria, en menos de 2 h')],
+      ['Precio', 'Gratis', `<b>${A.eur(P.precioMes)}/mes</b><br><span class="xs">o ${A.eur0(P.precioAnio)}/año</span>`]
+    ];
+    $('#pg-pro-tabla').innerHTML = `<table class="tabla pg-pro-tabla">
+      <caption class="solo-lector">Comparativa entre una cuenta particular y Apaño Pro</caption>
+      <colgroup><col class="c1"><col><col></colgroup>
+      <thead><tr><th scope="col">Qué tienes</th><th scope="col" class="c-par">Particular</th><th scope="col" class="c-pro">${chapa()}</th></tr></thead>
+      <tbody>${filas.map(f => `<tr><th scope="row">${f[0]}</th><td class="c-par">${f[1]}</td><td class="c-pro">${f[2]}</td></tr>`).join('')}</tbody>
+    </table>`;
+  }
+
+  /* ---------- calculadora ---------- */
+  function calcula(){
+    const r = $('#pg-pro-rango'); if(!r) return;
+    const n = +r.value, pd = D7.precio, mes = mensual(plan);
+    const sin = r2(n * pd), extra = Math.max(0, n - INCL), con = r2(mes + extra * pd);
+    r.style.setProperty('--pct', `calc(14px + (100% - 28px) * ${n / 10})`);
+    $('#pg-pro-n').textContent = n;
+    $('#pg-pro-n-t').textContent = n === 1 ? 'destacado al mes' : 'destacados al mes';
+    const max = Math.max(r2(10 * pd), r2(precio('mes') + 6 * pd));
+    $('#pg-pro-barras').innerHTML = `
+      <div class="pg-pro-barra-f"><div><span>Sin Pro · ${n} × ${A.eur(pd)}</span><span class="cifra">${A.eur(sin)}</span></div><div class="pg-pro-pista"><i style="width:${Math.max(1.5, sin / max * 100)}%"></i></div></div>
+      <div class="pg-pro-barra-f"><div><span>Con Pro ${plan === 'anio' ? 'anual' : 'mensual'}${extra ? ' + ' + extra + ' extra' : ''}</span><span class="cifra">${A.eur(con)}</span></div><div class="pg-pro-pista"><i class="pro" style="width:${con / max * 100}%"></i></div></div>
+      <p class="xs ter">Al mes, IVA incluido. Con Pro, los ${INCL} primeros van incluidos y los siguientes cuestan ${A.eur(pd)}.</p>`;
+    let umbral = null;
+    for(let k = 0; k <= 10; k++){ if(r2(mes + Math.max(0, k - INCL) * pd) <= r2(k * pd)){ umbral = k; break } }
+    const v = $('#pg-pro-veredicto');
+    let t;
+    if(umbral != null && n >= umbral) t = `<b>Con ${n} al mes, Pro te ahorra ${A.eur(r2(sin - con))}.</b> Y encima tienes el sello, más anuncios, estadísticas y facturas.`;
+    else if(umbral != null) t = `<b>Pro sale a cuenta desde ${umbral} destacados al mes.</b> Con ${n}, los sueltos te salen por ${A.eur(sin)}.`;
+    else {
+      const dif = r2(mes - INCL * pd), difA = r2(mensual('anio') - INCL * pd);
+      t = n === 0 ? `<b>Si no destacas, Pro te compensa por lo demás:</b> hasta ${MAX_PRO} anuncios activos, el sello, las estadísticas y las facturas con tu NIF.`
+        : n < INCL ? `<b>Sueltos te salen por ${A.eur(sin)} al mes.</b> Con Pro pagas ${A.eur(con)} y te ${INCL - n === 1 ? 'sobra 1 destacado' : 'sobran ' + (INCL - n) + ' destacados'} para usar cuando quieras.`
+        : `<b>Pagas solo ${A.eur(r2(con - sin))} más al mes que comprándolos sueltos.</b> A cambio tienes el sello, hasta ${MAX_PRO} anuncios, estadísticas de cada anuncio y facturas con tu NIF.`;
+      if(n < INCL) t += `<br><span class="xs">¿Desde cuántos sale a cuenta? A partir de ${INCL} al mes casi se paga solo: la diferencia es de ${A.eur(dif)}${plan === 'mes' ? ' (' + A.eur(difA) + ' con el plan anual)' : ''}.</span>`;
+    }
+    v.classList.toggle('bien', umbral != null && n >= umbral);
+    v.innerHTML = `${svg(IC.tendencia, 20, 2.2)}<span>${t}</span>`;
+  }
+
+  /* ---------- testimonios ---------- */
+  function testimonios(){
+    const T = [
+      {u:'u2', q:'Con los cuatro destacados del mes tengo la semana llena de avisos. Y las facturas salen solas con mi NIF: antes me pasaba los domingos con el papeleo.'},
+      {u:'u4', q:'Reparo móviles en el día y el sello Pro hace que me escriban a mí. Con las respuestas guardadas contesto al momento aunque tenga un portátil abierto.'}
+    ];
+    $('#pg-pro-testis').innerHTML = T.map(t => {
+      const u = A.usuario(t.u); if(!u) return '';
+      const a = A.anunciosDe(u.id)[0], b = A.BOOSTS.find(x => x.u === u.id && x.estado === 'activo' && x.antes);
+      const datos = [[A.num(u.hechos), 'servicios hechos'], [dec(u.val), A.num(u.resenas) + ' valoraciones'],
+        b ? ['×' + dec(b.visitas / b.antes.visitas), 'visitas con su último destacado'] : [u.responde.replace('en menos de ', '&lt;&nbsp;'), 'tarda en contestar']];
+      return `<figure class="pg-pro-testi">
+        <blockquote>«${t.q}»</blockquote>
+        <div class="pg-pro-testi-datos">${datos.map(d => `<div><span class="cifra">${d[0]}</span><span>${d[1]}</span></div>`).join('')}</div>
+        <figcaption>
+          <span class="pg-pro-av">${A.avatar(u, 'avatar-g')}<span class="pg-pro-av-sello" style="right:-8px;top:-8px">${sello(26)}</span></span>
+          <span class="col g2 crecer min0"><b>${u.corto}</b><span class="sm sec">${a ? a.sub : ''} · ${u.barrio}</span></span>
+          <a class="enlace sm" href="perfil.html?id=${u.id}">Ver perfil</a>
+        </figcaption>
+      </figure>`;
+    }).join('');
+  }
+
+  /* ---------- requisitos ---------- */
+  function requisitos(){
+    const v = s && A.verificado(s);
+    const est = !s ? '<span class="insignia">Necesitas una cuenta</span>' : v ? `<span class="insignia insignia-ok">${CHECK}Ya lo tienes</span>` : '<span class="insignia insignia-avisa">Tu documento está en revisión</span>';
+    $('#pg-pro-req').innerHTML = `
+      <div><span class="pg-pro-inc-ico">${A.icono('escudo', 22)}</span><b>Identidad verificada</b>
+        <p>Ser mayor de 18 años y tener el DNI, NIE o pasaporte verificado con un selfie. El documento solo lo ve el equipo de verificación y nunca se publica su número.</p>
+        <span style="margin-top:auto">${est}</span></div>
+      <div><span class="pg-pro-inc-ico">${svg(IC.factura, 22)}</span><b>NIF, si quieres facturas</b>
+        <p>Si eres autónomo o tienes empresa, pon tu NIF al pagar y tus facturas lo llevarán. Si no las necesitas, no hace falta.</p>
+        <span style="margin-top:auto"><span class="insignia">Opcional</span></span></div>
+      <div><span class="pg-pro-inc-ico">${svg(IC.cal, 22)}</span><b>Sin permanencia</b>
+        <p>Cancelas cuando quieras desde esta página. Sigues siendo Pro hasta el final del periodo pagado y no se te vuelve a cobrar.</p>
+        <span style="margin-top:auto"><span class="insignia insignia-ok">${CHECK}Cancela cuando quieras</span></span></div>`;
+  }
+
+  /* ---------- mi suscripción ---------- */
+  function facturas(pl){
+    const paso = pl.plan === 'anio' ? 12 : 1, l = [];
+    for(let d = pl.desde; F(d) <= F(HOY) && l.length < 24; d = masMeses(d, paso)) l.push(d);
+    return l.reverse().map(f => { const t = precio(pl.plan), dg = desglose(t);
+      return {f, num:'PRO-' + f.replace(/-/g, ''), concepto:pl.plan === 'anio' ? 'Apaño Pro · plan anual' : 'Apaño Pro · ' + F(f).toLocaleDateString('es-ES', {month:'long', year:'numeric'}), total:t, base:dg.base, iva:dg.iva} });
+  }
+  function suscripcion(){
+    const pl = planG(), u = s || A.usuario('u1'), anual = pl.plan === 'anio';
+    const ren = renovacion(pl), rei = reinicio(pl), quedan = INCL - usados();
+    const activos = A.anunciosDe(u.id).filter(a => a.estado === 'activo').length;
+    const precioRen = pl.siguiente === 'anio' ? P.precioAnio : precio(pl.plan);
+    const fs = facturas(pl);
+    return `<section class="pg-pro-sub" aria-labelledby="pg-pro-sub-t">
+      <div class="pg-pro-sub-cab">
+        <span class="pg-pro-av">${A.avatar(u, 'avatar-xg')}<span class="pg-pro-av-sello" style="right:-14px;top:-14px">${sello(48)}</span></span>
+        <span class="pg-pro-sub-deco" aria-hidden="true">${sello(190)}</span>
+        <div class="col g6 crecer" style="min-width:210px">
+          <span class="etiqueta sec2">Tu suscripción</span>
+          <h1 id="pg-pro-sub-t">${pl.cancelada ? 'Tu Pro acaba pronto' : 'Eres Apaño Pro'}</h1>
+          <p class="sec2">${anual ? 'Plan anual · ' + A.eur0(P.precioAnio) + '/año' : 'Plan mensual · ' + A.eur(P.precioMes) + '/mes'} · Pro desde el ${fl(pl.desde)}</p>
+        </div>
+      </div>
+      ${pl.cancelada ? `<div class="aviso aviso-avisa" role="status">${svg(IC.cal, 18)}<span><b>Has cancelado la suscripción.</b> Sigues siendo Pro hasta el ${fl(ren)} y no se te volverá a cobrar. Puedes reactivarla cuando quieras.</span></div>` : ''}
+      <div class="pg-pro-tiles">
+        <div class="pg-pro-tile"><span class="etiqueta">${pl.cancelada ? 'Pro hasta el' : 'Próxima renovación'}</span><span class="cifra">${fl(ren)}</span>
+          <span class="sm sec">${pl.cancelada ? 'Sin más cobros' : A.eur0(precioRen) + ' con ' + pl.metodo + (pl.siguiente === 'anio' ? ' · pasas al plan anual' : '')}</span></div>
+        <div class="pg-pro-tile"><span class="etiqueta">Destacados incluidos este mes</span>
+          <div class="fila entre g8"><span class="cifra">${quedan} de ${INCL}</span><div class="pg-pro-tokens" aria-hidden="true">${[0, 1, 2, 3].map(k => `<span class="${k >= quedan ? 'usado' : ''}">${svg(IC.estrella, 15, 2.2)}</span>`).join('')}</div></div>
+          <span class="sm sec">${quedan ? 'Te quedan ' + quedan : 'Ya los has usado todos'} · se renuevan el ${fc(rei)}</span>
+          ${quedan ? '<a class="btn btn-p btn-sol" href="destacar.html">Usar uno</a>' : ''}</div>
+        <div class="pg-pro-tile"><span class="etiqueta">Anuncios activos</span><span class="cifra">${activos} de ${MAX_PRO}</span>
+          <div class="pg-pro-uso" aria-hidden="true"><i style="width:${Math.max(2, activos / MAX_PRO * 100)}%"></i></div>
+          <span class="sm sec">Como particular el límite sería ${P.limitesParticular.anuncios}.</span>
+          <a class="btn btn-p btn-sec" href="subir.html" data-exige="publicar">Subir anuncio</a></div>
+      </div>
+      <div class="col g12">
+        <div class="cabecera-seccion" style="margin:10px 0 0"><h2 class="h3">Facturas de Apaño Pro</h2><span class="xs ter">${fs.length === 1 ? '1 factura' : fs.length + ' facturas'}</span></div>
+        <div class="tabla-env"><table class="tabla">
+          <thead><tr><th scope="col">Fecha</th><th scope="col">Concepto</th><th scope="col" class="der">Base</th><th scope="col" class="der">IVA 21 %</th><th scope="col" class="der">Total</th><th scope="col"><span class="solo-lector">Descargar</span></th></tr></thead>
+          <tbody>${fs.map(x => `<tr><td class="num">${fl(x.f)}</td><td><b class="sm">${x.concepto}</b><br><span class="xs ter">${x.num}</span></td><td class="der">${A.eur(x.base)}</td><td class="der">${A.eur(x.iva)}</td><td class="der"><b>${A.eur(x.total)}</b></td>
+            <td class="der"><button class="btn btn-p btn-sec" type="button" data-avisa="Es una maqueta: la factura ${x.num} no se descarga">PDF</button></td></tr>`).join('')}</tbody>
+        </table></div>
+        <p class="xs sec">${pl.nif ? 'Tus facturas llevan el NIF ' + pl.nif + '.' : 'Si quieres que tus facturas lleven NIF, escríbenos desde el centro de ayuda.'}</p>
+      </div>
+      <div class="pg-pro-acc">
+        ${!anual && pl.siguiente !== 'anio' && !pl.cancelada ? `<button class="btn btn-sec" type="button" data-pg-anual>Pasar a anual y ahorrar ${A.eur(AHORRO)}</button>` : ''}
+        ${pl.cancelada ? '<button class="btn" type="button" data-pg-reactivar>Reactivar Pro</button><button class="btn btn-sec" type="button" data-pg-terminar>Quitar Pro ya (demostración)</button>'
+          : '<button class="btn btn-sec pg-pro-cancelar" type="button" data-pg-cancelar>Cancelar suscripción</button>'}
+      </div>
+    </section>`;
+  }
+
+  /* ---------- pintar ---------- */
+  let obs;
+  function render(){
+    const pro = esPro();
+    $('#pg-pro-cabeza').innerHTML = pro ? suscripcion() : heroe();
+    $$('[data-pg-venta]').forEach(el => el.hidden = pro);
+    $('[data-pg-inc-t]').textContent = pro ? 'Lo que tienes con Pro' : 'Todo lo que incluye';
+    requisitos();
+    if(!pro) pintaPrecio();
+    if(obs) obs.disconnect();
+    const cta = $('#pg-pro-cta'), barra = $('#pg-pro-barra');
+    barra.classList.remove('ver');
+    if(cta && 'IntersectionObserver' in window){ obs = new IntersectionObserver(es => barra.classList.toggle('ver', !es[0].isIntersecting && es[0].boundingClientRect.top < 0)); obs.observe(cta) }
+  }
+
+  /* ---------- hoja de pago ---------- */
+  const T = A.tarjetaPago;
+  function marca(el, ok, msg, ver){
+    const e = $('#' + el.id + '-e');
+    if(!ver && el.getAttribute('aria-invalid') !== 'true') return;
+    el.setAttribute('aria-invalid', String(!ok)); e.textContent = ok ? '' : msg; e.hidden = ok;
+  }
+  function validaTarjeta(ver){
+    const n = $('#pg-pro-tnum'), c = $('#pg-pro-tcad'), v = $('#pg-pro-tcvc'), t = $('#pg-pro-ttit');
+    const num = T.limpia(n.value), mk = T.marca(num), amex = mk === 'American Express';
+    const okN = !!mk && T.luhn(num) && (amex ? num.length === 15 : num.length >= 13 && num.length <= 19);
+    const m = c.value.match(/^(\d{2})\/(\d{2})$/); let okC = false, msgC = 'Escribe la fecha como MM/AA';
+    if(m){ const mes = +m[1], an = 2000 + +m[2]; if(mes < 1 || mes > 12) msgC = 'El mes va del 01 al 12'; else if(an < 2026 || (an === 2026 && mes < 11)) msgC = 'Esta tarjeta está caducada'; else okC = true }
+    const okV = (amex ? /^\d{4}$/ : /^\d{3}$/).test(v.value.trim()), okT = t.value.trim().length >= 3;
+    marca(n, okN, !num ? 'Escribe el número de la tarjeta' : mk ? 'El número no es válido: revisa que esté bien escrito' : 'Aceptamos Visa, Mastercard y American Express', ver);
+    marca(c, okC, msgC, ver); marca(v, okV, amex ? 'Son los 4 números del frontal' : 'Son los 3 números de detrás', ver); marca(t, okT, 'Escribe el nombre del titular', ver);
+    return okN && okC && okV && okT;
+  }
+  const nifValido = v => { v = (v || '').toUpperCase().replace(/[^0-9A-Z]/g, ''); return A.docValido(v) || /^[ABCDEFGHJNPQRSUVW]\d{7}[0-9A-J]$/.test(v) };
+
+  function hoja(){
+    const doc = s && s.docNum ? enmascara(s.docNum) : '';
+    let met = null, capa;
+    A.dialogo(`<div class="dialogo-cuerpo pg-pro-dlg col g16" style="padding-top:24px" id="pg-pro-hoja">
+      <div class="fila g12" style="flex-wrap:nowrap">${sello(50)}<div class="col g2"><span class="etiqueta">Hazte Pro</span><h2 class="h2">Apaño Pro</h2></div></div>
+      <div class="seg" role="group" aria-label="Forma de pago" data-pg-seg2>
+        <button type="button" data-plan="mes">Mensual<small>${A.eur(P.precioMes)}/mes</small></button>
+        <button type="button" data-plan="anio">Anual<small>${A.eur0(P.precioAnio)}/año · −${PCT} %</small></button>
+      </div>
+      <fieldset class="pg-pro-mets"><legend class="etiqueta" style="margin-bottom:8px">Cómo pagas</legend>
+        <label class="opcion" data-m="monedero"><input type="radio" name="pg-pro-met" value="monedero"><span class="crecer"><b>Monedero de Apaño</b><span data-saldo></span></span></label>
+        <label class="opcion"><input type="radio" name="pg-pro-met" value="guardada"><span class="crecer"><b>Visa ···· 4242</b><span>Guardada · caduca 08/28</span></span></label>
+        <label class="opcion"><input type="radio" name="pg-pro-met" value="nueva"><span class="crecer"><b>Otra tarjeta</b><span>Visa, Mastercard o American Express</span></span></label>
+        <div class="pg-pro-form" id="pg-pro-nueva" hidden>
+          <div class="campo ancho"><label for="pg-pro-tnum">Número de la tarjeta</label><div class="pg-pro-num"><input class="ent" id="pg-pro-tnum" inputmode="numeric" autocomplete="cc-number" placeholder="1234 5678 9012 3456" aria-describedby="pg-pro-tnum-e"><span id="pg-pro-tmarca"></span></div><p class="error" id="pg-pro-tnum-e" hidden></p></div>
+          <div class="campo"><label for="pg-pro-tcad">Caducidad</label><input class="ent" id="pg-pro-tcad" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/AA" maxlength="5" aria-describedby="pg-pro-tcad-e"><p class="error" id="pg-pro-tcad-e" hidden></p></div>
+          <div class="campo"><label for="pg-pro-tcvc">CVC</label><input class="ent" id="pg-pro-tcvc" inputmode="numeric" autocomplete="cc-csc" placeholder="123" maxlength="4" aria-describedby="pg-pro-tcvc-e"><p class="error" id="pg-pro-tcvc-e" hidden></p></div>
+          <div class="campo ancho"><label for="pg-pro-ttit">Titular</label><input class="ent" id="pg-pro-ttit" autocomplete="cc-name" placeholder="Como aparece en la tarjeta" aria-describedby="pg-pro-ttit-e"><p class="error" id="pg-pro-ttit-e" hidden></p></div>
+          <p class="ayuda ancho">Es una maqueta: prueba con 4242 4242 4242 4242.</p>
+        </div>
+      </fieldset>
+      <div class="col g10">
+        <label class="casilla"><input type="checkbox" id="pg-pro-fact">Quiero las facturas con mi NIF</label>
+        <div class="col g10" id="pg-pro-nif" hidden style="padding-left:29px">
+          ${doc ? `<label class="casilla"><input type="radio" name="pg-pro-nif" value="doc" checked>El de mi documento verificado (${doc})</label>` : ''}
+          <label class="casilla"><input type="radio" name="pg-pro-nif" value="otro" ${doc ? '' : 'checked'}>Otro NIF (autónomo o empresa)</label>
+          <div class="campo" id="pg-pro-nif-campo" ${doc ? 'hidden' : ''}><label for="pg-pro-nifv">NIF</label><input class="ent" id="pg-pro-nifv" autocomplete="off" placeholder="12345678Z o B12345678" aria-describedby="pg-pro-nifv-e"><p class="error" id="pg-pro-nifv-e" hidden></p></div>
+        </div>
+      </div>
+      <dl class="pg-pro-filas" data-resumen></dl>
+      <button class="btn btn-g btn-bloque btn-sol" type="button" id="pg-pro-pagar"></button>
+      <p class="ayuda" style="text-align:center">Pago simulado: Apaño es una maqueta y no se cobra nada.</p>
+    </div>`, {ancho:500, alAbrir:k => { capa = k }});
+    const h = $('#pg-pro-hoja', capa);
+    const act = () => {
+      const t = precio(plan), dg = desglose(t), ok = A.MONEDERO.saldo >= t;
+      if(!met || (met === 'monedero' && !ok)) met = ok ? 'monedero' : 'guardada';
+      const lm = $('[data-m="monedero"]', h); lm.querySelector('input').disabled = !ok; lm.style.opacity = ok ? '' : '.5';
+      lm.querySelector('[data-saldo]').textContent = ok ? `Saldo: ${A.eur(A.MONEDERO.saldo)} · te quedarán ${A.eur(r2(A.MONEDERO.saldo - t))}` : `Saldo insuficiente: ${A.eur(A.MONEDERO.saldo)}`;
+      $$('input[name="pg-pro-met"]', h).forEach(r => r.checked = r.value === met);
+      $('#pg-pro-nueva', h).hidden = met !== 'nueva';
+      $('[data-resumen]', h).innerHTML = `<div><dt>Base imponible</dt><dd>${A.eur(dg.base)}</dd></div><div><dt>IVA (21 %)</dt><dd>${A.eur(dg.iva)}</dd></div>
+        <div class="total"><dt>Pagas hoy</dt><dd>${plan === 'anio' ? A.eur0(t) : A.eur(t)}</dd></div>
+        <div><dt>Se renueva</dt><dd>el ${fl(masMeses(HOY, plan === 'anio' ? 12 : 1))}</dd></div>`;
+      $('#pg-pro-pagar', h).textContent = `Pagar ${plan === 'anio' ? A.eur0(t) : A.eur(t)} y hacerme Pro`;
+      pintaPrecio(false);
+    };
+    h.addEventListener('click', e => { const b = e.target.closest('[data-pg-seg2] button'); if(b){ plan = b.dataset.plan; act() } });
+    h.addEventListener('change', e => {
+      const t = e.target;
+      if(t.name === 'pg-pro-met'){ met = t.value; act(); if(met === 'nueva') setTimeout(() => $('#pg-pro-tnum').focus(), 30) }
+      if(t.id === 'pg-pro-fact') $('#pg-pro-nif', h).hidden = !t.checked;
+      if(t.name === 'pg-pro-nif') $('#pg-pro-nif-campo', h).hidden = t.value !== 'otro';
+    });
+    h.addEventListener('input', e => {
+      const t = e.target;
+      if(t.id === 'pg-pro-tnum'){ t.value = T.formatea(t.value); $('#pg-pro-tmarca').textContent = T.marca(t.value); validaTarjeta(false) }
+      if(t.id === 'pg-pro-tcad'){ const v = t.value.replace(/\D/g, '').slice(0, 4); t.value = v.length > 2 ? v.slice(0, 2) + '/' + v.slice(2) : v; validaTarjeta(false) }
+      if(t.id === 'pg-pro-tcvc'){ t.value = t.value.replace(/\D/g, '').slice(0, 4); validaTarjeta(false) }
+      if(t.id === 'pg-pro-ttit') validaTarjeta(false);
+      if(t.id === 'pg-pro-nifv') marca(t, nifValido(t.value), 'Escribe un NIF válido: DNI o NIE con su letra, o el NIF de tu empresa', false);
+    });
+    $('#pg-pro-pagar', h).addEventListener('click', () => {
+      if(met === 'nueva' && !validaTarjeta(true)){ A.avisa('Revisa los datos de la tarjeta', 'mal'); return }
+      const quiere = $('#pg-pro-fact', h).checked, cual = ($('input[name="pg-pro-nif"]:checked', h) || {}).value;
+      const nifEl = $('#pg-pro-nifv', h);
+      if(quiere && cual === 'otro' && !nifValido(nifEl.value)){ marca(nifEl, false, 'Escribe un NIF válido: DNI o NIE con su letra, o el NIF de tu empresa', true); nifEl.focus(); return }
+      const nif = quiere ? (cual === 'doc' ? doc : enmascara(nifEl.value.toUpperCase().replace(/[^0-9A-Z]/g, ''))) : '';
+      const metTxt = met === 'monedero' ? 'el monedero' : met === 'guardada' ? 'Visa ···· 4242' : (T.marca($('#pg-pro-tnum').value) || 'Tarjeta') + ' ···· ' + T.limpia($('#pg-pro-tnum').value).slice(-4);
+      procesa(h, {plan, nif, metodo:metTxt, total:precio(plan)});
+    });
+    act();
+  }
+
+  function procesa(h, c){
+    const tot = c.plan === 'anio' ? A.eur0(c.total) : A.eur(c.total);
+    h.innerHTML = `<div class="col g6"><span class="etiqueta">Pago simulado</span><h2 class="h2">Activando tu Pro</h2></div>
+      <div class="pg-pro-proc" aria-hidden="true"><i></i></div>
+      <ol class="pg-pro-pasos"><li><i>${CHECK}</i>Cobrando ${tot} · ${c.metodo}</li><li><i>${CHECK}</i>Activando tu suscripción</li><li><i>${CHECK}</i>Poniendo el sello en tu perfil y tus anuncios</li></ol>
+      <p class="ayuda">Es una maqueta: no se cobra nada.</p>`;
+    const lis = $$('.pg-pro-pasos li', h), barra = $('.pg-pro-proc i', h), t = [80, 760, 1440, 2120];
+    lis.forEach((li, k) => {
+      setTimeout(() => li.classList.add('en'), t[k]);
+      setTimeout(() => { li.classList.remove('en'); li.classList.add('ok'); barra.style.transform = `scaleX(${(k + 1) / 3})` }, t[k + 1] - 60);
+    });
+    setTimeout(() => {
+      A.guarda('pro', true); A.guarda('pro-usados', 0);
+      A.guarda('pro-plan', {plan:c.plan, desde:HOY, metodo:c.metodo === 'el monedero' ? 'el monedero' : c.metodo, nif:c.nif});
+      const u = s || A.usuario('u1'), n = A.anunciosDe(u.id).filter(a => a.estado === 'activo').length;
+      h.innerHTML = `<div class="pg-pro-exito">
+        <span class="pg-pro-av">${A.avatar(u, 'avatar-xg')}<span class="pg-pro-av-sello pop" style="right:-16px;top:-16px">${sello(52)}</span></span>
+        <div class="col g8 pg-pro-exito-t"><h2 class="h1">Ya eres Pro</h2>
+          <p class="sec">Tu sello ya sale en tu perfil${n ? ' y en ' + (n === 1 ? 'tu anuncio' : 'tus ' + n + ' anuncios') : ''}. Tienes ${INCL} destacados de 7 días para usar este mes.</p>
+          <p class="sm sec">Se renueva el ${fl(masMeses(HOY, c.plan === 'anio' ? 12 : 1))} por ${tot}${c.nif ? ' · facturas con el NIF ' + c.nif : ''}.</p></div>
+        <div class="aviso" style="text-align:left">${A.icono('escudo', 18)}<span>Es una maqueta: no se ha cobrado ${tot} de verdad.</span></div>
+        <div class="col g10" style="width:100%"><a class="btn btn-g btn-bloque btn-sol" href="destacar.html">Destacar un anuncio</a>
+          <button class="btn btn-sec btn-bloque" type="button" data-cerrar>Ver mi suscripción</button></div>
+      </div>`;
+      const b = $('.btn', h); if(b) b.focus();
+      render(); scrollTo(0, 0);
+    }, 2260);
+  }
+
+  /* ---------- confirmaciones de la suscripción ---------- */
+  function confirma(titulo, cuerpo, si, peligro, alSi){
+    A.dialogo(`<div class="dialogo-cuerpo pg-pro-dlg col g16" style="padding-top:26px"><h2 class="h2">${titulo}</h2>${cuerpo}
+      <div class="fila g10"><button class="btn btn-sec crecer" type="button" data-cerrar>${peligro ? 'Mantener Pro' : 'Ahora no'}</button>
+      <button class="btn ${peligro ? 'btn-peligro' : ''} crecer" type="button" id="pg-pro-si">${si}</button></div></div>`,
+      {ancho:460, alAbrir:(capa, cerrar) => $('#pg-pro-si', capa).addEventListener('click', () => { cerrar(); alSi() })});
+  }
+
+  /* ---------- eventos ---------- */
+  main.addEventListener('click', e => {
+    const t = e.target;
+    if(t.closest('[data-hazte]')){ if(!A.exige('publicar')) return; if(esPro()) return render(); hoja(); return }
+    const sp = t.closest('[data-pg-seg] button'); if(sp){ plan = sp.dataset.plan; pintaPrecio(true); return }
+    if(t.closest('[data-pg-cancelar]')){
+      const pl = planG(), ren = renovacion(pl), q = INCL - usados();
+      confirma('¿Cancelar Apaño Pro?', `<p class="sec">Seguirás siendo Pro hasta el ${fl(ren)} y no se te volverá a cobrar. Ese día:</p>
+        <ul class="col g8 sm sec" style="margin:0;padding-left:18px"><li>Tu perfil y tus anuncios pierden el sello Pro.</li>
+        <li>${q ? (q === 1 ? 'El destacado incluido que te queda lo puedes usar' : 'Los ' + q + ' destacados incluidos que te quedan los puedes usar') + ' hasta entonces.' : 'Ya no tendrás destacados incluidos.'}</li>
+        <li>Si tienes más de ${P.limitesParticular.anuncios} anuncios activos, pausamos los que sobren. No se borra ninguno.</li></ul>`,
+        'Sí, cancelar', true, () => { A.guarda('pro-plan', Object.assign(planG(), {cancelada:true})); render(); A.avisa('Suscripción cancelada: sigues siendo Pro hasta el ' + fc(ren)) });
+      return;
+    }
+    if(t.closest('[data-pg-anual]')){
+      const ren = renovacion(planG());
+      confirma('¿Pasar al plan anual?', `<p class="sec">A partir del ${fl(ren)} pagarás ${A.eur0(P.precioAnio)} al año en vez de ${A.eur(P.precioMes)} al mes. Ahorras ${A.eur(AHORRO)} y no pagas dos veces el mismo mes.</p>`,
+        'Pasar a anual', false, () => { A.guarda('pro-plan', Object.assign(planG(), {siguiente:'anio'})); render(); A.avisa('Hecho: pasas al plan anual el ' + fc(ren)) });
+      return;
+    }
+    if(t.closest('[data-pg-reactivar]')){ const pl = planG(); delete pl.cancelada; A.guarda('pro-plan', pl); render(); A.avisa('Pro reactivado: todo sigue igual'); return }
+    if(t.closest('[data-pg-terminar]')){ A.guarda('pro', false); A.borra('pro-plan'); A.borra('pro-usados'); render(); scrollTo(0, 0); A.avisa('Ya no eres Pro (demostración)'); return }
+  });
+  $('#pg-pro-rango').addEventListener('input', calcula);
+
+  incluye(); tabla(); testimonios(); render();
+};
+</script>
+<footer class="pie">
+  <div class="contenedor">
+    <div class="pie-cols">
+      <div class="col g12">
+        <a class="logo" href="index.html" aria-label="Apaño, inicio">apa<span class="n">ñ</span>o<span class="punto">.</span></a>
+        <p class="sm sec" style="max-width:34ch">Servicios entre personas de verdad. Todo el que publica o contrata es mayor de edad y ha presentado su documento de identidad.</p>
+        <div class="fila g8">
+          <span class="insignia insignia-ok">Solo +18 verificados</span>
+          <span class="insignia">Pago protegido</span>
+        </div>
+      </div>
+      <div><h4>Usar Apaño</h4><div class="pie-enl">
+        <a href="buscar.html">Buscar servicios</a><a href="subir.html">Subir un anuncio</a><a href="destacar.html">Destacar un anuncio</a><a href="pro.html">Apaño Pro</a><a href="como-funciona.html">Cómo funciona</a><a href="como-funciona.html#pago">Pago protegido</a>
+      </div></div>
+      <div><h4>Tu cuenta</h4><div class="pie-enl">
+        <a href="registro.html">Crear cuenta</a><a href="entrar.html">Entrar</a><a href="cuenta.html#verificacion">Verificar mi identidad</a><a href="servicios.html">Mis servicios</a><a href="monedero.html">Monedero</a>
+      </div></div>
+      <div><h4>Confianza</h4><div class="pie-enl">
+        <a href="como-funciona.html#verificacion">Por qué pedimos el DNI</a><a href="ayuda.html#seguridad">Consejos de seguridad</a><a href="ayuda.html#reportar">Reportar a alguien</a><a href="ayuda.html">Centro de ayuda</a>
+      </div></div>
+      <div><h4>Legal</h4><div class="pie-enl">
+        <a href="legal.html#condiciones">Condiciones de uso</a><a href="legal.html#privacidad">Privacidad</a><a href="legal.html#identidad">Tratamiento del DNI</a><a href="legal.html#cookies">Cookies</a>
+      </div></div>
+    </div>
+    <div class="pie-legal">
+      <span>Apaño es una maqueta de demostración: las personas, los anuncios y los importes son inventados y no se cobra nada.</span>
+      <span>Hecho en Palma · 2026</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

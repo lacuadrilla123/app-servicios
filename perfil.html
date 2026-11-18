@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Perfil · Apaño</title>
+<meta name="description" content="Perfil público de una persona verificada en Apaño: valoraciones, anuncios y sellos de confianza.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="base.css">
+<script src="datos.js"></script>
+<script src="app.js"></script>
+</head>
+<body>
+<a class="solo-lector" href="#contenido">Saltar al contenido</a>
+<header class="cab">
+  <div class="contenedor cab-fila">
+    <a class="logo" href="index.html" aria-label="Apaño, ir al inicio">apa<span class="n">ñ</span>o<span class="punto">.</span></a>
+    <form class="buscador escritorio" data-busqueda role="search" aria-label="Buscar servicios">
+      <svg class="ico" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M10.8 17.6a6.8 6.8 0 1 0 0-13.6 6.8 6.8 0 0 0 0 13.6zM20 20l-4.3-4.3"/></svg>
+      <label class="solo-lector" for="q-cab">Qué necesitas</label>
+      <input id="q-cab" name="q" type="search" placeholder="Busca un servicio: paseo de perros, electricista, clases…" autocomplete="off">
+      <button class="buscador-btn" type="submit">Buscar</button>
+    </form>
+    <div class="crecer solo-movil"></div>
+    <div class="cab-acc">
+      <a class="ico-btn solo-escritorio" href="favoritos.html" aria-label="Favoritos">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.3A4.2 4.2 0 0 1 12 7.7a4.2 4.2 0 0 1 7.5 2.5c0 5.7-7.5 10.3-7.5 10.3z"/></svg>
+      </a>
+      <a class="ico-btn" href="notificaciones.html" aria-label="Notificaciones" data-punto-notif>
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15zM10 20.5a2.2 2.2 0 0 0 4 0"/></svg>
+      </a>
+      <a class="ico-btn" href="chat.html" aria-label="Buzón de mensajes" data-punto-buzon>
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5h16v11H8.5L4 20z"/></svg>
+      </a>
+      <a class="btn btn-subir solo-escritorio" href="subir.html" data-exige="publicar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        Subir anuncio
+      </a>
+      <div class="fila g6" id="cuenta"></div>
+    </div>
+  </div>
+  <div class="contenedor cab-movil">
+    <form class="buscador" data-busqueda role="search" aria-label="Buscar servicios">
+      <svg class="ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M10.8 17.6a6.8 6.8 0 1 0 0-13.6 6.8 6.8 0 0 0 0 13.6zM20 20l-4.3-4.3"/></svg>
+      <label class="solo-lector" for="q-movil">Qué necesitas</label>
+      <input id="q-movil" name="q" type="search" placeholder="Buscar en Apaño" autocomplete="off">
+    </form>
+  </div>
+</header>
+<nav class="tabbar" aria-label="Navegación principal">
+  <a href="index.html"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11 12 4l8.5 7M6 9.4V20h12V9.4"/></svg>Inicio</a>
+  <a href="favoritos.html"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.3A4.2 4.2 0 0 1 12 7.7a4.2 4.2 0 0 1 7.5 2.5c0 5.7-7.5 10.3-7.5 10.3z"/></svg>Favoritos</a>
+  <a href="subir.html" data-exige="publicar" aria-label="Subir anuncio"><span class="mas"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></a>
+  <a href="chat.html" data-punto-buzon><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5h16v11H8.5L4 20z"/></svg>Buzón</a>
+  <a href="cuenta.html" id="tab-tu"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4.5 20.5c.8-3.6 3.8-5.5 7.5-5.5s6.7 1.9 7.5 5.5"/></svg>Tú</a>
+</nav>
+<style>
+/* ---------- perfil público ---------- */
+.pg-pf-env{ padding-top:18px }
+.pg-pf-banda{ height:168px; border-radius:var(--r-xl) }
+.pg-pf-banda .pg-pf-b1{ width:300px; height:300px; right:-40px; bottom:-120px; opacity:.16; stroke-width:1.1; transform:rotate(-12deg) }
+.pg-pf-banda .pg-pf-b2{ width:120px; height:120px; right:240px; top:-34px; opacity:.1; stroke-width:1.3; transform:rotate(14deg) }
+.pg-pf-b-aro{ position:absolute; right:12%; top:50%; width:150px; aspect-ratio:1; translate:0 -50%; border-radius:50%;
+  background:color-mix(in srgb,var(--fondo) 14%,transparent); box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--fondo) 24%,transparent) }
+.pg-pf-cab{ display:grid; grid-template-columns:auto minmax(0,1fr) auto; grid-template-areas:"av id bt"; column-gap:22px; padding:0 24px }
+.pg-pf-avatar{ grid-area:av; margin-top:-56px; position:relative; z-index:1 }
+.pg-pf-avatar .avatar{ width:120px; height:120px; font-size:2.4rem; box-shadow:0 0 0 5px var(--fondo), var(--sombra-2) }
+.pg-pf-avatar .avatar .tick{ border-width:3px }
+.pg-pf-id{ grid-area:id; min-width:0; padding-top:16px; display:flex; flex-direction:column; gap:6px }
+.pg-pf-nombre{ display:flex; align-items:center; flex-wrap:wrap; gap:6px 12px }
+.pg-pf-nombre h1{ font-size:clamp(1.75rem,3.4vw,2.25rem); letter-spacing:-.035em }
+.pg-pf-lugar{ display:flex; flex-wrap:wrap; align-items:center; gap:4px 14px; font-size:var(--t-sm); color:var(--tinta-2) }
+.pg-pf-lugar span{ display:inline-flex; align-items:center; gap:5px }
+.pg-pf-lugar svg{ color:var(--tinta-3); flex:0 0 auto }
+.pg-pf-botones{ grid-area:bt; display:flex; align-items:center; gap:10px; padding-top:18px }
+.pg-pf-seguir[aria-pressed="true"]{ background:var(--marca-sup); color:var(--marca-tinta); box-shadow:none }
+.pg-pf-seguir svg{ transition:transform .3s var(--ease) }
+.pg-pf-seguir[aria-pressed="true"] svg{ animation:latido .4s var(--ease) }
+.pg-pf-compartir{ box-shadow:inset 0 0 0 1.5px var(--linea-2); width:46px; height:46px }
+
+/* cifras */
+.pg-pf-cifras{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); margin:24px 0 0; border:1px solid var(--linea); border-radius:var(--r-l); overflow:hidden }
+.pg-pf-cifras>div{ display:flex; flex-direction:column; gap:3px; min-width:0; padding:14px 18px; border-left:1px solid var(--linea) }
+.pg-pf-cifras>div:first-child{ border-left:0; background:var(--sup) }
+.pg-pf-cifras dt{ font-size:var(--t-xs); font-weight:600; color:var(--tinta-3) }
+.pg-pf-cifras dd{ margin:0; font:700 1.5rem/1.15 var(--display); letter-spacing:-.03em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+.pg-pf-cifras dd.pg-pf-sub{ font:500 var(--t-xs)/1.3 var(--texto); letter-spacing:0; color:var(--tinta-3); white-space:normal }
+.pg-pf-cifras dd.pg-pf-txt{ font-size:var(--t-md); line-height:1.35; letter-spacing:-.01em; white-space:normal }
+.pg-pf-valbtn{ display:inline-flex; align-items:center; gap:8px; padding:0; border:0; background:none; font:inherit; color:inherit; letter-spacing:inherit; border-radius:8px; text-align:left }
+.pg-pf-valbtn .estrellas{ vertical-align:0 }
+.pg-pf-valbtn:hover .pg-pf-vernum{ text-decoration:underline; text-underline-offset:3px }
+.pg-pf-vernum{ font:600 var(--t-xs) var(--texto); color:var(--marca); letter-spacing:0 }
+
+/* sellos de confianza */
+.pg-pf-sellos{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; margin-top:12px }
+.pg-pf-sello{ display:flex; align-items:center; gap:12px; min-width:0; padding:14px; border-radius:var(--r-l); background:var(--sup) }
+.pg-pf-sello-ico{ position:relative; flex:0 0 auto; width:42px; height:42px; border-radius:50%; display:grid; place-items:center; background:var(--fondo); color:var(--ok);
+  box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ok) 30%,transparent) }
+.pg-pf-sello-ico .pg-pf-18{ font:800 .8125rem/1 var(--display); letter-spacing:-.04em }
+.pg-pf-sello-ico .pg-pf-mini{ position:absolute; right:-3px; bottom:-3px; width:18px; height:18px; border-radius:50%; display:grid; place-items:center;
+  background:var(--ok); color:var(--fondo); border:2px solid var(--sup) }
+.pg-pf-sello strong{ display:block; font-size:var(--t-sm); line-height:1.25 }
+.pg-pf-sello small{ display:block; margin-top:2px; font-size:var(--t-xs); line-height:1.3; color:var(--tinta-3) }
+.pg-pf-sello.no .pg-pf-sello-ico{ color:var(--tinta-3); box-shadow:inset 0 0 0 1.5px var(--linea-2) }
+.pg-pf-sello.no .pg-pf-mini{ background:var(--avisa) }
+.pg-pf-nota-ver{ display:flex; align-items:flex-start; gap:8px; margin-top:10px; font-size:var(--t-xs); line-height:1.5; color:var(--tinta-3) }
+.pg-pf-nota-ver svg{ flex:0 0 auto; color:var(--tinta-3) }
+.pg-pf-nota-ver a{ color:var(--marca); font-weight:600 }
+
+.pg-pf-aviso{ margin-top:18px }
+.pg-pf-pest{ margin-top:30px }
+.pg-pf-pest .pestana{ font-size:var(--t-base); padding:14px 16px }
+.pg-pf-n{ display:inline-grid; place-items:center; min-width:22px; height:20px; margin-left:4px; padding:0 6px; border-radius:99px; background:var(--sup-2);
+  font-size:var(--t-xs); font-weight:650; color:var(--tinta-2); font-variant-numeric:tabular-nums }
+.pestana[aria-selected="true"] .pg-pf-n{ background:var(--marca-sup); color:var(--marca-tinta) }
+.pg-pf-panel{ padding-top:22px }
+.pg-pf-panel-cab{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:16px }
+.pg-pf-pausado .tarjeta-img::after{ content:"Pausado"; position:absolute; z-index:1; inset:auto 10px 10px auto; height:24px; padding:0 9px; border-radius:99px;
+  display:grid; place-items:center; background:var(--avisa-sup); color:var(--avisa); font-size:var(--t-xs); font-weight:650 }
+.pg-pf-pausado .tarjeta-img>.portada{ filter:grayscale(.75) }
+.pg-pf-vacio{ display:flex; flex-direction:column; align-items:center; gap:10px; padding:44px 20px; border-radius:var(--r-l); background:var(--sup); text-align:center; color:var(--tinta-2) }
+.pg-pf-vacio-ico{ width:56px; height:56px; border-radius:18px; display:grid; place-items:center; background:var(--fondo); color:var(--tinta-3); box-shadow:var(--sombra-1) }
+
+/* reseñas */
+.pg-pf-resumen{ display:flex; flex-direction:column; gap:16px; padding:20px; border-radius:var(--r-l); background:var(--sup) }
+.pg-pf-media{ display:flex; align-items:center; gap:14px }
+.pg-pf-media .cifra{ font-size:3.25rem; line-height:.9 }
+.pg-pf-barras{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:7px }
+.pg-pf-barras li{ display:grid; grid-template-columns:26px minmax(0,1fr) 34px; align-items:center; gap:10px; font-size:var(--t-xs); color:var(--tinta-2) }
+.pg-pf-barras li>span:first-child{ display:inline-flex; align-items:center; gap:3px; font-weight:600 }
+.pg-pf-barras li>span:first-child svg{ color:var(--sol) }
+.pg-pf-barras .num{ text-align:right; color:var(--tinta-3) }
+.pg-pf-pista{ height:7px; border-radius:99px; background:var(--sup-3); overflow:hidden }
+.pg-pf-pista i{ display:block; height:100%; border-radius:inherit; background:var(--tinta); transform-origin:left; animation:pg-pf-crece .9s var(--ease) both }
+@keyframes pg-pf-crece{ from{ transform:scaleX(0) } }
+.pg-pf-lista{ display:flex; flex-direction:column }
+.pg-pf-res{ display:flex; flex-direction:column; gap:10px; padding:18px 0; border-bottom:1px solid var(--linea) }
+.pg-pf-res:first-child{ padding-top:4px }
+.pg-pf-res-cab{ display:flex; align-items:center; gap:12px }
+.pg-pf-res p{ line-height:1.6; max-width:68ch }
+.pg-pf-res-serv{ align-self:flex-start; display:inline-flex; align-items:center; gap:8px; max-width:100%; padding:5px 12px 5px 5px; border-radius:99px; background:var(--sup);
+  font-size:var(--t-xs); font-weight:600; color:var(--tinta-2); transition:background .18s, color .18s }
+.pg-pf-res-serv:hover{ background:var(--marca-sup); color:var(--marca-tinta) }
+.pg-pf-res-serv .pg-pf-res-ico{ flex:0 0 auto; width:24px; height:24px; border-radius:50%; display:grid; place-items:center; color:var(--fondo); background:linear-gradient(140deg,var(--c1),var(--c2)) }
+.pg-pf-res-serv span:last-child{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+
+/* información */
+.pg-pf-info{ display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1fr); gap:16px; align-items:start }
+.pg-pf-bio{ font-size:var(--t-md); line-height:1.65; margin-top:10px; max-width:60ch }
+.pg-pf-idiomas{ display:flex; flex-wrap:wrap; gap:6px; margin-top:8px }
+.pg-pf-datos{ margin:0; display:flex; flex-direction:column }
+.pg-pf-datos>div{ display:grid; grid-template-columns:36px minmax(0,1fr); gap:2px 12px; padding:13px 0; border-top:1px solid var(--linea) }
+.pg-pf-datos>div:first-child{ border-top:0; padding-top:2px }
+.pg-pf-datos .pg-pf-d-ico{ grid-row:span 2; width:36px; height:36px; border-radius:12px; display:grid; place-items:center; background:var(--fondo); color:var(--marca) }
+.pg-pf-datos dt{ font-size:var(--t-xs); font-weight:600; color:var(--tinta-3) }
+.pg-pf-datos dd{ margin:0; font-weight:600; font-size:var(--t-sm); line-height:1.4 }
+.pg-pf-datos dd small{ display:block; font-weight:500; color:var(--tinta-3); font-size:var(--t-xs); margin-top:2px }
+
+@media (max-width:900px){
+  .pg-pf-sellos{ grid-template-columns:repeat(2,minmax(0,1fr)) }
+  .pg-pf-info{ grid-template-columns:minmax(0,1fr) }
+}
+@media (max-width:759px){
+  .pg-pf-env{ padding-top:0 }
+  .pg-pf-banda{ height:120px; margin-inline:-16px; border-radius:0 }
+  .pg-pf-banda .pg-pf-b1{ width:200px; height:200px; right:-30px; bottom:-80px }
+  .pg-pf-banda .pg-pf-b2{ right:150px; width:90px; height:90px }
+  .pg-pf-b-aro{ width:96px; right:8% }
+  .pg-pf-cab{ grid-template-columns:minmax(0,1fr) auto; grid-template-areas:"av bt" "id id"; padding:0 }
+  .pg-pf-avatar{ margin-top:-44px }
+  .pg-pf-avatar .avatar{ width:96px; height:96px; font-size:1.875rem }
+  .pg-pf-botones{ padding-top:12px; align-self:start }
+  .pg-pf-botones.pg-pf-acc-2{ grid-area:auto; grid-column:1 / -1; grid-row:3; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto; padding-top:16px }
+  .pg-pf-id{ padding-top:12px }
+  .pg-pf-cifras{ grid-template-columns:repeat(2,minmax(0,1fr)); margin-top:18px }
+  .pg-pf-cifras>div{ padding:12px 14px }
+  .pg-pf-cifras>div:nth-child(odd){ border-left:0 }
+  .pg-pf-cifras>div:nth-child(n+3){ border-top:1px solid var(--linea) }
+  .pg-pf-cifras>div:first-child{ grid-column:1 / -1; flex-direction:row; flex-wrap:wrap; align-items:center; column-gap:12px }
+  .pg-pf-cifras>div:first-child dt{ width:100% }
+  .pg-pf-cifras>div:nth-child(2){ border-top:1px solid var(--linea); border-left:0 }
+  .pg-pf-cifras>div:nth-child(3){ border-left:1px solid var(--linea) }
+  .pg-pf-cifras>div:nth-child(4){ grid-column:1 / -1; border-left:0 }
+  .pg-pf-sello{ flex-direction:column; align-items:flex-start; gap:10px; padding:14px }
+  .pg-pf-sello-ico{ width:38px; height:38px }
+  .pg-pf-pest{ margin-top:22px }
+  .pg-pf-pest .pestana{ flex:1; padding:14px 8px }
+}
+</style>
+<main id="contenido" class="pg-pf">
+  <div class="contenedor pg-pf-env">
+    <div id="pg-pf-banda"></div>
+    <section class="pg-pf-cab" id="pg-pf-cab" aria-labelledby="pg-pf-nombre"></section>
+    <div id="pg-pf-cifras"></div>
+    <div class="pg-pf-aviso" id="pg-pf-aviso" hidden></div>
+    <section aria-labelledby="pg-pf-sellos-t">
+      <h2 class="solo-lector" id="pg-pf-sellos-t">Sellos de confianza</h2>
+      <div class="pg-pf-sellos" id="pg-pf-sellos"></div>
+      <p class="pg-pf-nota-ver" id="pg-pf-nota-ver"></p>
+    </section>
+
+    <div class="pestanas pg-pf-pest" data-pestanas role="tablist" aria-label="Contenido del perfil">
+      <button class="pestana" type="button" role="tab" id="pg-pf-t1" aria-controls="anuncios" aria-selected="true">Anuncios<span class="pg-pf-n" id="pg-pf-n-anuncios"></span></button>
+      <button class="pestana" type="button" role="tab" id="pg-pf-t2" aria-controls="resenas" aria-selected="false">Reseñas<span class="pg-pf-n" id="pg-pf-n-resenas"></span></button>
+      <button class="pestana" type="button" role="tab" id="pg-pf-t3" aria-controls="info" aria-selected="false">Información</button>
+    </div>
+    <div class="pg-pf-panel" id="anuncios" role="tabpanel" aria-labelledby="pg-pf-t1"></div>
+    <div class="pg-pf-panel" id="resenas" role="tabpanel" aria-labelledby="pg-pf-t2" hidden></div>
+    <div class="pg-pf-panel" id="info" role="tabpanel" aria-labelledby="pg-pf-t3" hidden></div>
+  </div>
+</main>
+<script>
+A.pagina = function(){
+  const u = A.usuario(new URLSearchParams(location.search).get('id')) || A.usuario('u2');
+  const s = A.sesion();
+  const mio = !!(s && s.id === u.id);
+  const interno = u.tipo === 'interno' || u.rol !== 'usuario';
+  const pendiente = !interno && !A.verificado(u);
+  const contacto = !mio && !interno && !pendiente;
+  const url = new URL('perfil.html?id=' + u.id, location.href).href;
+  document.title = u.corto + ' · Apaño';
+
+  const P = {
+    compartir:'M12 3.5v11M7.5 8 12 3.5 16.5 8M6 12.5v7h12v-7',
+    calendario:'M4.5 6h15v14h-15zM4.5 10.5h15M8.5 3.5v4M15.5 3.5v4',
+    carnet:'M3.5 5.5h17v13h-17zM8.6 12.4a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM5.8 16c.5-1.5 1.5-2.2 2.8-2.2s2.3.7 2.8 2.2M14 9.5h3.8M14 13h3.8',
+    movil:'M7.5 3h9v18h-9zM11 17.5h2',
+    correo:'M3.5 6h17v12h-17zM3.5 6.5 12 13l8.5-6.5',
+    globo:'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM3.5 12h17M12 3c2.5 2.6 3.7 5.6 3.7 9s-1.2 6.4-3.7 9c-2.5-2.6-3.7-5.6-3.7-9S9.5 5.6 12 3z',
+    maletin:'M3.5 7.5h17v12h-17zM9 7.5V5h6v2.5M3.5 12.5h17',
+    seguir:'M10 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM3 20.5c.8-3.6 3.6-5.5 7-5.5 1.3 0 2.5.3 3.5.8M18 14v6M15 17h6',
+    siguiendo:'M10 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM3 20.5c.8-3.6 3.6-5.5 7-5.5 1.3 0 2.5.3 3.5.8M14.5 17.5l2.2 2.2 4.3-4.6',
+    lapiz:'M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4',
+    candado:'M6 10.5h12v10H6zM8.5 10.5V7.5a3.5 3.5 0 0 1 7 0v3',
+    reloj:'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 7.5V12l3 2',
+    vacio:'M4 7.5 12 3.5l8 4v9l-8 4-8-4zM4 7.5l8 4 8-4M12 11.5v9'
+  };
+  const ic = (d, t, w) => `<svg width="${t||18}" height="${t||18}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w||1.9}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
+  const estrella = t => `<svg width="${t}" height="${t}" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.4l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.8l-5.2 2.8 1-5.9L3.5 9.6l5.9-.8z"/></svg>`;
+  const dec = n => n.toLocaleString('es-ES',{minimumFractionDigits:1, maximumFractionDigits:1});
+  const may = t => t.charAt(0).toUpperCase() + t.slice(1);
+  const resp = t => t === '—' ? '—' : may(t.replace(/^en menos de /,'< ').replace(/^en /,''));
+  const desde = new Date(u.alta + 'T12:00').toLocaleDateString('es-ES',{month:'long', year:'numeric'});
+  const docTxt = u.doc === 'NIE' ? 'NIE' : u.doc === 'DNI' ? 'DNI' : 'pasaporte';
+  const rolTxt = u.rol === 'admin' ? 'administración' : 'moderación';
+
+  const anuncios = A.anunciosDe(u.id);
+  const activos = anuncios.filter(x => x.estado === 'activo');
+  const visibles = mio ? anuncios : activos;
+  const resenas = A.resenasDe(u.id).slice().sort((x,y) => y.f.localeCompare(x.f));
+  const catBanda = (activos[0] || anuncios[0] || {}).cat;
+
+  /* ---------- banda y cabecera ---------- */
+  const icoBanda = catBanda || (interno ? 'escudo' : 'persona');
+  A.$('#pg-pf-banda').outerHTML = `<div class="portada pg-pf-banda" style="--c1:${u.av};--c2:color-mix(in srgb,${u.av} 45%,var(--marca))" aria-hidden="true">
+      <span class="pg-pf-b-aro"></span>${A.icono(icoBanda, 24, 'class="pg-pf-b1"')}${A.icono(icoBanda, 24, 'class="pg-pf-b2"')}</div>`;
+
+  const sigo = () => A.lee('siguiendo', []).includes(u.id);
+  const seguirTxt = () => sigo() ? `${ic(P.siguiendo,18)}Siguiendo` : `${ic(P.seguir,18)}Seguir`;
+  const compartir = `<button class="ico-btn pg-pf-compartir" type="button" data-copia="${url}" aria-label="Compartir perfil: copiar el enlace">${ic(P.compartir,19)}</button>`;
+  let botones = compartir, dosAcciones = false;
+  if(mio){ botones = `<a class="btn btn-sec" href="cuenta.html#perfil">${ic(P.lapiz,17)}Editar perfil</a>${compartir}` }
+  else if(contacto){
+    dosAcciones = true;
+    botones = `<button class="btn btn-sec pg-pf-seguir" type="button" id="pg-pf-seguir" aria-pressed="${sigo()}">${seguirTxt()}</button>
+      <a class="btn" href="chat.html?con=${u.id}" data-exige="contactar">${A.icono('buzon',18)}Chatear</a>${compartir}`;
+  }
+  const tipoIns = interno ? '<span class="insignia insignia-tinta">Equipo de Apaño</span>'
+    : pendiente ? '<span class="insignia insignia-avisa">Identidad en revisión</span>'
+    : u.tipo === 'profesional' ? `<span class="insignia insignia-marca">${ic(P.maletin,13,2)}Profesional</span>` : '<span class="insignia">Particular</span>';
+  A.$('#pg-pf-cab').innerHTML = `
+    <div class="pg-pf-avatar">${A.avatar(u,'avatar-xg')}</div>
+    <div class="pg-pf-id">
+      <div class="pg-pf-nombre"><h1 class="h1" id="pg-pf-nombre">${u.corto}</h1>${tipoIns}</div>
+      <p class="pg-pf-lugar">
+        <span>${A.icono('ubicacion',15)}${interno ? 'Oficina de Apaño, ' + u.ciudad : u.barrio + ', ' + u.ciudad}${!mio && !interno ? ' · a ' + A.km(u.km) + ' de ti' : ''}</span>
+        <span>${ic(P.calendario,15)}En Apaño desde ${desde}</span>
+      </p>
+    </div>
+    <div class="pg-pf-botones ${dosAcciones ? 'pg-pf-acc-2' : ''}">${botones}</div>`;
+
+  /* ---------- cifras ---------- */
+  if(!interno){
+    A.$('#pg-pf-cifras').innerHTML = `<dl class="pg-pf-cifras">
+      <div><dt>Valoración</dt>
+        ${u.resenas ? `<dd><button class="pg-pf-valbtn" type="button" id="pg-pf-ver-res">${dec(u.val)} ${A.estrellas(u.val,16)}<span class="pg-pf-vernum">${A.num(u.resenas)} reseñas</span></button></dd>`
+                    : `<dd>Nuevo</dd><dd class="pg-pf-sub">Sin reseñas todavía</dd>`}
+      </div>
+      <div><dt>Servicios hechos</dt><dd>${A.num(u.hechos)}</dd><dd class="pg-pf-sub">en Apaño</dd></div>
+      <div><dt>Responde en</dt><dd>${resp(u.responde)}</dd><dd class="pg-pf-sub">${u.responde === '—' ? 'Sin datos aún' : 'de media'}</dd></div>
+      <div><dt>Idiomas</dt><dd class="pg-pf-txt">${u.idiomas.join(', ')}</dd></div>
+    </dl>`;
+    const vr = A.$('#pg-pf-ver-res');
+    if(vr) vr.addEventListener('click', () => {
+      const t = A.$('[aria-controls="resenas"]'); t.click();
+      A.$('.pg-pf-pest').scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block:'start'});
+    });
+  }
+
+  /* ---------- avisos ---------- */
+  let aviso = '';
+  if(interno) aviso = `<div class="aviso aviso-marca">${A.icono('escudo',18)}<div><b>Cuenta del equipo de Apaño.</b> ${u.corto} trabaja en ${rolTxt}: revisa documentos de identidad y anuncios. Las cuentas del equipo no publican anuncios ni se pueden contratar${mio ? '' : ', así que no tienen botones de contacto'}. Nadie del equipo te pedirá por chat tu documento, tus contraseñas ni pagos fuera de la app.</div></div>`;
+  else if(pendiente) aviso = mio
+    ? `<div class="aviso aviso-avisa">${ic(P.reloj,18)}<div><b>Tu perfil está pendiente de verificación.</b> Estamos revisando tu documento; suele tardar menos de 2 horas. Hasta entonces nadie puede escribirte ni contratarte, y tú no puedes publicar. <a class="enlace" href="cuenta.html#verificacion">Ver el estado</a></div></div>`
+    : `<div class="aviso aviso-avisa">${ic(P.reloj,18)}<div><b>Perfil pendiente de verificación.</b> ${u.corto} se ha dado de alta hace poco y estamos revisando su documento. Hasta que termine no puede publicar anuncios, escribir a nadie ni recibir pagos, por eso no hay botones de contacto.</div></div>`;
+  else if(mio) aviso = `<div class="aviso aviso-marca">${A.icono('persona',18)}<div><b>Este es tu perfil público.</b> Así lo ven los demás: nunca mostramos tus apellidos, tu documento ni tu edad exacta.</div></div>`;
+  if(aviso){ const av = A.$('#pg-pf-aviso'); av.innerHTML = aviso; av.hidden = false }
+
+  /* ---------- sellos de confianza ---------- */
+  const idOk = !!(u.ver.dni && u.ver.selfie && u.estado === 'verificado');
+  const sellos = [
+    {ok:idOk, ico:ic(P.carnet,20), t: idOk ? 'Identidad verificada' : 'Identidad en revisión', sub: idOk ? `Con ${docTxt} y selfie` : 'Documento enviado'},
+    {ok:!!u.ver.tel, ico:ic(P.movil,20), t:'Móvil verificado', sub: u.ver.tel ? 'Confirmado por SMS' : 'Sin confirmar'},
+    {ok:!!u.ver.email, ico:ic(P.correo,20), t:'Correo verificado', sub: u.ver.email ? 'Dirección confirmada' : 'Sin confirmar'},
+    {ok:idOk, ico:'<span class="pg-pf-18">18+</span>', t: idOk ? 'Mayor de edad' : 'Edad sin confirmar', sub: idOk ? 'Comprobado con el documento' : 'Pendiente de revisión'}
+  ];
+  A.$('#pg-pf-sellos').innerHTML = sellos.map(x => `<div class="pg-pf-sello ${x.ok ? '' : 'no'}">
+      <span class="pg-pf-sello-ico">${x.ico}<span class="pg-pf-mini">${x.ok ? A.icono('check',10,'stroke-width="3.4"') : ic(P.reloj,10,3)}</span></span>
+      <span class="min0"><strong>${x.t}</strong><small>${x.sub}</small></span>
+    </div>`).join('');
+  A.$('#pg-pf-nota-ver').innerHTML = `${ic(P.candado,15)}<span>Apaño comprueba el documento y un selfie de todas las personas que publican o contratan. El número del documento nunca se publica y solo lo ve el equipo de verificación. <a href="como-funciona.html#verificacion">Cómo verificamos</a></span>`;
+
+  /* ---------- pestañas ---------- */
+  if(interno){
+    // las cuentas internas no tienen anuncios ni reseñas: solo Información
+    ['anuncios','resenas'].forEach(id => { A.$(`[aria-controls="${id}"]`).remove(); A.$('#' + id).remove() });
+    A.$('[aria-controls="info"]').setAttribute('aria-selected','true');
+  }
+  const nA = A.$('#pg-pf-n-anuncios'); if(nA) nA.textContent = visibles.length;
+  const nR = A.$('#pg-pf-n-resenas'); if(nR) nR.textContent = A.num(u.resenas);
+
+  const vacio = (ico, t, d, extra) => `<div class="pg-pf-vacio"><span class="pg-pf-vacio-ico">${ico}</span><strong class="md">${t}</strong><p class="sm" style="max-width:40ch">${d}</p>${extra || ''}</div>`;
+
+  // Anuncios
+  const pA = A.$('#anuncios');
+  if(pA){
+    const cab = mio ? `<div class="pg-pf-panel-cab"><p class="sm sec">${activos.length} activos${anuncios.length > activos.length ? ' · ' + (anuncios.length - activos.length) + ' pausado' + (anuncios.length - activos.length > 1 ? 's' : '') : ''}</p>
+      ${pendiente ? '' : `<a class="btn btn-p" href="subir.html" data-exige="publicar">${A.icono('mas',16)}Subir anuncio</a>`}</div>` : '';
+    pA.innerHTML = visibles.length
+      ? cab + `<div class="anuncios">${visibles.map(x => A.tarjeta(x, {clase: x.estado === 'activo' ? '' : 'pg-pf-pausado'})).join('')}</div>`
+      : vacio(ic(P.vacio,26), mio ? 'Aún no has publicado nada' : `${u.corto} no tiene anuncios activos`,
+          pendiente ? (mio ? 'Podrás publicar en cuanto verifiquemos tu identidad.' : 'Podrá publicar cuando terminemos de verificar su identidad.')
+                    : (mio ? 'Publica tu primer servicio: es gratis y tarda dos minutos.' : 'Síguele y te avisaremos cuando publique algo nuevo.'),
+          mio && !pendiente ? '<a class="btn" href="subir.html" data-exige="publicar">Subir anuncio</a>' : '');
+  }
+
+  // Reseñas
+  const pR = A.$('#resenas');
+  if(pR){
+    if(!u.resenas){
+      pR.innerHTML = vacio(estrella(26), 'Todavía no hay reseñas', 'Solo pueden valorar las personas que han contratado y pagado con Pago protegido, así que cada reseña es de un servicio real.');
+    } else {
+      const d = Math.max(0, 5 - u.val), c = {}; let resto = u.resenas;
+      [[4,.6],[3,.13],[2,.03],[1,.01]].forEach(([k,f]) => { c[k] = Math.round(u.resenas * f * d); resto -= c[k] });
+      c[5] = Math.max(0, resto);
+      pR.innerHTML = `<div class="con-lateral-izq">
+        <div class="pegajoso pg-pf-resumen">
+          <div class="pg-pf-media"><span class="cifra">${dec(u.val)}</span><span class="col g4">${A.estrellas(u.val,16)}<span class="xs ter">${A.num(u.resenas)} valoraciones</span></span></div>
+          <ul class="pg-pf-barras" aria-label="Reparto de notas">
+            ${[5,4,3,2,1].map(k => `<li><span>${k}${estrella(11)}</span><span class="pg-pf-pista"><i style="width:${(c[k] / u.resenas * 100).toFixed(1)}%"></i></span><span class="num">${c[k]}</span></li>`).join('')}
+          </ul>
+          <p class="ayuda">Solo valoran quienes han contratado y pagado con Pago protegido. ${resenas.length} de ${A.num(u.resenas)} dejaron además un comentario.</p>
+        </div>
+        <div class="pg-pf-lista">
+          ${resenas.map(r => { const de = A.usuario(r.de), sv = A.anuncio(r.s), ct = sv ? A.categoria(sv.cat) : null; return `
+            <article class="pg-pf-res">
+              <div class="pg-pf-res-cab">${A.avatar(de)}<div class="col crecer min0"><strong class="sm">${de.corto}</strong><span class="xs ter">${may(A.hace(r.f))} · ${A.fecha(r.f)}</span></div>${A.estrellas(r.nota,14)}<span class="solo-lector">${r.nota} de 5 estrellas</span></div>
+              <p>${r.t}</p>
+              ${sv ? `<a class="pg-pf-res-serv" href="anuncio.html?id=${sv.id}"><span class="pg-pf-res-ico" style="--c1:${ct.c1};--c2:${ct.c2}">${A.icCat(sv.cat,13)}</span><span>${sv.t}</span></a>` : ''}
+            </article>` }).join('') || '<p class="sec sm">Ninguna valoración tiene comentario todavía.</p>'}
+        </div>
+      </div>`;
+    }
+  }
+
+  // Información
+  const tipoTxt = interno ? ['Equipo de Apaño', `Trabaja en ${rolTxt}. No ofrece servicios.`]
+    : u.tipo === 'profesional' ? ['Profesional', 'Autónomo o empresa: puede darte factura de cada servicio.']
+    : ['Particular', 'Ofrece servicios a título personal.'];
+  A.$('#info').innerHTML = `<div class="pg-pf-info">
+      <section class="bloque" aria-labelledby="pg-pf-sobre">
+        <h2 class="h3" id="pg-pf-sobre">Sobre ${mio ? 'ti' : u.corto}</h2>
+        <p class="pg-pf-bio">${u.bio}</p>
+        <h3 class="etiqueta" style="margin-top:22px">Idiomas</h3>
+        <div class="pg-pf-idiomas">${u.idiomas.map(x => `<span class="insignia">${x}</span>`).join('')}</div>
+      </section>
+      <section class="bloque bloque-sup" aria-label="Datos del perfil">
+        <dl class="pg-pf-datos">
+          <div><span class="pg-pf-d-ico">${ic(P.maletin,18)}</span><dt>Tipo de cuenta</dt><dd>${tipoTxt[0]}<small>${tipoTxt[1]}</small></dd></div>
+          <div><span class="pg-pf-d-ico">${A.icono('ubicacion',18)}</span><dt>Zona</dt><dd>${interno ? 'Oficina de Apaño, ' + u.ciudad : u.barrio + ', ' + u.ciudad}<small>${mio || interno ? 'Solo se muestra el barrio, nunca la dirección.' : 'A ' + A.km(u.km) + ' de ti. Solo mostramos el barrio, nunca la dirección.'}</small></dd></div>
+          <div><span class="pg-pf-d-ico">${ic(P.calendario,18)}</span><dt>En Apaño desde</dt><dd>${may(desde)}</dd></div>
+          <div><span class="pg-pf-d-ico">${A.icono('escudo',18)}</span><dt>Verificación</dt><dd>${idOk ? `${docTxt} y selfie comprobados` : 'Documento en revisión'}<small>Mayor de edad${idOk ? '' : ' (pendiente)'}. El número del documento nunca se publica.</small></dd></div>
+        </dl>
+      </section>
+    </div>`;
+
+  /* ---------- seguir ---------- */
+  const bs = A.$('#pg-pf-seguir');
+  if(bs) bs.addEventListener('click', () => {
+    const l = A.lee('siguiendo', []), on = !l.includes(u.id);
+    A.guarda('siguiendo', on ? [...l, u.id] : l.filter(x => x !== u.id));
+    bs.setAttribute('aria-pressed', on); bs.innerHTML = seguirTxt();
+    A.avisa(on ? `Ahora sigues a ${u.corto}` : `Has dejado de seguir a ${u.corto}`);
+  });
+};
+</script>
+<footer class="pie">
+  <div class="contenedor">
+    <div class="pie-cols">
+      <div class="col g12">
+        <a class="logo" href="index.html" aria-label="Apaño, inicio">apa<span class="n">ñ</span>o<span class="punto">.</span></a>
+        <p class="sm sec" style="max-width:34ch">Servicios entre personas de verdad. Todo el que publica o contrata es mayor de edad y ha presentado su documento de identidad.</p>
+        <div class="fila g8">
+          <span class="insignia insignia-ok">Solo +18 verificados</span>
+          <span class="insignia">Pago protegido</span>
+        </div>
+      </div>
+      <div><h4>Usar Apaño</h4><div class="pie-enl">
+        <a href="buscar.html">Buscar servicios</a><a href="subir.html">Subir un anuncio</a><a href="destacar.html">Destacar un anuncio</a><a href="pro.html">Apaño Pro</a><a href="como-funciona.html">Cómo funciona</a><a href="como-funciona.html#pago">Pago protegido</a>
+      </div></div>
+      <div><h4>Tu cuenta</h4><div class="pie-enl">
+        <a href="registro.html">Crear cuenta</a><a href="entrar.html">Entrar</a><a href="cuenta.html#verificacion">Verificar mi identidad</a><a href="servicios.html">Mis servicios</a><a href="monedero.html">Monedero</a>
+      </div></div>
+      <div><h4>Confianza</h4><div class="pie-enl">
+        <a href="como-funciona.html#verificacion">Por qué pedimos el DNI</a><a href="ayuda.html#seguridad">Consejos de seguridad</a><a href="ayuda.html#reportar">Reportar a alguien</a><a href="ayuda.html">Centro de ayuda</a>
+      </div></div>
+      <div><h4>Legal</h4><div class="pie-enl">
+        <a href="legal.html#condiciones">Condiciones de uso</a><a href="legal.html#privacidad">Privacidad</a><a href="legal.html#identidad">Tratamiento del DNI</a><a href="legal.html#cookies">Cookies</a>
+      </div></div>
+    </div>
+    <div class="pie-legal">
+      <span>Apaño es una maqueta de demostración: las personas, los anuncios y los importes son inventados y no se cobra nada.</span>
+      <span>Hecho en Palma · 2026</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!-- titulo: Página no encontrada | desc: Esta página no existe o ha cambiado de sitio. Busca un servicio o vuelve al inicio de Apaño. -->
+<style>
+/* ===== 404 ===== */
+.pg-404-heroe{ position:relative; overflow:hidden; border-bottom:1px solid var(--linea);
+  background:radial-gradient(55% 60% at 50% 18%, color-mix(in srgb,var(--marca) 14%,transparent) 0%, transparent 72%), var(--fondo) }
+.pg-404-in{ display:flex; flex-direction:column; align-items:center; text-align:center; gap:14px; padding-block:26px 34px }
+@media (min-width:760px){ .pg-404-in{ padding-block:44px 52px; gap:16px } }
+.pg-404-num{ display:flex; align-items:center; justify-content:center; font:800 clamp(7.2rem,36vw,12.5rem)/.9 var(--display); letter-spacing:-.07em; color:var(--tinta);
+  user-select:none; padding-top:.06em }
+.pg-404-num>.d{ display:block }
+.pg-404-baldosa.cat-ico{ position:relative; width:.72em; height:.72em; margin:0 .06em 0 .02em; border-radius:.2em; rotate:-11deg; translate:0 .03em;
+  box-shadow:0 .14em .22em -.12em var(--c2), inset 0 0 0 .012em color-mix(in srgb,var(--fondo) 30%,transparent);
+  transition:rotate .6s var(--ease), translate .6s var(--ease); animation:pg-404-cae .9s var(--ease) both .1s }
+.pg-404-baldosa svg{ width:46%; height:46% }
+.pg-404-baldosa::after{ content:"?"; position:absolute; right:-.7em; top:-.7em; width:2em; height:2em; border-radius:50%; display:grid; place-items:center;
+  background:var(--fondo); color:var(--marca); font:800 .14em/1 var(--display); letter-spacing:0; box-shadow:var(--sombra-2); rotate:11deg }
+.pg-404-num:hover .pg-404-baldosa{ rotate:0deg; translate:0 -.04em }
+@keyframes pg-404-cae{ 0%{ opacity:0; translate:0 -.5em; rotate:-38deg } 60%{ opacity:1 } 100%{ translate:0 .03em; rotate:-11deg } }
+.pg-404-et{ display:inline-flex; align-items:center; gap:8px; font-size:var(--t-xs); font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--tinta-3) }
+.pg-404-et b{ color:var(--marca) }
+.pg-404-in h1{ max-width:18ch }
+.pg-404-in .entradilla{ margin-inline:auto; max-width:46ch }
+.pg-404-busca{ width:100%; max-width:560px; display:flex; align-items:center; gap:8px; height:58px; margin-top:8px; padding:0 6px 0 18px; border-radius:999px;
+  background:var(--fondo); border:1.5px solid var(--linea-2); box-shadow:var(--sombra-2); transition:border-color .2s, box-shadow .2s }
+.pg-404-busca:focus-within{ border-color:var(--marca); box-shadow:0 0 0 5px var(--marca-sup), var(--sombra-2) }
+.pg-404-busca>svg{ flex:0 0 auto; color:var(--tinta-3) }
+.pg-404-busca input{ flex:1; min-width:0; height:100%; border:0; outline:0; background:transparent; font-size:var(--t-md) }
+.pg-404-busca input::placeholder{ color:var(--tinta-3) }
+.pg-404-busca .btn{ height:44px; padding:0 20px }
+.pg-404-cats{ width:calc(100% + 32px); margin-inline:-16px; padding-inline:16px; align-items:center }
+.pg-404-cats>span{ flex:0 0 auto; font-size:var(--t-xs); font-weight:600; color:var(--tinta-3) }
+.pg-404-cats .chip{ height:36px; padding:0 14px 0 6px; gap:8px; font-size:var(--t-xs) }
+.pg-404-cats .chip:active{ transform:scale(.95) }
+.pg-404-cats .cat-ico{ width:26px; height:26px; border-radius:9px; box-shadow:none }
+@media (min-width:760px){ .pg-404-cats{ width:auto; margin:0; padding:0; flex-wrap:wrap; justify-content:center; overflow:visible } }
+
+/* enlaces útiles */
+.pg-404-enl{ display:grid; border-radius:var(--r-xl); border:1px solid var(--linea); overflow:hidden; background:var(--fondo) }
+.pg-404-enl a{ display:grid; grid-template-columns:44px minmax(0,1fr) 20px; align-items:center; gap:14px; padding:14px 16px; border:0 solid var(--linea); transition:background .18s }
+.pg-404-enl a+a{ border-top:1px solid var(--linea) }
+.pg-404-enl a:hover{ background:var(--sup) }
+.pg-404-enl a:active{ background:var(--sup-2) }
+.pg-404-enl b{ display:block; font-size:var(--t-base); line-height:1.25 }
+.pg-404-enl small{ display:block; font-size:var(--t-sm); color:var(--tinta-2); line-height:1.35; margin-top:2px }
+.pg-404-enl .cat-ico{ width:44px; height:44px; border-radius:14px }
+.pg-404-enl .flecha{ color:var(--tinta-3); transition:transform .25s var(--ease), color .2s }
+.pg-404-enl a:hover .flecha{ transform:translateX(3px); color:var(--marca) }
+.pg-404-enl a:hover .cat-ico{ transform:translateY(-2px) rotate(-4deg) }
+@media (min-width:900px){
+  .pg-404-enl{ grid-template-columns:repeat(5,minmax(0,1fr)); gap:14px; border:0; overflow:visible; background:none }
+  .pg-404-enl a{ grid-template-columns:minmax(0,1fr); align-content:start; gap:14px; padding:20px 18px 18px; border-radius:var(--r-l); border:1px solid var(--linea); background:var(--fondo);
+    transition:box-shadow .25s var(--ease), transform .25s var(--ease) }
+  .pg-404-enl a+a{ border-top:1px solid var(--linea) }
+  .pg-404-enl a:hover{ background:var(--fondo); border-color:transparent; box-shadow:var(--sombra-2); transform:translateY(-3px) }
+  .pg-404-enl a:active{ transform:translateY(-1px) scale(.98) }
+  .pg-404-enl .flecha{ display:none }
+}
+</style>
+<main id="contenido">
+  <section class="pg-404-heroe" aria-labelledby="e404-t">
+    <div class="contenedor pg-404-in">
+      <div class="pg-404-num" aria-hidden="true"><span class="d">4</span><span class="cat-ico pg-404-baldosa" id="e404-baldosa"></span><span class="d">4</span></div>
+      <span class="pg-404-et">Error 404 · <span id="e404-perdida">una baldosa perdida</span></span>
+      <h1 class="h1" id="e404-t">Esta página se ha ido a hacer un apaño</h1>
+      <p class="entradilla">Puede que el enlace esté mal escrito o que el anuncio ya no exista. Dinos qué necesitas y seguimos.</p>
+      <form class="pg-404-busca" id="e404-busca" role="search">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" aria-hidden="true"><path d="M10.8 17.6a6.8 6.8 0 1 0 0-13.6 6.8 6.8 0 0 0 0 13.6zM20 20l-4.3-4.3"/></svg>
+        <label class="solo-lector" for="e404-q">Qué servicio buscas</label>
+        <input id="e404-q" type="search" placeholder="¿Qué servicio buscas?" autocomplete="off" enterkeyhint="search">
+        <button class="btn" type="submit">Buscar</button>
+      </form>
+      <div class="chips pg-404-cats" id="e404-cats" aria-label="Categorías con más anuncios"></div>
+    </div>
+  </section>
+
+  <section class="contenedor seccion" aria-labelledby="e404-enl-t" style="padding-bottom:12px">
+    <div class="cabecera-seccion"><h2 class="h2" id="e404-enl-t">Por dónde seguir</h2></div>
+    <nav class="pg-404-enl" aria-labelledby="e404-enl-t">
+      <a href="index.html"><span class="cat-ico" data-cat="clases" data-ic="casa"></span><span><b>Inicio</b><small>Lo último cerca de ti</small></span><span class="flecha" data-ic="flecha"></span></a>
+      <a href="buscar.html"><span class="cat-ico" data-cat="limpieza" data-ic="lupa"></span><span><b>Buscar servicios</b><small>Por categoría, precio o distancia</small></span><span class="flecha" data-ic="flecha"></span></a>
+      <a href="subir.html" data-exige="publicar"><span class="cat-ico" data-cat="hogar" data-ic="mas"></span><span><b>Subir un anuncio</b><small>Publicar es gratis</small></span><span class="flecha" data-ic="flecha"></span></a>
+      <a href="ayuda.html"><span class="cat-ico" data-cat="jardin" data-ic="buzon"></span><span><b>Centro de ayuda</b><small>Respuestas y contacto</small></span><span class="flecha" data-ic="flecha"></span></a>
+      <a href="como-funciona.html"><span class="cat-ico" data-cat="diseno" data-ic="escudo"></span><span><b>Cómo funciona</b><small>Verificación y Pago protegido</small></span><span class="flecha" data-ic="flecha"></span></a>
+    </nav>
+  </section>
+
+  <section class="contenedor seccion" aria-labelledby="e404-dest-t">
+    <div class="cabecera-seccion">
+      <h2 class="h2" id="e404-dest-t">Mientras tanto, lo más destacado</h2>
+      <a class="enlace sm" href="buscar.html">Ver todo</a>
+    </div>
+    <div class="carril" id="e404-carril"></div>
+  </section>
+</main>
+<script>
+A.pagina = function(){
+  const $ = A.$, $$ = A.$$;
+  const IC = {
+    casa:'M3.5 11 12 4l8.5 7M6 9.4V20h12V9.4',
+    lupa:'M10.8 17.6a6.8 6.8 0 1 0 0-13.6 6.8 6.8 0 0 0 0 13.6zM20 20l-4.3-4.3',
+    mas:'M12 5v14M5 12h14',
+    buzon:'M4 5.5h16v11H8.5L4 20zM8.5 10h7M8.5 13h4',
+    escudo:'M12 3 4.5 6v5.6c0 4.4 3.1 8.2 7.5 9.4 4.4-1.2 7.5-5 7.5-9.4V6zM8.8 12l2.2 2.2 4.4-4.4',
+    flecha:'M5 12h14M13 6l6 6-6 6'
+  };
+  $$('[data-ic]').forEach(el => el.insertAdjacentHTML('beforeend', `<svg width="${el.classList.contains('flecha') ? 18 : 22}" height="${el.classList.contains('flecha') ? 18 : 22}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${el.classList.contains('flecha') ? 2.2 : 1.9}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${IC[el.dataset.ic]}"/></svg>`));
+  $$('[data-cat]').forEach(el => { const c = A.categoria(el.dataset.cat); if(c){ el.style.setProperty('--c1', c.c1); el.style.setProperty('--c2', c.c2) } });
+
+  // la baldosa perdida: una categoría distinta en cada visita
+  const cats = A.CATEGORIAS;
+  const c = cats[Math.floor(Math.random() * cats.length)];
+  const b = $('#e404-baldosa');
+  b.style.setProperty('--c1', c.c1); b.style.setProperty('--c2', c.c2);
+  b.innerHTML = A.icCat(c.id, 64);
+  $('#e404-perdida').innerHTML = `se nos ha perdido <b>${c.n}</b>`;
+
+  // buscador: lleva a buscar.html
+  $('#e404-busca').addEventListener('submit', e => {
+    e.preventDefault();
+    const q = $('#e404-q').value.trim();
+    location.href = 'buscar.html' + (q ? '?q=' + encodeURIComponent(q) : '');
+  });
+
+  // categorías con más anuncios activos
+  const cuenta = {}; A.activos().forEach(a => cuenta[a.cat] = (cuenta[a.cat] || 0) + 1);
+  const top = cats.slice().sort((x, y) => (cuenta[y.id] || 0) - (cuenta[x.id] || 0)).slice(0, 4);
+  $('#e404-cats').innerHTML = '<span>Prueba con:</span>' + top.map(k => `<a class="chip" href="buscar.html?cat=${k.id}"><span class="cat-ico" style="--c1:${k.c1};--c2:${k.c2}">${A.icCat(k.id, 15)}</span>${k.n}</a>`).join('');
+
+  // carril de 5 destacados
+  const dest = A.activos().filter(a => a.dest).sort((x, y) => y.favs - x.favs).slice(0, 5);
+  $('#e404-carril').innerHTML = dest.map(a => A.tarjeta(a)).join('');
+};
+</script>

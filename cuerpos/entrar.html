@@ -1,0 +1,325 @@
+<!-- titulo: Entrar | desc: Entra en Apaño con tu correo o tu móvil y tu contraseña. Solo personas mayores de edad con la identidad verificada. -->
+<style>
+.pg-ent{ position:relative; isolation:isolate; overflow:hidden; padding:28px 0 44px }
+@media (min-width:861px){ .pg-ent{ padding:56px 0 72px; min-height:calc(100vh - var(--cab)) } }
+.pg-ent-fondo{ position:absolute; inset:0; z-index:-1; pointer-events:none }
+.pg-ent-fondo>i{ position:absolute; border-radius:50% }
+.pg-ent-fondo .c1{ width:min(620px,140vw); aspect-ratio:1; left:-22%; top:-34%; background:radial-gradient(circle at 50% 50%, color-mix(in srgb,var(--marca) 36%,transparent) 0%, transparent 66%) }
+.pg-ent-fondo .c2{ width:min(420px,100vw); aspect-ratio:1; right:-12%; top:-6%; background:radial-gradient(circle, color-mix(in srgb,var(--sol) 50%,transparent) 0%, transparent 64%) }
+.pg-ent-fondo .c3{ width:min(560px,130vw); aspect-ratio:1; right:4%; bottom:-38%; background:radial-gradient(circle, color-mix(in srgb,var(--marca) 18%,transparent) 0%, transparent 66%) }
+.pg-ent-fondo .c4{ width:min(380px,90vw); aspect-ratio:1; left:2%; bottom:-20%; background:radial-gradient(circle, color-mix(in srgb,var(--ok) 16%,transparent) 0%, transparent 64%) }
+.pg-ent-fondo .aro{ width:240px; aspect-ratio:1; left:calc(50% - 470px); top:120px; box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--marca) 22%,transparent) }
+.pg-ent-fondo .aro2{ width:150px; aspect-ratio:1; right:calc(50% - 560px); bottom:90px; box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--sol) 55%,transparent) }
+.pg-ent-fondo .p1{ width:16px; height:16px; left:calc(50% - 300px); top:84px; background:var(--sol) }
+.pg-ent-fondo .p2{ width:10px; height:10px; right:calc(50% - 420px); top:150px; background:var(--marca) }
+.pg-ent-fondo .p3{ width:12px; height:12px; left:calc(50% - 520px); bottom:150px; background:var(--marca); opacity:.5 }
+.pg-ent-cats{ position:absolute; inset:0 }
+.pg-ent-cats span{ position:absolute; width:58px; height:58px; border-radius:18px; display:grid; place-items:center; color:var(--fondo);
+  background:linear-gradient(140deg,var(--c1),var(--c2)); box-shadow:0 14px 28px -14px var(--c2); transform:rotate(var(--g)); opacity:.92 }
+.pg-ent-cats span:nth-child(1){ left:calc(50% - 560px); top:92px; --g:-10deg }
+.pg-ent-cats span:nth-child(2){ left:calc(50% - 452px); top:300px; --g:8deg; width:48px; height:48px; border-radius:15px }
+.pg-ent-cats span:nth-child(3){ left:calc(50% - 540px); top:520px; --g:-6deg }
+.pg-ent-cats span:nth-child(4){ right:calc(50% - 600px); top:70px; --g:9deg; width:50px; height:50px; border-radius:16px }
+.pg-ent-cats span:nth-child(5){ right:calc(50% - 596px); top:380px; --g:-8deg }
+.pg-ent-cats span:nth-child(6){ right:calc(50% - 480px); top:560px; --g:6deg; width:46px; height:46px; border-radius:14px }
+@media (max-width:1180px){ .pg-ent-cats,.pg-ent-fondo .aro,.pg-ent-fondo .aro2,.pg-ent-fondo .p3{ display:none } }
+.pg-ent-rej{ display:grid; gap:20px; grid-template-columns:minmax(0,1fr); max-width:440px; margin-inline:auto }
+@media (min-width:980px){ .pg-ent-rej{ max-width:none; grid-template-columns:440px 320px; justify-content:center; gap:28px; align-items:start } }
+.pg-ent-tarjeta{ position:relative; background:var(--fondo); border:1px solid var(--linea); border-radius:var(--r-xl); box-shadow:var(--sombra-3); padding:30px 26px 26px; overflow:hidden }
+@media (max-width:480px){ .pg-ent-tarjeta{ padding:26px 20px 22px } }
+.pg-ent-escena{ position:relative }
+.pg-ent-vista{ display:flex; flex-direction:column; gap:20px }
+.pg-ent-vista.entra-adelante{ animation:pg-ent-de-der .42s var(--ease) both }
+.pg-ent-vista.entra-atras{ animation:pg-ent-de-izq .42s var(--ease) both }
+.pg-ent-sale{ position:absolute; top:0; left:0; right:0; pointer-events:none }
+.pg-ent-sale.adelante{ animation:pg-ent-a-izq .26s ease-in both }
+.pg-ent-sale.atras{ animation:pg-ent-a-der .26s ease-in both }
+@keyframes pg-ent-de-der{ from{ opacity:0; transform:translateX(36px) } }
+@keyframes pg-ent-de-izq{ from{ opacity:0; transform:translateX(-36px) } }
+@keyframes pg-ent-a-izq{ to{ opacity:0; transform:translateX(-36px) } }
+@keyframes pg-ent-a-der{ to{ opacity:0; transform:translateX(36px) } }
+.pg-ent-cab{ display:flex; flex-direction:column; align-items:center; text-align:center; gap:10px }
+.pg-ent-logo{ font-size:2.75rem; margin-bottom:6px }
+.pg-ent-cab h1{ font-size:clamp(1.5rem,5.6vw,1.85rem); outline:none }
+.pg-ent-cab p{ color:var(--tinta-2); max-width:34ch }
+.pg-ent-clave{ position:relative }
+.pg-ent-clave .ent{ padding-right:54px }
+.pg-ent-clave .ico-btn{ position:absolute; right:4px; top:4px }
+.pg-ent-et{ display:flex; align-items:baseline; justify-content:space-between; gap:12px }
+.pg-ent-et label{ font-size:var(--t-sm); font-weight:600; color:var(--tinta) }
+.pg-ent-enl{ border:0; background:none; padding:0; color:var(--marca); font-weight:600; font-size:var(--t-sm) }
+.pg-ent-enl:hover{ text-decoration:underline; text-underline-offset:3px }
+.pg-ent-btn{ position:relative; overflow:hidden }
+.pg-ent-btn.cargando{ pointer-events:none }
+.pg-ent-btn.cargando::after{ content:""; position:absolute; left:0; bottom:0; height:3px; width:100%; background:color-mix(in srgb,var(--fondo) 70%,transparent);
+  transform-origin:left; animation:pg-ent-carga .9s var(--ease) both }
+@keyframes pg-ent-carga{ from{ transform:scaleX(0) } }
+.pg-ent-o{ display:flex; align-items:center; gap:12px; font-size:var(--t-xs); font-weight:600; color:var(--tinta-3); text-transform:uppercase; letter-spacing:.06em }
+.pg-ent-o::before,.pg-ent-o::after{ content:""; flex:1; height:1px; background:var(--linea) }
+.pg-ent-sociales{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px }
+.pg-ent-sociales .btn{ padding:0 12px; font-size:var(--t-sm) }
+.pg-ent-centro{ text-align:center }
+.pg-ent-icono{ align-self:center; width:72px; height:72px; border-radius:24px; display:grid; place-items:center; background:var(--marca-sup); color:var(--marca) }
+.pg-ent-icono.ok{ background:var(--ok-sup); color:var(--ok); animation:pg-ent-pop .5s var(--ease) both }
+@keyframes pg-ent-pop{ from{ transform:scale(.5); opacity:0 } 60%{ transform:scale(1.08) } }
+.pg-ent-volver{ align-self:flex-start; padding:0 14px 0 8px; gap:3px }
+.pg-ent-caduca{ display:flex; align-items:center; gap:12px; padding:14px 16px; border-radius:var(--r-l); background:var(--sup) }
+.pg-ent-caduca .cifra{ font-size:var(--t-xl); line-height:1; color:var(--marca) }
+.pg-ent-caduca small{ display:block; font-size:var(--t-xs); color:var(--tinta-3) }
+.pg-ent-caduca b{ display:block; font-size:var(--t-sm) }
+/* bloque de perfiles de demostración */
+.pg-ent-demo{ display:flex; flex-direction:column; gap:12px; padding:20px; border-radius:var(--r-xl);
+  background:color-mix(in srgb,var(--fondo) 82%,transparent); backdrop-filter:blur(14px) saturate(1.4); border:1px dashed var(--marca-borde) }
+.pg-ent-demo h2{ font-size:var(--t-md); letter-spacing:-.015em }
+.pg-ent-perfiles{ display:grid; gap:6px }
+.pg-ent-perfil{ display:flex; align-items:center; gap:12px; width:100%; padding:9px 12px 9px 9px; border-radius:var(--r); border:1px solid var(--linea); background:var(--fondo);
+  text-align:left; transition:border-color .18s, background .18s, transform .15s var(--ease) }
+.pg-ent-perfil:hover{ border-color:var(--marca-borde); background:var(--marca-sup) }
+.pg-ent-perfil:active{ transform:scale(.98) }
+.pg-ent-perfil[aria-current="true"]{ border-color:var(--marca); box-shadow:0 0 0 1px var(--marca) }
+.pg-ent-perfil b{ display:block; font-size:var(--t-sm); line-height:1.3 }
+.pg-ent-perfil small{ display:block; font-size:var(--t-xs); color:var(--tinta-3); line-height:1.3 }
+.pg-ent-perfil .flecha{ margin-left:auto; flex:0 0 auto; color:var(--tinta-3); transition:transform .2s var(--ease) }
+.pg-ent-perfil:hover .flecha{ transform:translateX(3px); color:var(--marca) }
+.pg-ent-anon{ flex:0 0 auto; width:28px; height:28px; border-radius:50%; display:grid; place-items:center; background:var(--sup-2); color:var(--tinta-3) }
+</style>
+<main id="contenido" class="pg-ent">
+  <div class="pg-ent-fondo" aria-hidden="true">
+    <i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i><i class="aro"></i><i class="aro2"></i><i class="p1"></i><i class="p2"></i><i class="p3"></i>
+    <div class="pg-ent-cats" id="e-cats"></div>
+  </div>
+  <div class="contenedor">
+    <div class="pg-ent-rej">
+      <section class="pg-ent-tarjeta" aria-label="Acceso a tu cuenta">
+        <div class="pg-ent-escena">
+          <!-- ENTRAR -->
+          <div class="pg-ent-vista" id="e-v-entrar">
+            <div class="pg-ent-cab">
+              <span class="logo pg-ent-logo" aria-hidden="true">apa<span class="n">ñ</span>o<span class="punto">.</span></span>
+              <h1 tabindex="-1">Hola de nuevo</h1>
+              <p>Entra para escribir, contratar y publicar. Aquí todo el mundo es mayor de edad y ha verificado su identidad.</p>
+            </div>
+            <form class="col g16" id="e-form" novalidate>
+              <div class="campo">
+                <label for="e-id">Correo o móvil</label>
+                <input class="ent" id="e-id" type="text" inputmode="email" autocomplete="username" autocapitalize="off" spellcheck="false" placeholder="Tu correo o tu móvil" aria-describedby="e-id-err">
+                <p class="error" id="e-id-err" hidden></p>
+              </div>
+              <div class="campo">
+                <div class="pg-ent-et"><label for="e-clave">Contraseña</label><button class="pg-ent-enl" type="button" id="e-olvido">He olvidado mi contraseña</button></div>
+                <div class="pg-ent-clave">
+                  <input class="ent" id="e-clave" type="password" autocomplete="current-password" autocapitalize="off" spellcheck="false" aria-describedby="e-clave-err">
+                  <button class="ico-btn" type="button" id="e-ver" aria-label="Mostrar contraseña" aria-pressed="false"></button>
+                </div>
+                <p class="error" id="e-clave-err" hidden></p>
+              </div>
+              <button class="btn btn-g btn-bloque pg-ent-btn" type="submit" id="e-btn">Entrar</button>
+              <p class="ayuda pg-ent-centro">Maqueta: no hay cuentas reales. Con un correo o móvil y una contraseña de formato válido entras como Laura B., usuaria verificada de ejemplo.</p>
+            </form>
+            <div class="pg-ent-o">o</div>
+            <div class="col g8">
+              <div class="pg-ent-sociales">
+                <button class="btn btn-sec" type="button" disabled aria-describedby="e-soc-nota">Continuar con Apple</button>
+                <button class="btn btn-sec" type="button" disabled aria-describedby="e-soc-nota">Continuar con Google</button>
+              </div>
+              <p class="ayuda pg-ent-centro" id="e-soc-nota">En esta maqueta no funcionan. En la app real también te pediríamos el documento.</p>
+            </div>
+            <p class="sm sec pg-ent-centro">¿Aún no tienes cuenta? <a class="enlace" href="registro.html">Crea una en 5 minutos</a></p>
+          </div>
+
+          <!-- RECUPERAR -->
+          <div class="pg-ent-vista" id="e-v-recuperar" hidden>
+            <button class="btn btn-sec btn-p pg-ent-volver" type="button" data-vista="entrar">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Volver
+            </button>
+            <span class="pg-ent-icono" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 15.5a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9zM12.5 11H21M18 11v3.5M15 11v2.5"/></svg></span>
+            <div class="pg-ent-cab">
+              <h1 tabindex="-1">Recupera tu contraseña</h1>
+              <p>Escribe el correo o el móvil de tu cuenta y te enviaremos un enlace para crear una nueva.</p>
+            </div>
+            <form class="col g16" id="e-form-rec" novalidate>
+              <div class="campo">
+                <label for="e-rid">Correo o móvil</label>
+                <input class="ent" id="e-rid" type="text" inputmode="email" autocomplete="username" autocapitalize="off" spellcheck="false" placeholder="Tu correo o tu móvil" aria-describedby="e-rid-err">
+                <p class="error" id="e-rid-err" hidden></p>
+              </div>
+              <button class="btn btn-g btn-bloque pg-ent-btn" type="submit" id="e-btn-rec">Enviar enlace</button>
+            </form>
+            <p class="ayuda pg-ent-centro">Por seguridad, nunca te pediremos la contraseña por correo, SMS ni chat.</p>
+          </div>
+
+          <!-- ENVIADO -->
+          <div class="pg-ent-vista" id="e-v-enviado" hidden>
+            <span class="pg-ent-icono ok" aria-hidden="true" id="e-env-ico"></span>
+            <div class="pg-ent-cab">
+              <h1 tabindex="-1" id="e-env-t">Revisa tu correo</h1>
+              <p id="e-env-txt"></p>
+            </div>
+            <div class="pg-ent-caduca">
+              <span class="cifra">60</span>
+              <span><b>minutos para usar el enlace</b><small id="e-env-hora"></small></span>
+            </div>
+            <div class="fila entre g8 sm sec" id="e-reenvio" aria-live="polite"></div>
+            <button class="btn btn-g btn-bloque" type="button" data-vista="entrar">Volver a entrar</button>
+            <p class="ayuda pg-ent-centro">Maqueta: no se envía nada de verdad.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="pg-ent-demo" aria-labelledby="e-demo-t">
+        <div class="col g4">
+          <span class="insignia insignia-marca" style="align-self:flex-start">Demostración</span>
+          <h2 id="e-demo-t">En la demostración entra con un perfil</h2>
+          <p class="sm sec">Cada perfil ve Apaño con sus permisos: sin cuenta o con el DNI en revisión no se puede escribir, publicar ni pagar.</p>
+        </div>
+        <div class="pg-ent-perfiles" id="e-perfiles"></div>
+      </section>
+    </div>
+  </div>
+</main>
+<script>
+A.pagina = function(){
+  const $ = A.$, $$ = A.$$;
+  const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const pad = n => String(n).padStart(2, '0');
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const ico = (d, t, w) => `<svg width="${t||18}" height="${t||18}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w||2}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
+  const D = {
+    ojo:'M2.5 12s3.5-6.5 9.5-6.5 9.5 6.5 9.5 6.5-3.5 6.5-9.5 6.5S2.5 12 2.5 12zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z',
+    ojoNo:'M3 3l18 18M10.6 6.1A10 10 0 0 1 12 6c6 0 9.5 6 9.5 6a17 17 0 0 1-3 3.7M6.6 6.6C4 8.3 2.5 12 2.5 12s3.5 6 9.5 6c1.6 0 3-.4 4.3-1M9.9 9.9a3 3 0 0 0 4.2 4.2',
+    sobre:'M3.5 6h17v12h-17zM4 7l8 6 8-6', movil:'M7.5 3h9v18h-9zM11 18h2', flecha:'M5 12h14M13 6l6 6-6 6'
+  };
+
+  /* ---------- ilustración de fondo: categorías de la marca ---------- */
+  $('#e-cats').innerHTML = ['hogar','mascotas','clases','belleza','jardin','eventos'].map(id => {
+    const c = A.categoria(id); return c ? `<span style="--c1:${c.c1};--c2:${c.c2}">${A.icCat(id, 26)}</span>` : '';
+  }).join('');
+
+  /* ---------- utilidades ---------- */
+  const soloCifras = v => { v = String(v || '').replace(/\D/g, ''); if(v.length === 13 && v.startsWith('0034')) v = v.slice(4); if(v.length === 11 && v.startsWith('34')) v = v.slice(2); return v };
+  const esCorreo = v => v.includes('@');
+  function errId(v){
+    v = v.trim();
+    if(!v) return 'Escribe tu correo o tu móvil.';
+    if(esCorreo(v)) return A.emailValido(v) ? '' : 'Este correo no parece válido. Revisa que tenga @ y un dominio, como nombre@correo.example.';
+    if(/[a-z]/i.test(v)) return 'Escribe un correo completo (con @) o un móvil español.';
+    return A.movilValido(soloCifras(v)) ? '' : 'El móvil tiene que ser español: 9 cifras que empiezan por 6 o 7.';
+  }
+  function error(id, msg){
+    const el = document.getElementById(id), er = document.getElementById(id + '-err');
+    if(el) el.setAttribute('aria-invalid', msg ? 'true' : 'false');
+    if(er){ er.textContent = msg || ''; er.hidden = !msg }
+    return !msg;
+  }
+  function enmascara(v){
+    v = v.trim();
+    if(esCorreo(v)){ const [u, dom] = v.split('@'); return (u[0] || '') + '•••@' + dom }
+    const m = soloCifras(v); return `+34 ${m.slice(0,1)}•• ••• •${m.slice(7)}`;
+  }
+
+  /* ---------- vistas ---------- */
+  let visible = $('#e-v-entrar'), salidaT = 0;
+  const ORDEN = {entrar:0, recuperar:1, enviado:2};
+  function vista(nombre, enfoca){
+    const el = $('#e-v-' + nombre); if(el === visible) return;
+    const adelante = ORDEN[nombre] > ORDEN[visible.id.slice(4)];
+    clearTimeout(salidaT);
+    $$('.pg-ent-sale').forEach(f => { f.hidden = true; f.inert = false; f.classList.remove('pg-ent-sale', 'adelante', 'atras') });
+    const viejo = visible;
+    if(quieto) viejo.hidden = true;
+    else { viejo.inert = true; viejo.classList.add('pg-ent-sale', adelante ? 'adelante' : 'atras');
+      salidaT = setTimeout(() => { viejo.hidden = true; viejo.inert = false; viejo.classList.remove('pg-ent-sale', 'adelante', 'atras') }, 260) }
+    el.hidden = false; el.classList.remove('entra-adelante', 'entra-atras'); void el.offsetWidth;
+    if(!quieto) el.classList.add(adelante ? 'entra-adelante' : 'entra-atras');
+    visible = el;
+    const objetivo = enfoca ? $(enfoca) : el.querySelector('h1');
+    if(objetivo) setTimeout(() => objetivo.focus({preventScroll:true}), quieto ? 0 : 80);
+    try{ history.replaceState(null, '', nombre === 'entrar' ? location.pathname + location.search : '#recuperar') }catch(e){}
+  }
+  document.addEventListener('click', e => { const b = e.target.closest('[data-vista]'); if(b){ e.preventDefault(); vista(b.dataset.vista, b.dataset.vista === 'entrar' ? '#e-id' : null) } });
+
+  /* ---------- entrar ---------- */
+  const idIn = $('#e-id'), clave = $('#e-clave'), ver = $('#e-ver');
+  ver.innerHTML = ico(D.ojo, 20, 1.9);
+  ver.addEventListener('click', () => {
+    const mostrar = clave.type === 'password';
+    clave.type = mostrar ? 'text' : 'password';
+    ver.setAttribute('aria-pressed', mostrar); ver.setAttribute('aria-label', mostrar ? 'Ocultar contraseña' : 'Mostrar contraseña');
+    ver.innerHTML = ico(mostrar ? D.ojoNo : D.ojo, 20, 1.9); clave.focus();
+  });
+  idIn.addEventListener('input', () => {
+    const v = idIn.value.trim(); idIn.setAttribute('inputmode', /^[+\d\s-]+$/.test(v) && v ? 'tel' : 'email');
+    if(idIn.getAttribute('aria-invalid') === 'true') error('e-id', errId(idIn.value));
+  });
+  idIn.addEventListener('blur', () => { if(idIn.value.trim()) error('e-id', errId(idIn.value)) });
+  clave.addEventListener('input', () => { if(clave.getAttribute('aria-invalid') === 'true') error('e-clave', errClave()) });
+  const errClave = () => !clave.value ? 'Escribe tu contraseña.' : clave.value.length < 8 ? 'Las contraseñas de Apaño tienen al menos 8 caracteres.' : '';
+  $('#e-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const a = error('e-id', errId(idIn.value)), b = error('e-clave', errClave());
+    if(!a){ idIn.focus(); return } if(!b){ clave.focus(); return }
+    const btn = $('#e-btn'); btn.classList.add('cargando'); btn.textContent = 'Entrando…';
+    setTimeout(() => { A.guarda('perfil', 'u1'); location.href = 'index.html' }, quieto ? 150 : 900);
+  });
+  $('#e-olvido').addEventListener('click', () => {
+    const rid = $('#e-rid'); if(!rid.value && !errId(idIn.value)) rid.value = idIn.value.trim();
+    vista('recuperar', '#e-rid');
+  });
+
+  /* ---------- recuperar ---------- */
+  const rid = $('#e-rid');
+  rid.addEventListener('input', () => { if(rid.getAttribute('aria-invalid') === 'true') error('e-rid', errId(rid.value)) });
+  let enviadoEn = 0, destino = '';
+  function pintaReenvio(){
+    const r = Math.max(0, 60 - Math.floor((Date.now() - enviadoEn) / 1000)), caja = $('#e-reenvio');
+    const k = String(r > 0 ? r : 0); if(caja.dataset.r === k) return; caja.dataset.r = k;
+    caja.innerHTML = r > 0
+      ? `<span>¿No te llega? Revisa el correo no deseado.</span><span class="num">Reenviar en ${Math.floor(r / 60)}:${pad(r % 60)}</span>`
+      : `<span>¿No te ha llegado?</span><button class="btn btn-suave btn-p" type="button" id="e-reenviar">Reenviar enlace</button>`;
+  }
+  setInterval(() => { if(visible.id === 'e-v-enviado') pintaReenvio() }, 1000);
+  $('#e-reenvio').addEventListener('click', e => {
+    if(!e.target.closest('#e-reenviar')) return;
+    enviadoEn = Date.now(); pintaReenvio(); pintaHora(); A.avisa('Te hemos enviado un enlace nuevo');
+  });
+  function pintaHora(){
+    const fin = new Date(Date.now() + 60 * 60000);
+    $('#e-env-hora').textContent = `Caduca a las ${pad(fin.getHours())}:${pad(fin.getMinutes())} y solo sirve una vez.`;
+  }
+  $('#e-form-rec').addEventListener('submit', e => {
+    e.preventDefault();
+    if(!error('e-rid', errId(rid.value))){ rid.focus(); return }
+    const btn = $('#e-btn-rec'); btn.classList.add('cargando'); btn.textContent = 'Enviando…';
+    setTimeout(() => {
+      btn.classList.remove('cargando'); btn.textContent = 'Enviar enlace';
+      destino = rid.value.trim(); const correo = esCorreo(destino);
+      $('#e-env-ico').innerHTML = ico(correo ? D.sobre : D.movil, 32, 1.8);
+      $('#e-env-t').textContent = correo ? 'Revisa tu correo' : 'Revisa tus SMS';
+      $('#e-env-txt').innerHTML = `Si hay una cuenta de Apaño con <b class="num" style="white-space:nowrap">${esc(enmascara(destino))}</b>, te llegará ${correo ? 'un correo' : 'un SMS'} con un enlace para crear una contraseña nueva.`;
+      enviadoEn = Date.now(); $('#e-reenvio').dataset.r = ''; pintaReenvio(); pintaHora();
+      vista('enviado');
+    }, quieto ? 100 : 800);
+  });
+
+  /* ---------- perfiles de demostración ---------- */
+  const actual = A.perfil();
+  $('#e-perfiles').innerHTML = A.PERFILES.map(p => {
+    const u = p.id ? A.usuario(p.id) : null;
+    const [nom, rol] = p.et.split(' · ');
+    const yo = (p.id || '') === (actual || '');
+    return `<button class="pg-ent-perfil" type="button" data-perfil="${esc(p.id)}" ${yo ? 'aria-current="true"' : ''}>
+      ${u ? A.avatar(u, 'avatar-p') : `<span class="pg-ent-anon">${A.icono('persona', 16)}</span>`}
+      <span class="min0"><b>${esc(nom)}</b><small>${esc(rol || 'Solo mirar anuncios y guardar favoritos')}</small></span>
+      ${yo ? '<span class="insignia insignia-marca" style="margin-left:auto">Ahora</span>' : `<span class="flecha">${ico(D.flecha, 16)}</span>`}
+    </button>`;
+  }).join('');
+  $('#e-perfiles').addEventListener('click', e => {
+    const b = e.target.closest('[data-perfil]'); if(!b) return;
+    A.cambiaPerfil(b.dataset.perfil);
+    location.href = 'index.html';
+  });
+
+  /* ---------- arranque ---------- */
+  if(location.hash === '#recuperar'){ $('#e-v-entrar').hidden = true; $('#e-v-recuperar').hidden = false; visible = $('#e-v-recuperar') }
+};
+</script>

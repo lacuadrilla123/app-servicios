@@ -1,0 +1,664 @@
+<!-- titulo: Buscar servicios | desc: Encuentra servicios de personas verificadas cerca de ti y filtra por distancia, precio, modalidad y valoración. -->
+<style>
+/* ---------- barra de filtros (móvil) ---------- */
+.pg-buscar-barra{ position:sticky; top:calc(var(--pg-buscar-cab,115px) + env(safe-area-inset-top,0px)); z-index:40; background:var(--fondo);
+  transition:box-shadow .25s var(--ease) }
+.pg-buscar-barra.pegada{ box-shadow:0 1px 0 var(--linea), 0 12px 20px -18px var(--tinta-3) }
+.pg-buscar-barra .chips{ padding:10px max(16px,env(safe-area-inset-left,0px)); scroll-padding-inline:16px }
+@media (min-width:760px){ .pg-buscar-barra .chips{ padding-inline:28px } }
+@media (min-width:961px){ .pg-buscar-barra{ display:none } }
+.pg-buscar .chip:active{ transform:scale(.95) }
+.pg-buscar .chip svg{ flex:0 0 auto }
+.pg-buscar .chip.pg-on{ background:var(--tinta); border-color:var(--tinta); color:var(--fondo) }
+.pg-buscar-filtros{ padding-left:13px }
+.pg-buscar-filtros.pg-on{ background:var(--marca-sup)!important; border-color:var(--marca-borde)!important; color:var(--marca-tinta)!important }
+.pg-buscar-cuenta{ display:inline-grid; place-items:center; min-width:20px; height:20px; padding:0 6px; border-radius:99px; background:var(--marca);
+  color:var(--fondo); font-size:.6875rem; font-weight:700; font-variant-numeric:tabular-nums }
+.pg-buscar-chev{ opacity:.6; margin-right:-4px }
+
+/* ---------- cuerpo ---------- */
+.pg-buscar-cuerpo{ padding-top:6px }
+@media (min-width:961px){ .pg-buscar-cuerpo{ padding-top:22px } }
+.pg-buscar-cabeza{ display:flex; flex-direction:column; gap:10px; padding:8px 0 14px }
+.pg-buscar-titulo{ font-size:clamp(1.375rem,2.6vw,1.75rem); letter-spacing:-.03em; outline:none }
+.pg-buscar-q{ color:var(--marca) }
+.pg-buscar-cabeza-fila{ display:flex; align-items:center; justify-content:space-between; gap:10px 16px; flex-wrap:wrap }
+.pg-buscar-zona{ display:inline-flex; align-items:center; gap:5px; color:var(--tinta-3); font-size:var(--t-sm) }
+.pg-buscar-zona svg{ flex:0 0 auto }
+@media (max-width:600px){ .pg-buscar-solo-esc{ display:none } }
+
+/* orden */
+.pg-buscar-orden{ position:relative; display:inline-flex; align-items:center; flex:0 0 auto }
+.pg-buscar-orden select{ -webkit-appearance:none; appearance:none; height:38px; padding:0 34px 0 36px; border-radius:999px; border:1.5px solid var(--linea-2);
+  background:var(--fondo); font-size:var(--t-sm); font-weight:600; color:var(--tinta); cursor:pointer; transition:border-color .18s, box-shadow .18s }
+.pg-buscar-orden select:hover{ border-color:var(--tinta-3) }
+.pg-buscar-orden select:focus-visible{ outline:none; border-color:var(--marca); box-shadow:0 0 0 4px var(--marca-sup) }
+.pg-buscar-orden svg{ position:absolute; pointer-events:none; color:var(--tinta-2) }
+.pg-buscar-orden .pg-i-ord{ left:13px } .pg-buscar-orden .pg-i-chev{ right:12px }
+
+/* filtros activos */
+.pg-buscar-activos{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:0 0 18px }
+.pg-buscar-activos:empty{ display:none }
+.pg-buscar-activo{ display:inline-flex; align-items:center; gap:6px; height:32px; padding:0 9px 0 13px; border-radius:999px; border:0;
+  background:var(--marca-sup); color:var(--marca-tinta); font-size:var(--t-sm); font-weight:600; white-space:nowrap;
+  transition:background .18s, transform .15s var(--ease); animation:sube .28s var(--ease) both }
+.pg-buscar-activo:hover{ background:var(--marca-borde) }
+.pg-buscar-activo:active{ transform:scale(.94) }
+.pg-buscar-activo svg{ opacity:.7 }
+.pg-buscar-borrar{ height:32px; padding:0 6px; border:0; background:none; font-size:var(--t-sm); font-weight:650; color:var(--tinta-2);
+  text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--linea-2); transition:color .15s }
+.pg-buscar-borrar:hover{ color:var(--tinta); text-decoration-color:currentColor }
+
+/* rejilla: con lateral caben 3 columnas hasta 1200 px */
+@media (min-width:961px) and (max-width:1199px){ .pg-buscar-lista.anuncios{ grid-template-columns:repeat(3,minmax(0,1fr)) } }
+.pg-buscar-entra{ animation:sube .42s var(--ease) both }
+/* el corazón de A.tarjeta queda bajo la capa de a.cubre por el isolation de .tarjeta-img: lo liberamos aquí */
+.pg-buscar .tarjeta-img{ isolation:auto }
+
+/* esqueleto de «cargar más» */
+.pg-buscar-esq{ display:flex; flex-direction:column; gap:9px; min-width:0 }
+.pg-buscar-esq-img{ aspect-ratio:1/1; border-radius:var(--r-l) }
+.pg-buscar-esq-l1{ height:18px; width:42%; border-radius:6px }
+.pg-buscar-esq-l2{ height:12px; width:92%; border-radius:6px }
+.pg-buscar-esq-l3{ height:12px; width:62%; border-radius:6px }
+
+/* bloque de confianza entre resultados */
+.pg-buscar-confianza{ grid-column:1/-1; display:flex; align-items:center; gap:14px; padding:14px 18px; border-radius:var(--r-l); background:var(--sup);
+  font-size:var(--t-sm); color:var(--tinta-2); line-height:1.5 }
+.pg-buscar-confianza b{ color:var(--tinta); font-weight:650 }
+.pg-buscar-confianza-ico{ flex:0 0 auto; width:44px; height:44px; border-radius:14px; display:grid; place-items:center; background:var(--ok-sup); color:var(--ok) }
+.pg-buscar-confianza-enl{ flex:0 0 auto; display:inline-flex; align-items:center; gap:3px; font-weight:650; color:var(--marca); white-space:nowrap }
+.pg-buscar-confianza-enl:hover{ text-decoration:underline; text-underline-offset:3px }
+.pg-buscar-confianza-enl svg{ transition:transform .2s var(--ease) }
+.pg-buscar-confianza-enl:hover svg{ transform:translateX(3px) }
+@media (max-width:600px){
+  .pg-buscar-confianza{ flex-wrap:wrap; align-items:flex-start; padding:14px 16px }
+  .pg-buscar-confianza p{ flex:1 1 calc(100% - 58px) }
+  .pg-buscar-confianza-enl{ margin-left:58px; margin-top:-6px }
+}
+
+/* cargar más */
+.pg-buscar-mas{ display:flex; flex-direction:column; align-items:center; gap:12px; padding:36px 0 6px; text-align:center }
+.pg-buscar-avance{ width:180px; height:4px; border-radius:99px; background:var(--sup-3); overflow:hidden }
+.pg-buscar-avance span{ display:block; height:100%; border-radius:inherit; background:var(--marca); transition:width .5s var(--ease) }
+.pg-buscar-mas .btn{ min-width:200px }
+.pg-buscar-mas .btn .pg-buscar-mas-n{ display:inline-grid; place-items:center; height:22px; padding:0 8px; border-radius:99px; background:var(--sup-2);
+  font-size:var(--t-xs); color:var(--tinta-2) }
+.pg-buscar-mas .btn.cargando{ pointer-events:none; color:var(--tinta-3) }
+
+/* estado vacío */
+.pg-buscar-vacio{ display:flex; flex-direction:column; align-items:center; text-align:center; gap:12px; max-width:540px; margin:4px auto 0; padding:18px 0 28px }
+.pg-buscar-ilu{ width:210px; height:156px; margin-bottom:6px; animation:sube .5s var(--ease) both }
+.pg-buscar-ilu .i-fondo{ fill:var(--marca-sup) }
+.pg-buscar-ilu .i-carta{ fill:var(--fondo); stroke:var(--linea-2); stroke-width:2; stroke-dasharray:6 6 }
+.pg-buscar-ilu .i-hueco{ fill:var(--sup-2) }
+.pg-buscar-ilu .i-raya{ fill:var(--sup-3) }
+.pg-buscar-ilu .i-lente{ fill:var(--fondo); stroke:var(--marca); stroke-width:6 }
+.pg-buscar-ilu .i-mango{ stroke:var(--marca); stroke-width:10; stroke-linecap:round }
+.pg-buscar-ilu .i-cara{ fill:none; stroke:var(--marca); stroke-width:3.2; stroke-linecap:round }
+.pg-buscar-ilu .i-ojo{ fill:var(--marca) }
+.pg-buscar-ilu .i-chispa{ fill:var(--sol) }
+.pg-buscar-ilu .i-lupa{ transform-origin:150px 92px; animation:pg-buscar-busca 1.1s .25s var(--ease) both }
+@keyframes pg-buscar-busca{ 0%{ transform:translate(-16px,6px) rotate(-10deg) } 55%{ transform:translate(6px,-2px) rotate(5deg) } }
+.pg-buscar-vacio h2{ font-size:var(--t-xl) }
+.pg-buscar-vacio p{ color:var(--tinta-2); max-width:44ch }
+.pg-buscar-vacio-acc{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:6px }
+.pg-buscar-sug{ width:100%; margin-top:18px; padding-top:20px; border-top:1px solid var(--linea) }
+.pg-buscar-sug .chips{ flex-wrap:wrap; justify-content:center; overflow:visible; margin-top:12px }
+.pg-buscar-sug .chip .num{ color:var(--tinta-3); font-weight:500 }
+
+/* ---------- lateral (escritorio) ---------- */
+@media (max-width:960px){ .pg-buscar-lateral{ display:none } }
+.pg-buscar-lateral{ max-height:calc(100vh - var(--cab) - 40px); overflow-y:auto; overscroll-behavior:contain; padding:2px 8px 24px 2px; scrollbar-width:thin }
+.pg-buscar-lat-cab{ display:flex; align-items:center; justify-content:space-between; gap:8px; padding:6px 0 4px }
+.pg-buscar-grupo{ border:0; margin:0; padding:18px 0; min-width:0; border-bottom:1px solid var(--linea) }
+.pg-buscar-grupo:last-child{ border-bottom:0 }
+.pg-buscar-grupo>legend{ float:left; width:100%; padding:0; margin:0 0 12px; font-size:var(--t-sm); font-weight:650; color:var(--tinta) }
+.pg-buscar-grupo>legend+*{ clear:both }
+.pg-buscar-grupo .ayuda{ margin-top:10px }
+.pg-buscar-opcs{ display:flex; flex-wrap:wrap; gap:7px }
+.pg-buscar-opcs .chip{ height:34px; padding:0 12px; font-size:var(--t-sm) }
+.pg-buscar-grupo .pg-buscar-opcs+.pg-buscar-opcs, .pg-buscar-precio+.error, .pg-buscar-precio~.pg-buscar-opcs{ margin-top:10px }
+.pg-buscar-nota{ display:flex; align-items:center; gap:5px; font-size:var(--t-xs); color:var(--tinta-3); margin-top:10px }
+.pg-buscar-precio{ display:grid; grid-template-columns:minmax(0,1fr) 10px minmax(0,1fr); gap:6px; align-items:end }
+.pg-buscar-precio .campo>label{ font-size:var(--t-xs); font-weight:600; color:var(--tinta-3) }
+.pg-buscar-guion{ height:2px; background:var(--linea-2); border-radius:2px; margin-bottom:22px }
+.pg-buscar-eur{ position:relative }
+.pg-buscar-eur .ent{ height:44px; padding:0 28px 0 13px; -moz-appearance:textfield; appearance:textfield }
+.pg-buscar-eur .ent::-webkit-inner-spin-button,.pg-buscar-eur .ent::-webkit-outer-spin-button{ -webkit-appearance:none; margin:0 }
+.pg-buscar-eur span{ position:absolute; right:12px; top:50%; translate:0 -50%; color:var(--tinta-3); font-size:var(--t-sm); pointer-events:none }
+.pg-buscar-casilla{ align-items:center; padding:8px 0 }
+.pg-buscar-casilla b,.pg-buscar-inter b{ display:block; color:var(--tinta); font-weight:600; font-size:var(--t-sm) }
+.pg-buscar-casilla small,.pg-buscar-inter small{ display:block; font-size:var(--t-xs); color:var(--tinta-3); line-height:1.35 }
+.pg-buscar-nm{ font-size:var(--t-xs); color:var(--tinta-3); min-width:2ch; text-align:right }
+.pg-buscar-inter{ display:flex; align-items:center; gap:12px; padding:9px 0 }
+.pg-buscar-inter label{ cursor:pointer }
+.pg-buscar-interruptores{ padding-top:10px }
+.pg-buscar-foco{ animation:pg-buscar-foco 1.2s var(--ease) both }
+@keyframes pg-buscar-foco{ 0%,35%{ background:var(--marca-sup) } }
+
+/* ---------- hoja de filtros (móvil) ---------- */
+.dialogo.pg-buscar-dlg{ padding-bottom:0 }
+.pg-buscar-hoja-cab{ display:flex; align-items:center; gap:12px; padding:16px 62px 4px 20px }
+.pg-buscar-hoja-cab h2{ flex:1; outline:none }
+.pg-buscar-hoja-cuerpo{ padding-top:0; padding-bottom:6px }
+.pg-buscar-hoja-cuerpo .pg-buscar-grupo{ margin-inline:-20px; padding-inline:20px; border-radius:0 }
+.pg-buscar-hoja-pie{ position:sticky; bottom:0; z-index:3; padding:12px 20px calc(14px + env(safe-area-inset-bottom,0px)); background:var(--fondo);
+  border-top:1px solid var(--linea) }
+.pg-buscar-bump{ display:inline-block; animation:pg-buscar-bump .32s var(--ease) }
+@keyframes pg-buscar-bump{ 40%{ transform:scale(1.2) } }
+</style>
+<main id="contenido" class="pg-buscar">
+  <div class="contenedor">
+    <nav class="cats" id="pg-buscar-cats" aria-label="Categorías"></nav>
+  </div>
+
+  <div class="pg-buscar-barra" id="pg-buscar-barra">
+    <div class="chips" role="group" aria-label="Filtros rápidos">
+      <button type="button" class="chip pg-buscar-filtros" data-abre="" aria-haspopup="dialog">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2.2"/><circle cx="9" cy="17" r="2.2"/></svg>
+        <span>Filtros</span><span class="pg-buscar-cuenta" hidden>0</span>
+      </button>
+      <button type="button" class="chip" data-abre="dist" aria-haspopup="dialog"><span>Distancia</span><svg class="pg-buscar-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+      <button type="button" class="chip" data-abre="precio" aria-haspopup="dialog"><span>Precio</span><svg class="pg-buscar-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+      <button type="button" class="chip" data-abre="modo" aria-haspopup="dialog"><span>Modalidad</span><svg class="pg-buscar-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+      <button type="button" class="chip" data-f="dest" aria-pressed="false">Solo destacados</button>
+      <button type="button" class="chip" data-f="hoy" aria-pressed="false">Disponible hoy</button>
+      <button type="button" class="chip" data-f="val" aria-pressed="false"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3.4l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.8l-5.2 2.8 1-5.9L3.5 9.6l5.9-.8z"/></svg>4,5 o más</button>
+    </div>
+  </div>
+
+  <div class="contenedor pg-buscar-cuerpo">
+    <div class="con-lateral-izq">
+      <aside class="pg-buscar-lateral pegajoso" id="pg-buscar-lateral" aria-labelledby="pg-buscar-lat-t"></aside>
+
+      <section class="min0" aria-labelledby="pg-buscar-titulo">
+        <div class="pg-buscar-cabeza">
+          <h1 class="pg-buscar-titulo" id="pg-buscar-titulo" tabindex="-1">Servicios cerca de ti</h1>
+          <div class="pg-buscar-cabeza-fila">
+            <p class="pg-buscar-zona"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11zM12 12.2a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4z"/></svg>Cerca de Palma<span class="pg-buscar-solo-esc">· todos con identidad verificada</span></p>
+            <div class="pg-buscar-orden">
+              <label class="solo-lector" for="pg-buscar-orden">Ordenar por</label>
+              <svg class="pg-i-ord" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4v16M3.5 16.5 7 20l3.5-3.5M17 20V4M13.5 7.5 17 4l3.5 3.5"/></svg>
+              <select id="pg-buscar-orden"></select>
+              <svg class="pg-i-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="pg-buscar-activos" id="pg-buscar-activos"></div>
+        <div class="anuncios pg-buscar-lista" id="pg-buscar-lista"></div>
+        <div id="pg-buscar-vacio" hidden></div>
+        <div class="pg-buscar-mas" id="pg-buscar-mas" hidden>
+          <p class="sm sec" id="pg-buscar-mas-t"></p>
+          <div class="pg-buscar-avance" aria-hidden="true"><span id="pg-buscar-mas-barra"></span></div>
+          <button type="button" class="btn btn-sec" id="pg-buscar-cargar"></button>
+        </div>
+        <p class="solo-lector" aria-live="polite" id="pg-buscar-vivo"></p>
+      </section>
+    </div>
+  </div>
+</main>
+<script>
+A.pagina = function(){
+  const $ = A.$, $$ = A.$$;
+  const main = $('.pg-buscar');
+  const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+  const norm = s => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  const num = v => { const n = parseFloat(String(v == null ? '' : v).replace(',', '.')); return isFinite(n) && n >= 0 ? n : '' };
+
+  const PASO = 12;
+  const DIST = [1, 5, 10, 25, 0];
+  const MODOS = [
+    {id:'domicilio', n:'A domicilio', d:'Vienen a tu casa', re:/domicilio|presencial/},
+    {id:'local', n:'En su local', d:'Vas tú: estudio, taller o local', re:/estudio|local|en mi casa/},
+    {id:'online', n:'Online', d:'Por videollamada o a distancia', re:/online/}
+  ];
+  const MODO = Object.fromEntries(MODOS.map(m => [m.id, m]));
+  const ORDENES = [['rel','Más relevantes'], ['cerca','Más cerca'], ['barato','Precio más bajo'], ['caro','Precio más alto'], ['nuevos','Más nuevos'], ['valorados','Mejor valorados']];
+  const PRESETS = [{t:'Hasta 15 €', min:'', max:15}, {t:'15 – 50 €', min:15, max:50}, {t:'Más de 50 €', min:50, max:''}];
+  const INTER = [['dest','Solo destacados','Anuncios con el sello Destacado'], ['hoy','Disponible hoy','Pueden atenderte hoy mismo'], ['val','Valoración 4,5 o más','Anunciantes con las mejores reseñas']];
+  const STOP = new Set('de del la el los las lo y e o u a al en para con por sin un una unos unas mi tu su que se me te'.split(' '));
+  const IDEAS = ['Paseo de perros', 'Electricista', 'Limpieza', 'Clases de inglés', 'Mudanza', 'Peluquería', 'Reparar móvil', 'Yoga', 'Fotografía', 'Piscina', 'Mecánico'];
+  const CHEV = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>';
+
+  /* ---------- índice de búsqueda (sin tildes) ---------- */
+  const base = A.activos().map(a => {
+    const u = A.usuario(a.u), c = A.categoria(a.cat);
+    return {a, u, t:norm(a.t), sub:norm(a.sub), cat:norm(c.n), un:norm(u.n), d:norm(a.desc), modo:norm(a.modo)};
+  });
+  const PESOS = {t:6, sub:4, cat:3, un:3, d:1};
+  const fichas = q => norm(q).split(/[^a-z0-9]+/).filter(t => t.length > 1 && !STOP.has(t));
+  const toca = (campo, t) => campo.includes(t)
+    || (t.length > 4 && t.endsWith('es') && campo.includes(t.slice(0, -2)))
+    || (t.length > 3 && t.endsWith('s') && campo.includes(t.slice(0, -1)));
+  function puntua(x, toks, qn){
+    let p = 0;
+    for(const t of toks){ let h = 0; for(const k in PESOS) if(toca(x[k], t)) h += PESOS[k]; if(!h) return -1; p += h }
+    if(qn.length > 2 && x.t.includes(qn)) p += 5;
+    return p;
+  }
+
+  /* ---------- estado (lee la URL) ---------- */
+  const P = new URLSearchParams(location.search);
+  const st = {
+    q: (P.get('q') || '').trim().slice(0, 80),
+    cat: A.categoria(P.get('cat')) ? P.get('cat') : '',
+    dist: DIST.includes(+P.get('km')) ? +P.get('km') : 0,
+    pmin: num(P.get('min')), pmax: num(P.get('max')),
+    modos: (P.get('modo') || '').split(',').filter(m => MODO[m]),
+    dest: P.get('dest') === '1', hoy: P.get('hoy') === '1', val: P.get('val') === '1',
+    orden: ORDENES.some(o => o[0] === P.get('orden')) ? P.get('orden') : 'rel',
+    ver: PASO
+  };
+  const copia = s => Object.assign({}, s, {modos: s.modos.slice()});
+  const limpia = s => Object.assign(s, {dist:0, pmin:'', pmax:'', modos:[], dest:false, hoy:false, val:false});
+  const nFiltros = s => (s.dist ? 1 : 0) + (s.pmin !== '' || s.pmax !== '' ? 1 : 0) + s.modos.length + (s.dest ? 1 : 0) + (s.hoy ? 1 : 0) + (s.val ? 1 : 0);
+  const precioMalo = s => s.pmin !== '' && s.pmax !== '' && s.pmax < s.pmin;
+  const presetOn = (s, r) => String(s.pmin) === String(r.min) && String(s.pmax) === String(r.max);
+  const txtDist = s => s.dist ? 'Hasta ' + s.dist + ' km' : 'Distancia';
+  const txtPrecio = s => s.pmin !== '' && s.pmax !== '' ? A.eur0(s.pmin) + ' – ' + A.eur0(s.pmax)
+    : s.pmin !== '' ? 'Desde ' + A.eur0(s.pmin) : s.pmax !== '' ? 'Hasta ' + A.eur0(s.pmax) : 'Precio';
+  const txtModo = s => s.modos.length === 1 ? MODO[s.modos[0]].n : s.modos.length ? s.modos.length + ' modalidades' : 'Modalidad';
+
+  /* ---------- filtrar y ordenar ---------- */
+  function filtra(s, op){
+    op = op || {};
+    const toks = fichas(s.q), qn = norm(s.q).trim(), modos = op.modos || s.modos;
+    const pmin = s.pmin === '' ? null : s.pmin, pmax = s.pmax === '' || precioMalo(s) ? null : s.pmax;
+    const out = [];
+    for(const x of base){
+      if(s.cat && x.a.cat !== s.cat) continue;
+      if(s.dist && x.u.km > s.dist) continue;
+      if(pmin != null && x.a.precio < pmin) continue;
+      if(pmax != null && x.a.precio > pmax) continue;
+      if(modos.length && !modos.some(m => MODO[m].re.test(x.modo))) continue;
+      if(s.dest && !x.a.dest) continue;
+      if(s.hoy && !x.a.urg) continue;
+      if(s.val && x.u.val < 4.5) continue;
+      const p = toks.length ? puntua(x, toks, qn) : 0;
+      if(p < 0) continue;
+      out.push({x, p});
+    }
+    return out;
+  }
+  function ordena(l, orden){
+    const pop = (a, b) => (b.x.a.dest - a.x.a.dest) || (b.x.a.favs - a.x.a.favs);
+    const f = {
+      rel: (a, b) => (b.p - a.p) || pop(a, b),
+      cerca: (a, b) => (a.x.u.km - b.x.u.km) || pop(a, b),
+      barato: (a, b) => (a.x.a.precio - b.x.a.precio) || pop(a, b),
+      caro: (a, b) => (b.x.a.precio - a.x.a.precio) || pop(a, b),
+      nuevos: (a, b) => b.x.a.fecha.localeCompare(a.x.a.fecha) || pop(a, b),
+      valorados: (a, b) => (b.x.u.val - a.x.u.val) || (b.x.u.resenas - a.x.u.resenas) || pop(a, b)
+    }[orden] || pop;
+    return l.slice().sort(f);
+  }
+
+  /* ---------- controles de filtro (lateral y hoja comparten marcado) ---------- */
+  function controles(p){
+    return `
+    <fieldset class="pg-buscar-grupo" id="${p}-g-dist">
+      <legend>Distancia máxima</legend>
+      <div class="pg-buscar-opcs">${DIST.map(d => `<button type="button" class="chip" data-f="dist" data-v="${d}" aria-pressed="false">${d ? d + ' km' : 'Sin límite'}</button>`).join('')}</div>
+      <p class="pg-buscar-nota">${A.icono('ubicacion', 14)}Desde tu zona: Palma</p>
+    </fieldset>
+    <fieldset class="pg-buscar-grupo" id="${p}-g-precio">
+      <legend>Precio</legend>
+      <div class="pg-buscar-precio">
+        <div class="campo"><label for="${p}-pmin">Mínimo</label><div class="pg-buscar-eur"><input class="ent" id="${p}-pmin" type="number" inputmode="numeric" min="0" step="1" placeholder="0" data-f="pmin"><span aria-hidden="true">€</span></div></div>
+        <span class="pg-buscar-guion" aria-hidden="true"></span>
+        <div class="campo"><label for="${p}-pmax">Máximo</label><div class="pg-buscar-eur"><input class="ent" id="${p}-pmax" type="number" inputmode="numeric" min="0" step="1" placeholder="Sin tope" data-f="pmax" aria-describedby="${p}-perr"><span aria-hidden="true">€</span></div></div>
+      </div>
+      <p class="error" id="${p}-perr" hidden>El máximo es menor que el mínimo.</p>
+      <div class="pg-buscar-opcs">${PRESETS.map((r, i) => `<button type="button" class="chip" data-f="pre" data-v="${i}" aria-pressed="false">${r.t}</button>`).join('')}</div>
+      <p class="ayuda">Precio por hora, sesión o servicio, según el anuncio.</p>
+    </fieldset>
+    <fieldset class="pg-buscar-grupo" id="${p}-g-modo">
+      <legend>Modalidad</legend>
+      <div class="col">${MODOS.map(m => `<label class="casilla pg-buscar-casilla" for="${p}-modo-${m.id}"><input type="checkbox" id="${p}-modo-${m.id}" value="${m.id}" data-f="modo"><span class="crecer"><b>${m.n}</b><small>${m.d}</small></span><span class="pg-buscar-nm num" data-nmodo="${m.id}"></span></label>`).join('')}</div>
+    </fieldset>
+    <div class="pg-buscar-grupo pg-buscar-interruptores" id="${p}-g-mas">
+      ${INTER.map(([k, t, d]) => `<div class="pg-buscar-inter"><label class="crecer" for="${p}-${k}"><b>${t}</b><small>${d}</small></label><button type="button" class="interruptor" id="${p}-${k}" role="switch" aria-checked="false" data-f="${k}"></button></div>`).join('')}
+    </div>`;
+  }
+  function enlaza(raiz, s, cambio, espera){
+    let t;
+    raiz.addEventListener('click', e => {
+      const b = e.target.closest('button[data-f]'); if(!b) return;
+      const f = b.dataset.f, v = b.dataset.v;
+      if(f === 'dist') s.dist = +v;
+      else if(f === 'pre'){ const r = PRESETS[+v], on = presetOn(s, r); s.pmin = on ? '' : r.min; s.pmax = on ? '' : r.max }
+      else if(f === 'dest' || f === 'hoy' || f === 'val') s[f] = !s[f];
+      else return;
+      clearTimeout(t); cambio();
+    });
+    raiz.addEventListener('change', e => {
+      const c = e.target; if(c.dataset.f !== 'modo') return;
+      s.modos = c.checked ? [...new Set([...s.modos, c.value])] : s.modos.filter(m => m !== c.value);
+      cambio();
+    });
+    raiz.addEventListener('input', e => {
+      const c = e.target; if(c.dataset.f !== 'pmin' && c.dataset.f !== 'pmax') return;
+      s[c.dataset.f] = num(c.value);
+      clearTimeout(t); t = setTimeout(cambio, espera || 0);
+    });
+  }
+  function sincroniza(raiz, s){
+    $$('[data-f="dist"]', raiz).forEach(b => b.setAttribute('aria-pressed', +b.dataset.v === s.dist));
+    $$('[data-f="pre"]', raiz).forEach(b => b.setAttribute('aria-pressed', presetOn(s, PRESETS[+b.dataset.v])));
+    ['pmin', 'pmax'].forEach(k => { const i = $(`[data-f="${k}"]`, raiz); if(i && document.activeElement !== i) i.value = s[k] });
+    const malo = precioMalo(s), imax = $('[data-f="pmax"]', raiz), err = $('.error', raiz);
+    if(imax) imax.setAttribute('aria-invalid', malo); if(err) err.hidden = !malo;
+    $$('input[data-f="modo"]', raiz).forEach(c => c.checked = s.modos.includes(c.value));
+    $$('[data-nmodo]', raiz).forEach(el => el.textContent = filtra(s, {modos:[el.dataset.nmodo]}).length);
+    $$('.interruptor[data-f]', raiz).forEach(b => b.setAttribute('aria-checked', !!s[b.dataset.f]));
+  }
+
+  /* ---------- piezas de la página ---------- */
+  const cats = $('#pg-buscar-cats'), barra = $('#pg-buscar-barra'), lat = $('#pg-buscar-lateral');
+  const grid = $('#pg-buscar-lista'), vacio = $('#pg-buscar-vacio'), activos = $('#pg-buscar-activos'), mas = $('#pg-buscar-mas');
+  const orden = $('#pg-buscar-orden');
+  orden.innerHTML = ORDENES.map(([v, t]) => `<option value="${v}">${t}</option>`).join('');
+
+  cats.innerHTML = `<a class="cat" data-cat="" href="buscar.html"><span class="cat-ico" style="--c1:var(--marca);--c2:var(--marca-2)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="6.6" height="6.6" rx="1.8"/><rect x="13.4" y="4" width="6.6" height="6.6" rx="1.8"/><rect x="4" y="13.4" width="6.6" height="6.6" rx="1.8"/><rect x="13.4" y="13.4" width="6.6" height="6.6" rx="1.8"/></svg></span>Todo</a>`
+    + A.CATEGORIAS.map(c => `<a class="cat" data-cat="${c.id}" href="buscar.html?cat=${c.id}"><span class="cat-ico" style="--c1:${c.c1};--c2:${c.c2}">${A.icCat(c.id, 26)}</span>${c.n}</a>`).join('');
+
+  lat.innerHTML = `<div class="pg-buscar-lat-cab"><h2 class="h3" id="pg-buscar-lat-t">Filtros</h2><button type="button" class="pg-buscar-borrar" data-borrar hidden>Borrar</button></div>${controles('lat')}`;
+
+  const conf = document.createElement('aside');
+  conf.className = 'pg-buscar-confianza';
+  conf.setAttribute('aria-label', 'Anunciantes verificados');
+  conf.innerHTML = `<span class="pg-buscar-confianza-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4.5 6v5.6c0 4.4 3.1 8.2 7.5 9.4 4.4-1.2 7.5-5 7.5-9.4V6z"/><path d="m8.8 12.2 2.3 2.3 4.3-4.6"/></svg></span>
+    <p><b>Todos los anunciantes son mayores de 18 y han verificado su identidad</b> con DNI, NIE o pasaporte. El documento solo lo ve nuestro equipo de verificación y su número nunca se publica.</p>
+    <a class="pg-buscar-confianza-enl" href="como-funciona.html#verificacion">Cómo verificamos${CHEV}</a>`;
+
+  const ESQ = '<div class="pg-buscar-esq" aria-hidden="true"><div class="esqueleto pg-buscar-esq-img"></div><div class="esqueleto pg-buscar-esq-l1"></div><div class="esqueleto pg-buscar-esq-l2"></div><div class="esqueleto pg-buscar-esq-l3"></div></div>';
+
+  /* ---------- pintado ---------- */
+  let lista = [];
+  const vivo = t => { const v = $('#pg-buscar-vivo'); v.textContent = ''; setTimeout(() => v.textContent = t, 40) };
+  const cuantos = n => n === 1 ? '1 resultado' : A.num(n) + ' resultados';
+
+  function sincCats(){
+    $$('.cat', cats).forEach(a => {
+      const id = a.dataset.cat;
+      if(id === st.cat) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+      const p = new URLSearchParams(); if(st.q) p.set('q', st.q); if(id) p.set('cat', id);
+      a.href = 'buscar.html' + (p.toString() ? '?' + p : '');
+    });
+  }
+  function sincBarra(){
+    const n = nFiltros(st), fb = $('[data-abre=""]', barra), c = $('.pg-buscar-cuenta', fb);
+    fb.classList.toggle('pg-on', n > 0); c.textContent = n; c.hidden = !n;
+    fb.setAttribute('aria-label', n ? `Filtros, ${n} ${n === 1 ? 'activo' : 'activos'}` : 'Filtros');
+    const pon = (k, txt, on) => { const b = $(`[data-abre="${k}"]`, barra); $('span', b).textContent = txt; b.classList.toggle('pg-on', on) };
+    pon('dist', txtDist(st), !!st.dist);
+    pon('precio', txtPrecio(st), st.pmin !== '' || st.pmax !== '');
+    pon('modo', txtModo(st), st.modos.length > 0);
+    $$('[data-f]', barra).forEach(b => b.setAttribute('aria-pressed', !!st[b.dataset.f]));
+  }
+  function pintaCabeza(){
+    const n = lista.length, c = st.cat && A.categoria(st.cat);
+    const qh = st.q ? `<span class="pg-buscar-q">“${esc(st.q)}”</span>` : '';
+    const en = c ? ' en ' + esc(c.n) : '';
+    let h;
+    if(!n) h = st.q ? `Sin resultados para ${qh}${en}` : `Sin resultados${en}`;
+    else if(st.q) h = `${cuantos(n)} para ${qh}${en}`;
+    else h = `${A.num(n)} ${n === 1 ? 'servicio' : 'servicios'}${c ? en : ' cerca de ti'}`;
+    $('#pg-buscar-titulo').innerHTML = h;
+    document.title = (st.q ? '“' + st.q + '” · ' : c ? c.n + ' · ' : '') + 'Buscar servicios · Apaño';
+    orden.value = st.orden;
+  }
+  function pintaActivos(){
+    const ch = [];
+    const pon = (k, t, extra, et) => ch.push(`<button type="button" class="pg-buscar-activo" data-quita="${k}" ${extra || ''} aria-label="${esc(et || 'Quitar filtro: ' + t)}">${esc(t)}${A.icono('cerrar', 14)}</button>`);
+    if(st.q) pon('q', '“' + st.q + '”', '', 'Quitar la búsqueda ' + st.q);
+    if(st.cat) pon('cat', A.categoria(st.cat).n);
+    if(st.dist) pon('dist', txtDist(st));
+    if(st.pmin !== '' || st.pmax !== '') pon('precio', txtPrecio(st));
+    st.modos.forEach(m => pon('modo', MODO[m].n, `data-v="${m}"`));
+    if(st.dest) pon('dest', 'Solo destacados');
+    if(st.hoy) pon('hoy', 'Disponible hoy');
+    if(st.val) pon('val', 'Valoración 4,5 o más');
+    activos.innerHTML = ch.join('') + (nFiltros(st) ? '<button type="button" class="pg-buscar-borrar" data-borrar>Borrar filtros</button>' : '');
+    const lb = $('[data-borrar]', lat); if(lb) lb.hidden = !nFiltros(st);
+  }
+  function animaEntrada(els){
+    if(quieto) return;
+    els.forEach((el, i) => { el.classList.add('pg-buscar-entra'); el.style.animationDelay = Math.min(i, 11) * 32 + 'ms' });
+  }
+  function colocaConfianza(){
+    const ts = $$('.tarjeta', grid);
+    if(!ts.length){ conf.remove(); return }
+    const cols = getComputedStyle(grid).gridTemplateColumns.split(' ').filter(Boolean).length || 2;
+    ts[Math.min(ts.length, cols * 2) - 1].after(conf);
+  }
+  function pintaMas(){
+    const n = lista.length, v = Math.min(st.ver, n);
+    mas.hidden = n <= PASO;
+    if(n <= PASO) return;
+    $('#pg-buscar-mas-t').innerHTML = v < n ? `Has visto <b class="num">${v}</b> de <span class="num">${A.num(n)}</span>` : `Has visto los <b class="num">${A.num(n)}</b> resultados`;
+    $('#pg-buscar-mas-barra').style.width = Math.round(v / n * 100) + '%';
+    const b = $('#pg-buscar-cargar');
+    b.classList.remove('cargando'); b.removeAttribute('aria-busy');
+    b.innerHTML = v < n ? `Cargar más <span class="pg-buscar-mas-n num">+${Math.min(PASO, n - v)}</span>` : 'Volver arriba';
+    b.dataset.accion = v < n ? 'mas' : 'arriba';
+  }
+  function pintaVacio(){
+    const sinF = limpia(copia(st)); sinF.cat = '';
+    const nSin = (nFiltros(st) || st.cat) ? filtra(sinF).length : 0;
+    const sug = [];
+    for(const t of IDEAS){
+      if(norm(t) === norm(st.q)) continue;
+      const conF = filtra(Object.assign(copia(st), {q:t, cat:''})).length;
+      if(conF) sug.push({t, n:conF, limpia:0});
+      else { const n2 = filtra(Object.assign(copia(sinF), {q:t})).length; if(n2) sug.push({t, n:n2, limpia:1}) }
+      if(sug.length >= 6) break;
+    }
+    const c = st.cat && A.categoria(st.cat);
+    const tit = st.q ? `No encontramos nada para “${esc(st.q)}”${c ? ' en ' + esc(c.n) : ''}` : 'Ningún servicio cumple estos filtros';
+    const txt = nSin
+      ? `Hay ${cuantos(nSin)} si quitas los filtros${c ? ' y la categoría' : ''}. Prueba a ampliar la distancia o el precio.`
+      : `Revisa cómo lo has escrito o usa una palabra más general: «limpieza» en vez de «limpieza de sofás».`;
+    vacio.innerHTML = `<div class="pg-buscar-vacio">
+      <svg class="pg-buscar-ilu" viewBox="0 0 210 156" aria-hidden="true">
+        <circle class="i-fondo" cx="104" cy="82" r="66"/>
+        <rect class="i-carta" x="44" y="30" width="86" height="104" rx="16"/>
+        <rect class="i-hueco" x="54" y="40" width="66" height="50" rx="10"/>
+        <rect class="i-raya" x="54" y="100" width="44" height="8" rx="4"/>
+        <rect class="i-raya" x="54" y="114" width="62" height="7" rx="3.5"/>
+        <path class="i-chispa" d="M34 30l3 7 7 3-7 3-3 7-3-7-7-3 7-3zM178 40l2.2 5 5 2.2-5 2.2-2.2 5-2.2-5-5-2.2 5-2.2z"/>
+        <g class="i-lupa">
+          <line class="i-mango" x1="166" y1="110" x2="186" y2="130"/>
+          <circle class="i-lente" cx="148" cy="90" r="27"/>
+          <circle class="i-ojo" cx="139" cy="86" r="3.4"/><circle class="i-ojo" cx="157" cy="86" r="3.4"/>
+          <path class="i-cara" d="M140 101c5-3.4 11-3.4 16 0"/>
+        </g>
+      </svg>
+      <h2>${tit}</h2>
+      <p>${txt}</p>
+      <div class="pg-buscar-vacio-acc">
+        ${nSin ? `<button type="button" class="btn" data-accion="sin-filtros">Quitar filtros y ver ${A.num(nSin)}</button>` : ''}
+        ${st.q || st.cat || nFiltros(st) ? `<button type="button" class="btn ${nSin ? 'btn-sec' : ''}" data-accion="todo">Ver todos los servicios</button>` : ''}
+      </div>
+      ${sug.length ? `<div class="pg-buscar-sug"><p class="etiqueta">Prueba con</p><div class="chips">${sug.map(s => `<a class="chip" href="buscar.html?q=${encodeURIComponent(s.t)}" data-sug="${esc(s.t)}" data-limpia="${s.limpia}">${esc(s.t)} <span class="num">${s.n}</span></a>`).join('')}</div></div>` : ''}
+    </div>`;
+  }
+  function pintaLista(anima){
+    const vis = lista.slice(0, st.ver);
+    grid.innerHTML = vis.map(r => A.tarjeta(r.x.a)).join('');
+    grid.hidden = !lista.length;
+    vacio.hidden = !!lista.length;
+    if(!lista.length) pintaVacio(); else vacio.innerHTML = '';
+    if(anima) animaEntrada($$('.tarjeta', grid));
+    colocaConfianza();
+    pintaMas();
+  }
+  function aUrl(){
+    const p = new URLSearchParams();
+    if(st.q) p.set('q', st.q); if(st.cat) p.set('cat', st.cat); if(st.dist) p.set('km', st.dist);
+    if(st.pmin !== '') p.set('min', st.pmin); if(st.pmax !== '') p.set('max', st.pmax);
+    if(st.modos.length) p.set('modo', st.modos.join(','));
+    if(st.dest) p.set('dest', '1'); if(st.hoy) p.set('hoy', '1'); if(st.val) p.set('val', '1');
+    if(st.orden !== 'rel') p.set('orden', st.orden);
+    const s = p.toString();
+    try{ history.replaceState(null, '', location.pathname + (s ? '?' + s : '')) }catch(e){}
+  }
+  const altoFijo = () => {
+    const c = $('.cab'); let h = c ? c.offsetHeight : 0;
+    if(getComputedStyle(barra).display !== 'none') h += barra.offsetHeight;
+    return h;
+  };
+  function subeAResultados(){
+    const cab = $('.pg-buscar-cabeza'), y = cab.getBoundingClientRect().top - altoFijo() - 8;
+    if(y < 0) window.scrollTo({top: scrollY + y, behavior: quieto ? 'auto' : 'smooth'});
+  }
+  function aplica(op){
+    op = op || {};
+    lista = ordena(filtra(st), st.orden);
+    sincCats(); sincBarra(); sincroniza(lat, st);
+    pintaCabeza(); pintaActivos(); pintaLista(op.anima !== false); aUrl();
+    if(op.sube) subeAResultados();
+    if(op.anuncia) vivo(lista.length ? cuantos(lista.length) : 'Sin resultados');
+  }
+  const sincQ = () => $$('form[data-busqueda] input').forEach(i => i.value = st.q);
+
+  /* ---------- hoja de filtros (móvil) ---------- */
+  function abreHoja(seccion, origen){
+    const d = copia(st);
+    let ultimo = -1;
+    A.dialogo(`<div class="pg-buscar-hoja-cab"><button type="button" class="btn btn-sec btn-p" data-borrar>Borrar</button><h2 class="h3" id="pg-buscar-hoja-t" tabindex="-1">Filtros</h2></div>
+      <div class="dialogo-cuerpo pg-buscar-hoja-cuerpo">${controles('hoja')}</div>
+      <div class="pg-buscar-hoja-pie"><button type="button" class="btn btn-g btn-bloque" id="pg-buscar-ver"></button></div>`,
+    {ancho:520, alAbrir:(capa, cerrar) => {
+      const dlg = $('.dialogo', capa), ver = $('#pg-buscar-ver', capa), borrar = $('[data-borrar]', capa);
+      dlg.classList.add('pg-buscar-dlg');
+      capa.setAttribute('aria-labelledby', 'pg-buscar-hoja-t');
+      const cab = $('.pg-buscar-hoja-cab', capa); cab.appendChild(borrar);
+      const act = () => {
+        sincroniza(capa, d);
+        const n = filtra(d).length;
+        borrar.setAttribute('aria-disabled', !nFiltros(d));
+        if(n !== ultimo){
+          ver.innerHTML = n ? `<span>Ver <span class="pg-buscar-bump num">${A.num(n)}</span> ${n === 1 ? 'resultado' : 'resultados'}</span>` : 'Sin resultados con estos filtros';
+          ver.setAttribute('aria-disabled', !n);
+          ultimo = n;
+        }
+      };
+      enlaza(capa, d, act, 0);
+      borrar.addEventListener('click', () => { limpia(d); act() });
+      ver.addEventListener('click', () => {
+        Object.assign(st, copia(d), {ver: PASO});
+        cerrar(); aplica({sube:true, anuncia:true});
+        if(origen && document.contains(origen)) origen.focus({preventScroll:true});
+      });
+      act();
+      const g = seccion && $('#hoja-g-' + seccion, capa);
+      if(g){
+        dlg.scrollTop += g.getBoundingClientRect().top - dlg.getBoundingClientRect().top - 64;
+        g.classList.add('pg-buscar-foco');
+        const f = g.querySelector('button, input[type="checkbox"]'); if(f) f.focus({preventScroll:true});
+      } else $('#pg-buscar-hoja-t', capa).focus({preventScroll:true});
+    }});
+  }
+
+  /* ---------- eventos ---------- */
+  cats.addEventListener('click', e => {
+    const a = e.target.closest('.cat'); if(!a || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    e.preventDefault();
+    st.cat = a.dataset.cat === st.cat ? '' : a.dataset.cat; st.ver = PASO;
+    aplica({sube:true, anuncia:true});
+  });
+  barra.addEventListener('click', e => {
+    const ab = e.target.closest('[data-abre]'); if(ab){ abreHoja(ab.dataset.abre, ab); return }
+    const f = e.target.closest('[data-f]'); if(f){ st[f.dataset.f] = !st[f.dataset.f]; st.ver = PASO; aplica({sube:true, anuncia:true}) }
+  });
+  enlaza(lat, st, () => { st.ver = PASO; aplica({sube:true, anuncia:true}) }, 350);
+  $('[data-borrar]', lat).addEventListener('click', () => { limpia(st); st.ver = PASO; aplica({anuncia:true}); $('#pg-buscar-lat-t').focus() });
+  orden.addEventListener('change', () => { st.orden = orden.value; st.ver = PASO; aplica({anuncia:true}) });
+
+  activos.addEventListener('click', e => {
+    const b = e.target.closest('[data-quita],[data-borrar]'); if(!b) return;
+    const i = $$('.pg-buscar-activo', activos).indexOf(b);
+    if(b.dataset.borrar !== undefined) limpia(st);
+    else {
+      const k = b.dataset.quita;
+      if(k === 'q'){ st.q = ''; sincQ() }
+      else if(k === 'cat') st.cat = '';
+      else if(k === 'dist') st.dist = 0;
+      else if(k === 'precio'){ st.pmin = ''; st.pmax = '' }
+      else if(k === 'modo') st.modos = st.modos.filter(m => m !== b.dataset.v);
+      else st[k] = false;
+    }
+    st.ver = PASO; aplica({anuncia:true});
+    const quedan = $$('.pg-buscar-activo', activos);
+    const f = quedan[Math.max(0, Math.min(i, quedan.length - 1))] || $('#pg-buscar-titulo');
+    f.focus({preventScroll:true});
+  });
+
+  vacio.addEventListener('click', e => {
+    const s = e.target.closest('[data-sug]');
+    if(s){
+      e.preventDefault();
+      st.q = s.dataset.sug; st.cat = ''; if(s.dataset.limpia === '1') limpia(st);
+      st.ver = PASO; sincQ(); aplica({sube:true, anuncia:true}); $('#pg-buscar-titulo').focus({preventScroll:true});
+      return;
+    }
+    const b = e.target.closest('[data-accion]'); if(!b) return;
+    if(b.dataset.accion === 'todo'){ st.q = ''; sincQ() }
+    limpia(st); st.cat = ''; st.ver = PASO;
+    aplica({sube:true, anuncia:true}); $('#pg-buscar-titulo').focus({preventScroll:true});
+  });
+
+  $('#pg-buscar-cargar').addEventListener('click', e => {
+    const b = e.currentTarget;
+    if(b.dataset.accion === 'arriba'){ window.scrollTo({top:0, behavior: quieto ? 'auto' : 'smooth'}); $('#pg-buscar-titulo').focus({preventScroll:true}); return }
+    if(b.classList.contains('cargando')) return;
+    const desde = Math.min(st.ver, lista.length), k = Math.min(PASO, lista.length - desde);
+    if(k <= 0) return;
+    b.classList.add('cargando'); b.setAttribute('aria-busy', 'true'); b.textContent = 'Cargando…';
+    grid.insertAdjacentHTML('beforeend', ESQ.repeat(k));
+    setTimeout(() => {
+      $$('.pg-buscar-esq', grid).forEach(el => el.remove());
+      st.ver = desde + PASO;
+      const tmp = document.createElement('div');
+      tmp.innerHTML = lista.slice(desde, desde + k).map(r => A.tarjeta(r.x.a)).join('');
+      const nuevas = Array.from(tmp.children);
+      nuevas.forEach(el => grid.appendChild(el));
+      animaEntrada(nuevas);
+      colocaConfianza(); pintaMas();
+      vivo(`Se han cargado ${k} servicios más`);
+      const l = nuevas[0] && $('a', nuevas[0]); if(l) l.focus({preventScroll:true});
+    }, 400);
+  });
+
+  // Buscar desde la cabecera sin recargar: conserva los filtros
+  document.addEventListener('submit', e => {
+    const f = e.target.closest && e.target.closest('form[data-busqueda]'); if(!f) return;
+    e.preventDefault(); e.stopPropagation();
+    const i = f.querySelector('input');
+    st.q = (i.value || '').trim().slice(0, 80); st.ver = PASO;
+    sincQ(); i.blur(); aplica({sube:true, anuncia:true});
+  }, true);
+
+  // altura de la cabecera para la barra pegajosa, sombra al quedarse pegada y bloque de confianza tras la fila 2
+  const mide = () => { const c = $('.cab'); if(c) main.style.setProperty('--pg-buscar-cab', c.offsetHeight + 'px') };
+  const pegada = () => {
+    if(getComputedStyle(barra).display === 'none') return;
+    const top = parseFloat(getComputedStyle(barra).top) || 0;
+    barra.classList.toggle('pegada', scrollY > 4 && barra.getBoundingClientRect().top <= top + .5);
+  };
+  let rt;
+  addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { mide(); colocaConfianza(); pegada() }, 120) });
+  addEventListener('scroll', () => requestAnimationFrame(pegada), {passive:true});
+
+  /* ---------- arranque ---------- */
+  mide();
+  sincQ();
+  aplica();
+  const ac = $('.cat[aria-current="true"]', cats);
+  if(ac && st.cat) cats.scrollLeft = ac.offsetLeft - cats.clientWidth / 2 + ac.offsetWidth / 2;
+};
+</script>

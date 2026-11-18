@@ -1,0 +1,622 @@
+<!-- titulo: Mis servicios | desc: Lo que contratas, lo que vendes y tus anuncios, con el estado del Pago protegido de cada pedido. -->
+<style>
+.pg-serv{ padding:22px 0 8px }
+@media (min-width:760px){ .pg-serv{ padding-top:36px } }
+.pg-serv-cab{ display:flex; align-items:flex-end; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:20px }
+.pg-serv-cab .entradilla{ margin-top:8px }
+.pg-serv-corto{ display:none }
+@media (max-width:860px){ .pg-serv-cab{ margin-bottom:16px } .pg-serv-cab .entradilla{ font-size:var(--t-base) } }
+@media (max-width:480px){
+  .pg-serv .pestanas{ gap:0 }
+  .pg-serv .pestana{ flex:1 0 auto; padding:14px 8px }
+  .pg-serv-largo{ display:none } .pg-serv-corto{ display:inline }
+  .pg-serv-n{ margin-left:5px; min-width:18px; height:18px; padding:0 5px }
+}
+.pg-serv-aviso{ margin-bottom:18px }
+.pg-serv-datos{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin-bottom:26px }
+.pg-serv-dato{ display:flex; flex-direction:column; gap:2px; min-width:0; padding:14px 16px; border-radius:var(--r-l); background:var(--sup);
+  transition:background .2s, transform .15s var(--ease) }
+.pg-serv-dato:hover{ background:var(--sup-2) }
+.pg-serv-dato:active{ transform:scale(.98) }
+.pg-serv-dato.marca{ background:var(--marca); color:white }
+.pg-serv-dato.marca:hover{ background:var(--marca-2) }
+.pg-serv-dato.marca .pg-serv-dato-sub{ color:color-mix(in srgb,white 78%,transparent) }
+.pg-serv-dato-n{ font-size:1.75rem; line-height:1.1; display:flex; align-items:center; gap:6px }
+.pg-serv-dato-t{ font-size:var(--t-sm); font-weight:650 }
+.pg-serv-dato-sub{ font-size:var(--t-xs); color:var(--tinta-3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+@media (max-width:600px){
+  .pg-serv-datos{ gap:8px }
+  .pg-serv-dato{ padding:12px }
+  .pg-serv-dato-n{ font-size:1.375rem }
+  .pg-serv-dato-t{ font-size:var(--t-xs); line-height:1.3 }
+  .pg-serv-dato .estrellas{ display:none }
+  .pg-serv-dato-sub{ white-space:normal }
+}
+.pg-serv-n{ display:inline-grid; place-items:center; min-width:20px; height:20px; padding:0 6px; margin-left:6px; border-radius:99px; background:var(--sup-2); color:var(--tinta-2);
+  font-size:11px; font-weight:700; transition:background .2s, color .2s }
+.pestana[aria-selected="true"] .pg-serv-n{ background:var(--marca-sup); color:var(--marca-tinta) }
+.pg-serv-lista{ display:flex; flex-direction:column; gap:14px; padding-top:18px }
+.pg-serv-intro{ font-size:var(--t-sm); color:var(--tinta-2); display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap }
+
+/* ---- pedido ---- */
+.pg-serv-ped{ --pg-c:var(--marca); --pg-l:var(--marca); position:relative; display:flex; flex-direction:column; gap:16px; padding:16px; border:1px solid var(--linea); border-radius:var(--r-l);
+  background:var(--fondo); transition:border-color .3s, box-shadow .3s }
+.pg-serv-ped:hover{ box-shadow:var(--sombra-1) }
+.pg-serv-ped[data-estado="completado"]{ --pg-c:var(--ok); --pg-l:var(--ok) }
+.pg-serv-ped[data-estado="pendiente"]{ --pg-c:var(--avisa) }
+.pg-serv-ped[data-estado="en disputa"]{ --pg-c:var(--mal) }
+.pg-serv-entra{ animation:sube .45s var(--ease) both }
+.pg-serv-brilla{ animation:pg-serv-brilla .9s var(--ease) both }
+.pg-serv-brilla [data-insignia]{ animation:pg-serv-pop .5s var(--ease) both }
+.pg-serv-top{ display:grid; grid-template-columns:76px minmax(0,1fr) auto; gap:14px; align-items:start }
+.pg-serv-mini{ position:relative; display:block; width:100%; aspect-ratio:1; border-radius:14px; overflow:hidden; background:var(--sup-2) }
+.pg-serv-mini>.portada,.pg-serv-mini>img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform .45s var(--ease) }
+.pg-serv-ped:hover .pg-serv-mini>.portada{ transform:scale(1.05) }
+.pg-serv-ref{ font-size:var(--t-xs); color:var(--tinta-3); font-variant-numeric:tabular-nums }
+.pg-serv-tit{ font:650 var(--t-md)/1.3 var(--display); letter-spacing:-.015em; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; transition:color .15s }
+.pg-serv-tit:hover{ color:var(--marca) }
+.pg-serv-otro{ display:inline-flex; align-items:center; gap:7px; font-size:var(--t-sm); color:var(--tinta-2); margin-top:2px; align-self:flex-start }
+.pg-serv-otro b{ color:var(--tinta); font-weight:600 }
+.pg-serv-otro:hover b{ text-decoration:underline; text-underline-offset:3px }
+.pg-serv-imp{ display:flex; flex-direction:column; align-items:flex-end; gap:6px; text-align:right }
+.pg-serv-euros{ font-size:var(--t-lg); line-height:1.1 }
+.pg-serv-prot{ font-size:var(--t-xs); color:var(--tinta-3) }
+@media (max-width:600px){
+  .pg-serv-ped{ padding:14px; gap:14px }
+  .pg-serv-top{ grid-template-columns:64px minmax(0,1fr); gap:12px }
+  .pg-serv-tit{ font-size:var(--t-base) }
+  .pg-serv-imp{ grid-column:1/-1; flex-direction:row; flex-wrap:wrap; align-items:center; justify-content:space-between; text-align:left;
+    padding-top:12px; border-top:1px solid var(--linea) }
+  .pg-serv-imp .insignia{ order:-1 }
+  .pg-serv-imp .pg-serv-prot{ width:100%; order:3; text-align:right; margin-top:-4px }
+}
+
+/* línea de tiempo */
+.pg-serv-linea{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)) }
+.pg-serv-linea li{ position:relative; display:flex; flex-direction:column; align-items:center; gap:7px; padding:0 2px; text-align:center; font-size:var(--t-xs); font-weight:600;
+  line-height:1.25; color:var(--tinta-3); transition:color .3s }
+.pg-serv-linea li::before,.pg-serv-linea li::after{ content:""; position:absolute; top:11px; right:50%; width:100%; height:2px; border-radius:2px }
+.pg-serv-linea li::before{ background:var(--sup-3) }
+.pg-serv-linea li::after{ background:var(--pg-l); transform:scaleX(0); transform-origin:left; transition:transform .45s var(--ease), background .3s }
+.pg-serv-linea li:first-child::before,.pg-serv-linea li:first-child::after{ display:none }
+.pg-serv-linea li.hecho::after,.pg-serv-linea li.actual::after,.pg-serv-linea li.mal::after{ transform:scaleX(1) }
+.pg-serv-punto{ position:relative; z-index:1; width:24px; height:24px; border-radius:50%; display:grid; place-items:center; background:var(--fondo); color:transparent;
+  box-shadow:inset 0 0 0 2px var(--sup-3); transition:background .3s, box-shadow .3s, color .3s, transform .35s var(--ease) }
+.pg-serv-punto svg{ width:13px; height:13px }
+.pg-serv-linea li.hecho{ color:var(--tinta-2) }
+.pg-serv-linea li.hecho .pg-serv-punto{ background:var(--pg-l); color:white; box-shadow:none }
+.pg-serv-linea li.actual{ color:var(--tinta) }
+.pg-serv-linea li.actual .pg-serv-punto{ box-shadow:inset 0 0 0 2px var(--pg-c), 0 0 0 5px color-mix(in srgb,var(--pg-c) 16%,transparent); transform:scale(1.06) }
+.pg-serv-linea li.actual .pg-serv-punto::after{ content:""; width:9px; height:9px; border-radius:50%; background:var(--pg-c); position:absolute }
+.pg-serv-linea li.mal{ color:var(--mal) }
+.pg-serv-linea li.mal .pg-serv-punto{ background:var(--mal); color:white; box-shadow:0 0 0 5px var(--mal-sup) }
+.pg-serv-linea li.mal::after{ background:var(--marca) }
+
+.pg-serv-nota{ display:flex; align-items:flex-start; gap:8px; font-size:var(--t-sm); color:var(--tinta-2); line-height:1.45 }
+.pg-serv-nota svg{ flex:0 0 auto; margin-top:2px; color:var(--pg-c) }
+.pg-serv-acc{ display:flex; flex-wrap:wrap; gap:8px; align-items:center }
+.pg-serv-acc .btn{ flex:0 0 auto }
+@media (max-width:600px){
+  .pg-serv-acc .btn{ flex:1 1 auto }
+  .pg-serv-acc .pg-serv-princ{ flex:1 1 100% }
+}
+.pg-serv-espera{ display:flex; align-items:center; gap:10px; padding:11px 14px; border-radius:var(--r); background:var(--marca-sup); color:var(--marca-tinta); font-size:var(--t-sm); line-height:1.45; flex:1 1 260px }
+.pg-serv-espera svg{ flex:0 0 auto }
+.pg-serv-val{ display:flex; flex-direction:column; gap:6px; padding:12px 14px; border-radius:var(--r); background:var(--sup); animation:sube .4s var(--ease) both }
+.pg-serv-val-cab{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-size:var(--t-sm); font-weight:600 }
+.pg-serv-val p{ font-size:var(--t-sm); color:var(--tinta-2); line-height:1.5 }
+.pg-serv-medi{ display:flex; flex-direction:column; gap:12px; padding:14px; border-radius:var(--r); background:var(--mal-sup); color:var(--tinta-2); font-size:var(--t-sm); line-height:1.5 }
+.pg-serv-medi-cab{ display:flex; align-items:center; gap:10px }
+.pg-serv-medi-cab b{ display:block; color:var(--mal) }
+.pg-serv-medi-ico{ width:34px; height:34px; flex:0 0 auto; border-radius:11px; display:grid; place-items:center; background:var(--mal); color:white }
+.pg-serv-medi-pasos{ list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:6px }
+.pg-serv-medi-pasos li{ display:inline-flex; align-items:center; gap:6px; height:28px; padding:0 11px; border-radius:99px; background:var(--fondo); font-size:var(--t-xs); font-weight:600; color:var(--tinta-3) }
+.pg-serv-medi-pasos li.hecho{ color:var(--tinta-2) }
+.pg-serv-medi-pasos li.actual{ color:var(--mal); box-shadow:inset 0 0 0 1.5px var(--mal) }
+
+/* ---- mis anuncios ---- */
+.pg-serv-anu{ display:grid; grid-template-columns:112px minmax(0,1fr); gap:14px 18px; padding:14px; border:1px solid var(--linea); border-radius:var(--r-l); background:var(--fondo);
+  transition:box-shadow .3s, opacity .35s var(--ease), transform .35s var(--ease); overflow:hidden }
+.pg-serv-anu:hover{ box-shadow:var(--sombra-1) }
+.pg-serv-anu-img{ position:relative; display:block; aspect-ratio:1; border-radius:14px; overflow:hidden; background:var(--sup-2); grid-row:span 2 }
+.pg-serv-anu-img>.portada{ position:absolute; inset:0; transition:filter .4s var(--ease), transform .45s var(--ease) }
+.pg-serv-anu:hover .pg-serv-anu-img>.portada{ transform:scale(1.05) }
+.pg-serv-anu-img .insignia{ position:absolute; left:7px; top:7px; z-index:1; height:21px; padding:0 7px; font-size:10.5px }
+.pg-serv-anu.pausado .pg-serv-anu-img>.portada{ filter:grayscale(.85) brightness(1.05) }
+.pg-serv-anu.pausado .pg-serv-anu-img::after{ content:""; position:absolute; inset:0; background:color-mix(in srgb,var(--fondo) 35%,transparent) }
+.pg-serv-anu-txt{ display:flex; flex-direction:column; gap:5px; min-width:0 }
+.pg-serv-anu-txt .tarjeta-precio{ font-size:var(--t-lg) }
+.pg-serv-stats{ display:flex; flex-wrap:wrap; gap:4px 14px; font-size:var(--t-xs); color:var(--tinta-3) }
+.pg-serv-stats span{ display:inline-flex; align-items:center; gap:5px }
+.pg-serv-anu-acc{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; align-self:end }
+.pg-serv-anu-acc .btn{ height:38px; padding:0 14px; font-size:var(--t-sm) }
+.pg-serv-borrar{ color:var(--tinta-3); margin-left:auto }
+.pg-serv-borrar:hover{ color:var(--mal); background:var(--mal-sup) }
+.pg-serv-anu.fuera{ opacity:0; transform:translateX(-24px) scale(.98) }
+@media (max-width:600px){
+  .pg-serv-anu{ grid-template-columns:88px minmax(0,1fr); gap:12px 14px; padding:12px }
+  .pg-serv-anu-img{ grid-row:auto }
+  .pg-serv-anu-acc{ grid-column:1/-1; padding-top:12px; border-top:1px solid var(--linea) }
+  .pg-serv-anu-acc .btn{ flex:1 1 auto; padding:0 10px }
+  .pg-serv-anu-acc .btn svg{ display:none }
+  .pg-serv-borrar{ margin-left:0 }
+}
+
+/* ---- vacío ---- */
+.pg-serv-vacio{ display:flex; flex-direction:column; align-items:center; gap:12px; padding:44px 22px; text-align:center; border-radius:var(--r-xl); background:var(--sup); animation:sube .4s var(--ease) both }
+.pg-serv-vacio-ico{ width:72px; height:72px; border-radius:24px; display:grid; place-items:center; background:var(--fondo); color:var(--marca); box-shadow:var(--sombra-1); margin-bottom:4px }
+.pg-serv-vacio p{ max-width:44ch; font-size:var(--t-sm); color:var(--tinta-2) }
+.pg-serv-vacio .btn{ margin-top:6px }
+
+/* ---- lateral ---- */
+@media (min-width:961px){ .pg-serv-lado{ position:sticky; top:calc(var(--cab) + 20px) } }
+.pg-serv-pp{ list-style:none; margin:0; padding:0; display:grid; gap:12px; counter-reset:pp }
+.pg-serv-pp li{ display:grid; grid-template-columns:28px minmax(0,1fr); gap:10px; font-size:var(--t-sm); line-height:1.45; color:var(--marca-tinta); counter-increment:pp }
+.pg-serv-pp li::before{ content:counter(pp); width:28px; height:28px; border-radius:50%; display:grid; place-items:center; background:var(--marca); color:white; font:700 var(--t-sm)/1 var(--display) }
+.pg-serv-pp b{ color:var(--tinta) }
+.pg-serv-lado-ico{ width:40px; height:40px; border-radius:13px; display:grid; place-items:center; background:var(--marca); color:white; flex:0 0 auto }
+.pg-serv-saldo{ display:flex; align-items:center; justify-content:space-between; gap:12px; transition:background .2s }
+.pg-serv-saldo:hover{ background:var(--sup-2) }
+
+/* ---- puerta sin sesión ---- */
+.pg-serv-puerta{ max-width:560px; margin:12px auto 0; padding:24px 0; display:flex; flex-direction:column; align-items:center; gap:16px; text-align:center }
+.pg-serv-puerta-ico{ width:96px; height:96px; border-radius:30px; display:grid; place-items:center; background:var(--marca); color:white; box-shadow:0 18px 36px -18px var(--marca); animation:pg-serv-pop .5s var(--ease) both }
+.pg-serv-puerta .entradilla{ text-align:center }
+.pg-serv-puerta-btns{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:4px }
+
+/* ---- hojas ---- */
+.pg-serv-hoja{ padding-top:26px }
+.pg-serv-hmini{ display:flex; align-items:center; gap:12px; padding:10px; border-radius:var(--r-l); background:var(--sup) }
+.pg-serv-hmini .pg-serv-mini{ width:52px; flex:0 0 auto; border-radius:12px }
+.pg-serv-estr{ border:0; margin:0; padding:16px 12px 14px; display:flex; flex-direction:column; align-items:center; gap:4px; border-radius:var(--r-l); background:var(--sup) }
+.pg-serv-estr legend{ float:left; width:100%; padding:0; font-weight:650; text-align:center; margin-bottom:6px }
+.pg-serv-estr-fila{ display:flex; gap:4px; clear:both }
+.pg-serv-estr input{ position:absolute; opacity:0; width:1px; height:1px; pointer-events:none }
+.pg-serv-estr label{ width:50px; height:50px; display:grid; place-items:center; border-radius:14px; color:var(--linea-2); cursor:pointer; transition:transform .2s var(--ease), color .15s }
+.pg-serv-estr label svg{ width:36px; height:36px }
+.pg-serv-estr label.on{ color:var(--sol) }
+.pg-serv-estr label:hover{ transform:scale(1.12) rotate(-6deg) }
+.pg-serv-estr label:active{ transform:scale(.9) }
+.pg-serv-estr input:focus-visible + label{ outline:2.5px solid var(--marca); outline-offset:-2px }
+.pg-serv-estr-txt{ min-height:20px; font-size:var(--t-sm); font-weight:650; color:var(--tinta-2) }
+.pg-serv-estr.mal-elegido{ box-shadow:inset 0 0 0 1.5px var(--mal) }
+.pg-serv-opciones{ border:0; margin:0; padding:0; display:grid; gap:8px }
+.pg-serv-opciones legend{ font-size:var(--t-sm); font-weight:650; padding:0; margin-bottom:8px }
+.pg-serv-opciones .opcion{ align-items:center }
+.pg-serv-opciones .cifra{ font-size:var(--t-lg) }
+.pg-serv-hico{ width:56px; height:56px; border-radius:18px; display:grid; place-items:center; background:var(--mal-sup); color:var(--mal) }
+.pg-serv-resumen{ display:grid; gap:7px; padding:14px 16px; border-radius:var(--r-l); background:var(--sup); font-size:var(--t-sm); color:var(--tinta-2) }
+.pg-serv-resumen div{ display:flex; justify-content:space-between; gap:12px }
+.pg-serv-resumen b{ color:var(--tinta); font-variant-numeric:tabular-nums }
+
+@keyframes pg-serv-brilla{ 0%{ box-shadow:0 0 0 0 color-mix(in srgb,var(--pg-c) 45%,transparent) } 100%{ box-shadow:0 0 0 16px color-mix(in srgb,var(--pg-c) 0%,transparent) } }
+@keyframes pg-serv-pop{ 0%{ transform:scale(.6); opacity:0 } 60%{ transform:scale(1.08); opacity:1 } }
+</style>
+<main id="contenido" class="pg-serv">
+  <div class="contenedor" id="pgServRaiz" aria-busy="true">
+    <div class="col g12"><div class="esqueleto" style="height:40px;width:260px"></div><div class="esqueleto" style="height:84px"></div><div class="esqueleto" style="height:220px"></div></div>
+  </div>
+</main>
+<script>
+A.pagina = function(){
+  const raiz = A.$('#pgServRaiz');
+  if(!raiz) return;
+  raiz.removeAttribute('aria-busy');
+  const yo = A.sesion();
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const ic = (d, t, g) => `<svg width="${t||20}" height="${t||20}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${g||1.9}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
+  const IC = {
+    reloj:'M12 20.5a8.5 8.5 0 1 0 0-17 8.5 8.5 0 0 0 0 17zM12 7.5V12l3 2',
+    aviso:'M12 4 2.8 19.5h18.4zM12 10v4.2M12 16.9v.1',
+    ojo:'M2.5 12s3.5-6.5 9.5-6.5S21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12zM12 14.8a2.8 2.8 0 1 0 0-5.6 2.8 2.8 0 0 0 0 5.6z',
+    lapiz:'M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4',
+    pausa:'M9 5.5v13M15 5.5v13',
+    play:'M8 5.5v13l10.5-6.5z',
+    rayo:'M13 2.5 4.5 13.5H12l-1 8 8.5-11H12z',
+    grafica:'M4 20h16M7 16.5v-4M12 16.5V7.5M17 16.5v-7',
+    papelera:'M4.5 6.5h15M9.5 6.5v-2h5v2M6.5 6.5l1 13.5h9l1-13.5M10 10.5v6M14 10.5v6',
+    bolsa:'M5 8h14l-1.1 12.5H6.1zM9 8V6.5a3 3 0 0 1 6 0V8',
+    euro:'M17.5 6.5A6.5 6.5 0 1 0 17.5 17.5M4.5 10.5h9M4.5 13.5h9',
+    cartera:'M3.5 7.5h17v12h-17zM3.5 7.5l13-3.5v3.5M16 13.5h.01'
+  };
+  const nom = u => u ? u.corto.split(' ')[0] : '';
+  const ESTRELLA = 'M12 3.4l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.8l-5.2 2.8 1-5.9L3.5 9.6l5.9-.8z';
+  const r2 = n => Math.round(n*100)/100;
+
+  /* ---------- sin sesión / cuentas del equipo ---------- */
+  const puerta = o => { raiz.innerHTML = `<section class="pg-serv-puerta" aria-labelledby="pgServPT">
+      <span class="pg-serv-puerta-ico">${o.ico}</span>
+      <h1 class="h1" id="pgServPT">${o.titulo}</h1>
+      <p class="entradilla">${o.texto}</p>
+      <div class="pg-serv-puerta-btns">${o.botones}</div>
+      ${o.pie||''}
+    </section>` };
+  if(!yo){
+    puerta({ico:A.icono('casa',40), titulo:'Entra para ver tus servicios',
+      texto:'Aquí sigues lo que contratas y lo que vendes: el Pago protegido de cada pedido, cuándo confirmar y tus anuncios. Para contratar o publicar necesitas una cuenta verificada: solo mayores de 18, con DNI, NIE o pasaporte.',
+      botones:'<a class="btn btn-g" href="entrar.html">Entrar</a><a class="btn btn-sec btn-g" href="registro.html">Crear cuenta</a>',
+      pie:'<a class="enlace sm" href="como-funciona.html#pago">Cómo funciona el Pago protegido</a>'});
+    return;
+  }
+  if(['moderador','admin'].includes(yo.rol)){
+    puerta({ico:A.icono('escudo',40), titulo:'Tu cuenta es del equipo de Apaño',
+      texto:'Las cuentas internas no contratan ni venden servicios, así que aquí no hay pedidos que seguir. Las mediaciones y los pedidos en disputa se gestionan desde Moderación.',
+      botones:'<a class="btn btn-g" href="admin.html">Ir a Moderación</a>'});
+    return;
+  }
+
+  /* ---------- datos ---------- */
+  const ORDEN = {'en disputa':0, pagado:1, pendiente:2, completado:3};
+  const orden = (a,b) => (ORDEN[a.estado]-ORDEN[b.estado]) || b.f.localeCompare(a.f);
+  const compro = A.PEDIDOS.filter(p=>p.cliente===yo.id).sort(orden);
+  const vendo  = A.PEDIDOS.filter(p=>p.prov===yo.id).sort(orden);
+  const mios = () => A.anunciosDe(yo.id).slice().sort((a,b)=>b.fecha.localeCompare(a.fecha));
+  const MEDI = {'AP-26-47003':{f:'2026-11-16', quien:'Nuria P., del equipo de confianza', limite:'2026-11-19', paso:2, motivo:'La clienta pide repetir 3 fotos'}};
+  const medi = p => p.medi || MEDI[p.id] || {f:p.f, quien:'el equipo de confianza', limite:A.HOY, paso:2, motivo:p.nota};
+  const boostDe = a => (A.BOOSTS||[]).find(b=>b.s===a.id && b.estado==='activo' && b.hasta >= A.HOY);
+  const quedan = b => { const n = Math.round((new Date(b.hasta+'T12:00') - new Date(A.HOY+'T12:00'))/86400000); return n > 1 ? `quedan ${n} días` : n===1 ? 'queda 1 día' : 'último día' };
+  const valDe = p => p.val || A.RESENAS.find(r=>r.s===p.s && r.de===p.cliente && r.a===p.prov);
+  const chatDe = (otroId, s) => { const c = yo.id==='u1' ? A.CHATS.find(x=>x.con===otroId && x.s===s) : null; return c ? `chat.html?c=${c.id}` : `chat.html?con=${otroId}&s=${s}` };
+  const ESTADOS = {
+    pagado:{cls:'insignia-marca', ico:A.icono('escudo',13), txt:'Pagado · dinero retenido'},
+    completado:{cls:'insignia-ok', ico:A.icono('check',13), txt:'Completado'},
+    pendiente:{cls:'insignia-avisa', ico:ic(IC.reloj,13), txt:'Pendiente de pago'},
+    'en disputa':{cls:'insignia-mal', ico:ic(IC.aviso,13,2), txt:'En disputa'}
+  };
+
+  /* ---------- pedido ---------- */
+  function lineaHTML(p){
+    const L = ['Pagado','Servicio hecho','Confirmado','Dinero liberado'];
+    let hechos = 0, actual = -1, mal = -1;
+    if(p.estado==='pendiente'){ hechos = 0; actual = 0; L[0] = 'Pago' }
+    else if(p.estado==='pagado'){ hechos = 1; actual = 1 }
+    else if(p.estado==='completado'){ hechos = 4 }
+    else { const k = medi(p).paso; hechos = k; mal = k; L[k] = 'En mediación' }
+    return `<ol class="pg-serv-linea" aria-label="Progreso del pedido">${L.map((t,i)=>{
+      const cls = i===mal ? 'mal' : i<hechos ? 'hecho' : i===actual ? 'actual' : '';
+      const est = cls==='hecho' ? 'hecho' : cls==='actual' ? 'paso actual' : cls==='mal' ? 'con un problema' : 'pendiente';
+      return `<li class="${cls}"${cls==='actual'||cls==='mal' ? ' aria-current="step"' : ''}><span class="pg-serv-punto">${i===mal ? ic(IC.aviso,13,2.4) : A.icono('check',13,'stroke-width="3"')}</span><span>${t}<span class="solo-lector">: ${est}</span></span></li>`;
+    }).join('')}</ol>`;
+  }
+  function valHTML(v, soyCliente, u){
+    return `<div class="pg-serv-val"><div class="pg-serv-val-cab">${A.estrellas(v.nota,15)}<span>${soyCliente ? 'Tu valoración' : esc(nom(u))+' te ha valorado'}</span><span class="xs ter">· ${A.fechaCorta(v.f)}</span></div>${v.t ? `<p>«${esc(v.t)}»</p>` : ''}</div>`;
+  }
+  function detalleHTML(p, soyCliente, u, a){
+    const chat = `<a class="btn btn-sec" href="${chatDe(u.id, p.s)}">${A.icono('buzon',17)}Escribir a ${esc(nom(u))}</a>`;
+    const icoNota = p.estado==='completado' ? A.icono('check',16) : p.estado==='en disputa' ? ic(IC.aviso,16,2) : ic(IC.reloj,16);
+    let h = p.nota ? `<p class="pg-serv-nota">${icoNota}<span>${esc(p.nota)}</span></p>` : '';
+    let acc = '';
+    if(p.estado==='en disputa'){
+      const m = medi(p);
+      h += `<div class="pg-serv-medi">
+        <div class="pg-serv-medi-cab"><span class="pg-serv-medi-ico">${A.icono('escudo',18)}</span><div><b>Mediación en curso</b><span class="xs">Abierta el ${A.fechaCorta(m.f)} · la lleva ${esc(m.quien)}</span></div></div>
+        <ol class="pg-serv-medi-pasos"><li class="hecho">${A.icono('check',13,'stroke-width="2.6"')}Abierta</li><li class="actual" aria-current="step">Revisando chat y pruebas</li><li>Resolución antes del ${A.fechaCorta(m.limite)}</li></ol>
+        <p>Los ${A.eur(p.importe)} siguen retenidos: nadie cobra ni se devuelve nada hasta que se resuelva.</p>
+      </div>`;
+      acc = `<button class="btn pg-serv-princ" type="button" data-acc="mediacion" data-id="${p.id}">${soyCliente ? 'Ver la mediación' : 'Responder a la mediación'}</button>${chat}`;
+    } else if(p.estado==='pagado'){
+      acc = soyCliente
+        ? `<button class="btn pg-serv-princ" type="button" data-acc="confirmar" data-id="${p.id}">${A.icono('check',18,'stroke-width="2.4"')}Confirmar que se ha hecho</button><button class="btn btn-sec" type="button" data-acc="problema" data-id="${p.id}">Tengo un problema</button>${chat}`
+        : `<p class="pg-serv-espera">${A.icono('escudo',18)}<span>Cobras ${A.eur(p.importe)} en cuanto ${esc(nom(u))} confirme que está hecho.</span></p>${chat}`;
+    } else if(p.estado==='pendiente'){
+      acc = soyCliente
+        ? `<button class="btn pg-serv-princ" type="button" data-acc="pagar" data-id="${p.id}">Pagar con Pago protegido</button>${chat}`
+        : `<a class="btn pg-serv-princ" href="${chatDe(u.id, p.s)}">${A.icono('buzon',17)}Enviar la oferta por el chat</a>`;
+    } else {
+      const v = valDe(p);
+      if(v) h += valHTML(v, soyCliente, u);
+      acc = soyCliente
+        ? (v ? '' : `<button class="btn btn-suave pg-serv-princ" type="button" data-acc="valorar" data-id="${p.id}">${A.icono('estrella',18)}Valorar a ${esc(nom(u))}</button>`) + `<a class="btn btn-sec" href="anuncio.html?id=${a.id}">Volver a contratar</a>`
+        : (v ? '' : `<p class="pg-serv-espera">${A.icono('estrella',18)}<span>${esc(nom(u))} aún no te ha valorado.</span></p>`) + chat;
+    }
+    return h + (acc ? `<div class="pg-serv-acc">${acc}</div>` : '');
+  }
+  function pedidoHTML(p, extra){
+    const soyCliente = p.cliente===yo.id, a = A.anuncio(p.s), u = A.usuario(soyCliente ? p.prov : p.cliente), E = ESTADOS[p.estado];
+    return `<article class="pg-serv-ped ${extra||''}" data-id="${p.id}" data-estado="${p.estado}" aria-labelledby="pt-${p.id}">
+      <div class="pg-serv-top">
+        <a class="pg-serv-mini" href="anuncio.html?id=${a.id}" tabindex="-1" aria-hidden="true">${A.portada(a)}</a>
+        <div class="col g4 min0">
+          <span class="pg-serv-ref">${p.id} · ${A.fecha(p.f)}</span>
+          <a class="pg-serv-tit" id="pt-${p.id}" href="anuncio.html?id=${a.id}">${esc(a.t)}</a>
+          <a class="pg-serv-otro" href="perfil.html?id=${u.id}">${A.avatar(u,'avatar-p')}<span>${soyCliente ? 'Lo hace' : 'Cliente:'} <b>${esc(u.corto)}</b></span></a>
+        </div>
+        <div class="pg-serv-imp">
+          <span class="insignia ${E.cls}" data-insignia>${E.ico}${E.txt}</span>
+          <span class="cifra pg-serv-euros">${A.eur(p.importe)}</span>
+          ${soyCliente && p.prot ? `<span class="pg-serv-prot">+ ${A.eur(p.prot)} de Pago protegido</span>` : ''}
+        </div>
+      </div>
+      ${lineaHTML(p)}
+      ${detalleHTML(p, soyCliente, u, a)}
+    </article>`;
+  }
+
+  /* ---------- anuncio propio ---------- */
+  function anuncioHTML(a, extra){
+    const pausado = a.estado==='pausado';
+    const conv = yo.id==='u1' ? A.CHATS.filter(c=>c.s===a.id).length : 0;
+    const bo = boostDe(a);
+    const sello = bo ? `<span class="insignia insignia-sol">${ic(IC.rayo,12,2.2)}Destacado · ${quedan(bo)}</span>` : a.dest ? `<span class="insignia insignia-sol">${ic(IC.rayo,12,2.2)}Destacado</span>` : '';
+    return `<article class="pg-serv-anu ${pausado ? 'pausado' : ''} ${extra||''}" data-s="${a.id}" aria-labelledby="at-${a.id}">
+      <a class="pg-serv-anu-img" href="anuncio.html?id=${a.id}" tabindex="-1" aria-hidden="true">${A.portada(a)}</a>
+      <div class="pg-serv-anu-txt">
+        <div class="fila g6"><span class="insignia ${pausado ? '' : 'insignia-ok'}" data-est>${pausado ? ic(IC.pausa,12,2.6)+'Pausado' : A.icono('check',12,'stroke-width="2.8"')+'Activo'}</span>${sello}<span class="xs ter">Publicado ${A.hace(a.fecha)}</span></div>
+        <a class="pg-serv-tit" id="at-${a.id}" href="anuncio.html?id=${a.id}">${esc(a.t)}</a>
+        <span class="tarjeta-precio">${A.precio(a)}</span>
+        <div class="pg-serv-stats"><span>${ic(IC.ojo,15)}${A.num(a.vistas)} vistas</span><span>${A.icono('corazon',15)}${A.num(a.favs)} favoritos</span>${conv ? `<span>${A.icono('buzon',15)}${conv} ${conv===1 ? 'conversación' : 'conversaciones'}</span>` : ''}</div>
+      </div>
+      <div class="pg-serv-anu-acc">
+        <a class="btn btn-sec" href="subir.html?id=${a.id}">${ic(IC.lapiz,15)}Editar</a>
+        <button class="btn btn-sec" type="button" data-acc="pausar" data-s="${a.id}">${pausado ? ic(IC.play,15)+'Reactivar' : ic(IC.pausa,15,2.2)+'Pausar'}</button>
+        ${bo ? `<a class="btn btn-sol" href="destacar.html?id=${a.id}">${ic(IC.grafica,15)}<span class="pg-serv-largo">Ver rendimiento</span><span class="pg-serv-corto">Rendimiento</span></a>`
+             : `<a class="btn btn-sol" href="destacar.html?id=${a.id}">${ic(IC.rayo,15)}Destacar</a>`}
+        <button class="ico-btn pg-serv-borrar" type="button" data-acc="eliminar" data-s="${a.id}" aria-label="Eliminar «${esc(a.t)}»">${ic(IC.papelera,19)}</button>
+      </div>
+    </article>`;
+  }
+
+  /* ---------- vacíos ---------- */
+  const VACIO = {
+    compro:{ico:ic(IC.bolsa,32), t:'Aún no has contratado nada', p:'Cuando contrates un servicio con Pago protegido lo seguirás desde aquí: el dinero se queda retenido hasta que confirmes que está hecho.', b:'<a class="btn" href="buscar.html">Buscar servicios</a>'},
+    vendo:{ico:ic(IC.euro,32), t:'Todavía no has vendido nada', p:'Cuando alguien te contrate verás aquí su pago retenido y el momento en que te llega. Publicar un anuncio es gratis.', b:'<a class="btn" href="subir.html" data-exige="publicar">Subir un anuncio</a>'},
+    anuncios:{ico:A.icono('mas',32), t:'No tienes anuncios publicados', p:'Cuenta qué sabes hacer, pon tu precio y empieza a recibir mensajes. Solo necesitas tener tu identidad verificada.', b:'<a class="btn" href="subir.html" data-exige="publicar">Publicar mi primer anuncio</a>'}
+  };
+  const vacioHTML = k => { const v = VACIO[k]; return `<div class="pg-serv-vacio"><span class="pg-serv-vacio-ico">${v.ico}</span><h2 class="h3">${v.t}</h2><p>${v.p}</p>${v.b}</div>` };
+
+  /* ---------- página ---------- */
+  const porConfirmar = () => compro.filter(p=>p.estado==='pagado');
+  function datosHTML(){
+    const pc = porConfirmar(), ret = pc.reduce((s,p)=>s+p.importe,0);
+    const curso = vendo.filter(p=>p.estado!=='completado'), disp = A.PEDIDOS.filter(p=>(p.cliente===yo.id||p.prov===yo.id) && p.estado==='en disputa').length;
+    return `<a class="pg-serv-dato ${pc.length ? 'marca' : ''}" href="#compro"><span class="cifra pg-serv-dato-n">${pc.length}</span><span class="pg-serv-dato-t">Por confirmar</span><span class="pg-serv-dato-sub">${pc.length ? A.eur(ret)+' retenidos' : 'Todo al día'}</span></a>
+      <a class="pg-serv-dato" href="#vendo"><span class="cifra pg-serv-dato-n">${curso.length}</span><span class="pg-serv-dato-t">Ventas en curso</span><span class="pg-serv-dato-sub">${disp ? disp+' en mediación' : 'Sin incidencias'}</span></a>
+      <a class="pg-serv-dato" href="perfil.html?id=${yo.id}"><span class="cifra pg-serv-dato-n">${yo.resenas ? String(yo.val).replace('.',',') : '—'}${yo.resenas ? A.estrellas(yo.val,14) : ''}</span><span class="pg-serv-dato-t">Tu valoración</span><span class="pg-serv-dato-sub">${yo.resenas ? yo.resenas+' reseñas' : 'Aún sin reseñas'}</span></a>`;
+  }
+  raiz.innerHTML = `<header class="pg-serv-cab">
+      <div class="min0"><h1 class="h1">Mis servicios</h1><p class="entradilla">Lo que contratas, lo que vendes y tus anuncios, con el Pago protegido de cada pedido.</p></div>
+    </header>
+    ${A.verificado(yo) ? '' : `<div class="aviso aviso-avisa pg-serv-aviso">${ic(IC.aviso,18,2)}<p><b>Tu identidad está en revisión.</b> Hasta que la verifiquemos no puedes contratar ni publicar; suele tardar menos de 2 horas. <a class="enlace" href="cuenta.html#verificacion">Ver el estado</a></p></div>`}
+    <nav class="pg-serv-datos" id="pgServDatos" aria-label="Resumen">${datosHTML()}</nav>
+    <div class="con-lateral">
+      <div class="min0">
+        <div class="pestanas" data-pestanas role="tablist" aria-label="Tus servicios">
+          <button class="pestana" role="tab" id="pgServT1" aria-controls="compro" aria-selected="true">Contratados<span class="pg-serv-n" id="pgServNc">${compro.length}</span></button>
+          <button class="pestana" role="tab" id="pgServT2" aria-controls="vendo" aria-selected="false">Vendidos<span class="pg-serv-n" id="pgServNv">${vendo.length}</span></button>
+          <button class="pestana" role="tab" id="pgServT3" aria-controls="anuncios" aria-selected="false"><span class="pg-serv-largo">Mis anuncios</span><span class="pg-serv-corto">Anuncios</span><span class="pg-serv-n" id="pgServNa">${mios().length}</span></button>
+        </div>
+        <div id="compro" role="tabpanel" aria-labelledby="pgServT1"></div>
+        <div id="vendo" role="tabpanel" aria-labelledby="pgServT2" hidden></div>
+        <div id="anuncios" role="tabpanel" aria-labelledby="pgServT3" hidden></div>
+      </div>
+      <aside class="col g16 pg-serv-lado" aria-label="Pago protegido y ayuda">
+        <section class="bloque bloque-marca col g16">
+          <div class="fila g12"><span class="pg-serv-lado-ico">${A.icono('escudo',20)}</span><h2 class="h3">Así funciona el Pago protegido</h2></div>
+          <ol class="pg-serv-pp">
+            <li><span><b>Pagas al contratar.</b> El dinero queda retenido en Apaño; todavía no le llega a nadie.</span></li>
+            <li><span><b>Se hace el servicio.</b> Cualquier cambio, habladlo por el chat.</span></li>
+            <li><span><b>Confirmas que está hecho</b> y dejas tu valoración.</span></li>
+            <li><span><b>Liberamos el dinero</b> a quien hizo el trabajo.</span></li>
+          </ol>
+          <p class="xs" style="color:var(--marca-tinta)">¿Algo ha ido mal? Pulsa «Tengo un problema» antes de confirmar y el dinero no se mueve hasta que lo resolvamos.</p>
+          <a class="enlace sm" href="como-funciona.html#pago">Más sobre el Pago protegido</a>
+        </section>
+        ${yo.id==='u1' ? `<a class="bloque bloque-sup pg-serv-saldo" href="monedero.html"><span class="col g2"><span class="etiqueta">Saldo en tu monedero</span><span class="cifra lg">${A.eur(A.MONEDERO.saldo)}</span></span>${ic(IC.cartera,24)}</a>` : ''}
+        <section class="bloque col g8"><h2 class="h3">¿Necesitas ayuda?</h2><p class="sm sec">Si alguien te pide pagar fuera de Apaño o no se presenta, avísanos: lo revisamos en menos de 24 h.</p>
+          <div class="fila g16"><a class="enlace sm" href="ayuda.html#reportar">Reportar a alguien</a><a class="enlace sm" href="ayuda.html">Centro de ayuda</a></div></section>
+      </aside>
+    </div>`;
+
+  const panel = id => A.$('#'+id);
+  function pintaPedidos(k, lista){
+    const intro = k==='compro'
+      ? `<p class="pg-serv-intro"><span>${lista.length} ${lista.length===1 ? 'servicio contratado' : 'servicios contratados'}</span></p>`
+      : `<p class="pg-serv-intro"><span>${lista.length} ${lista.length===1 ? 'venta' : 'ventas'}</span></p>`;
+    panel(k).innerHTML = lista.length ? `<div class="pg-serv-lista">${intro}${lista.map((p,i)=>pedidoHTML(p,'pg-serv-entra').replace('class="pg-serv-ped pg-serv-entra"', `class="pg-serv-ped pg-serv-entra" style="animation-delay:${i*60}ms"`)).join('')}</div>` : `<div class="pg-serv-lista">${vacioHTML(k)}</div>`;
+  }
+  function pintaAnuncios(){
+    const l = mios(), act = l.filter(a=>a.estado==='activo').length;
+    panel('anuncios').innerHTML = l.length
+      ? `<div class="pg-serv-lista"><p class="pg-serv-intro"><span id="pgServAnuRes">${l.length} ${l.length===1 ? 'anuncio' : 'anuncios'} · ${act} ${act===1 ? 'activo' : 'activos'}</span><a class="enlace" href="subir.html" data-exige="publicar">+ Subir otro</a></p>${l.map((a,i)=>anuncioHTML(a,'pg-serv-entra').replace('pg-serv-entra"', `pg-serv-entra" style="animation-delay:${i*60}ms"`)).join('')}</div>`
+      : `<div class="pg-serv-lista">${vacioHTML('anuncios')}</div>`;
+  }
+  pintaPedidos('compro', compro); pintaPedidos('vendo', vendo); pintaAnuncios();
+  const resAnu = () => { const l = mios(), act = l.filter(a=>a.estado==='activo').length, r = A.$('#pgServAnuRes'); if(r) r.textContent = `${l.length} ${l.length===1 ? 'anuncio' : 'anuncios'} · ${act} ${act===1 ? 'activo' : 'activos'}`; A.$('#pgServNa').textContent = l.length };
+  const pintaDatos = () => { A.$('#pgServDatos').innerHTML = datosHTML() };
+  const tarjeta = id => A.$(`.pg-serv-ped[data-id="${id}"]`);
+  function reemplaza(p){
+    const el = tarjeta(p.id); if(!el) return;
+    const t = document.createElement('div'); t.innerHTML = pedidoHTML(p, 'pg-serv-brilla');
+    const n = t.firstElementChild; el.replaceWith(n);
+    setTimeout(()=>n.classList.remove('pg-serv-brilla'), 1000);
+    return n;
+  }
+  const pedido = id => A.PEDIDOS.find(p=>p.id===id);
+
+  /* ---------- hoja: confirmar o valorar ---------- */
+  const NOTAS = ['','Mal','Regular','Bien','Muy bien','¡Genial!'];
+  function hojaValorar(p, liberar){
+    const a = A.anuncio(p.s), u = A.usuario(p.prov);
+    A.dialogo(`<form class="dialogo-cuerpo col g16 pg-serv-hoja" id="pgServVal" novalidate>
+        <div class="col g6"><span class="etiqueta">${liberar ? 'Confirmar servicio' : 'Valorar'}</span>
+          <h2 class="h2">${liberar ? '¿Se ha hecho el servicio?' : '¿Qué tal con '+esc(nom(u))+'?'}</h2>
+          <p class="sec sm">${liberar ? `Al confirmar liberamos los ${A.eur(p.importe)} a ${esc(nom(u))}. Hazlo solo cuando el servicio esté hecho como acordasteis; si no, pulsa «Tengo un problema».` : 'Tu valoración ayuda a otras personas a elegir bien. Se publica en su perfil con tu nombre corto.'}</p></div>
+        <div class="pg-serv-hmini"><span class="pg-serv-mini">${A.portada(a)}</span><span class="col g2 min0"><b class="sm recorte">${esc(a.t)}</b><span class="xs ter">${esc(u.corto)} · ${A.eur(p.importe)}</span></span></div>
+        <fieldset class="pg-serv-estr" id="pgServEstr"><legend>${liberar ? '¿Qué tal con '+esc(nom(u))+'?' : 'Tu nota'}</legend>
+          <div class="pg-serv-estr-fila">${[1,2,3,4,5].map(n=>`<input type="radio" name="nota" id="pgEst${n}" value="${n}"><label for="pgEst${n}" data-n="${n}"><svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="${ESTRELLA}"/></svg><span class="solo-lector">${n} ${n===1 ? 'estrella' : 'estrellas'}: ${NOTAS[n]}</span></label>`).join('')}</div>
+          <span class="pg-serv-estr-txt" id="pgServEstrTxt" aria-live="polite">Toca las estrellas</span>
+          <span class="error" id="pgServEstrErr" hidden>Elige de 1 a 5 estrellas.</span>
+        </fieldset>
+        <div class="campo"><label for="pgServCom">Cuéntalo en una frase <span class="ter" style="font-weight:500">(opcional)</span></label>
+          <textarea class="ent" id="pgServCom" maxlength="400" style="min-height:92px" placeholder="Qué tal fue, si llegó a tiempo, si repetirías…"></textarea></div>
+        <button class="btn btn-g btn-bloque" type="submit">${liberar ? 'Confirmar y liberar '+A.eur(p.importe) : 'Publicar valoración'}</button>
+        ${liberar ? '<p class="ayuda" style="text-align:center">Pago simulado: en esta demostración no se mueve dinero real.</p>' : ''}
+      </form>`, {alAbrir:(capa, cerrar)=>{
+        const f = A.$('#pgServVal', capa), labs = A.$$('.pg-serv-estr label', capa), txt = A.$('#pgServEstrTxt', capa);
+        const pinta = n => labs.forEach(l=>l.classList.toggle('on', +l.dataset.n <= n));
+        const elegida = () => +((A.$('input[name="nota"]:checked', f)||{}).value || 0);
+        labs.forEach(l=>{ l.addEventListener('mouseenter', ()=>pinta(+l.dataset.n)); l.addEventListener('mouseleave', ()=>pinta(elegida())) });
+        f.addEventListener('change', e=>{ if(e.target.name!=='nota') return; const n = elegida(); pinta(n); txt.textContent = NOTAS[n];
+          A.$('#pgServEstr', capa).classList.remove('mal-elegido'); A.$('#pgServEstrErr', capa).hidden = true; A.$$('input[name="nota"]', f).forEach(r=>r.removeAttribute('aria-invalid')) });
+        f.addEventListener('submit', e=>{
+          e.preventDefault();
+          const n = elegida();
+          if(!n){ A.$('#pgServEstr', capa).classList.add('mal-elegido'); A.$('#pgServEstrErr', capa).hidden = false; A.$$('input[name="nota"]', f).forEach(r=>r.setAttribute('aria-invalid','true')); A.$('#pgEst1', capa).focus(); return }
+          const com = A.$('#pgServCom', capa).value.trim();
+          cerrar();
+          const v = {a:p.prov, de:p.cliente, s:p.s, nota:n, f:A.HOY, t:com};
+          p.val = v; A.RESENAS.unshift(v);
+          liberar ? confirma(p) : (reemplaza(p), A.avisa('Gracias por valorar a '+nom(u)));
+        });
+      }});
+  }
+  function confirma(p){
+    const u = A.usuario(p.prov), el = tarjeta(p.id);
+    p.estado = 'completado'; p.nota = 'Confirmado hoy: dinero liberado a ' + u.corto;
+    if(el){
+      el.dataset.estado = 'completado';
+      const ins = A.$('[data-insignia]', el); if(ins){ ins.className = 'insignia insignia-ok'; ins.innerHTML = A.icono('check',13) + 'Completado' }
+      A.$$('.pg-serv-linea li', el).forEach((li,i)=>setTimeout(()=>{ li.className = 'hecho'; li.removeAttribute('aria-current') }, 80 + i*170));
+      const acc = A.$('.pg-serv-acc', el); if(acc){ acc.style.transition = 'opacity .25s'; acc.style.opacity = '.3' }
+    }
+    setTimeout(()=>{ reemplaza(p); pintaDatos() }, el ? 860 : 0);
+    A.avisa(`Pago liberado: ${nom(u)} recibe ${A.eur(p.importe)}`);
+  }
+
+  /* ---------- hoja: tengo un problema / mediación ---------- */
+  function hojaProblema(p){
+    const u = A.usuario(p.prov);
+    const MOT = ['No se ha presentado','El servicio no es lo que acordamos','Me pide más dinero o pagar fuera de Apaño','Otro problema'];
+    A.dialogo(`<form class="dialogo-cuerpo col g16 pg-serv-hoja" id="pgServProb" novalidate>
+        <div class="col g6"><span class="etiqueta">Mediación</span><h2 class="h2">¿Qué ha pasado?</h2>
+          <p class="sec sm">Abrimos una mediación con el equipo de confianza. Mientras dure, los ${A.eur(p.importe)} siguen retenidos: ${esc(nom(u))} no cobra hasta que se resuelva y, si toca, te los devolvemos.</p></div>
+        <fieldset class="pg-serv-opciones"><legend>Motivo</legend>
+          ${MOT.map((m,i)=>`<label class="opcion"><input type="radio" name="motivo" value="${i}"><span class="sm negrita">${m}</span></label>`).join('')}
+          <span class="error" id="pgServProbErr" hidden>Elige el motivo que más se parezca.</span>
+        </fieldset>
+        <div class="campo"><label for="pgServProbTxt">Cuéntanos qué ha pasado</label>
+          <textarea class="ent" id="pgServProbTxt" maxlength="800" style="min-height:104px" aria-describedby="pgServProbAy pgServProbTxtErr" placeholder="Qué acordasteis y qué ha pasado. Cuantos más detalles, antes lo resolvemos."></textarea>
+          <span class="ayuda" id="pgServProbAy">Revisaremos también vuestra conversación del chat.</span>
+          <span class="error" id="pgServProbTxtErr" hidden>Escribe al menos una frase (15 caracteres).</span></div>
+        <button class="btn btn-tinta btn-g btn-bloque" type="submit">Abrir mediación</button>
+      </form>`, {alAbrir:(capa, cerrar)=>{
+        const f = A.$('#pgServProb', capa), ta = A.$('#pgServProbTxt', capa);
+        f.addEventListener('change', ()=>{ if(A.$('input[name="motivo"]:checked', f)){ A.$('#pgServProbErr', capa).hidden = true; A.$$('input[name="motivo"]', f).forEach(r=>r.removeAttribute('aria-invalid')) } });
+        ta.addEventListener('input', ()=>{ if(ta.value.trim().length >= 15){ ta.setAttribute('aria-invalid','false'); A.$('#pgServProbTxtErr', capa).hidden = true } });
+        f.addEventListener('submit', e=>{
+          e.preventDefault();
+          const mot = A.$('input[name="motivo"]:checked', f);
+          let ok = true;
+          if(!mot){ A.$('#pgServProbErr', capa).hidden = false; A.$$('input[name="motivo"]', f).forEach(r=>r.setAttribute('aria-invalid','true')); ok = false }
+          if(ta.value.trim().length < 15){ ta.setAttribute('aria-invalid','true'); A.$('#pgServProbTxtErr', capa).hidden = false; ok = false }
+          if(!ok){ (mot ? ta : A.$('input[name="motivo"]', f)).focus(); return }
+          cerrar();
+          const lim = new Date(A.HOY+'T12:00'); lim.setDate(lim.getDate()+2);
+          p.estado = 'en disputa';
+          p.medi = {f:A.HOY, quien:'el equipo de confianza', limite:lim.toISOString().slice(0,10), paso:1, motivo:MOT[+mot.value]};
+          p.nota = MOT[+mot.value] + ': mediación abierta hoy';
+          reemplaza(p); pintaDatos();
+          A.avisa('Mediación abierta. Te escribimos en menos de 24 h');
+        });
+      }});
+  }
+  function hojaMediacion(p){
+    const soyCliente = p.cliente===yo.id, u = A.usuario(soyCliente ? p.prov : p.cliente), m = medi(p);
+    A.dialogo(`<form class="dialogo-cuerpo col g16 pg-serv-hoja" id="pgServMed" novalidate>
+        <div class="col g6"><span class="etiqueta">Pedido ${p.id}</span><h2 class="h2">Mediación en curso</h2>
+          <p class="sec sm">La lleva ${esc(m.quien)}. Resolución prevista antes del ${A.fecha(m.limite)}.</p></div>
+        <div class="pg-serv-resumen">
+          <div><span>Motivo</span><b style="text-align:right">${esc(m.motivo)}</b></div>
+          <div><span>Importe retenido</span><b>${A.eur(p.importe)}</b></div>
+          <div><span>${soyCliente ? 'Lo hace' : 'Cliente'}</span><b>${esc(u.corto)}</b></div>
+        </div>
+        <div class="campo"><label for="pgServMedTxt">${soyCliente ? 'Añadir información' : 'Tu versión'}</label>
+          <textarea class="ent" id="pgServMedTxt" maxlength="800" style="min-height:104px" aria-describedby="pgServMedErr" placeholder="${soyCliente ? 'Algo que no nos hayas contado todavía.' : 'Qué entregaste y qué acordasteis. Puedes adjuntar fotos.'}"></textarea>
+          <span class="error" id="pgServMedErr" hidden>Escribe algo antes de enviarlo.</span></div>
+        <div class="campo"><label class="subida" for="pgServMedArch">${A.icono('mas',22)}<span class="sm negrita">Adjuntar fotos o capturas</span><span class="xs ter" id="pgServMedNom">JPG o PNG, hasta 10 MB. Solo las ve el equipo de mediación.</span></label>
+          <input class="solo-lector" id="pgServMedArch" type="file" accept="image/*" multiple></div>
+        <button class="btn btn-g btn-bloque" type="submit">Enviar al equipo de mediación</button>
+      </form>`, {alAbrir:(capa, cerrar)=>{
+        const f = A.$('#pgServMed', capa), ta = A.$('#pgServMedTxt', capa), ar = A.$('#pgServMedArch', capa);
+        ar.addEventListener('change', ()=>{ const n = ar.files.length; A.$('#pgServMedNom', capa).textContent = n ? (n===1 ? ar.files[0].name : n+' archivos listos') : 'JPG o PNG, hasta 10 MB.' });
+        f.addEventListener('submit', e=>{
+          e.preventDefault();
+          if(!ta.value.trim() && !ar.files.length){ ta.setAttribute('aria-invalid','true'); A.$('#pgServMedErr', capa).hidden = false; ta.focus(); return }
+          cerrar(); A.avisa('Enviado. El equipo de mediación ya lo tiene');
+        });
+      }});
+  }
+  function aPagar(p){
+    if(!A.exige('pagar')) return;
+    const a = A.anuncio(p.s);
+    A.pedido.guardar({s:p.s, cantidad:1, extra:r2(p.importe - a.precio), fecha:'', nota:p.nota || '', oferta:{importe:p.importe, concepto:a.t, pedido:p.id}});
+    location.href = 'pago.html';
+  }
+
+  /* ---------- anuncios: pausar y eliminar (destacar va a destacar.html) ---------- */
+  function pausa(a){
+    a.estado = a.estado==='pausado' ? 'activo' : 'pausado';
+    const el = A.$(`.pg-serv-anu[data-s="${a.id}"]`);
+    if(el){ const t = document.createElement('div'); t.innerHTML = anuncioHTML(a); const n = t.firstElementChild;
+      el.classList.toggle('pausado', a.estado==='pausado');
+      A.$('[data-est]', el).outerHTML = A.$('[data-est]', n).outerHTML;
+      A.$('[data-acc="pausar"]', el).innerHTML = A.$('[data-acc="pausar"]', n).innerHTML;
+      A.$('[data-est]', el).style.animation = 'pg-serv-pop .45s var(--ease) both';
+    }
+    resAnu();
+    A.avisa(a.estado==='pausado' ? 'Anuncio pausado: no saldrá en las búsquedas' : 'Anuncio activo de nuevo');
+  }
+  function hojaEliminar(a){
+    A.dialogo(`<div class="dialogo-cuerpo col g16 pg-serv-hoja">
+        <span class="pg-serv-hico">${ic(IC.papelera,26)}</span>
+        <h2 class="h2">¿Eliminar este anuncio?</h2>
+        <p class="sec">«${esc(a.t)}» dejará de salir en Apaño y no se puede recuperar. Las conversaciones y los pedidos que ya tengas con él no se borran.</p>
+        <div class="col g8"><button class="btn btn-peligro btn-bloque" type="button" id="pgServElim">Eliminar anuncio</button><button class="btn btn-sec btn-bloque" type="button" data-cerrar>Cancelar</button></div>
+      </div>`, {alAbrir:(capa, cerrar)=>{ A.$('#pgServElim', capa).addEventListener('click', ()=>{ cerrar(); elimina(a) }) }});
+  }
+  function elimina(a){
+    const i = A.ANUNCIOS.indexOf(a); if(i>-1) A.ANUNCIOS.splice(i,1);
+    const el = A.$(`.pg-serv-anu[data-s="${a.id}"]`);
+    const fin = ()=>{ if(!mios().length) pintaAnuncios(); resAnu() };
+    if(el){
+      el.style.height = el.offsetHeight + 'px';
+      el.classList.add('fuera');
+      requestAnimationFrame(()=>{ el.style.transition += ', height .35s var(--ease) .12s, padding .35s var(--ease) .12s, margin .35s var(--ease) .12s'; el.style.height = '0px'; el.style.paddingTop = el.style.paddingBottom = '0px'; el.style.marginTop = '-14px'; el.style.borderWidth = '0' });
+      setTimeout(()=>{ el.remove(); fin() }, 520);
+    } else fin();
+    A.avisa('Anuncio eliminado');
+  }
+
+  /* ---------- pestaña desde el hash o las cifras: que se vean las pestañas, sin salto bajo la cabecera ---------- */
+  const aPestanas = suave => { const t = A.$('.pg-serv .pestanas'), cab = A.$('.cab');
+    if(t) scrollTo({top: Math.max(0, t.getBoundingClientRect().top + scrollY - (cab ? cab.offsetHeight : 68) - 12), behavior: suave ? 'smooth' : 'auto'}) };
+  if(['#compro','#vendo','#anuncios'].includes(location.hash)){
+    requestAnimationFrame(()=>aPestanas(false));
+    addEventListener('load', ()=>setTimeout(()=>aPestanas(false), 0), {once:true});
+  }
+  raiz.addEventListener('click', e=>{
+    const d = e.target.closest('.pg-serv-dato[href^="#"]'); if(!d) return;
+    e.preventDefault();
+    const b = A.$(`.pestana[aria-controls="${d.getAttribute('href').slice(1)}"]`); if(b) b.click();
+    aPestanas(true);
+  });
+
+  /* ---------- eventos ---------- */
+  raiz.addEventListener('click', e=>{
+    const b = e.target.closest('[data-acc]'); if(!b) return;
+    const acc = b.dataset.acc;
+    if(b.dataset.id){
+      const p = pedido(b.dataset.id); if(!p) return;
+      if(acc==='confirmar') hojaValorar(p, true);
+      else if(acc==='valorar') hojaValorar(p, false);
+      else if(acc==='problema') hojaProblema(p);
+      else if(acc==='mediacion') hojaMediacion(p);
+      else if(acc==='pagar') aPagar(p);
+      return;
+    }
+    const a = A.anuncio(b.dataset.s); if(!a) return;
+    if(acc==='pausar') pausa(a);
+    else if(acc==='eliminar') hojaEliminar(a);
+  });
+};
+</script>
